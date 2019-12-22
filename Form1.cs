@@ -22,6 +22,7 @@ namespace AutoVPT
     public partial class MainForm : Form
     {
         public Character character;
+        public bool renewConfig = false;
         public string current_selected;
 
         public MainForm()
@@ -32,21 +33,17 @@ namespace AutoVPT
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Ansi)]
         public static extern bool SetWindowText(IntPtr hWnd, String strNewWindowName);
 
-        private void stopAuto()
-        {
-            //MessageBox.Show("Đã ngừng auto");
-        }
-
         // Utilities Functions
         void populate()
         {
             IList list = CharacterList.GetCharacterList();
+
             this.dataGridViewCharacters.DataSource = list;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            labelAuthorVersion.Text = "AutoVPT Version 1.0 - Tử La Lan - https://www.facebook.com/Tu.La.Lan.NT";
+            labelAuthorVersion.Text = Constant.Version;
             populate();
         }
 
@@ -108,7 +105,6 @@ namespace AutoVPT
 
         void openWindow()
         {
-            getCurrentSelectedRow();
             if (character == null)
             {
                 MessageBox.Show("Chưa chọn nhân vật, không thể mở ứng dụng");
@@ -137,56 +133,141 @@ namespace AutoVPT
             MoveWindow(defaultHWnd, 0, 0, 500, 500, true);
         }
 
-        private bool checkAutoOpen()
+        private void buttonOpenGame_Click(object sender, EventArgs e)
         {
-
-            IntPtr targetHWnd = IntPtr.Zero;
-
-            string targetWindowName = "Auto " + character.ID;
-
-            // Find define handle of project
-            targetHWnd = AutoControl.FindWindowHandle(null, targetWindowName);
-
-            if ((targetHWnd != IntPtr.Zero))
-            {
-                return true;
-            }
-
-            return false;
+            getCurrentSelectedRow();
+            openWindow();
         }
 
-        private void preStartManageAutoForm()
+        private void buttonConfigAuto_Click(object sender, EventArgs e)
         {
-            if (checkAutoOpen())
+            getCurrentSelectedRow();
+            FormManageAuto formManageAuto = new FormManageAuto(textBoxStatus);
+
+            formManageAuto.Text = "Config Auto " + character.ID;
+            formManageAuto.character = character;
+
+            formManageAuto.Show();
+        }
+
+        private void updateCharacter()
+        {
+            try
             {
-                return;
+                CharacterList.UpdateCharacterAllFields(character);
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show("Cập nhật character " + character.ID + " không thành công: " + exp.ToString());
+            }
+        }
+
+        private void setStateFeatures()
+        {
+            checkRenewConfig();
+
+            DateTime today = DateTime.Today;
+
+            character.Date = today.ToString("dd/MM/yyyy");
+            character.VipPromotion = setStateFeature(character.VipPromotion);
+            character.DoiNangNo = setStateFeature(character.DoiNangNo);
+            character.DoiNangNoNL4 = setStateFeature(character.DoiNangNoNL4);
+            character.TrongNL = setStateFeature(character.TrongNL);
+            character.TriAn = setStateFeature(character.TriAn);
+            character.LatTheBai = setStateFeature(character.LatTheBai);
+            character.RutBo = setStateFeature(character.RutBo);
+            character.DoiKGDK = setStateFeature(character.DoiKGDK);
+            character.TuHanh = setStateFeature(character.TuHanh);
+            character.TruMa = setStateFeature(character.TruMa);
+            character.AoMaThap = setStateFeature(character.AoMaThap);
+            character.TrongCay = setStateFeature(character.TrongCay);
+            character.CheMatBao = setStateFeature(character.CheMatBao);
+            character.AutoPhuBan = setStateFeature(character.AutoPhuBan);
+            character.UocNguyen = setStateFeature(character.UocNguyen);
+            character.DauPet = setStateFeature(character.DauPet);
+            character.NhanThuongHLVT = setStateFeature(character.NhanThuongHLVT);
+            character.BugOnline = setStateFeature(character.BugOnline);
+            character.MeTran = setStateFeature(character.MeTran);
+            character.HaiThuoc = setStateFeature(character.HaiThuoc);
+            character.CauCa = setStateFeature(character.CauCa);
+        }
+
+        private int setStateFeature(int status)
+        {
+            if (renewConfig && status >= 1)
+            {
+                status = 1;
             }
 
-            Helper.threadList.Add(new Thread(startManageAutoForm));
+            return status;
+        }
+
+        private void checkRenewConfig()
+        {
+            try
+            {
+                DateTime yesterday = DateTime.ParseExact(character.Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime today = DateTime.Today;
+                int compareDate = DateTime.Compare(yesterday, today);
+                if (compareDate < 0)
+                {
+                    renewConfig = true;
+                    Helper.writeStatus(textBoxStatus, character.ID, "Trạng thái và cài đặt của ngày cũ, làm mới trạng thái và cài đặt");
+                }
+                else
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Trạng thái và cài đặt mới nhất, không cần tự làm mới.");
+                }
+            }
+            catch
+            {
+                Helper.writeStatus(textBoxStatus, character.ID, "Không thể kiểm tra phải cài đặt mới nhất không nên giữ nguyên cài đăt và trạng thái.");
+            }
+        }
+
+        private void buttonRunAuto_Click(object sender, EventArgs e)
+        {
+            getCurrentSelectedRow();
+
+            setStateFeatures();
+
+            character.Running = 1;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.run));
             int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "formauto";
+            Helper.threadList[index].Name = character.ID + "mainauto";
             Helper.threadList[index].Start();
         }
 
-        private void startManageAutoForm()
+        private void buttonStopAuto_Click(object sender, EventArgs e)
         {
-            FormManageAuto formManageAuto = new FormManageAuto();
+            getCurrentSelectedRow();
 
-            formManageAuto.Text = "Auto " + character.ID;
-            formManageAuto.character = character;
+            character.Running = 0;
+            updateCharacter();
 
-            formManageAuto.ShowDialog();
-        }
-
-        private void buttonOpenAuto_Click(object sender, EventArgs e)
-        {
-            openWindow();
-            preStartManageAutoForm();
-        }
-
-        private void buttonOpenGame_Click(object sender, EventArgs e)
-        {
-            openWindow();
+            foreach (var thread in Helper.threadList)
+            {
+                if (thread.Name == (character.ID + "mainauto"))
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto");
+                    thread.Abort();
+                }
+            }
         }
     }
 }

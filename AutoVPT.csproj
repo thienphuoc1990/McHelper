@@ -7,7 +7,7 @@
     <ProjectGuid>{72C5809C-7203-4F03-AB28-84FD6F05FC49}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>AutoVPT</RootNamespace>
-    <AssemblyName>AutoVPT</AssemblyName>
+    <AssemblyName>VPT_Supporter</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

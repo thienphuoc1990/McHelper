@@ -307,7 +307,7 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            mTextBoxStatus.BeginInvoke(new Action(() => mTextBoxStatus.AppendText(statusText + Environment.NewLine)));
+            mTextBoxStatus.BeginInvoke(new Action(() => mTextBoxStatus.AppendText(mCharacter.ID + ": " + statusText + Environment.NewLine)));
             //mTextBoxStatus.AppendText(statusText + Environment.NewLine);
         }
 

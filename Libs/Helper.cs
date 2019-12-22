@@ -12,11 +12,11 @@ namespace AutoVPT.Libs
     {
         public static List<Thread> threadList = new List<Thread>();
 
-        public static void writeStatus(TextBox textBox, string statusText)
+        public static void writeStatus(TextBox textBox, string id, string statusText)
         {
             try
             {
-                textBox.BeginInvoke(new Action(() => textBox.AppendText(statusText + Environment.NewLine)));
+                textBox.BeginInvoke(new Action(() => textBox.AppendText(id + ": " + statusText + Environment.NewLine)));
             }
             catch
             {

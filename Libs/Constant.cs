@@ -8,6 +8,8 @@ namespace AutoVPT.Libs
 {
     static class Constant
     {
+        public const string Version = "AutoVPT Version 1.0 - Tử La Lan - https://www.facebook.com/Tu.La.Lan.NT";
+
         public const int StatusFeatureInactive = 0;
         public const int StatusFeatureActive = 1;
         public const int StatusFeatureRunning = 2;

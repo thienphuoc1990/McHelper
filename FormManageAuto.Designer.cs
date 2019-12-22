@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormManageAuto));
             this.tabControlAuto = new System.Windows.Forms.TabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
-            this.textBoxStatus = new System.Windows.Forms.TextBox();
             this.checkBoxCauCa = new System.Windows.Forms.CheckBox();
             this.checkBoxTrongCay = new System.Windows.Forms.CheckBox();
             this.checkBoxHaiThuoc = new System.Windows.Forms.CheckBox();
@@ -54,11 +53,6 @@
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
             this.numericUpDownViTriNhanVat = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBoxRightClickGroup = new System.Windows.Forms.TextBox();
-            this.numericUpDownY = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownX = new System.Windows.Forms.NumericUpDown();
-            this.textBoxRightClickName = new System.Windows.Forms.TextBox();
-            this.buttonRightClick = new System.Windows.Forms.Button();
             this.numericUpDownCapMB = new System.Windows.Forms.NumericUpDown();
             this.comboBoxNguyenLieuMB = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -79,15 +73,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.checkedListBoxPhuBan = new System.Windows.Forms.CheckedListBox();
             this.buttonSaveConfig = new System.Windows.Forms.Button();
-            this.buttonStartAuto = new System.Windows.Forms.Button();
-            this.buttonStopAuto = new System.Windows.Forms.Button();
             this.labelAuthorVersion = new System.Windows.Forms.Label();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownViTriNhanVat)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCapMB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownIncreaseFPS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVIPLevel)).BeginInit();
@@ -102,12 +92,11 @@
             this.tabControlAuto.Location = new System.Drawing.Point(12, 12);
             this.tabControlAuto.Name = "tabControlAuto";
             this.tabControlAuto.SelectedIndex = 0;
-            this.tabControlAuto.Size = new System.Drawing.Size(417, 384);
+            this.tabControlAuto.Size = new System.Drawing.Size(417, 273);
             this.tabControlAuto.TabIndex = 0;
             // 
             // tabPageMain
             // 
-            this.tabPageMain.Controls.Add(this.textBoxStatus);
             this.tabPageMain.Controls.Add(this.checkBoxCauCa);
             this.tabPageMain.Controls.Add(this.checkBoxTrongCay);
             this.tabPageMain.Controls.Add(this.checkBoxHaiThuoc);
@@ -129,19 +118,10 @@
             this.tabPageMain.Controls.Add(this.checkBoxTrongNL);
             this.tabPageMain.Location = new System.Drawing.Point(4, 22);
             this.tabPageMain.Name = "tabPageMain";
-            this.tabPageMain.Size = new System.Drawing.Size(409, 358);
+            this.tabPageMain.Size = new System.Drawing.Size(409, 247);
             this.tabPageMain.TabIndex = 2;
             this.tabPageMain.Text = "Auto";
             this.tabPageMain.UseVisualStyleBackColor = true;
-            // 
-            // textBoxStatus
-            // 
-            this.textBoxStatus.Location = new System.Drawing.Point(3, 244);
-            this.textBoxStatus.Multiline = true;
-            this.textBoxStatus.Name = "textBoxStatus";
-            this.textBoxStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxStatus.Size = new System.Drawing.Size(403, 111);
-            this.textBoxStatus.TabIndex = 64;
             // 
             // checkBoxCauCa
             // 
@@ -361,11 +341,6 @@
             // 
             this.tabPageGeneral.Controls.Add(this.numericUpDownViTriNhanVat);
             this.tabPageGeneral.Controls.Add(this.label8);
-            this.tabPageGeneral.Controls.Add(this.textBoxRightClickGroup);
-            this.tabPageGeneral.Controls.Add(this.numericUpDownY);
-            this.tabPageGeneral.Controls.Add(this.numericUpDownX);
-            this.tabPageGeneral.Controls.Add(this.textBoxRightClickName);
-            this.tabPageGeneral.Controls.Add(this.buttonRightClick);
             this.tabPageGeneral.Controls.Add(this.numericUpDownCapMB);
             this.tabPageGeneral.Controls.Add(this.comboBoxNguyenLieuMB);
             this.tabPageGeneral.Controls.Add(this.label11);
@@ -420,69 +395,6 @@
             this.label8.Size = new System.Drawing.Size(77, 13);
             this.label8.TabIndex = 47;
             this.label8.Text = "Vị trí nhân vật:";
-            // 
-            // textBoxRightClickGroup
-            // 
-            this.textBoxRightClickGroup.Location = new System.Drawing.Point(9, 269);
-            this.textBoxRightClickGroup.Name = "textBoxRightClickGroup";
-            this.textBoxRightClickGroup.Size = new System.Drawing.Size(100, 20);
-            this.textBoxRightClickGroup.TabIndex = 46;
-            this.textBoxRightClickGroup.Visible = false;
-            // 
-            // numericUpDownY
-            // 
-            this.numericUpDownY.Location = new System.Drawing.Point(9, 324);
-            this.numericUpDownY.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.numericUpDownY.Minimum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownY.Name = "numericUpDownY";
-            this.numericUpDownY.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownY.TabIndex = 45;
-            this.numericUpDownY.Visible = false;
-            // 
-            // numericUpDownX
-            // 
-            this.numericUpDownX.Location = new System.Drawing.Point(9, 298);
-            this.numericUpDownX.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.numericUpDownX.Minimum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownX.Name = "numericUpDownX";
-            this.numericUpDownX.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownX.TabIndex = 44;
-            this.numericUpDownX.Visible = false;
-            // 
-            // textBoxRightClickName
-            // 
-            this.textBoxRightClickName.Location = new System.Drawing.Point(124, 269);
-            this.textBoxRightClickName.Name = "textBoxRightClickName";
-            this.textBoxRightClickName.Size = new System.Drawing.Size(100, 20);
-            this.textBoxRightClickName.TabIndex = 43;
-            this.textBoxRightClickName.Visible = false;
-            // 
-            // buttonRightClick
-            // 
-            this.buttonRightClick.Location = new System.Drawing.Point(9, 241);
-            this.buttonRightClick.Name = "buttonRightClick";
-            this.buttonRightClick.Size = new System.Drawing.Size(75, 23);
-            this.buttonRightClick.TabIndex = 42;
-            this.buttonRightClick.Text = "Right Click";
-            this.buttonRightClick.UseVisualStyleBackColor = true;
-            this.buttonRightClick.Visible = false;
-            this.buttonRightClick.Click += new System.EventHandler(this.buttonRightClick_Click);
             // 
             // numericUpDownCapMB
             // 
@@ -694,7 +606,7 @@
             // 
             // buttonSaveConfig
             // 
-            this.buttonSaveConfig.Location = new System.Drawing.Point(12, 398);
+            this.buttonSaveConfig.Location = new System.Drawing.Point(13, 291);
             this.buttonSaveConfig.Name = "buttonSaveConfig";
             this.buttonSaveConfig.Size = new System.Drawing.Size(75, 23);
             this.buttonSaveConfig.TabIndex = 1;
@@ -702,30 +614,10 @@
             this.buttonSaveConfig.UseVisualStyleBackColor = true;
             this.buttonSaveConfig.Click += new System.EventHandler(this.buttonSaveConfig_Click);
             // 
-            // buttonStartAuto
-            // 
-            this.buttonStartAuto.Location = new System.Drawing.Point(93, 398);
-            this.buttonStartAuto.Name = "buttonStartAuto";
-            this.buttonStartAuto.Size = new System.Drawing.Size(75, 23);
-            this.buttonStartAuto.TabIndex = 2;
-            this.buttonStartAuto.Text = "Chạy auto";
-            this.buttonStartAuto.UseVisualStyleBackColor = true;
-            this.buttonStartAuto.Click += new System.EventHandler(this.buttonStartAuto_Click);
-            // 
-            // buttonStopAuto
-            // 
-            this.buttonStopAuto.Location = new System.Drawing.Point(174, 398);
-            this.buttonStopAuto.Name = "buttonStopAuto";
-            this.buttonStopAuto.Size = new System.Drawing.Size(75, 23);
-            this.buttonStopAuto.TabIndex = 3;
-            this.buttonStopAuto.Text = "Dừng auto";
-            this.buttonStopAuto.UseVisualStyleBackColor = true;
-            this.buttonStopAuto.Click += new System.EventHandler(this.buttonStopAuto_Click);
-            // 
             // labelAuthorVersion
             // 
             this.labelAuthorVersion.AutoSize = true;
-            this.labelAuthorVersion.Location = new System.Drawing.Point(13, 432);
+            this.labelAuthorVersion.Location = new System.Drawing.Point(13, 317);
             this.labelAuthorVersion.Name = "labelAuthorVersion";
             this.labelAuthorVersion.Size = new System.Drawing.Size(35, 13);
             this.labelAuthorVersion.TabIndex = 11;
@@ -735,10 +627,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 454);
+            this.ClientSize = new System.Drawing.Size(440, 340);
             this.Controls.Add(this.labelAuthorVersion);
-            this.Controls.Add(this.buttonStopAuto);
-            this.Controls.Add(this.buttonStartAuto);
             this.Controls.Add(this.buttonSaveConfig);
             this.Controls.Add(this.tabControlAuto);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -754,8 +644,6 @@
             this.tabPageGeneral.ResumeLayout(false);
             this.tabPageGeneral.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownViTriNhanVat)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCapMB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownIncreaseFPS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVIPLevel)).EndInit();
@@ -805,20 +693,12 @@
         private System.Windows.Forms.CheckBox checkBoxDoiNLCap4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckedListBox checkedListBoxPhuBan;
-        public System.Windows.Forms.TextBox textBoxStatus;
         private System.Windows.Forms.Button buttonSaveConfig;
-        private System.Windows.Forms.Button buttonStartAuto;
-        private System.Windows.Forms.Button buttonStopAuto;
         private System.Windows.Forms.Label labelAuthorVersion;
         private System.Windows.Forms.NumericUpDown numericUpDownCapMB;
         private System.Windows.Forms.ComboBox comboBoxNguyenLieuMB;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown numericUpDownY;
-        private System.Windows.Forms.NumericUpDown numericUpDownX;
-        private System.Windows.Forms.TextBox textBoxRightClickName;
-        private System.Windows.Forms.Button buttonRightClick;
-        private System.Windows.Forms.TextBox textBoxRightClickGroup;
         private System.Windows.Forms.NumericUpDown numericUpDownViTriNhanVat;
         private System.Windows.Forms.Label label8;
     }

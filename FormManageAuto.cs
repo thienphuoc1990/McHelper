@@ -19,11 +19,12 @@ namespace AutoVPT
     {
         public Character character;
         public bool renewConfig = false;
-        private MainAuto mMainAuto;
+        private TextBox textBoxStatus;
 
-        public FormManageAuto()
+        public FormManageAuto(TextBox _textBoxStatus)
         {
             InitializeComponent();
+            textBoxStatus = _textBoxStatus;
         }
 
         public void loadData()
@@ -63,40 +64,6 @@ namespace AutoVPT
             this.setDanhSachPhuBan();
         }
 
-        public void updateStatusFeatures()
-        {
-            character.VipPromotion = setStateFeature(this.checkBoxNhanVIP, character.VipPromotion);
-            character.DoiNangNo = setStateFeature(this.checkBoxDoiNN, character.DoiNangNo);
-            character.DoiNangNoNL4 = setStateFeature(this.checkBoxDoiNLCap4, character.DoiNangNoNL4);
-            character.TrongNL = setStateFeature(this.checkBoxTrongNL, character.TrongNL);
-            character.TriAn = setStateFeature(this.checkBoxTriAn, character.TriAn);
-            character.LatTheBai = setStateFeature(this.checkBoxLatTheBai, character.LatTheBai);
-            character.RutBo = setStateFeature(this.checkBoxRutBo, character.RutBo);
-            character.DoiKGDK = setStateFeature(this.checkBoxDoiKGDK, character.DoiKGDK);
-            character.TuHanh = setStateFeature(this.checkBoxTuHanh, character.TuHanh);
-            character.TruMa = setStateFeature(this.checkBoxTruMa, character.TruMa);
-            character.AoMaThap = setStateFeature(this.checkBoxAoMaThap, character.AoMaThap);
-            character.TrongCay = setStateFeature(this.checkBoxTrongCay, character.TrongCay);
-            character.CheMatBao = setStateFeature(this.checkBoxCheMatBao, character.CheMatBao);
-            character.AutoPhuBan = setStateFeature(this.checkBoxAutoPhuBan, character.AutoPhuBan);
-            character.UocNguyen = setStateFeature(this.checkBoxRungCay, character.UocNguyen);
-            character.DauPet = setStateFeature(this.checkBoxDauPet, character.DauPet);
-            character.NhanThuongHLVT = setStateFeature(this.checkBoxNhanThuongHanhLang, character.NhanThuongHLVT);
-            character.BugOnline = setStateFeature(this.checkBoxBugOnline, character.BugOnline);
-            character.MeTran = setStateFeature(this.checkBoxMeTran, character.MeTran);
-            character.HaiThuoc = setStateFeature(this.checkBoxHaiThuoc, character.HaiThuoc);
-            character.CauCa = setStateFeature(this.checkBoxCauCa, character.CauCa);
-
-            try
-            {
-                CharacterList.UpdateCharacterAllFields(character);
-            }
-            catch (Exception exp)
-            {
-                MessageBox.Show(exp.ToString());
-            }
-        }
-
         private void setDanhSachPhuBan()
         {
             string[] list = character.AutoPhuBanDanhSach.Split(',');
@@ -121,24 +88,6 @@ namespace AutoVPT
             if (status >= 1)
             {
                 checkBox.BeginInvoke(new Action(() => checkBox.Checked = true));
-                checkBox.BeginInvoke(new Action(() => checkBox.Text = checkBox.Text.Replace(" - Đang chờ", "")));
-                checkBox.BeginInvoke(new Action(() => checkBox.Text = checkBox.Text.Replace(" - Đang chạy", "")));
-                checkBox.BeginInvoke(new Action(() => checkBox.Text = checkBox.Text.Replace(" - Đã xong", "")));
-
-                switch (status)
-                {
-                    case 1:
-                        checkBox.BeginInvoke(new Action(() => checkBox.Text = checkBox.Text + " - Đang chờ"));
-                        break;
-                    case 2:
-                        checkBox.BeginInvoke(new Action(() => checkBox.Text = checkBox.Text + " - Đang chạy"));
-                        break;
-                    case 3:
-                        checkBox.BeginInvoke(new Action(() => checkBox.Text = checkBox.Text + " - Đã xong"));
-                        break;
-                    default:
-                        break;
-                }
             }
 
             return status;
@@ -189,34 +138,24 @@ namespace AutoVPT
                 if (compareDate < 0)
                 {
                     renewConfig = true;
-                    Helper.writeStatus(textBoxStatus, "Trạng thái và cài đặt của ngày cũ, làm mới trạng thái và cài đặt");
+                    Helper.writeStatus(textBoxStatus, character.ID, "Trạng thái và cài đặt của ngày cũ, làm mới trạng thái và cài đặt");
                 }
                 else
                 {
-                    Helper.writeStatus(textBoxStatus, "Trạng thái và cài đặt mới nhất, không cần tự làm mới.");
+                    Helper.writeStatus(textBoxStatus, character.ID, "Trạng thái và cài đặt mới nhất, không cần tự làm mới.");
                 }
             }
             catch
             {
-                Helper.writeStatus(textBoxStatus, "Không thể kiểm tra phải cài đặt mới nhất không nên giữ nguyên cài đăt và trạng thái.");
+                Helper.writeStatus(textBoxStatus, character.ID, "Không thể kiểm tra phải cài đặt mới nhất không nên giữ nguyên cài đăt và trạng thái.");
             }
         }
 
         private void FormManageAuto_Load(object sender, EventArgs e)
         {
-            labelAuthorVersion.Text = "AutoVPT Version 1.0 - Tử La Lan - https://www.facebook.com/Tu.La.Lan.NT";
+            labelAuthorVersion.Text = Constant.Version;
 
             loadData();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
-            if (hWnd == IntPtr.Zero)
-            {
-                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-            }
-            mMainAuto = new MainAuto(hWnd, character, textBoxStatus, this);
 
             if (renewConfig)
             {
@@ -270,18 +209,19 @@ namespace AutoVPT
             try
             {
                 CharacterList.UpdateCharacterAllFields(character);
-                Helper.writeStatus(textBoxStatus, "Cập nhật character " + character.ID + " thành công.");
+                Helper.writeStatus(textBoxStatus, character.ID, "Cập nhật character " + character.ID + " thành công.");
             }
             catch (Exception exp)
             {
-                Helper.writeStatus(textBoxStatus, exp.ToString());
-                Helper.writeStatus(textBoxStatus, "Cập nhật character " + character.ID + " không thành công.");
+                Helper.writeStatus(textBoxStatus, character.ID, exp.ToString());
+                Helper.writeStatus(textBoxStatus, character.ID, "Cập nhật character " + character.ID + " không thành công.");
             }
         }
 
         private void buttonSaveConfig_Click(object sender, EventArgs e)
         {
             parsingAndUpdateCharacter();
+            this.Close();
         }
 
         private void getDanhSachPhuBan()
@@ -295,37 +235,6 @@ namespace AutoVPT
             }
 
             character.AutoPhuBanDanhSach = string.Join(",", phuBan.Where(x => !string.IsNullOrEmpty(x)).ToArray());
-        }
-
-        private void buttonStartAuto_Click(object sender, EventArgs e)
-        {
-            character.Running = 1;
-            updateCharacter();
-
-            Helper.threadList.Add(new Thread(mMainAuto.run));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "mainauto";
-            Helper.threadList[index].Start();
-        }
-
-        private void buttonStopAuto_Click(object sender, EventArgs e)
-        {
-            character.Running = 0;
-            updateCharacter();
-
-            foreach (var thread in Helper.threadList)
-            {
-                if(thread.Name == (character.ID + "mainauto"))
-                {
-                    Helper.writeStatus(textBoxStatus, "Đã ngừng auto");
-                    thread.Abort();
-                }
-            }
-        }
-
-        private void buttonRightClick_Click(object sender, EventArgs e)
-        {
-            mMainAuto.testRightClick(textBoxRightClickGroup.Text, textBoxRightClickName.Text, int.Parse(numericUpDownX.Value.ToString()), int.Parse(numericUpDownY.Value.ToString()));
         }
     }
 }

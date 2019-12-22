@@ -14,10 +14,9 @@ namespace AutoVPT.Libs
         public AutoFeatures mAuto;
         private Character mCharacter;
         public GeneralFunctions mGeneralFunctions;
-        public FormManageAuto mForm;
         TextBox mTextBoxStatus;
 
-        public MainAuto(IntPtr hWnd, Character character, TextBox textBoxStatus, FormManageAuto form)
+        public MainAuto(IntPtr hWnd, Character character, TextBox textBoxStatus)
         {
             mHWnd = hWnd;
             mCharacter = character;
@@ -25,7 +24,6 @@ namespace AutoVPT.Libs
             mTextBoxStatus = textBoxStatus;
             mAuto = new AutoFeatures(hWnd, mWindowName, textBoxStatus, mCharacter);
             mGeneralFunctions = new GeneralFunctions (hWnd, character, textBoxStatus);
-            mForm = form;
         }
 
         public void run()
@@ -55,7 +53,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.nhanVIP();
                     mCharacter.VipPromotion = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // Check to run "Nhận và Auto Phụ Bản"
@@ -65,7 +62,6 @@ namespace AutoVPT.Libs
                     string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
                     mGeneralFunctions.runNhanAutoPB(phuBan);
                     mCharacter.AutoPhuBan = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // "Rút bộ"
@@ -74,7 +70,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.rutBo();
                     mCharacter.RutBo = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // "Đổi thưởng Không Gian Điêu Khắc"
@@ -83,7 +78,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.khongGianDieuKhac();
                     mCharacter.DoiKGDK = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // "Nhận thưởng hành lang"
@@ -92,7 +86,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.nhanThuongHanhLang();
                     mCharacter.NhanThuongHLVT = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // Check to run "Rung cây"
@@ -101,7 +94,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.rungCay();
                     mCharacter.UocNguyen = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // Check to run "Chế mật bảo"
@@ -110,7 +102,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap);
                     mCharacter.CheMatBao = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // Check to run "Tu Hành"
@@ -119,7 +110,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.runAutoTuHanh();
                     mCharacter.TuHanh = 3;
-                    mForm.updateStatusFeatures();
 
                     // Bug online sau khi tu hành
                     mGeneralFunctions.runBugOnline();
@@ -138,7 +128,6 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.runTriAn();
                     mCharacter.TriAn = 3;
-                    mForm.updateStatusFeatures();
                 }
 
                 // Check to run "Đổi năng nổ"
@@ -159,7 +148,7 @@ namespace AutoVPT.Libs
                     }
                 }
 
-                Helper.writeStatus(mTextBoxStatus, "Ngừng 1 phút");
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 1 phút");
                 Thread.Sleep(60*1000);
             }
         }
@@ -180,7 +169,7 @@ namespace AutoVPT.Libs
                 Thread.Sleep(5000);
             }
 
-            Helper.writeStatus(mTextBoxStatus, "Đã vào game");
+            Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã vào game");
         }
 
         public void testRightClick(string group, string name, int x, int y)
