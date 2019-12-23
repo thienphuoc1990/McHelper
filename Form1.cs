@@ -267,7 +267,46 @@ namespace AutoVPT
                     Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto");
                     thread.Abort();
                 }
+
+                if (thread.Name == (character.ID + "autoevent"))
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto event");
+                    thread.Abort();
+                }
             }
+        }
+
+        private void buttonOpenTestForm_Click(object sender, EventArgs e)
+        {
+            TestForm testForm = new TestForm();
+
+            testForm.Show();
+        }
+
+        private void buttonRunEvent_Click(object sender, EventArgs e)
+        {
+            getCurrentSelectedRow();
+
+            character.Running = 2;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.runEvent));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + "autoevent";
+            Helper.threadList[index].Start();
         }
     }
 }

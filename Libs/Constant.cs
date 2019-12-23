@@ -53,7 +53,11 @@ namespace AutoVPT.Libs
         public const string ImagePathInMapFolder = "resources/in_map/";
         public const string ImagePathGlobalFolder = "resources/global/";
         public const string ImagePathTriAnFolder = "resources/tri_an/";
+        public const string ImagePathEventFolder = "resources/event/";
 
+        public const string ImagePathGlobalMiniMap = "resources/global/minimap.png";
+        public const string ImagePathGlobalChuyenKenh = "resources/global/doikenh.png";
+        public const string ImagePathInMapChar = "resources/in_map/char.png";
         public const string ImagePathGlobalFPS = "resources/global/fps.png";
         public const string ImagePathGlobalCachChoi = "resources/global/cach_choi.png";
         public const string ImagePathGlobalCachChoiKiemTien = "resources/global/cach_choi_kiem_tien.png";

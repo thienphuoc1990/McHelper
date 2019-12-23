@@ -3,6 +3,7 @@ using KAutoHelper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -52,7 +53,7 @@ namespace AutoVPT.Libs
         public void login()
         {
             // Chưa load vào bảng login
-            while(!mAuto.findImageByGroup("global", "loginbatbuoc", false, false))
+            while (!mAuto.findImageByGroup("global", "loginbatbuoc", false, false))
             {
                 Thread.Sleep(5000);
             }
@@ -146,6 +147,10 @@ namespace AutoVPT.Libs
             // Tắt bảng nhiệm vụ nổi
             mAuto.writeStatus("Tắt bảng nhiệm vụ nổi ...");
             mAuto.clickImageByGroup("global", "tatbangnhiemvunoi");
+
+            // Tắt bảng nhiệm vụ nổi
+            mAuto.writeStatus("Ẩn thanh kỹ năng ...");
+            mAuto.clickImageByGroup("global", "anthanhkynang");
         }
 
         /*
@@ -624,6 +629,162 @@ namespace AutoVPT.Libs
             }
             mTrongNL.thuHoach();
             mTrongNL.dongTrangVien();
+        }
+
+        public List<Bitmap> collectMapMiniPath()
+        {
+            mAuto.writeStatus("Thu thập mảnh bản đồ");
+            List<Bitmap> mapPaths = new List<Bitmap>();
+
+            // Mở bảng đồ mini
+            //mAuto.clickToImage(Constant.ImagePathMiniMap);
+            mAuto.sendKey("~");
+
+            var full_screen = CaptureHelper.CaptureWindow(mHWnd);
+
+            // Tắt các bảng nổi
+            mAuto.closeAllDialog();
+
+            Bitmap iBtn = ImageScanOpenCV.GetImage(Constant.ImagePathGlobalMiniMap);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtn);
+
+            if (pBtn != null)
+            {
+                int x_start_point = pBtn.Value.X + 0;
+                int y_start_point = pBtn.Value.Y + 60;
+                for (int y = 0; y < 5; y++)
+                {
+                    for (int x = 0; x < 4; x++)
+                    {
+                        mapPaths.Add(CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(
+                            x_start_point + (x * 100),
+                            y_start_point + (y * 56),
+                            100, 56)));
+                    }
+                }
+            }
+
+            return mapPaths;
+        }
+
+        public void moveAndFindMonsters(List<Bitmap> mapPaths, List<Monster> monsters, string monster_name)
+        {
+            string imageTalkMonster = Constant.ImagePathDoiThoai + monster_name + ".png";
+            int i = 0;
+            while (i < mapPaths.Count)
+            {
+                if (i == 0 || i == 3 || i == 16 || i == 19)
+                {
+                    i++;
+                    continue;
+                }
+
+                // Mở menu phải
+                mAuto.moMenuPhai();
+
+                // Bay lên
+                mAuto.bay();
+
+                // Tắt các bảng nổi
+                mAuto.closeAllDialog();
+
+                // Mở bảng đồ mini
+                //mAuto.clickToImage(Constant.ImagePathMiniMap);
+                mAuto.sendKey("~");
+
+                // Nhấp vào vị trí map
+                mAuto.clickImage(mapPaths[i], 50, 0);
+
+                // Tắt các bảng nổi
+                mAuto.closeAllDialog();
+
+                // Đóng menu phải
+                mAuto.dongMenuPhai();
+
+                if(i%4 == 0)
+                {
+                    Thread.Sleep(4000);
+                }
+
+                Thread.Sleep(1000);
+
+                // tìm quái vật
+                while (isExistsMonster(monsters))
+                {
+                    int y = 0;
+                    while (!mAuto.findImage(imageTalkMonster) && y < monsters.Count)
+                    {
+                        if (mAuto.findImage(monsters[y].imagePath))
+                        {
+                            // Mở menu phải
+                            mAuto.moMenuPhai();
+
+                            // Bay xuống
+                            if (mAuto.findImage(Constant.ImagePathGlobalXuong))
+                            {
+                                mAuto.bayXuong();
+                                Thread.Sleep(3000);
+                            }
+
+                            // Đóng menu phải
+                            mAuto.dongMenuPhai();
+
+                            mAuto.clickToImage(monsters[y].imagePath, monsters[y].x, monsters[y].y);
+                            Thread.Sleep(1000);
+                        }
+
+                        y++;
+                    }
+
+                    // Đánh
+                    mAuto.clickToImage(imageTalkMonster);
+
+                    // Nghỉ 5s nếu nhân vật đang trong trận đấu
+                    while (mAuto.dangTrongTranDau())
+                    {
+                        mAuto.clickImageByGroup("global", "inbattleauto");
+                        Thread.Sleep(5000);
+                    }
+
+                    Thread.Sleep(2000);
+                }
+
+                i++;
+            }
+        }
+
+        public bool isExistsMonster(List<Monster> monsters)
+        {
+            int y = 0;
+            while (y < monsters.Count)
+            {
+                if (mAuto.findImage(monsters[y].imagePath))
+                {
+                    return true;
+                }
+
+                y++;
+            }
+
+            return false;
+        }
+
+        public List<Monster> initListMonsters(string monster_name, int left_name_pos, int right_name_pos)
+        {
+            List<Monster> monsters = new List<Monster>();
+
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "1" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "2" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "3" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "4" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "5" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "6" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "7" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + monster_name + "8" + ".png", 0, -20));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + "ten" + monster_name + "1" + ".png", left_name_pos, -50));
+            monsters.Add(new Monster(Constant.ImagePathEventFolder + "ten" + monster_name + "2" + ".png", right_name_pos, -50));
+
+            return monsters;
         }
     }
 }

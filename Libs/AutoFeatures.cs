@@ -29,6 +29,17 @@ namespace AutoVPT.Libs
             au3.winclose(mWindowName);
         }
 
+        public void sendKey(string key)
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            au3.controlsend(mWindowName, key);
+            Thread.Sleep(1500);
+        }
+
         public void closeAllDialog()
         {
             if (mCharacter.Running == 0)
@@ -66,8 +77,6 @@ namespace AutoVPT.Libs
 
                 // Mở bản đồ nhỏ
                 clickToImage(Constant.ImagePathMiniMap);
-
-                Thread.Sleep(1000);
 
                 // Click vào vị trí cần đến
                 clickImageByGroup("in_map", locationName);
@@ -142,7 +151,7 @@ namespace AutoVPT.Libs
             string mapCheckPath = Constant.ImagePathMapsFolder + mapName + "_check.png";
             int loop = 1;
 
-            while(!findImage(mapCheckPath) && loop <= Constant.MaxLoop && mCharacter.Running == 1)
+            while(!findImage(mapCheckPath) && loop <= Constant.MaxLoop && mCharacter.Running != 0)
             {
                 closeAllDialog();
 
@@ -162,6 +171,8 @@ namespace AutoVPT.Libs
                 clickToImage(mapActivePath, x, y);
                 loop++;
                 Thread.Sleep(3000);
+
+                closeAllDialog();
             }
 
             if (loop >= Constant.MaxLoop)
@@ -238,6 +249,30 @@ namespace AutoVPT.Libs
 
             au3.click(mWindowName, numClick, xRange, yRange);
             Thread.Sleep(wait);
+        }
+
+        /*
+         * Function: Click to Image
+         * Description: Find position of image on window and click it
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2019-11-09 - Updated At: 2019-11-09
+         */
+        public bool clickImage(Bitmap image, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort)
+        {
+            if (mCharacter.Running == 0)
+            {
+                return false;
+            }
+
+            var screen = CaptureHelper.CaptureWindow(mHWnd);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, image);
+            if (pBtn != null)
+            {
+                au3.click(mWindowName, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                Thread.Sleep(wait);
+                return true;
+            }
+            return false;
         }
 
         /*
@@ -504,7 +539,6 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            writeStatus("Bay lên ...");
             clickToImage(Constant.ImagePathGlobalBay);
         }
 
@@ -515,7 +549,6 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            writeStatus("Bay xuống ...");
             clickToImage(Constant.ImagePathGlobalXuong);
         }
 
@@ -646,10 +679,10 @@ namespace AutoVPT.Libs
 
             if (!findImage(Constant.ImagePathKhongTrongTranDau))
             {
-                writeStatus("Nhân vật đang trong trận đấu ...");
+                //writeStatus("Nhân vật đang trong trận đấu ...");
                 return true;
             }
-            writeStatus("Nhân vật đang không trong trận đấu ...");
+            //writeStatus("Nhân vật đang không trong trận đấu ...");
             return false;
         }
     }

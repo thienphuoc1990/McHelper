@@ -1,6 +1,8 @@
 ﻿using AutoVPT.Libs;
 using AutoVPT.Objects;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using static System.Windows.Forms.CheckedListBox;
@@ -20,16 +22,58 @@ namespace AutoVPT.Libs
         {
             mHWnd = hWnd;
             mCharacter = character;
-            mWindowName = character.ID;
+            mWindowName = mCharacter.ID;
             mTextBoxStatus = textBoxStatus;
             mAuto = new AutoFeatures(hWnd, mWindowName, textBoxStatus, mCharacter);
-            mGeneralFunctions = new GeneralFunctions (hWnd, character, textBoxStatus);
+            mGeneralFunctions = new GeneralFunctions(hWnd, mCharacter, textBoxStatus);
+        }
+
+        public void runEvent()
+        {
+            if (mCharacter.Running != 2)
+            {
+                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: daily, ...");
+                return;
+            }
+
+            List<Map> maps = new List<Map>();
+            maps.Add(new Map("leduongbac", 1, 30, -20));
+            maps.Add(new Map("leduongnam", 1, 10, -20));
+            maps.Add(new Map("laptuyetdia", 1, 30, -20));
+            maps.Add(new Map("anhvucanh", 1, 60, -20));
+            maps.Add(new Map("bangtuyetnguyen", 1, 10, -20));
+
+            List<Monster> monsters = mGeneralFunctions.initListMonsters("nguoituyetcuonghoan", 40, -40);
+
+            startGameIfNotExists();
+
+            mGeneralFunctions.prepareScreen();
+
+            while (mCharacter.Running == 2)
+            {
+                int x = 0;
+                while (x < maps.Count)
+                {
+                    // Di chuyển đến Map
+                    if (!mAuto.moveToMap(maps[x].name, maps[x].mapIndex, maps[x].x, maps[x].y))
+                    {
+                        mAuto.writeStatus("Không thể di chuyển đến " + maps[x].name + ", thử lại ...");
+                    }
+
+                    List<Bitmap> mapPaths = mGeneralFunctions.collectMapMiniPath();
+
+                    mGeneralFunctions.moveAndFindMonsters(mapPaths, monsters, "nguoituyetcuonghoan");
+
+                    x++;
+                }
+            }
         }
 
         public void run()
         {
-            if(mCharacter.Running == 0)
+            if (mCharacter.Running != 1)
             {
+                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
                 return;
             }
 
@@ -37,13 +81,12 @@ namespace AutoVPT.Libs
 
             mGeneralFunctions.prepareScreen();
 
-            while(mCharacter.Running == 1)
+            while (mCharacter.Running == 1)
             {
                 var i = 0;
                 // Trồng nguyên liệu
                 if (mCharacter.TrongNL == 1)
                 {
-                    i++;
                     mGeneralFunctions.trongNL();
                 }
 
@@ -53,6 +96,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.nhanVIP();
                     mCharacter.VipPromotion = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // Check to run "Nhận và Auto Phụ Bản"
@@ -62,6 +106,7 @@ namespace AutoVPT.Libs
                     string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
                     mGeneralFunctions.runNhanAutoPB(phuBan);
                     mCharacter.AutoPhuBan = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // "Rút bộ"
@@ -70,6 +115,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.rutBo();
                     mCharacter.RutBo = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // "Đổi thưởng Không Gian Điêu Khắc"
@@ -78,6 +124,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.khongGianDieuKhac();
                     mCharacter.DoiKGDK = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // "Nhận thưởng hành lang"
@@ -86,6 +133,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.nhanThuongHanhLang();
                     mCharacter.NhanThuongHLVT = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // Check to run "Rung cây"
@@ -94,6 +142,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.rungCay();
                     mCharacter.UocNguyen = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // Check to run "Chế mật bảo"
@@ -102,6 +151,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap);
                     mCharacter.CheMatBao = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // Check to run "Tu Hành"
@@ -110,6 +160,7 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.runAutoTuHanh();
                     mCharacter.TuHanh = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
 
                     // Bug online sau khi tu hành
                     mGeneralFunctions.runBugOnline();
@@ -128,42 +179,42 @@ namespace AutoVPT.Libs
                     i++;
                     mGeneralFunctions.runTriAn();
                     mCharacter.TriAn = 3;
+                    CharacterList.UpdateCharacterAllFields(mCharacter);
                 }
 
                 // Check to run "Đổi năng nổ"
                 if (mCharacter.DoiNangNo == 1)
                 {
-                    i++;
                     mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);
                 }
 
-                // Check to run "Bug Online"
-                if (mCharacter.BugOnline == 1)
+                if (i == 0)
                 {
-                    mGeneralFunctions.runBugOnline();
-                    if(i <= 2)
+                    // Check to run "Bug Online"
+                    if (mCharacter.BugOnline == 1)
                     {
+                        mGeneralFunctions.runBugOnline();
                         mCharacter.Running = 0;
                         break;
                     }
                 }
 
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 1 phút");
-                Thread.Sleep(60*1000);
+                Thread.Sleep(60 * 1000);
             }
         }
 
         private void startGameIfNotExists()
         {
             // Lập lại việc check và mở windows
-            while(!mGeneralFunctions.checkWindowOpen())
+            while (!mGeneralFunctions.checkWindowOpen())
             {
                 mGeneralFunctions.openWindow();
                 Thread.Sleep(5000);
             }
 
             // Login vào game
-            while(!mGeneralFunctions.isInGame())
+            while (!mGeneralFunctions.isInGame())
             {
                 mGeneralFunctions.login();
                 Thread.Sleep(5000);

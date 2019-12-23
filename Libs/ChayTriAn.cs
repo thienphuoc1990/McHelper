@@ -1,5 +1,9 @@
 ﻿using AutoVPT.Objects;
+using KAutoHelper;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Threading;
 
 namespace AutoVPT.Libs
@@ -11,6 +15,7 @@ namespace AutoVPT.Libs
         public AutoFeatures mAuto;
         public bool completed = false;
         Character mCharacter;
+        public List<Monster> lPTPQ = new List<Monster>();
 
         public ChayTriAn(IntPtr hWnd, string windowName, Character character, AutoFeatures auto)
         {
@@ -18,6 +23,19 @@ namespace AutoVPT.Libs
             mWindowName = windowName;
             mAuto = auto;
             mCharacter = character;
+            initListPTPQ();
+        }
+
+        public void initListPTPQ()
+        {
+            lPTPQ.Add(new Monster(Constant.ImagePathTriAnPhiTac + "1" + ".png", 0, -20));
+            lPTPQ.Add(new Monster(Constant.ImagePathTriAnPhiTac + "2" + ".png", 0, -20));
+            lPTPQ.Add(new Monster(Constant.ImagePathTriAnPhanQuan + "1" + ".png", 0, -20));
+            lPTPQ.Add(new Monster(Constant.ImagePathTriAnPhanQuan + "2" + ".png", 0, -20));
+            lPTPQ.Add(new Monster(Constant.ImagePathTenTriAnPhiTac + "1" + ".png", 0, -80));
+            lPTPQ.Add(new Monster(Constant.ImagePathTenTriAnPhiTac + "2" + ".png", 0, -80));
+            lPTPQ.Add(new Monster(Constant.ImagePathTenTriAnPhanQuan + "1" + ".png", 40, -80));
+            lPTPQ.Add(new Monster(Constant.ImagePathTenTriAnPhanQuan + "2" + ".png", -40, -80));
         }
 
         public void chayQ()
@@ -27,6 +45,8 @@ namespace AutoVPT.Libs
             // Xóa ghi chép chat
             mAuto.writeStatus("Xóa ghi chép chat ...");
             mAuto.clickImageByGroup("global", "chatclear", false, true);
+
+            List<Bitmap> pos = new List<Bitmap>();
 
             while (!checkDaDanhNhiemVu())
             {
@@ -86,54 +106,128 @@ namespace AutoVPT.Libs
                 // Đóng menu phải
                 mAuto.dongMenuPhai();
 
-                // Click vào phản quân hoặc phi tặc
-                mAuto.writeStatus("Click vào phản quân hoặc phi tặc ...");
-                for (int i = 1; i <= 2; i++)
+                // Tìm phản quân hoặc phi tặc
+                mAuto.writeStatus("Tìm phản quân hoặc phi tặc ...");
+                int x = 0;
+                while (!mAuto.findImage(Constant.ImagePathDoiThoai + "trian" + ".png") && x < lPTPQ.Count)
                 {
-                    mAuto.clickToImage(Constant.ImagePathTriAnPhiTac + i + ".png", 0, -20, 1, 100);
-                    mAuto.clickToImage(Constant.ImagePathTriAnPhanQuan + i + ".png", 0, -20, 1, 100);
-                }
+                    if (mAuto.findImage(lPTPQ[x].imagePath))
+                    {
+                        mAuto.clickToImage(lPTPQ[x].imagePath, lPTPQ[x].x, lPTPQ[x].y);
+                    }
 
-                Thread.Sleep(1000);
+                    x++;
+                }
 
                 // Đánh
                 mAuto.clickToImage(Constant.ImagePathDoiThoai + "trian" + ".png");
 
-                for (int i = 1; i <= 2; i++)
+                // Nghỉ 5s nếu nhân vật đang trong trận đấu
+                while (mAuto.dangTrongTranDau())
                 {
-                    if (i == 1)
-                    {
-                        mAuto.clickToImage(Constant.ImagePathTenTriAnPhiTac + i + ".png", 0, -80, 1, 100);
-                        mAuto.clickToImage(Constant.ImagePathTenTriAnPhanQuan + i + ".png", 40, -80, 1, 100);
-                    }
-                    else
-                    {
-                        mAuto.clickToImage(Constant.ImagePathTenTriAnPhiTac + i + ".png", -20, -80, 1, 100);
-                        mAuto.clickToImage(Constant.ImagePathTenTriAnPhanQuan + i + ".png", -40, -80, 1, 100);
-                    }
+                    Thread.Sleep(5000);
+                }
+
+                if (checkDaDanhNhiemVu())
+                {
+                    break;
+                }
+
+                // Lưu 4 vị trí xung quanh vị trí hiện tại và tracking vị trí pqpt hiện tại
+                mAuto.writeStatus("Lưu 4 vị trí xung quanh vị trí hiện tại và tracking vị trí pqpt hiện tại ...");
+                if (pos.Count <= 0)
+                {
+                    // Mở bảng đồ mini
+                    mAuto.clickToImage(Constant.ImagePathMiniMap);
 
                     Thread.Sleep(1000);
 
-                    // Đánh
-                    mAuto.clickToImage(Constant.ImagePathDoiThoai + "trian" + ".png");
+                    var full_screen = CaptureHelper.CaptureWindow(mHWnd);
+
+                    // Tắt các bảng nổi
+                    mAuto.closeAllDialog();
+
+                    // Lưu tracking
+                    mAuto.writeStatus("Lưu tracking ...");
+                    Bitmap bChuyenKenh = ImageScanOpenCV.GetImage(Constant.ImagePathGlobalChuyenKenh);
+                    var pBChuyenKenh = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, bChuyenKenh);
+
+                    if (pBChuyenKenh != null)
+                    {
+                        Bitmap tracking = CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBChuyenKenh.Value.X, pBChuyenKenh.Value.Y, 180, 20));
+                        tracking.Save("tracking/trian_" + mCharacter.ID + ".png", ImageFormat.Png);
+                    }
+
+                    // Lưu 4 vị trí
+                    mAuto.writeStatus("Lưu 4 vị trí ...");
+                    Bitmap iBtn = ImageScanOpenCV.GetImage(Constant.ImagePathInMapChar);
+                    var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtn);
+
+                    if (pBtn != null)
+                    {
+                        pos.Add(CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBtn.Value.X + (-15), pBtn.Value.Y + (-30), 30, 30)));
+                        pos.Add(CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBtn.Value.X + (11), pBtn.Value.Y + (0), 30, 30)));
+                        pos.Add(CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBtn.Value.X + (-15), pBtn.Value.Y + (20), 30, 30)));
+                        pos.Add(CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBtn.Value.X + (-32), pBtn.Value.Y + (0), 30, 30)));
+                    }
                 }
 
-                // Click vào 1 vị trí trên màn hình
-                mAuto.writeStatus("Click vào 1 vị trí trên màn hình ...");
-                //mAuto.clickToWindow(650, 450);
-                mAuto.clickToImage(Constant.ImagePathCharNameFolder + mWindowName + ".png", mAuto.random.Next(-50, 50), mAuto.random.Next(-50, 50));
+                // Di chuyển đến vị trí quanh ptpq
+                mAuto.writeStatus("Di chuyển đến vị trí quanh ptpq ...");
 
-                // Nếu vip dưới 6 thì mới chạy cái này
-                if (mCharacter.VipLevel < 6 && mCharacter.VipLevel > 0)
+                int i = 0;
+                while (!mAuto.findImage(Constant.ImagePathDoiThoai + "trian" + ".png") && i < pos.Count)
                 {
-                    // Nhấp vào tọa độ
-                    mAuto.writeStatus("Nhấp vào tọa độ ...");
-                    mAuto.clickToImage(Constant.ImagePathTriAnToaDo, 10, -25);
-                    mAuto.clickToImage(Constant.ImagePathTriAnToaDo2, 10, -25);
-                    Thread.Sleep(2000);
+                    // Mở menu phải
+                    mAuto.moMenuPhai();
+
+                    // Bay lên
+                    mAuto.bay();
+
+                    // Mở bảng đồ mini
+                    mAuto.clickToImage(Constant.ImagePathMiniMap);
+
+                    // Nhấp vào vị trí xung quanh ptpq
+                    mAuto.clickImage(pos[i], 15, -15);
+
+                    // Tắt các bảng nổi
+                    mAuto.closeAllDialog();
+
+                    // Đóng menu phải
+                    mAuto.dongMenuPhai();
+
+                    // Tìm phản quân hoặc phi tặc
+                    mAuto.writeStatus("Tìm phản quân hoặc phi tặc ...");
+                    int y = 0;
+                    while (!mAuto.findImage(Constant.ImagePathDoiThoai + "trian" + ".png") && y < lPTPQ.Count)
+                    {
+                        if (mAuto.findImage(lPTPQ[y].imagePath))
+                        {
+                            // Mở menu phải
+                            mAuto.moMenuPhai();
+
+                            // Bay xuống
+                            if (mAuto.findImage(Constant.ImagePathGlobalXuong))
+                            {
+                                mAuto.bayXuong();
+                                Thread.Sleep(3000);
+                            }
+
+                            // Đóng menu phải
+                            mAuto.dongMenuPhai();
+
+                            mAuto.clickToImage(lPTPQ[y].imagePath, lPTPQ[y].x, lPTPQ[y].y);
+                            Thread.Sleep(1000);
+                        }
+
+                        y++;
+                    }
+
+                    i++;
                 }
 
-                Thread.Sleep(2000);
+                // Đánh
+                mAuto.clickToImage(Constant.ImagePathDoiThoai + "trian" + ".png");
 
                 // Nghỉ 5s nếu nhân vật đang trong trận đấu
                 while (mAuto.dangTrongTranDau())
@@ -142,7 +236,8 @@ namespace AutoVPT.Libs
                 }
             }
 
-            if (!checkHoanThanhNhiemVu()) {
+            if (!checkHoanThanhNhiemVu())
+            {
                 // Nhấn vào nhận Q Trị An
                 mAuto.clickImageByGroup("tri_an", "nhiemvutrianchuanhan", false, true);
                 mAuto.clickImageByGroup("tri_an", "nhiemvuphanquandaxong", false, true);
@@ -220,7 +315,7 @@ namespace AutoVPT.Libs
             mAuto.writeStatus("Kiểm tra đã đánh nhiệm vụ chưa ?");
             mAuto.clickImageByGroup("global", "nhiemvu");
             mAuto.clickImageByGroup("global", "nhiemvuvong");
-            if (mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxong", true, false) 
+            if (mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxong", true, false)
                 || mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxonggreen"))
             {
                 mAuto.writeStatus("Đã đánh nhiệm vụ rồi");
