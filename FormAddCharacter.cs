@@ -1,14 +1,6 @@
 ﻿using AutoVPT.Objects;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace AutoVPT
 {
@@ -50,7 +42,7 @@ namespace AutoVPT
                     CharacterList.InsertCharacter(character);
                     this.Close();
                 }
-                catch (Exception exp)
+                catch
                 {
                     MessageBox.Show("Thêm mới character " + character.ID + " không thành công.");
                 }
@@ -63,8 +55,8 @@ namespace AutoVPT
                     CharacterList.UpdateCharacter(character);
                     this.Close();
                 }
-                catch (Exception exp)
-                {
+                catch
+                { 
                     MessageBox.Show("Cập nhật character " + character.ID + " không thành công.");
                 }
             }

@@ -2,10 +2,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoVPT.Objects
 {
@@ -13,37 +18,58 @@ namespace AutoVPT.Objects
     {
         private string id;
         private string link;
-        private int vip_level;
-        private string increase_fps;
-        private string date;
-        private int vip_promotion;
-        private int doi_nang_no;
-        private int doi_nang_no_nl4;
+        private int vip_level = 0;
+        private int increase_fps = 0;
+        private string date = "";
+        private int vip_promotion = 0;
+        private int doi_nang_no = 0;
+        private int doi_nang_no_nl4 = 0;
         private string doi_nang_no_loai = "";
-        private int trong_nl;
+        private int trong_nl = 0;
         private string trong_nl_loai = "";
-        private int tri_an;
-        private int lat_the_bai;
-        private int rut_bo;
-        private int doi_kgdk;
-        private int tu_hanh;
-        private int tru_ma;
-        private int ao_ma_thap;
-        private int trong_cay;
-        private int che_mat_bao;
+        private int tri_an = 0;
+        private int lat_the_bai = 0;
+        private int rut_bo = 0;
+        private int doi_kgdk = 0;
+        private int tu_hanh = 0;
+        private int tru_ma = 0;
+        private int ao_ma_thap = 0;
+        private int trong_cay = 0;
+        private int che_mat_bao = 0;
         private string che_mat_bao_loai = "";
-        private int che_mat_bao_cap;
-        private int auto_phu_ban;
+        private int che_mat_bao_cap = 0;
+        private int auto_phu_ban = 0;
         private string auto_phu_ban_danh_sach = "";
-        private int uoc_nguyen;
-        private int dau_pet;
-        private int nhan_thuong_hlvt;
-        private int bug_online;
-        private int me_tran;
-        private int hai_thuoc;
-        private int cau_ca;
-        private int vi_tri_nhan_vat;
-        private int running;
+        private int uoc_nguyen = 0;
+        private int dau_pet = 0;
+        private int nhan_thuong_hlvt = 0;
+        private int bug_online = 0;
+        private int me_tran = 0;
+        private int hai_thuoc = 0;
+        private int cau_ca = 0;
+        private int vi_tri_nhan_vat = 1;
+        private int running = 0;
+        private int auto_than_tu = 0;
+        private int run_to_last = 0;
+
+        private int status_vip_promotion = 0;
+        private int status_doi_nang_no = 0;
+        private int status_tri_an = 0;
+        private int status_lat_the_bai = 0;
+        private int status_rut_bo = 0;
+        private int status_doi_kgdk = 0;
+        private int status_tu_hanh = 0;
+        private int status_tru_ma = 0;
+        private int status_ao_ma_thap = 0;
+        private int status_trong_cay = 0;
+        private int status_che_mat_bao = 0;
+        private int status_auto_phu_ban = 0;
+        private int status_uoc_nguyen = 0;
+        private int status_nhan_thuong_hlvt = 0;
+        private int status_me_tran = 0;
+        private int status_hai_thuoc = 0;
+        private int status_cau_ca = 0;
+        private int status_auto_than_tu = 0;
 
         public Character()
         {
@@ -69,7 +95,7 @@ namespace AutoVPT.Objects
             set { vip_level = value; }
         }
 
-        public string IncreaseFPS
+        public int IncreaseFPS
         {
             get { return increase_fps; }
             set { increase_fps = value; }
@@ -248,10 +274,144 @@ namespace AutoVPT.Objects
             get { return running; }
             set { running = value; }
         }
+
+        public int AutoThanTu
+        {
+            get { return auto_than_tu; }
+            set { auto_than_tu = value; }
+        }
+
+        public int RunToLast
+        {
+            get { return run_to_last; }
+            set { run_to_last = value; }
+        }
+
+        public int StatusVipPromotion
+        {
+            get { return status_vip_promotion; }
+            set { status_vip_promotion = value; }
+        }
+
+        public int StatusDoiNangNo
+        {
+            get { return status_doi_nang_no; }
+            set { status_doi_nang_no = value; }
+        }
+
+        public int StatusTriAn
+        {
+            get { return status_tri_an; }
+            set { status_tri_an = value; }
+        }
+
+        public int StatusLatTheBai
+        {
+            get { return status_lat_the_bai; }
+            set { status_lat_the_bai = value; }
+        }
+
+        public int StatusRutBo
+        {
+            get { return status_rut_bo; }
+            set { status_rut_bo = value; }
+        }
+
+        public int StatusDoiKGDK
+        {
+            get { return status_doi_kgdk; }
+            set { status_doi_kgdk = value; }
+        }
+
+        public int StatusTuHanh
+        {
+            get { return status_tu_hanh; }
+            set { status_tu_hanh = value; }
+        }
+
+        public int StatusTruMa
+        {
+            get { return status_tru_ma; }
+            set { status_tru_ma = value; }
+        }
+
+        public int StatusAoMaThap
+        {
+            get { return status_ao_ma_thap; }
+            set { status_ao_ma_thap = value; }
+        }
+
+        public int StatusTrongCay
+        {
+            get { return status_trong_cay; }
+            set { status_trong_cay = value; }
+        }
+
+        public int StatusCheMatBao
+        {
+            get { return status_che_mat_bao; }
+            set { status_che_mat_bao = value; }
+        }
+
+        public int StatusAutoPhuBan
+        {
+            get { return status_auto_phu_ban; }
+            set { status_auto_phu_ban = value; }
+        }
+
+        public int StatusUocNguyen
+        {
+            get { return status_uoc_nguyen; }
+            set { status_uoc_nguyen = value; }
+        }
+
+        public int StatusNhanThuongHLVT
+        {
+            get { return status_nhan_thuong_hlvt; }
+            set { status_nhan_thuong_hlvt = value; }
+        }
+
+        public int StatusMeTran
+        {
+            get { return status_me_tran; }
+            set { status_me_tran = value; }
+        }
+
+        public int StatusHaiThuoc
+        {
+            get { return status_hai_thuoc; }
+            set { status_hai_thuoc = value; }
+        }
+
+        public int StatusCauCa
+        {
+            get { return status_cau_ca; }
+            set { status_cau_ca = value; }
+        }
+
+        public int StatusAutoThanTu
+        {
+            get { return status_auto_than_tu; }
+            set { status_auto_than_tu = value; }
+        }
     }
 
     public class CharacterList
     {
+        public static Character GetCharacterByRowIndex(int index)
+        {
+            DataRow iDr = null;
+            iDr = XMLCharacter.SelectByRowIndex(index);
+            Character character = null;
+            if (iDr != null)
+            {
+                character = new Character();
+                character.ID = iDr[0] != DBNull.Value ? iDr[0].ToString() : string.Empty;
+                character.Link = iDr[1] != DBNull.Value ? iDr[1].ToString() : string.Empty;
+            }
+            return character;
+        }
+
         public static Character GetCharacter(string id)
         {
             DataRow iDr = null;
@@ -262,37 +422,6 @@ namespace AutoVPT.Objects
                 character = new Character();
                 character.ID = iDr[0] != DBNull.Value ? iDr[0].ToString() : string.Empty;
                 character.Link = iDr[1] != DBNull.Value ? iDr[1].ToString() : string.Empty;
-                character.Date = iDr[2] != DBNull.Value ? iDr[2].ToString() : string.Empty;
-                character.VipLevel = iDr[3] != DBNull.Value ? int.Parse(iDr[3].ToString()) : 0;
-                character.IncreaseFPS = iDr[4] != DBNull.Value ? iDr[4].ToString() : string.Empty;
-                character.VipPromotion = iDr[5] != DBNull.Value ? int.Parse(iDr[5].ToString()) : 0;
-                character.DoiNangNo = iDr[6] != DBNull.Value ? int.Parse(iDr[6].ToString()) : 0;
-                character.DoiNangNoNL4 = iDr[7] != DBNull.Value ? int.Parse(iDr[7].ToString()) : 0;
-                character.DoiNangNoLoai = iDr[8] != DBNull.Value ? iDr[8].ToString() : string.Empty;
-                character.TrongNL = iDr[9] != DBNull.Value ? int.Parse(iDr[9].ToString()) : 0;
-                character.TrongNLLoai = iDr[10] != DBNull.Value ? iDr[10].ToString() : string.Empty;
-                character.TriAn = iDr[11] != DBNull.Value ? int.Parse(iDr[11].ToString()) : 0;
-                character.LatTheBai = iDr[12] != DBNull.Value ? int.Parse(iDr[12].ToString()) : 0;
-                character.RutBo = iDr[13] != DBNull.Value ? int.Parse(iDr[13].ToString()) : 0;
-                character.DoiKGDK = iDr[14] != DBNull.Value ? int.Parse(iDr[14].ToString()) : 0;
-                character.TuHanh = iDr[15] != DBNull.Value ? int.Parse(iDr[15].ToString()) : 0;
-                character.TruMa = iDr[16] != DBNull.Value ? int.Parse(iDr[16].ToString()) : 0;
-                character.AoMaThap = iDr[17] != DBNull.Value ? int.Parse(iDr[17].ToString()) : 0;
-                character.TrongCay = iDr[18] != DBNull.Value ? int.Parse(iDr[18].ToString()) : 0;
-                character.CheMatBao = iDr[19] != DBNull.Value ? int.Parse(iDr[19].ToString()) : 0;
-                character.CheMatBaoLoai = iDr[20] != DBNull.Value ? iDr[20].ToString() : string.Empty;
-                character.CheMatBaoCap = iDr[21] != DBNull.Value ? int.Parse(iDr[21].ToString()) : 0;
-                character.AutoPhuBan = iDr[22] != DBNull.Value ? int.Parse(iDr[22].ToString()) : 0;
-                character.AutoPhuBanDanhSach = iDr[23] != DBNull.Value ? iDr[23].ToString() : string.Empty;
-                character.UocNguyen = iDr[24] != DBNull.Value ? int.Parse(iDr[24].ToString()) : 0;
-                character.DauPet = iDr[25] != DBNull.Value ? int.Parse(iDr[25].ToString()) : 0;
-                character.NhanThuongHLVT = iDr[26] != DBNull.Value ? int.Parse(iDr[26].ToString()) : 0;
-                character.BugOnline = iDr[27] != DBNull.Value ? int.Parse(iDr[27].ToString()) : 0;
-                character.MeTran = iDr[28] != DBNull.Value ? int.Parse(iDr[28].ToString()) : 0;
-                character.HaiThuoc = iDr[29] != DBNull.Value ? int.Parse(iDr[29].ToString()) : 0;
-                character.CauCa = iDr[30] != DBNull.Value ? int.Parse(iDr[30].ToString()) : 0;
-                character.ViTriNhanVat = iDr[31] != DBNull.Value ? int.Parse(iDr[31].ToString()) : 0;
-                character.Running = iDr[32] != DBNull.Value ? int.Parse(iDr[32].ToString()) : 0;
             }
             return character;
         }
@@ -313,14 +442,9 @@ namespace AutoVPT.Objects
             XMLCharacter.Insert(character.ID, character.Link);
         }
 
-        public static void DeleteCharacter(string characteregoryID)
+        public static void DeleteCharacter(string characterID)
         {
-            XMLCharacter.Delete(characteregoryID);
-        }
-
-        public static void UpdateCharacterAllFields(Character character)
-        {
-            XMLCharacter.UpdateAllFields(character);
+            XMLCharacter.Delete(characterID);
         }
     }
 }

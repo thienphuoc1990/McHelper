@@ -40,16 +40,20 @@ namespace AutoVPT.Libs
 
         public void chayQ()
         {
-            mAuto.writeStatus("Đã nhận được nhiệm vụ, bắt đầu tìm quái đánh ...");
-
             // Xóa ghi chép chat
-            mAuto.writeStatus("Xóa ghi chép chat ...");
             mAuto.clickImageByGroup("global", "chatclear", false, true);
 
             List<Bitmap> pos = new List<Bitmap>();
 
+            int loop = 0;
             while (!checkDaDanhNhiemVu())
             {
+                loop++;
+                if(loop >= 5)
+                {
+                    Helper.showAlert(mCharacter.ID, "Nhiệm vụ phi tặc này có vấn đề");
+                }
+
                 // Mở menu phải
                 mAuto.moMenuPhai();
 
@@ -66,16 +70,13 @@ namespace AutoVPT.Libs
 
                     // Mở túi nhiệm vụ
                     mAuto.closeAllDialog();
-                    mAuto.writeStatus("Mở túi nhiệm vụ ...");
                     mAuto.clickToImage(Constant.ImagePathGlobalTui);
                     mAuto.clickImageByGroup("global", "tui_tab_nhiemvu", true, true);
 
                     // Nhấp đôi vào bản đồ nhiệm vụ
-                    mAuto.writeStatus("Nhấp đôi vào bản đồ nhiệm vụ ...");
                     mAuto.clickToImage(Constant.ImagePathTriAnBanDoNhiemVu, 0, -20, 2);
 
                     // Chờ 2s để load map
-                    mAuto.writeStatus("Chờ 2s để load map ...");
                     Thread.Sleep(2000);
 
                     mAuto.closeAllDialog();
@@ -92,6 +93,18 @@ namespace AutoVPT.Libs
 
                         } while (mAuto.isMoving());
                     }
+
+                    var full_screen = CaptureHelper.CaptureWindow(mHWnd);
+
+                    // Lưu tracking
+                    Bitmap bChuyenKenh = ImageScanOpenCV.GetImage(Constant.ImagePathGlobalChuyenKenh);
+                    var pBChuyenKenh = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, bChuyenKenh);
+
+                    if (pBChuyenKenh != null)
+                    {
+                        Bitmap tracking = CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBChuyenKenh.Value.X, pBChuyenKenh.Value.Y, 180, 20));
+                        tracking.Save("tracking/trian_" + mCharacter.ID + ".png", ImageFormat.Png);
+                    }
                 }
 
                 mAuto.closeAllDialog();
@@ -107,7 +120,6 @@ namespace AutoVPT.Libs
                 mAuto.dongMenuPhai();
 
                 // Tìm phản quân hoặc phi tặc
-                mAuto.writeStatus("Tìm phản quân hoặc phi tặc ...");
                 int x = 0;
                 while (!mAuto.findImage(Constant.ImagePathDoiThoai + "trian" + ".png") && x < lPTPQ.Count)
                 {
@@ -133,8 +145,7 @@ namespace AutoVPT.Libs
                     break;
                 }
 
-                // Lưu 4 vị trí xung quanh vị trí hiện tại và tracking vị trí pqpt hiện tại
-                mAuto.writeStatus("Lưu 4 vị trí xung quanh vị trí hiện tại và tracking vị trí pqpt hiện tại ...");
+                // Lưu 4 vị trí xung quanh vị trí hiện tại
                 if (pos.Count <= 0)
                 {
                     // Mở bảng đồ mini
@@ -147,19 +158,7 @@ namespace AutoVPT.Libs
                     // Tắt các bảng nổi
                     mAuto.closeAllDialog();
 
-                    // Lưu tracking
-                    mAuto.writeStatus("Lưu tracking ...");
-                    Bitmap bChuyenKenh = ImageScanOpenCV.GetImage(Constant.ImagePathGlobalChuyenKenh);
-                    var pBChuyenKenh = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, bChuyenKenh);
-
-                    if (pBChuyenKenh != null)
-                    {
-                        Bitmap tracking = CaptureHelper.CropImage((Bitmap)full_screen, new Rectangle(pBChuyenKenh.Value.X, pBChuyenKenh.Value.Y, 180, 20));
-                        tracking.Save("tracking/trian_" + mCharacter.ID + ".png", ImageFormat.Png);
-                    }
-
                     // Lưu 4 vị trí
-                    mAuto.writeStatus("Lưu 4 vị trí ...");
                     Bitmap iBtn = ImageScanOpenCV.GetImage(Constant.ImagePathInMapChar);
                     var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtn);
 
@@ -173,8 +172,6 @@ namespace AutoVPT.Libs
                 }
 
                 // Di chuyển đến vị trí quanh ptpq
-                mAuto.writeStatus("Di chuyển đến vị trí quanh ptpq ...");
-
                 int i = 0;
                 while (!mAuto.findImage(Constant.ImagePathDoiThoai + "trian" + ".png") && i < pos.Count)
                 {
@@ -197,7 +194,6 @@ namespace AutoVPT.Libs
                     mAuto.dongMenuPhai();
 
                     // Tìm phản quân hoặc phi tặc
-                    mAuto.writeStatus("Tìm phản quân hoặc phi tặc ...");
                     int y = 0;
                     while (!mAuto.findImage(Constant.ImagePathDoiThoai + "trian" + ".png") && y < lPTPQ.Count)
                     {
@@ -254,12 +250,10 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            mAuto.writeStatus("Chờ 2s sau khi đứng yên rồi kiểm tra xem có nchuyen với TCV DHT ko ?");
             // Chờ 2s sau khi đứng yên rồi kiểm tra xem có nchuyen với TCV DHT ko ?
             Thread.Sleep(2000);
             if (!mAuto.isTalkWithNPC("truongcanvedonghuyenthanh"))
             {
-                mAuto.writeStatus("Nhân vật đang bị lag vị trí, bắt đầu fix lag vị trí ...");
                 mAuto.talkToNPC("truongcanvedonghuyenthanh");
             }
 
@@ -276,25 +270,20 @@ namespace AutoVPT.Libs
 
         public bool checkDaGoiQuai()
         {
-            mAuto.writeStatus("Check đã gọi quái chưa ?");
             mAuto.closeAllDialog();
             // Mở túi nhiệm vụ
-            mAuto.writeStatus("Mở túi nhiệm vụ ...");
             mAuto.clickToImage(Constant.ImagePathGlobalTui);
             mAuto.clickImageByGroup("global", "tui_tab_nhiemvu", true, true);
             if (!mAuto.findImageByGroup("tri_an", "bandonhiemvu"))
             {
-                mAuto.writeStatus("Đã gọi quái");
                 return true;
             }
-            mAuto.writeStatus("Chưa gọi quái");
             return false;
         }
 
         public bool checkDaNhanNhiemVu()
         {
             mAuto.closeAllDialog();
-            mAuto.writeStatus("Kiểm tra đã nhận nhiệm vụ chưa ?");
             mAuto.clickImageByGroup("global", "nhiemvu");
             mAuto.clickImageByGroup("global", "nhiemvuvong");
             if (mAuto.findImageByGroup("tri_an", "bangnhiemvutrianchuaxong", true, false)
@@ -302,39 +291,31 @@ namespace AutoVPT.Libs
                 || mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxong", true, false)
                 || mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxonggreen"))
             {
-                mAuto.writeStatus("Đã nhận nhiệm vụ rồi");
                 return true;
             }
-            mAuto.writeStatus("Chưa nhận nhiệm vụ hoặc đã hoàn thành nhiệm vụ");
             return checkHoanThanhNhiemVu();
         }
 
         public bool checkDaDanhNhiemVu()
         {
             mAuto.closeAllDialog();
-            mAuto.writeStatus("Kiểm tra đã đánh nhiệm vụ chưa ?");
             mAuto.clickImageByGroup("global", "nhiemvu");
             mAuto.clickImageByGroup("global", "nhiemvuvong");
             if (mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxong", true, false)
                 || mAuto.findImageByGroup("tri_an", "bangnhiemvutriandaxonggreen"))
             {
-                mAuto.writeStatus("Đã đánh nhiệm vụ rồi");
                 return true;
             }
-            mAuto.writeStatus("Chưa đánh quái");
             return false;
         }
 
         public bool checkHoanThanhNhiemVu()
         {
-            mAuto.writeStatus("Kiểm tra đã hoàn thành nhiệm vụ chưa ?");
-
             mAuto.moMenuPhai();
 
             mAuto.moveToMap("donghuyenthanh");
 
             mAuto.closeAllDialog();
-            mAuto.writeStatus("Tìm và nói chuyện với \"Trưởng cận vệ ĐHT\" ...");
 
             // Nếu vip dưới 6 thì mới chạy cái này
             if (mCharacter.VipLevel < 6 && mCharacter.VipLevel > 0)
@@ -356,12 +337,10 @@ namespace AutoVPT.Libs
 
             if (!mAuto.isMoving())
             {
-                mAuto.writeStatus("Chờ 2s sau khi đứng yên rồi kiểm tra xem có nchuyen với TCV DHT ko ?");
                 // Chờ 2s sau khi đứng yên rồi kiểm tra xem có nchuyen với TCV DHT ko ?
                 Thread.Sleep(2000);
                 if (!mAuto.isTalkWithNPC("truongcanvedonghuyenthanh"))
                 {
-                    mAuto.writeStatus("Nhân vật đang bị lag vị trí, bắt đầu fix lag vị trí ...");
                     mAuto.talkToNPC("truongcanvedonghuyenthanh");
                 }
 
@@ -372,13 +351,11 @@ namespace AutoVPT.Libs
                 && !mAuto.findImageByGroup("tri_an", "nhiemvuphanquan", false, true)
                 && !mAuto.findImageByGroup("tri_an", "nhiemvuphitac", false, true))
                 {
-                    mAuto.writeStatus("Đã hoàn thành nhiệm vụ trị an ...");
                     completed = true;
                     return true;
                 }
             }
 
-            mAuto.writeStatus("Chưa hoàn thành nhiệm vụ trị an ...");
             return false;
         }
     }

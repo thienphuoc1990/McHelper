@@ -12,6 +12,7 @@ namespace AutoVPT.Objects
         public int mapIndex;
         public int x;
         public int y;
+        public List<string> posPaths;
 
         public Map(string _name, int _mapIndex, int _x, int _y)
         {
@@ -19,6 +20,11 @@ namespace AutoVPT.Objects
             mapIndex = _mapIndex;
             x = _x;
             y = _y;
+        }
+
+        public void setPosPaths(List<string> _posPaths)
+        {
+            posPaths = _posPaths;
         }
     }
 }

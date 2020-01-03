@@ -29,7 +29,7 @@ namespace AutoVPT.Libs
             au3.winclose(mWindowName);
         }
 
-        public void sendKey(string key)
+        public void sendKey(string key, int wait = 1000)
         {
             if (mCharacter.Running == 0)
             {
@@ -37,7 +37,7 @@ namespace AutoVPT.Libs
             }
 
             au3.controlsend(mWindowName, key);
-            Thread.Sleep(1500);
+            Thread.Sleep(wait);
         }
 
         public void closeAllDialog()
@@ -127,6 +127,63 @@ namespace AutoVPT.Libs
             }
 
             return false;
+        }
+
+        /*
+         * Function: Move To Map
+         * Description: Tìm đến vị trí của map trên bản đồ lớn và click vào
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2019-11-10 - Updated At: 2019-11-10
+         * Flows:
+         *  1. Mở bản đồ nhỏ
+         *  2. Mở bản đồ thế giới
+         *  3. Nhấn vào vị trí của map
+         */
+        public bool moveToMapNhom(string mapName, int worldMapIndex = 1, int x = 0, int y = -20)
+        {
+            if (mCharacter.Running == 0)
+            {
+                return false;
+            }
+
+            string mapPath = Constant.ImagePathMapsFolder + mapName + ".png";
+            string mapActivePath = Constant.ImagePathMapsFolder + mapName + "_active.png";
+            string mapCheckPath = Constant.ImagePathMapsFolder + mapName + "_check.png";
+            int loop = 1;
+
+            while (!findImage(mapCheckPath) && loop <= Constant.MaxLoop && mCharacter.Running != 0)
+            {
+                closeAllDialog();
+
+                // Mở bản đồ nhỏ
+                clickToImage(Constant.ImagePathMiniMap);
+
+                // Mở bản đồ thể giới
+                clickToImage(Constant.ImagePathWorldMap);
+
+                // Nếu worldMapIndex == 2 thì mở sang bản đồ 2
+                if (worldMapIndex == 2)
+                {
+                    clickToImage(Constant.ImagePathSecondWorldMap);
+                }
+
+                clickToImage(mapPath, x, y);
+                clickToImage(mapActivePath, x, y);
+                clickImageByGroup("global", "movenhom");
+                loop++;
+                Thread.Sleep(3000);
+
+                closeAllDialog();
+            }
+
+            if (loop >= Constant.MaxLoop)
+            {
+                writeStatus("Không thể di chuyển đến " + mapName);
+                return false;
+            }
+
+            return true;
+
         }
 
         /*
@@ -248,6 +305,23 @@ namespace AutoVPT.Libs
             }
 
             au3.click(mWindowName, numClick, xRange, yRange);
+            Thread.Sleep(wait);
+        }
+
+        /*
+         * Function: Click to Point
+         * Description: Click on the point
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2019-11-09 - Updated At: 2019-11-09
+         */
+        public void clickPoint(int x = 0, int y = 0, int numClick = 1, int wait = Constant.TimeShort)
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            au3.click(mWindowName, numClick, x, y);
             Thread.Sleep(wait);
         }
 
@@ -646,14 +720,14 @@ namespace AutoVPT.Libs
 
             int i = 0;
             bool moving = true;
-            while (moving && i < Constant.MaxLoop && mCharacter.Running == 1)
+            while (moving && i < Constant.MaxLoop && mCharacter.Running != 0)
             {
                 // Chụp màn hình
                 var screen_first = CaptureHelper.CaptureWindow(mHWnd);
-                screen_first = CaptureHelper.CropImage((Bitmap)screen_first, new Rectangle(260, 30, 310, 80));
+                screen_first = CaptureHelper.CropImage((Bitmap)screen_first, new Rectangle(180, 0, 250, 250));
 
                 // Chờ 3s
-                Thread.Sleep(Constant.TimeMedium);
+                Thread.Sleep(1500);
                 var screen_second = CaptureHelper.CaptureWindow(mHWnd);
 
                 // Kiểm tra hình trước có trong hình sau hay không
@@ -661,10 +735,8 @@ namespace AutoVPT.Libs
                 if (p != null)
                 {
                     moving = false;
-                    writeStatus("Nhân vật đang đứng yên ...");
                     return moving;
                 }
-                writeStatus("Nhân vật đang di chuyển ...");
             }
 
             return moving;

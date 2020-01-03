@@ -7,11 +7,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace AutoVPT
 {
@@ -30,10 +32,9 @@ namespace AutoVPT
         public void loadData()
         {
             initConfigs();
-            checkRenewConfig();
 
-            this.numericUpDownVIPLevel.Value = (character.VipLevel > 1) ? character.VipLevel : 0;
-            this.numericUpDownIncreaseFPS.Value = (character.IncreaseFPS != "") ? decimal.Parse(character.IncreaseFPS) : 0;
+            this.numericUpDownVIPLevel.Value = character.VipLevel;
+            //this.numericUpDownIncreaseFPS.Value = decimal.Parse(character.IncreaseFPS);
             character.VipPromotion = setStateFeature(this.checkBoxNhanVIP, character.VipPromotion);
             character.DoiNangNo = setStateFeature(this.checkBoxDoiNN, character.DoiNangNo);
             character.DoiNangNoNL4 = setStateFeature(this.checkBoxDoiNLCap4, character.DoiNangNoNL4);
@@ -55,6 +56,8 @@ namespace AutoVPT
             character.MeTran = setStateFeature(this.checkBoxMeTran, character.MeTran);
             character.HaiThuoc = setStateFeature(this.checkBoxHaiThuoc, character.HaiThuoc);
             character.CauCa = setStateFeature(this.checkBoxCauCa, character.CauCa);
+            character.AutoThanTu = setStateFeature(this.checkBoxAutoThanTu, character.AutoThanTu);
+            character.RunToLast = setStateFeature(this.checkBoxRunAutoToLast, character.RunToLast);
             this.comboBoxTrongNL.SelectedIndex = this.comboBoxTrongNL.FindStringExact(character.TrongNLLoai);
             this.comboBoxChonNLDoiNN.SelectedIndex = this.comboBoxChonNLDoiNN.FindStringExact(character.DoiNangNoLoai);
             this.comboBoxNguyenLieuMB.SelectedIndex = this.comboBoxNguyenLieuMB.FindStringExact(character.CheMatBaoLoai);
@@ -155,6 +158,7 @@ namespace AutoVPT
         {
             labelAuthorVersion.Text = Constant.Version;
 
+            checkRenewConfig();
             loadData();
 
             if (renewConfig)
@@ -170,7 +174,7 @@ namespace AutoVPT
             // Update character config from form settings
             character.Date = today.ToString("dd/MM/yyyy");
             character.VipLevel = int.Parse(this.numericUpDownVIPLevel.Value.ToString());
-            character.IncreaseFPS = this.numericUpDownIncreaseFPS.Value.ToString();
+            //character.IncreaseFPS = this.numericUpDownIncreaseFPS.Value.ToString();
             character.VipPromotion = (this.checkBoxNhanVIP.Checked) ? ((character.VipPromotion >= 1) ? character.VipPromotion : 1) : 0;
             character.DoiNangNo = (this.checkBoxDoiNN.Checked) ? ((character.DoiNangNo >= 1) ? character.DoiNangNo : 1) : 0;
             character.DoiNangNoNL4 = (this.checkBoxDoiNLCap4.Checked) ? ((character.DoiNangNoNL4 >= 1) ? character.DoiNangNoNL4 : 1) : 0;
@@ -192,6 +196,8 @@ namespace AutoVPT
             character.MeTran = (this.checkBoxMeTran.Checked) ? ((character.MeTran >= 1) ? character.MeTran : 1) : 0;
             character.HaiThuoc = (this.checkBoxHaiThuoc.Checked) ? ((character.HaiThuoc >= 1) ? character.HaiThuoc : 1) : 0;
             character.CauCa = (this.checkBoxCauCa.Checked) ? ((character.CauCa >= 1) ? character.CauCa : 1) : 0;
+            character.AutoThanTu = (this.checkBoxAutoThanTu.Checked) ? ((character.AutoThanTu >= 1) ? character.AutoThanTu : 1) : 0;
+            character.RunToLast = (this.checkBoxRunAutoToLast.Checked) ? ((character.RunToLast >= 1) ? character.RunToLast : 1) : 0;
             character.DoiNangNoLoai = this.comboBoxChonNLDoiNN.Text;
             character.TrongNLLoai = this.comboBoxTrongNL.Text;
             character.CheMatBaoLoai = this.comboBoxNguyenLieuMB.Text;
@@ -201,27 +207,13 @@ namespace AutoVPT
             // Lấy thông tin danh sách phụ bản
             this.getDanhSachPhuBan();
 
-            updateCharacter();
-        }
-
-        private void updateCharacter()
-        {
-            try
-            {
-                CharacterList.UpdateCharacterAllFields(character);
-                Helper.writeStatus(textBoxStatus, character.ID, "Cập nhật character " + character.ID + " thành công.");
-            }
-            catch (Exception exp)
-            {
-                Helper.writeStatus(textBoxStatus, character.ID, exp.ToString());
-                Helper.writeStatus(textBoxStatus, character.ID, "Cập nhật character " + character.ID + " không thành công.");
-            }
+            Helper.saveSettingsToXML(character);
+            CharacterList.UpdateCharacter(character);
         }
 
         private void buttonSaveConfig_Click(object sender, EventArgs e)
         {
             parsingAndUpdateCharacter();
-            this.Close();
         }
 
         private void getDanhSachPhuBan()
@@ -235,6 +227,17 @@ namespace AutoVPT
             }
 
             character.AutoPhuBanDanhSach = string.Join(",", phuBan.Where(x => !string.IsNullOrEmpty(x)).ToArray());
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            renewConfig = true;
+            loadData();
         }
     }
 }

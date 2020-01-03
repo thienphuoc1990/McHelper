@@ -41,6 +41,8 @@
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.buttonClickRightOnImage = new System.Windows.Forms.Button();
+            this.buttonClickRightOnPoint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTestX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTestY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
@@ -185,11 +187,33 @@
             this.label7.TabIndex = 12;
             this.label7.Text = "Width:";
             // 
+            // buttonClickRightOnImage
+            // 
+            this.buttonClickRightOnImage.Location = new System.Drawing.Point(16, 203);
+            this.buttonClickRightOnImage.Name = "buttonClickRightOnImage";
+            this.buttonClickRightOnImage.Size = new System.Drawing.Size(110, 23);
+            this.buttonClickRightOnImage.TabIndex = 16;
+            this.buttonClickRightOnImage.Text = "Click right on image";
+            this.buttonClickRightOnImage.UseVisualStyleBackColor = true;
+            this.buttonClickRightOnImage.Click += new System.EventHandler(this.buttonClickRightOnImage_Click);
+            // 
+            // buttonClickRightOnPoint
+            // 
+            this.buttonClickRightOnPoint.Location = new System.Drawing.Point(16, 232);
+            this.buttonClickRightOnPoint.Name = "buttonClickRightOnPoint";
+            this.buttonClickRightOnPoint.Size = new System.Drawing.Size(110, 23);
+            this.buttonClickRightOnPoint.TabIndex = 17;
+            this.buttonClickRightOnPoint.Text = "Click right on point";
+            this.buttonClickRightOnPoint.UseVisualStyleBackColor = true;
+            this.buttonClickRightOnPoint.Click += new System.EventHandler(this.buttonClickRightOnPoint_Click);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(887, 494);
+            this.Controls.Add(this.buttonClickRightOnPoint);
+            this.Controls.Add(this.buttonClickRightOnImage);
             this.Controls.Add(this.numericUpDownHeight);
             this.Controls.Add(this.numericUpDownWidth);
             this.Controls.Add(this.label6);
@@ -230,5 +254,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownWidth;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button buttonClickRightOnImage;
+        private System.Windows.Forms.Button buttonClickRightOnPoint;
     }
 }

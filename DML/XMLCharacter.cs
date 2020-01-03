@@ -49,7 +49,7 @@ namespace AutoVPT.DML
         public static void Delete(string id)
         {
             dv.RowFilter = "id='" + id + "'";
-            dv.Sort = "id";
+            //dv.Sort = "id";
             dv.Delete(0);
             dv.RowFilter = "";
             save();
@@ -58,10 +58,23 @@ namespace AutoVPT.DML
         /// <summary>
         /// Selects a single record from the Category table.
         /// </summary>
+        public static DataRow SelectByRowIndex(int index)
+        {
+            DataRow dr = null;
+            if (dv.Count > 0)
+            {
+                dr = dv[index].Row;
+            }
+            return dr;
+        }
+
+        /// <summary>
+        /// Selects a single record from the Category table.
+        /// </summary>
         public static DataRow Select(string id)
         {
             dv.RowFilter = "id='" + id + "'";
-            dv.Sort = "id";
+            //dv.Sort = "id";
             DataRow dr = null;
             if (dv.Count > 0)
             {
@@ -80,47 +93,6 @@ namespace AutoVPT.DML
             ds.ReadXml(Application.StartupPath + "\\database\\data.xml", XmlReadMode.ReadSchema);
             dv = ds.Tables[0].DefaultView;
             return dv;
-        }
-
-        /// <summary>
-        /// Updates a record in the Category table.
-        /// </summary>
-        public static void UpdateAllFields(Character character)
-        {
-            DataRow dr = Select(character.ID);
-            dr[1] = character.Link;
-            dr[2] = character.Date;
-            dr[3] = character.VipLevel;
-            dr[4] = character.IncreaseFPS;
-            dr[5] = character.VipPromotion;
-            dr[6] = character.DoiNangNo;
-            dr[7] = character.DoiNangNoNL4;
-            dr[8] = character.DoiNangNoLoai;
-            dr[9] = character.TrongNL;
-            dr[10] = character.TrongNLLoai;
-            dr[11] = character.TriAn;
-            dr[12] = character.LatTheBai;
-            dr[13] = character.RutBo;
-            dr[14] = character.DoiKGDK;
-            dr[15] = character.TuHanh;
-            dr[16] = character.TruMa;
-            dr[17] = character.AoMaThap;
-            dr[18] = character.TrongCay;
-            dr[19] = character.CheMatBao;
-            dr[20] = character.CheMatBaoLoai;
-            dr[21] = character.CheMatBaoCap;
-            dr[22] = character.AutoPhuBan;
-            dr[23] = character.AutoPhuBanDanhSach;
-            dr[24] = character.UocNguyen;
-            dr[25] = character.DauPet;
-            dr[26] = character.NhanThuongHLVT;
-            dr[27] = character.BugOnline;
-            dr[28] = character.MeTran;
-            dr[29] = character.HaiThuoc;
-            dr[30] = character.CauCa;
-            dr[31] = character.ViTriNhanVat;
-            dr[32] = character.Running;
-            save();
         }
     }
 }

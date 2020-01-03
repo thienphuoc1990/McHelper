@@ -148,9 +148,20 @@ namespace AutoVPT.Libs
             mAuto.writeStatus("Tắt bảng nhiệm vụ nổi ...");
             mAuto.clickImageByGroup("global", "tatbangnhiemvunoi");
 
-            // Tắt bảng nhiệm vụ nổi
+            // Ẩn thanh kỹ năng
             mAuto.writeStatus("Ẩn thanh kỹ năng ...");
             mAuto.clickImageByGroup("global", "anthanhkynang");
+
+            //// Ẩn tên và nhân vật, mở mẫu
+            //// Click vào cài đặt
+            //mAuto.clickImageByGroup("global", "thietlap");
+            //// click ẩn tên
+            //mAuto.clickImageByGroup("global", "anten");
+            //// click ẩn nhân vật
+            //mAuto.clickImageByGroup("global", "annhanvat");
+            //// click bỏ đóng mẫu
+            //mAuto.clickImageByGroup("global", "dongmauchecked");
+
         }
 
         /*
@@ -180,6 +191,59 @@ namespace AutoVPT.Libs
 
             // Tắt Flash window
             mAuto.closeFlash();
+        }
+
+        /*
+         * Function: runAutoThanTu
+         * Description: Tự động auto thần tu
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2019-12-29 - Updated At: 2019-12-29
+         */
+        public void runAutoThanTu()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            string npc = "thanhchuquyenco";
+            string location = "autothantu";
+            string map = "quyencothanh";
+            mAuto.writeStatus("Bắt đầu \"Auto Thần tu\"");
+            mAuto.closeAllDialog();
+
+            // Chạy đến map
+            if (!mAuto.moveToMap(map, 1, 7, -18))
+            {
+                mAuto.writeStatus("Không thể di chuyển đến " + map + " , thử lại ...");
+                runAutoThanTu();
+            }
+
+            // Bay lên
+            mAuto.bay();
+
+            // Chạy đến NPC
+            if (!mAuto.moveToNPC(npc, location))
+            {
+                mAuto.writeStatus("Không thể di chuyển đến vị trí "  + location);
+                runAutoThanTu();
+            }
+
+            // Bay xuống
+            mAuto.bayXuong();
+
+            // Nói chuyện với NPC
+            if (mAuto.talkToNPC(npc))
+            {
+                // Chọn Auto Tu Hành
+                mAuto.clickImageByGroup("global", "autothantu", false, true);
+
+                // Bấm bắt đầu
+                mAuto.clickImageByGroup("global", "batdauautotuhanh", false, false);
+
+                // Bấm có
+                mAuto.clickImageByGroup("global", "luachonco", false, true);
+            }
         }
 
         /*
@@ -631,6 +695,39 @@ namespace AutoVPT.Libs
             mTrongNL.dongTrangVien();
         }
 
+        public List<Point> collectMapMiniPoints()
+        {
+            mAuto.writeStatus("Thu thập điểm trên bản đồ");
+            List<Point> mapPoints = new List<Point>();
+
+            // Mở bảng đồ mini
+            //mAuto.clickToImage(Constant.ImagePathMiniMap);
+            mAuto.sendKey("~");
+
+            var full_screen = CaptureHelper.CaptureWindow(mHWnd);
+
+            // Tắt các bảng nổi
+            mAuto.closeAllDialog();
+
+            Bitmap iBtn = ImageScanOpenCV.GetImage(Constant.ImagePathGlobalMiniMap);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtn);
+
+            if (pBtn != null)
+            {
+                int x_start_point = pBtn.Value.X + 0;
+                int y_start_point = pBtn.Value.Y + 60;
+                for (int y = 0; y < 5; y++)
+                {
+                    for (int x = 0; x < 4; x++)
+                    {
+                        mapPoints.Add(new Point(x_start_point + (x * 100) + 50, y_start_point + (y * 56)));
+                    }
+                }
+            }
+
+            return mapPoints;
+        }
+
         public List<Bitmap> collectMapMiniPath()
         {
             mAuto.writeStatus("Thu thập mảnh bản đồ");
@@ -667,7 +764,101 @@ namespace AutoVPT.Libs
             return mapPaths;
         }
 
-        public void moveAndFindMonsters(List<Bitmap> mapPaths, List<Monster> monsters, string monster_name)
+        public void moveAndFindMonsters(List<Point> mapPoints, List<Monster> monsters, string monster_name, bool is_bug_flight)
+        {
+            string imageTalkMonster = Constant.ImagePathDoiThoai + monster_name + ".png";
+            int i = 0;
+            while (i < mapPoints.Count)
+            {
+                // Tắt các bảng nổi
+                mAuto.closeAllDialog();
+
+                if (!is_bug_flight)
+                {
+                    // Mở menu phải
+                    mAuto.moMenuPhai();
+
+                    // Bay lên
+                    mAuto.bay();
+                }
+
+                // Mở bảng đồ mini
+                //mAuto.clickToImage(Constant.ImagePathMiniMap);
+                mAuto.sendKey("~");
+
+                // Nhấp vào vị trí map
+                mAuto.clickPoint(mapPoints[i].X, mapPoints[i].Y);
+
+                if (!is_bug_flight)
+                {
+                    // Đóng menu phải
+                    mAuto.dongMenuPhai();
+                }
+
+                if (i % 4 == 0)
+                {
+                    Thread.Sleep(4000);
+                }
+
+                // Tắt các bảng nổi
+                mAuto.closeAllDialog();
+
+                Thread.Sleep(1000);
+
+                // tìm quái vật
+                while (isExistsMonster(monsters))
+                {
+                    int y = 0;
+                    while (!mAuto.findImage(imageTalkMonster) && y < monsters.Count)
+                    {
+                        if (mAuto.findImage(monsters[y].imagePath))
+                        {
+                            if (!is_bug_flight)
+                            {
+                                // Mở menu phải
+                                mAuto.moMenuPhai();
+
+                                // Bay xuống
+                                if (mAuto.findImage(Constant.ImagePathGlobalXuong))
+                                {
+                                    mAuto.bayXuong();
+                                    Thread.Sleep(3000);
+                                }
+
+                                // Đóng menu phải
+                                mAuto.dongMenuPhai();
+                            }
+
+                            mAuto.clickToImage(monsters[y].imagePath, monsters[y].x, monsters[y].y);
+                            Thread.Sleep(1000);
+                        }
+
+                        y++;
+                    }
+
+                    // Đánh
+                    mAuto.clickToImage(imageTalkMonster);
+
+                    // Nghỉ 5s nếu nhân vật đang trong trận đấu
+                    bool inBattle = false;
+                    while (mAuto.dangTrongTranDau())
+                    {
+                        inBattle = true;
+                        mAuto.clickImageByGroup("global", "inbattleauto");
+                        Thread.Sleep(4000);
+                    }
+
+                    if (inBattle)
+                    {
+                        Thread.Sleep(2000);
+                    }
+                }
+
+                i++;
+            }
+        }
+
+        public void moveAndFindMonstersWithPathImage(List<Bitmap> mapPaths, List<Monster> monsters, string monster_name)
         {
             string imageTalkMonster = Constant.ImagePathDoiThoai + monster_name + ".png";
             int i = 0;
