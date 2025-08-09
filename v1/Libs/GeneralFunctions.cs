@@ -24,6 +24,7 @@ namespace AutoVPT.Libs
         public DoiNangNo mDoiNangNo;
         public CheMatBao mCheMatBao;
         public AutoPhuBan mAutoPhuBan;
+        public AutoXuQue mAutoXuQue;
 
         public GeneralFunctions(IntPtr hWnd, Character character, TextBox textBoxStatus)
         {
@@ -36,6 +37,7 @@ namespace AutoVPT.Libs
             mAutoPhuBan = new AutoPhuBan(mHWnd, mWindowName, mAuto);
             mDoiNangNo = new DoiNangNo(mHWnd, mWindowName, mAuto);
             mChayTriAn = new ChayTriAn(mHWnd, mWindowName, mCharacter, mAuto);
+            mAutoXuQue = new AutoXuQue(mHWnd, mWindowName, mAuto);
         }
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Ansi)]
@@ -55,7 +57,8 @@ namespace AutoVPT.Libs
             // Chưa load vào bảng login
             while (!mAuto.findImageByGroup("global", "loginbatbuoc", false, false))
             {
-                Thread.Sleep(5000);
+                mAuto.writeStatus("Chưa load vào bảng login");
+                Thread.Sleep(Constant.TimeShort);
             }
 
             // Chưa load bảng chọn kênh
@@ -65,7 +68,7 @@ namespace AutoVPT.Libs
                 mAuto.writeStatus("Click bắt buộc");
                 mAuto.clickImageByGroup("global", "loginbatbuoc", false, false);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(Constant.TimeShort);
             }
 
             // Chưa load bảng chọn nhân vật
@@ -74,7 +77,7 @@ namespace AutoVPT.Libs
                 mAuto.writeStatus("Chọn kênh");
                 this.chonKenh(5);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(Constant.TimeShort);
             }
 
             // Chưa load vào game
@@ -83,14 +86,25 @@ namespace AutoVPT.Libs
                 mAuto.writeStatus("Chọn nhân vật");
                 this.chonNhanVat();
 
-                Thread.Sleep(5000);
+                Thread.Sleep(Constant.TimeShort);
             }
         }
 
         public void chonNhanVat()
         {
+            int viTriNhanVat = mCharacter.ViTriNhanVat % 3;
+            if (mCharacter.ViTriNhanVat > 3)
+            {
+                int soTrangNhanVat = mCharacter.ViTriNhanVat / 3;
+                for(int i = 1; i <= soTrangNhanVat; i++)
+                {
+                    mAuto.writeStatus("Qua " + i + " trang");
+                    mAuto.clickImageByGroup("global", "loginQuaTrangNhanVat", false, false);
+                }
+            }
             // kênh 1 x = -100; y = 20, lên 1 kênh tăng thêm 34
-            mAuto.clickImageByGroup("global", "bangchonnhanvat", false, false, 2, -80 + ((mCharacter.ViTriNhanVat - 1) * 140), 30);
+            mAuto.clickImageByGroup("global", "bangchonnhanvat", false, false, 2, -80 + ((viTriNhanVat - 1) * 140), 30);
+            mAuto.clickImageByGroup("global", "loginvaogame", false, false);
         }
 
         public void chonKenh(int kenh)
@@ -668,6 +682,16 @@ namespace AutoVPT.Libs
                 }
             }
 
+        }
+
+        public void xuQue()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAutoXuQue.auto();
         }
 
         /*

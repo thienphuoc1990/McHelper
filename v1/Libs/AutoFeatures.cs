@@ -1,6 +1,7 @@
 ﻿using AutoVPT.Objects;
 using KAutoHelper;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -388,6 +389,9 @@ namespace AutoVPT.Libs
             }
 
             var screen = CaptureHelper.CaptureWindow(mHWnd);
+
+            screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + ".png");
+
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
             if (pBtn != null)
@@ -465,6 +469,7 @@ namespace AutoVPT.Libs
         {
             if (mCharacter.Running == 0)
             {
+                writeStatus("findImageByGroup character not running");
                 return false;
             }
 
@@ -496,6 +501,7 @@ namespace AutoVPT.Libs
             }
             if (findImage(groupPath + name + ".png"))
             {
+                //writeStatus("findImageByGroup findImage " + groupPath + name + ".png");
                 return true;
             }
 
@@ -595,6 +601,12 @@ namespace AutoVPT.Libs
                     groupPath = Constant.ImagePathGlobalFolder;
                     break;
             }
+            if (!findImage(groupPath + name + ".png"))
+            {
+                //writeStatus("clickImageByGroup not found image " + groupPath + name + ".png");
+                return;
+            }
+
             clickToImage(groupPath + name + ".png", x, y, numClick);
             if (active)
             {

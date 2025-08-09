@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ID>vigga</ID>
+  <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=daniel2307@goid&amp;pass=62081e48d1976f059e769c64dc48f18b&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  <VipLevel>9</VipLevel>
+  <IncreaseFPS>0</IncreaseFPS>
+  <Date>23/09/2022</Date>
+  <VipPromotion>0</VipPromotion>
+  <DoiNangNo>1</DoiNangNo>
+  <DoiNangNoNL4>0</DoiNangNoNL4>
+  <DoiNangNoLoai>Pha Le</DoiNangNoLoai>
+  <TrongNL>1</TrongNL>
+  <TrongNLLoai>Long Thu</TrongNLLoai>
+  <TriAn>0</TriAn>
+  <LatTheBai>1</LatTheBai>
+  <RutBo>1</RutBo>
+  <DoiKGDK>1</DoiKGDK>
+  <TuHanh>1</TuHanh>
+  <TruMa>0</TruMa>
+  <AoMaThap>0</AoMaThap>
+  <TrongCay>0</TrongCay>
+  <CheMatBao>0</CheMatBao>
+  <CheMatBaoLoai>Thần Binh</CheMatBaoLoai>
+  <CheMatBaoCap>1</CheMatBaoCap>
+  <AutoPhuBan>1</AutoPhuBan>
+  <AutoPhuBanDanhSach>Kho Báu Đại Mạc,Liệt Diễm Thâm Uyên,Lục Tiên Cảnh,Mê Huyễn Động,Trở Lại Lang Huyệt,Quỷ Hút Máu,Thám Hiểm</AutoPhuBanDanhSach>
+  <UocNguyen>1</UocNguyen>
+  <DauPet>0</DauPet>
+  <NhanThuongHLVT>1</NhanThuongHLVT>
+  <BugOnline>1</BugOnline>
+  <MeTran>0</MeTran>
+  <HaiThuoc>0</HaiThuoc>
+  <CauCa>0</CauCa>
+  <ViTriNhanVat>1</ViTriNhanVat>
+  <Running>1</Running>
+  <AutoThanTu>0</AutoThanTu>
+  <RunToLast>0</RunToLast>
+  <StatusVipPromotion>0</StatusVipPromotion>
+  <StatusDoiNangNo>0</StatusDoiNangNo>
+  <StatusTriAn>0</StatusTriAn>
+  <StatusLatTheBai>1</StatusLatTheBai>
+  <StatusRutBo>1</StatusRutBo>
+  <StatusDoiKGDK>1</StatusDoiKGDK>
+  <StatusTuHanh>1</StatusTuHanh>
+  <StatusTruMa>0</StatusTruMa>
+  <StatusAoMaThap>0</StatusAoMaThap>
+  <StatusTrongCay>0</StatusTrongCay>
+  <StatusCheMatBao>0</StatusCheMatBao>
+  <StatusAutoPhuBan>1</StatusAutoPhuBan>
+  <StatusUocNguyen>1</StatusUocNguyen>
+  <StatusNhanThuongHLVT>1</StatusNhanThuongHLVT>
+  <StatusMeTran>0</StatusMeTran>
+  <StatusHaiThuoc>0</StatusHaiThuoc>
+  <StatusCauCa>0</StatusCauCa>
+  <StatusAutoThanTu>0</StatusAutoThanTu>
+  <NuoiTinhLinh>0</NuoiTinhLinh>
+  <StatusNuoiTinhLinh>0</StatusNuoiTinhLinh>
+  <StatusTrainVDD>0</StatusTrainVDD>
+</Character>

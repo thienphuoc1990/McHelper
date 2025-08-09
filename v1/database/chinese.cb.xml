@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ID>chinese.cb</ID>
+  <Link>http://ss.lezi.com/mc/s120/GameLoader.swf?user=vngrabontest1&amp;pass=d767fffcf3dde5a6109a37ba5a3735a3</Link>
+  <VipLevel>0</VipLevel>
+  <IncreaseFPS>0</IncreaseFPS>
+  <Date />
+  <VipPromotion>0</VipPromotion>
+  <DoiNangNo>0</DoiNangNo>
+  <DoiNangNoNL4>0</DoiNangNoNL4>
+  <DoiNangNoLoai />
+  <TrongNL>0</TrongNL>
+  <TrongNLLoai />
+  <TriAn>0</TriAn>
+  <LatTheBai>0</LatTheBai>
+  <RutBo>0</RutBo>
+  <DoiKGDK>0</DoiKGDK>
+  <TuHanh>0</TuHanh>
+  <TruMa>0</TruMa>
+  <AoMaThap>0</AoMaThap>
+  <TrongCay>0</TrongCay>
+  <CheMatBao>0</CheMatBao>
+  <CheMatBaoLoai />
+  <CheMatBaoCap>0</CheMatBaoCap>
+  <AutoPhuBan>0</AutoPhuBan>
+  <AutoPhuBanDanhSach />
+  <UocNguyen>0</UocNguyen>
+  <DauPet>0</DauPet>
+  <NhanThuongHLVT>0</NhanThuongHLVT>
+  <BugOnline>0</BugOnline>
+  <MeTran>0</MeTran>
+  <HaiThuoc>0</HaiThuoc>
+  <CauCa>0</CauCa>
+  <ViTriNhanVat>1</ViTriNhanVat>
+  <Running>1</Running>
+  <AutoThanTu>0</AutoThanTu>
+  <RunToLast>0</RunToLast>
+  <StatusVipPromotion>0</StatusVipPromotion>
+  <StatusDoiNangNo>0</StatusDoiNangNo>
+  <StatusTriAn>0</StatusTriAn>
+  <StatusLatTheBai>0</StatusLatTheBai>
+  <StatusRutBo>0</StatusRutBo>
+  <StatusDoiKGDK>0</StatusDoiKGDK>
+  <StatusTuHanh>0</StatusTuHanh>
+  <StatusTruMa>0</StatusTruMa>
+  <StatusAoMaThap>0</StatusAoMaThap>
+  <StatusTrongCay>0</StatusTrongCay>
+  <StatusCheMatBao>0</StatusCheMatBao>
+  <StatusAutoPhuBan>0</StatusAutoPhuBan>
+  <StatusUocNguyen>0</StatusUocNguyen>
+  <StatusNhanThuongHLVT>0</StatusNhanThuongHLVT>
+  <StatusMeTran>0</StatusMeTran>
+  <StatusHaiThuoc>0</StatusHaiThuoc>
+  <StatusCauCa>0</StatusCauCa>
+  <StatusAutoThanTu>0</StatusAutoThanTu>
+</Character>

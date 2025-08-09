@@ -89,8 +89,10 @@ namespace AutoVPT.DML
         /// </summary>
         public static DataView SelectAll()
         {
+            var path = Application.StartupPath + "\\database\\data.xml";
+
             ds.Clear();
-            ds.ReadXml(Application.StartupPath + "\\database\\data.xml", XmlReadMode.ReadSchema);
+            ds.ReadXml(path, XmlReadMode.ReadSchema);
             dv = ds.Tables[0].DefaultView;
             return dv;
         }

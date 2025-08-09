@@ -57,6 +57,20 @@ namespace AutoVPT.Libs
             //findMonsterByCode("nguoituyetcuonghoan");
         }
 
+        public void runXuQue()
+        {
+            if (mCharacter.Running != 2)
+            {
+                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: daily, ...");
+                return;
+            }
+
+            startGameIfNotExists();
+
+            mGeneralFunctions.prepareScreen();
+            mGeneralFunctions.xuQue();
+        }
+
         public void runEvent()
         {
             if (mCharacter.Running != 2)

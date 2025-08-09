@@ -3,6 +3,7 @@ using AutoVPT.Objects;
 using KAutoHelper;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using System.IO;
 
 namespace AutoVPT
 {
@@ -561,6 +563,14 @@ namespace AutoVPT
             comboBoxNguyenLieuMB.Items.Add(Constant.NameLoaiMatBaoLietDiem);
             comboBoxNguyenLieuMB.Items.Add(Constant.NameLoaiMatBaoLangHuyet);
             comboBoxNguyenLieuMB.Items.Add(Constant.NameLoaiMatBaoLacVien);
+
+            // Create folder if not exists
+            try
+            {
+                Directory.CreateDirectory(Application.StartupPath + "\\tracking\\");
+            } catch {
+                Helper.writeStatus(textBoxStatus, character.ID, "Không tạo được thư mục cần thiết!");
+            }
         }
 
         private void buttonResetStatus_Click(object sender, EventArgs e)
@@ -577,6 +587,77 @@ namespace AutoVPT
             character.StatusRutBo = setStateFeature(checkBoxStatusRutBo, character.StatusRutBo);
             character.StatusNhanThuongHLVT = setStateFeature(checkBoxStatusNhanThuongHL, character.StatusNhanThuongHLVT);
             character.StatusDoiKGDK = setStateFeature(checkBoxStatusDoiKGDK, character.StatusDoiKGDK);
+        }
+
+        private void buttonChayXuQue_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            character.Running = 2;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.runXuQue));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + "chayxuque";
+            Helper.threadList[index].Start();
+        }
+
+        private void buttonStopXuQue_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            character.Running = 0;
+            updateCharacter();
+
+            foreach (var thread in Helper.threadList)
+            {
+                if (thread.Name == (character.ID + "chayxuque"))
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto Xủ Quẻ");
+                    thread.Abort();
+                }
+            }
+        }
+
+        private void buttonVaoAllGame_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                Character currentCharacter = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                // Mở game
+                openWindow();
+
+                IntPtr hWnd = IntPtr.Zero;
+                // Find define handle of project
+                hWnd = AutoControl.FindWindowHandle(null, currentCharacter.ID);
+
+                if (hWnd == IntPtr.Zero)
+                {
+                    MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                }
+                MainAuto mMainAuto = new MainAuto(hWnd, currentCharacter, textBoxStatus);
+
+                Helper.threadList.Add(new Thread(mMainAuto.loginToGame));
+                int index = Helper.threadList.Count() - 1;
+                Helper.threadList[index].Name = currentCharacter.ID + "logintogame";
+                Helper.threadList[index].Start();
+            }
+
+            
         }
     }
 }
