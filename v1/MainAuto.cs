@@ -450,5 +450,29 @@ namespace AutoVPT.Libs
                 }
             }
         }
+
+        public void daPet()
+        {
+            if (mCharacter.Running != 1)
+            {
+                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
+                return;
+            }
+
+            startGameIfNotExists();
+
+            mCharacter.Running = 0;
+            Helper.saveSettingsToXML(mCharacter);
+
+            foreach (var thread in Helper.threadList)
+            {
+                if (thread.Name == (mCharacter.ID + "dapet"))
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
+                    thread.Abort();
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
+                }
+            }
+        }
     }
 }

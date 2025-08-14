@@ -75,6 +75,26 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxInterop.ShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -109,12 +129,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormVPT.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormVPT.Designer.cs">
-      <DependentUpon>FormVPT.cs</DependentUpon>
-    </Compile>
     <Compile Include="Libs\AutoXuQue.cs" />
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\ChayTriAn.cs" />
@@ -136,12 +150,6 @@
       <DependentUpon>FormAddCharacter.cs</DependentUpon>
     </Compile>
     <Compile Include="DML\XMLCharacter.cs" />
-    <Compile Include="FormManageAuto.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormManageAuto.Designer.cs">
-      <DependentUpon>FormManageAuto.cs</DependentUpon>
-    </Compile>
     <Compile Include="Libs\AutoFeatures.cs" />
     <Compile Include="Libs\AutoIT.cs" />
     <Compile Include="Libs\Constant.cs" />
@@ -162,12 +170,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddCharacter.resx">
       <DependentUpon>FormAddCharacter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormManageAuto.resx">
-      <DependentUpon>FormManageAuto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormVPT.resx">
-      <DependentUpon>FormVPT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
