@@ -183,6 +183,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AxInterop.ShockwaveFlashObjects.dll" />
     <Content Include="concrt140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -231,6 +232,8 @@
     <Content Include="flash.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Interop.ShockwaveFlashObjects.dll" />
+    <Content Include="KAutoHelper.dll" />
     <Content Include="logo_vpt_tulalan_eko_icon.ico" />
     <Content Include="resources\ao_ma_thap\auto.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
