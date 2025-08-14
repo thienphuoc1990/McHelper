@@ -106,6 +106,9 @@
             this.buttonStopXuQue = new System.Windows.Forms.Button();
             this.buttonVaoAllGame = new System.Windows.Forms.Button();
             this.buttonDaPetAll = new System.Windows.Forms.Button();
+            this.buttonDaPet = new System.Windows.Forms.Button();
+            this.buttonAutoPhuBan = new System.Windows.Forms.Button();
+            this.buttonCaptureImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -990,11 +993,44 @@
             this.buttonDaPetAll.UseVisualStyleBackColor = true;
             this.buttonDaPetAll.Click += new System.EventHandler(this.buttonDaPetAll_Click);
             // 
+            // buttonDaPet
+            // 
+            this.buttonDaPet.Location = new System.Drawing.Point(478, 428);
+            this.buttonDaPet.Name = "buttonDaPet";
+            this.buttonDaPet.Size = new System.Drawing.Size(105, 23);
+            this.buttonDaPet.TabIndex = 72;
+            this.buttonDaPet.Text = "Đá Pet";
+            this.buttonDaPet.UseVisualStyleBackColor = true;
+            this.buttonDaPet.Click += new System.EventHandler(this.buttonDaPet_Click);
+            // 
+            // buttonAutoPhuBan
+            // 
+            this.buttonAutoPhuBan.Location = new System.Drawing.Point(589, 428);
+            this.buttonAutoPhuBan.Name = "buttonAutoPhuBan";
+            this.buttonAutoPhuBan.Size = new System.Drawing.Size(105, 23);
+            this.buttonAutoPhuBan.TabIndex = 73;
+            this.buttonAutoPhuBan.Text = "Auto Phụ bản";
+            this.buttonAutoPhuBan.UseVisualStyleBackColor = true;
+            this.buttonAutoPhuBan.Click += new System.EventHandler(this.buttonAutoPhuBan_Click);
+            // 
+            // buttonCaptureImage
+            // 
+            this.buttonCaptureImage.Location = new System.Drawing.Point(697, 428);
+            this.buttonCaptureImage.Name = "buttonCaptureImage";
+            this.buttonCaptureImage.Size = new System.Drawing.Size(105, 23);
+            this.buttonCaptureImage.TabIndex = 74;
+            this.buttonCaptureImage.Text = "Capture image";
+            this.buttonCaptureImage.UseVisualStyleBackColor = true;
+            this.buttonCaptureImage.Click += new System.EventHandler(this.buttonCaptureImage_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 509);
+            this.Controls.Add(this.buttonCaptureImage);
+            this.Controls.Add(this.buttonAutoPhuBan);
+            this.Controls.Add(this.buttonDaPet);
             this.Controls.Add(this.buttonDaPetAll);
             this.Controls.Add(this.buttonVaoAllGame);
             this.Controls.Add(this.buttonStopXuQue);
@@ -1120,6 +1156,9 @@
         private System.Windows.Forms.Button buttonStopXuQue;
         private System.Windows.Forms.Button buttonVaoAllGame;
         private System.Windows.Forms.Button buttonDaPetAll;
+        private System.Windows.Forms.Button buttonDaPet;
+        private System.Windows.Forms.Button buttonAutoPhuBan;
+        private System.Windows.Forms.Button buttonCaptureImage;
     }
 }
 

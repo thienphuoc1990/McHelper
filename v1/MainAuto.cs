@@ -461,6 +461,8 @@ namespace AutoVPT.Libs
 
             startGameIfNotExists();
 
+            mGeneralFunctions.dauPet();
+
             mCharacter.Running = 0;
             Helper.saveSettingsToXML(mCharacter);
 
@@ -473,6 +475,38 @@ namespace AutoVPT.Libs
                     Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
                 }
             }
+        }
+
+        public void autoPhuBan()
+        {
+            if (mCharacter.Running != 1)
+            {
+                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
+                return;
+            }
+            startGameIfNotExists();
+            mGeneralFunctions.prepareScreen();
+
+            string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
+            mGeneralFunctions.runNhanAutoPB(phuBan);
+            mCharacter.StatusAutoPhuBan = 1;
+            mCharacter.Running = 0;
+            Helper.saveSettingsToXML(mCharacter);
+            foreach (var thread in Helper.threadList)
+            {
+                if (thread.Name == (mCharacter.ID + "phuban"))
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
+                    thread.Abort();
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
+                }
+            }
+        }
+
+        public void captureImage()
+        {
+            startGameIfNotExists();
+            mAuto.captureImage();
         }
     }
 }

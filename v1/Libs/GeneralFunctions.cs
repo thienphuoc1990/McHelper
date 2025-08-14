@@ -6,9 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AutoVPT.Libs
@@ -557,19 +555,25 @@ namespace AutoVPT.Libs
             if (mAutoPhuBan.diChuyenDenNhanPhuBan("tienlapthanh"))
             {
                 mAutoPhuBan.nhanPhuBan("tienlapthanh");
+                mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
             }
 
-            // Nhận phụ bản ở Cổ đạo
-            if (mAutoPhuBan.diChuyenDenNhanPhuBan("codao"))
+            if (phuBan.Contains("Thám Hiểm"))
             {
-                mAutoPhuBan.nhanPhuBan("codao");
+                // Nhận phụ bản ở Cổ đạo
+                if (mAutoPhuBan.diChuyenDenNhanPhuBan("codao"))
+                {
+                    mAutoPhuBan.nhanPhuBan("codao");
+                }
             }
 
+            mAuto.writeStatus("Bắt đầu \"Auto Phụ Bản\"");
             // Auto phụ bản
             if (!mAutoPhuBan.auto())
             {
                 mAutoPhuBan.auto();
             }
+            mAuto.writeStatus("Kết thúc \"Auto Phụ Bản\"");
         }
 
         /*

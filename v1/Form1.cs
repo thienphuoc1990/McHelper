@@ -667,11 +667,83 @@ namespace AutoVPT
                 }
                 MainAuto mMainAuto = new MainAuto(hWnd, currentCharacter, textBoxStatus);
 
-                Helper.threadList.Add(new Thread(mMainAuto.loginToGame));
+                Helper.threadList.Add(new Thread(mMainAuto.daPet));
                 int index = Helper.threadList.Count() - 1;
                 Helper.threadList[index].Name = currentCharacter.ID + "dapet";
                 Helper.threadList[index].Start();
             }
+        }
+
+        private void buttonDaPet_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            character.Running = 1;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.daPet));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + "daPet";
+            Helper.threadList[index].Start();
+        }
+
+        private void buttonAutoPhuBan_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            character.Running = 1;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.autoPhuBan));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + "autoPhuBan";
+            Helper.threadList[index].Start();
+        }
+
+        private void buttonCaptureImage_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            mMainAuto.captureImage();
         }
     }
 }

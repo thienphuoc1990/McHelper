@@ -402,6 +402,17 @@ namespace AutoVPT.Libs
             return false;
         }
 
+        public bool captureImage()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return false;
+            }
+            var screen = CaptureHelper.CaptureWindow(mHWnd);
+            screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + "_captured.png");
+            return true;
+        }
+
         public void login(IntPtr hWnd, string windowName)
         {
             if (mCharacter.Running == 0)

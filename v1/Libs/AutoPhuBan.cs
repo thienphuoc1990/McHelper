@@ -31,12 +31,28 @@ namespace AutoVPT.Libs
         {
             mAuto.closeAllDialog();
 
-            while(!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban_check"))
+            // Mở auto phụ bản
+            while (!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban_check"))
             {
-                // Mở bảng auto
-                mAuto.clickImageByGroup("phu_ban", "hoanthanhphuban");
+                // Kéo quick feature list lên trên cùng
+                while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("phu_ban", "hoanthanhphuban"))
+                {
+                    mAuto.writeStatus("Kéo lên đầu quick feature list");
+                    mAuto.clickImageByGroup("global", "quickFeatureListUpArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
 
-                Thread.Sleep(2000);
+                // Kéo quick feature list xuống để tìm xủ quẻ
+                while (!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban") && mAuto.findImageByGroup("global", "quickFeatureListDownArrow"))
+                {
+                    mAuto.writeStatus("Không tìm thấy Xủ Quẻ, di chuyển sang trang tiếp");
+                    mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+
+                // Mở auto phụ bản
+                mAuto.clickImageByGroup("phu_ban", "hoanthanhphuban");
+                Thread.Sleep(Constant.TimeMedium);
             }
 
             // Nhận hoàn thành phụ bản nếu có
@@ -86,7 +102,7 @@ namespace AutoVPT.Libs
                 i++;
             }
 
-            if(i >= Constant.MaxLoopQ)
+            if (i >= Constant.MaxLoopQ)
             {
                 return false;
             }
@@ -156,10 +172,8 @@ namespace AutoVPT.Libs
             }
             mAuto.writeStatus("Di chuyển đến vị trí nhận phụ bản ở " + m);
 
-            // Tắt hết cửa sổ đang có trong game
             mAuto.closeAllDialog();
 
-            // Di chuyển đến bản đồ đổi năng nổ
             if (!mAuto.moveToMap(map, 1, x, y))
             {
                 mAuto.writeStatus("Không thể di chuyển đến map nhận phụ bản ở " + m);
@@ -169,7 +183,6 @@ namespace AutoVPT.Libs
             // Bay lên
             mAuto.bay();
 
-            // Di chuyển đến vị trí đổi năng nổ
             if (!mAuto.moveToNPC(npc, location))
             {
                 mAuto.writeStatus("Không thể di chuyển đến vị trí nhận phụ bản ở " + m);
