@@ -519,7 +519,7 @@ namespace AutoVPT.Libs
 
             startGameIfNotExists();
 
-            //mGeneralFunctions.aoMa();
+            mGeneralFunctions.aoMa();
 
             mCharacter.Running = 0;
             Helper.saveSettingsToXML(mCharacter);

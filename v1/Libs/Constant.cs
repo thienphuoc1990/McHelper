@@ -20,6 +20,7 @@ namespace AutoVPT.Libs
         public const int MaxLoopQ = 10;
         public const int MaxLoop = 20;
 
+        public const int VeryTimeShort = 100; // Short time
         public const int TimeShort = 1000; // Short time
         public const int TimeMedium = 3000; // Medium time
         public const int TimeLong = 5000; // Long time

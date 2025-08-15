@@ -109,6 +109,8 @@
             this.buttonDaPet = new System.Windows.Forms.Button();
             this.buttonAutoPhuBan = new System.Windows.Forms.Button();
             this.buttonCaptureImage = new System.Windows.Forms.Button();
+            this.buttonAoMa = new System.Windows.Forms.Button();
+            this.buttonAoMaAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -700,7 +702,7 @@
             this.tabPageGeneral.Controls.Add(this.numericUpDownVIPLevel);
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneral.Name = "tabPageGeneral";
-            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageGeneral.Size = new System.Drawing.Size(534, 268);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "Tùy Chỉnh Chung";
@@ -909,7 +911,7 @@
             this.tabPagePhuBan.Controls.Add(this.checkedListBoxPhuBan);
             this.tabPagePhuBan.Location = new System.Drawing.Point(4, 22);
             this.tabPagePhuBan.Name = "tabPagePhuBan";
-            this.tabPagePhuBan.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePhuBan.Padding = new System.Windows.Forms.Padding(3);
             this.tabPagePhuBan.Size = new System.Drawing.Size(534, 268);
             this.tabPagePhuBan.TabIndex = 1;
             this.tabPagePhuBan.Text = "Phụ Bản";
@@ -1023,11 +1025,33 @@
             this.buttonCaptureImage.UseVisualStyleBackColor = true;
             this.buttonCaptureImage.Click += new System.EventHandler(this.buttonCaptureImage_Click);
             // 
+            // buttonAoMa
+            // 
+            this.buttonAoMa.Location = new System.Drawing.Point(478, 457);
+            this.buttonAoMa.Name = "buttonAoMa";
+            this.buttonAoMa.Size = new System.Drawing.Size(105, 23);
+            this.buttonAoMa.TabIndex = 75;
+            this.buttonAoMa.Text = "Ảo ma";
+            this.buttonAoMa.UseVisualStyleBackColor = true;
+            this.buttonAoMa.Click += new System.EventHandler(this.buttonAoMa_Click);
+            // 
+            // buttonAoMaAll
+            // 
+            this.buttonAoMaAll.Location = new System.Drawing.Point(367, 455);
+            this.buttonAoMaAll.Name = "buttonAoMaAll";
+            this.buttonAoMaAll.Size = new System.Drawing.Size(105, 23);
+            this.buttonAoMaAll.TabIndex = 76;
+            this.buttonAoMaAll.Text = "Ảo ma All";
+            this.buttonAoMaAll.UseVisualStyleBackColor = true;
+            this.buttonAoMaAll.Click += new System.EventHandler(this.buttonAoMaAll_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 509);
+            this.Controls.Add(this.buttonAoMaAll);
+            this.Controls.Add(this.buttonAoMa);
             this.Controls.Add(this.buttonCaptureImage);
             this.Controls.Add(this.buttonAutoPhuBan);
             this.Controls.Add(this.buttonDaPet);
@@ -1159,6 +1183,8 @@
         private System.Windows.Forms.Button buttonDaPet;
         private System.Windows.Forms.Button buttonAutoPhuBan;
         private System.Windows.Forms.Button buttonCaptureImage;
+        private System.Windows.Forms.Button buttonAoMa;
+        private System.Windows.Forms.Button buttonAoMaAll;
     }
 }
 

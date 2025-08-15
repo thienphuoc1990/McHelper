@@ -342,6 +342,70 @@ namespace AutoVPT.Libs
         }
 
         /*
+         * Function: dauPet
+         * Description: Đấu Pet
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2019-11-18 - Updated At: 2019-11-18
+         */
+        public void aoMa()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAuto.writeStatus("Bắt đầu \"Tu luyện ảo ma\"");
+            mAuto.closeAllDialog();
+
+            // Mở tu luyện ảo ma
+            while (!mAuto.findImageByGroup("global", "aoma_tuluyenaoma_check"))
+            {
+                while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("global", "aoma_tuluyenaoma"))
+                {
+                    mAuto.writeStatus("Kéo lên đầu quick feature list");
+                    mAuto.clickImageByGroup("global", "quickFeatureListUpArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+
+                while (!mAuto.findImageByGroup("global", "aoma_tuluyenaoma") && mAuto.findImageByGroup("global", "quickFeatureListDownArrow"))
+                {
+                    mAuto.writeStatus("Không tìm thấy ảo ma, di chuyển sang trang tiếp");
+                    mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+
+                mAuto.clickImageByGroup("global", "aoma_tuluyenaoma");
+                Thread.Sleep(Constant.TimeMedium);
+            }
+
+            if (mAuto.findImageByGroup("global", "aoma_huybotuluyen"))
+            {
+                mAuto.writeStatus("Đang có tu luyện ảo ma, hủy bỏ tu luyện");
+                mAuto.clickImageByGroup("global", "aoma_huybotuluyen", false, false);
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.clickImageByGroup("global", "aoma_co", false, false);
+            }
+
+            if (mAuto.findImageByGroup("global", "aoma_nhanphanthuong"))
+            {
+                mAuto.writeStatus("Đang có phần thưởng tu luyện, nhận phần thưởng");
+                mAuto.clickImageByGroup("global", "aoma_nhanphanthuong", false, false);
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.clickImageByGroup("global", "aoma_co", false, false);
+            }
+
+            if (mAuto.findImageByGroup("global", "aoma_tuluyen"))
+            {
+                mAuto.writeStatus("Tu luyện");
+                mAuto.clickImageByGroup("global", "aoma_tuluyen", false, false);
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.clickImageByGroup("global", "aoma_co", false, false);
+            }
+
+            mAuto.closeAllDialog();
+        }
+
+        /*
          * Function: nhanThuongHanhLang
          * Description: Nhận thưởng hành lang
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT

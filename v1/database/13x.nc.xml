@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ID>13x.nc</ID>
-  <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=loveli34@goid&amp;pass=65863ab3841fe088a1c65442757e04cb&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=loveli34@goid&amp;pass=5d9493e9b9f23b5729a85624532b9e79&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
   <VipLevel>0</VipLevel>
   <IncreaseFPS>0</IncreaseFPS>
-  <Date>15/11/2024</Date>
+  <Date>15/08/2025</Date>
   <VipPromotion>0</VipPromotion>
   <DoiNangNo>1</DoiNangNo>
   <DoiNangNoNL4>0</DoiNangNoNL4>
   <DoiNangNoLoai>Kim Loai Hiem</DoiNangNoLoai>
   <TrongNL>1</TrongNL>
-  <TrongNLLoai>Long Thu</TrongNLLoai>
+  <TrongNLLoai>Ngoc</TrongNLLoai>
   <TriAn>0</TriAn>
-  <LatTheBai>1</LatTheBai>
+  <LatTheBai>0</LatTheBai>
   <RutBo>1</RutBo>
   <DoiKGDK>1</DoiKGDK>
   <TuHanh>1</TuHanh>
@@ -38,7 +38,7 @@
   <StatusVipPromotion>0</StatusVipPromotion>
   <StatusDoiNangNo>0</StatusDoiNangNo>
   <StatusTriAn>0</StatusTriAn>
-  <StatusLatTheBai>1</StatusLatTheBai>
+  <StatusLatTheBai>0</StatusLatTheBai>
   <StatusRutBo>1</StatusRutBo>
   <StatusDoiKGDK>1</StatusDoiKGDK>
   <StatusTuHanh>1</StatusTuHanh>
@@ -53,7 +53,4 @@
   <StatusHaiThuoc>0</StatusHaiThuoc>
   <StatusCauCa>0</StatusCauCa>
   <StatusAutoThanTu>0</StatusAutoThanTu>
-  <NuoiTinhLinh>0</NuoiTinhLinh>
-  <StatusNuoiTinhLinh>0</StatusNuoiTinhLinh>
-  <StatusTrainVDD>0</StatusTrainVDD>
 </Character>

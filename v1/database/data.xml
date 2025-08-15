@@ -17,6 +17,32 @@
     </xs:element>
   </xs:schema>
   <Table>
+    <ID>13x.cb</ID>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=hpd.phuoc@goid&amp;pass=cdadedd23d6082fc4d5b446efba1c73c&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  </Table>
+  <Table>
+    <ID>13x.dy</ID>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.4@goid&amp;pass=fc69becbeaaacbb5f25fd768a46c1492&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  </Table>
+  <Table>
+    <ID>13x.hs</ID>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.3@goid&amp;pass=da4336bc563f55d5ef04ca0a32d52c0a&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  </Table>
+  <Table>
+    <ID>13x.ts</ID>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.2@goid&amp;pass=c867843004c790f8e6abc3b05bf7a923&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  </Table>
+  <Table>
+    <ID>13x.xt</ID>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=phidangmtv@goid&amp;pass=3aa5b0179f8ca8711bf02abdcbad417c&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  </Table>
+  <Table />
+  <Table>
+    <ID>13x.ltt.ts</ID>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.1@goid&amp;pass=792b5acfd338912f185b23789edc6999&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+  </Table>
+  <Table />
+  <Table>
     <ID>hs</ID>
     <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=daniel2307@goid&amp;pass=6a1d65d75d5141410df19752b3c27005&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
   </Table>
@@ -34,27 +60,7 @@
   </Table>
   <Table>
     <ID>13x.nc</ID>
-    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=loveli34@goid&amp;pass=65863ab3841fe088a1c65442757e04cb&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
+    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=loveli34@goid&amp;pass=5d9493e9b9f23b5729a85624532b9e79&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
   </Table>
   <Table />
-  <Table>
-    <ID>13x.ts</ID>
-    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.1@goid&amp;pass=792b5acfd338912f185b23789edc6999&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
-  </Table>
-  <Table>
-    <ID>13x.cb</ID>
-    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=hpd.phuoc@goid&amp;pass=cdadedd23d6082fc4d5b446efba1c73c&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
-  </Table>
-  <Table>
-    <ID>13x.dy</ID>
-    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.4@goid&amp;pass=fc69becbeaaacbb5f25fd768a46c1492&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
-  </Table>
-  <Table>
-    <ID>13x.hs</ID>
-    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.3@goid&amp;pass=da4336bc563f55d5ef04ca0a32d52c0a&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
-  </Table>
-  <Table>
-    <ID>ts.khi</ID>
-    <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=grabon.vpt.2@goid&amp;pass=c867843004c790f8e6abc3b05bf7a923&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
-  </Table>
 </Character>

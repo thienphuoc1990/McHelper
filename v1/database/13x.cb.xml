@@ -4,15 +4,15 @@
   <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=hpd.phuoc@goid&amp;pass=cdadedd23d6082fc4d5b446efba1c73c&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
   <VipLevel>0</VipLevel>
   <IncreaseFPS>0</IncreaseFPS>
-  <Date>15/11/2024</Date>
+  <Date>15/08/2025</Date>
   <VipPromotion>0</VipPromotion>
   <DoiNangNo>1</DoiNangNo>
   <DoiNangNoNL4>0</DoiNangNoNL4>
   <DoiNangNoLoai>Da Thu</DoiNangNoLoai>
   <TrongNL>1</TrongNL>
-  <TrongNLLoai>Long Thu</TrongNLLoai>
+  <TrongNLLoai>Kim Loai</TrongNLLoai>
   <TriAn>0</TriAn>
-  <LatTheBai>1</LatTheBai>
+  <LatTheBai>0</LatTheBai>
   <RutBo>1</RutBo>
   <DoiKGDK>1</DoiKGDK>
   <TuHanh>1</TuHanh>
@@ -23,7 +23,7 @@
   <CheMatBaoLoai>Thần Binh</CheMatBaoLoai>
   <CheMatBaoCap>1</CheMatBaoCap>
   <AutoPhuBan>1</AutoPhuBan>
-  <AutoPhuBanDanhSach>Liệt Diễm Thâm Uyên,Trở Lại Lang Huyệt</AutoPhuBanDanhSach>
+  <AutoPhuBanDanhSach>Kho Báu Đại Mạc,Liệt Diễm Thâm Uyên,Lục Tiên Cảnh,Mê Huyễn Động,Trở Lại Lang Huyệt,Quỷ Hút Máu</AutoPhuBanDanhSach>
   <UocNguyen>0</UocNguyen>
   <DauPet>0</DauPet>
   <NhanThuongHLVT>1</NhanThuongHLVT>
@@ -38,7 +38,7 @@
   <StatusVipPromotion>0</StatusVipPromotion>
   <StatusDoiNangNo>0</StatusDoiNangNo>
   <StatusTriAn>0</StatusTriAn>
-  <StatusLatTheBai>1</StatusLatTheBai>
+  <StatusLatTheBai>0</StatusLatTheBai>
   <StatusRutBo>1</StatusRutBo>
   <StatusDoiKGDK>1</StatusDoiKGDK>
   <StatusTuHanh>1</StatusTuHanh>
@@ -53,7 +53,4 @@
   <StatusHaiThuoc>0</StatusHaiThuoc>
   <StatusCauCa>0</StatusCauCa>
   <StatusAutoThanTu>0</StatusAutoThanTu>
-  <NuoiTinhLinh>0</NuoiTinhLinh>
-  <StatusNuoiTinhLinh>0</StatusNuoiTinhLinh>
-  <StatusTrainVDD>0</StatusTrainVDD>
 </Character>
