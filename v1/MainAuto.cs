@@ -256,7 +256,7 @@ namespace AutoVPT.Libs
                 }
 
                 // "Nhận VIP"
-                if (mCharacter.VipPromotion == 1 || mCharacter.StatusVipPromotion == 0)
+                if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
                 {
                     i++;
                     mGeneralFunctions.nhanVIP();
@@ -265,7 +265,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Check to run "Nhận và Auto Phụ Bản"
-                if (mCharacter.AutoPhuBan == 1 || mCharacter.StatusAutoPhuBan == 0)
+                if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
                 {
                     i++;
                     string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
@@ -275,7 +275,7 @@ namespace AutoVPT.Libs
                 }
 
                 // "Rút bộ"
-                if (mCharacter.RutBo == 1 || mCharacter.StatusRutBo == 0)
+                if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
                 {
                     i++;
                     mGeneralFunctions.rutBo();
@@ -284,7 +284,7 @@ namespace AutoVPT.Libs
                 }
 
                 // "Đổi thưởng Không Gian Điêu Khắc"
-                if (mCharacter.DoiKGDK == 1 || mCharacter.StatusDoiKGDK == 0)
+                if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
                 {
                     i++;
                     mGeneralFunctions.khongGianDieuKhac();
@@ -293,7 +293,7 @@ namespace AutoVPT.Libs
                 }
 
                 // "Nhận thưởng hành lang"
-                if (mCharacter.NhanThuongHLVT == 1 || mCharacter.StatusNhanThuongHLVT == 0)
+                if (mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
                 {
                     i++;
                     mGeneralFunctions.nhanThuongHanhLang();
@@ -302,7 +302,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Check to run "Rung cây"
-                if (mCharacter.UocNguyen == 1 || mCharacter.StatusUocNguyen == 0)
+                if (mCharacter.UocNguyen == 1 && mCharacter.StatusUocNguyen == 0)
                 {
                     i++;
                     mGeneralFunctions.rungCay();
@@ -311,7 +311,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Check to run "Chế mật bảo"
-                if (mCharacter.CheMatBao == 1 || mCharacter.StatusCheMatBao == 0)
+                if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
                 {
                     i++;
                     mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap);
@@ -320,7 +320,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Check to run "Tu Hành"
-                if (mCharacter.TuHanh == 1 || mCharacter.StatusTuHanh == 0)
+                if (mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
                 {
                     i++;
                     mGeneralFunctions.runAutoTuHanh();
@@ -346,7 +346,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Check to run "Auto Thần tu"
-                if (mCharacter.AutoThanTu == 1 || mCharacter.StatusAutoThanTu == 0)
+                if (mCharacter.AutoThanTu == 1 && mCharacter.StatusAutoThanTu == 0)
                 {
                     i++;
                     mGeneralFunctions.runAutoThanTu();
@@ -372,7 +372,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Check to run "Chạy Trị An"
-                if (mCharacter.TriAn == 1 || mCharacter.StatusTriAn == 0)
+                if (mCharacter.TriAn == 1 && mCharacter.StatusTriAn == 0)
                 {
                     i++;
                     mGeneralFunctions.runTriAn();
@@ -507,6 +507,32 @@ namespace AutoVPT.Libs
         {
             startGameIfNotExists();
             mAuto.captureImage();
+        }
+
+        public void aoMa()
+        {
+            if (mCharacter.Running != 1)
+            {
+                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
+                return;
+            }
+
+            startGameIfNotExists();
+
+            //mGeneralFunctions.aoMa();
+
+            mCharacter.Running = 0;
+            Helper.saveSettingsToXML(mCharacter);
+
+            foreach (var thread in Helper.threadList)
+            {
+                if (thread.Name == (mCharacter.ID + "aoMa"))
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
+                    thread.Abort();
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
+                }
+            }
         }
     }
 }
