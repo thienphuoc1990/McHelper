@@ -111,6 +111,8 @@
             this.buttonCaptureImage = new System.Windows.Forms.Button();
             this.buttonAoMa = new System.Windows.Forms.Button();
             this.buttonAoMaAll = new System.Windows.Forms.Button();
+            this.buttonNhanHoiPhuc = new System.Windows.Forms.Button();
+            this.buttonNhanHoiPhucAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1045,11 +1047,33 @@
             this.buttonAoMaAll.UseVisualStyleBackColor = true;
             this.buttonAoMaAll.Click += new System.EventHandler(this.buttonAoMaAll_Click);
             // 
+            // buttonNhanHoiPhuc
+            // 
+            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(589, 457);
+            this.buttonNhanHoiPhuc.Name = "buttonNhanHoiPhuc";
+            this.buttonNhanHoiPhuc.Size = new System.Drawing.Size(105, 23);
+            this.buttonNhanHoiPhuc.TabIndex = 77;
+            this.buttonNhanHoiPhuc.Text = "Nhận Hồi phục";
+            this.buttonNhanHoiPhuc.UseVisualStyleBackColor = true;
+            this.buttonNhanHoiPhuc.Click += new System.EventHandler(this.buttonNhanHoiPhuc_Click);
+            // 
+            // buttonNhanHoiPhucAll
+            // 
+            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(697, 457);
+            this.buttonNhanHoiPhucAll.Name = "buttonNhanHoiPhucAll";
+            this.buttonNhanHoiPhucAll.Size = new System.Drawing.Size(105, 23);
+            this.buttonNhanHoiPhucAll.TabIndex = 78;
+            this.buttonNhanHoiPhucAll.Text = "Nhận Hồi phục All";
+            this.buttonNhanHoiPhucAll.UseVisualStyleBackColor = true;
+            this.buttonNhanHoiPhucAll.Click += new System.EventHandler(this.buttonNhanHoiPhucAll_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 509);
+            this.Controls.Add(this.buttonNhanHoiPhucAll);
+            this.Controls.Add(this.buttonNhanHoiPhuc);
             this.Controls.Add(this.buttonAoMaAll);
             this.Controls.Add(this.buttonAoMa);
             this.Controls.Add(this.buttonCaptureImage);
@@ -1185,6 +1209,8 @@
         private System.Windows.Forms.Button buttonCaptureImage;
         private System.Windows.Forms.Button buttonAoMa;
         private System.Windows.Forms.Button buttonAoMaAll;
+        private System.Windows.Forms.Button buttonNhanHoiPhuc;
+        private System.Windows.Forms.Button buttonNhanHoiPhucAll;
     }
 }
 

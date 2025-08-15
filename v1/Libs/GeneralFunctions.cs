@@ -342,10 +342,10 @@ namespace AutoVPT.Libs
         }
 
         /*
-         * Function: dauPet
-         * Description: Đấu Pet
+         * Function: aoMa
+         * Description: Ảo ma
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
-         * Created At: 2019-11-18 - Updated At: 2019-11-18
+         * Created At: 2025-08-15 - Updated At: 2025-08-15
          */
         public void aoMa()
         {
@@ -400,6 +400,76 @@ namespace AutoVPT.Libs
                 mAuto.clickImageByGroup("global", "aoma_tuluyen", false, false);
                 Thread.Sleep(Constant.TimeShort);
                 mAuto.clickImageByGroup("global", "aoma_co", false, false);
+            }
+
+            mAuto.closeAllDialog();
+        }
+
+        /*
+         * Function: aoMa
+         * Description: Ảo ma
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2025-08-15 - Updated At: 2025-08-15
+         */
+        public void hoiPhuc()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAuto.writeStatus("Bắt đầu \"Nhận hồi phục\"");
+            mAuto.closeAllDialog();
+
+            // Mở nhiệm vụ hàng ngày
+            while (!mAuto.findImageByGroup("global", "nhiemvuhangngay_check"))
+            {
+                mAuto.writeStatus("Mở bảng nhiệm vụ hàng ngày");
+                mAuto.clickImageByGroup("global", "nhiemvuhangngay");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            // Mở nhận hồi phục
+            while (!mAuto.findImageByGroup("global", "nvhn_hoiphuc_check"))
+            {
+                mAuto.writeStatus("Mở bảng nhận hồi phục");
+                mAuto.clickImageByGroup("global", "nvhn_hoiphuc");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.findImageByGroup("global", "nvhp_nhiemvunghe"))
+            {
+                mAuto.writeStatus("Nhận hồi phục nhiệm vụ nghề");
+                mAuto.clickImageByGroup("global", "nvhp_nhiemvunghe", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.findImageByGroup("global", "nvhp_tuluyenpet"))
+            {
+                mAuto.writeStatus("Nhận hồi phục tu luyện pet");
+                mAuto.clickImageByGroup("global", "nvhp_tuluyenpet", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.findImageByGroup("global", "nvhp_trian"))
+            {
+                mAuto.writeStatus("Nhận hồi phục trị an");
+                mAuto.clickImageByGroup("global", "nvhp_trian", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.findImageByGroup("global", "nvhp_truma"))
+            {
+                mAuto.writeStatus("Nhận hồi phục trừ ma");
+                mAuto.clickImageByGroup("global", "nvhp_truma", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.findImageByGroup("global", "nvhp_treothuong"))
+            {
+                mAuto.writeStatus("Nhận hồi phục treo thưởng");
+                mAuto.clickImageByGroup("global", "nvhp_treothuong", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
             }
 
             mAuto.closeAllDialog();
