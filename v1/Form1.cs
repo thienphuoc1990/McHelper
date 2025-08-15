@@ -122,8 +122,14 @@ namespace AutoVPT
 
             string defaultWindowName = "Adobe Flash Player 10";
 
-            Process.Start("flash.exe", character.Link);
-
+            if (character.IsChinese != 1)
+            {
+                Process.Start("flash.exe", character.Link);
+            }
+            else
+            {
+                Process.Start("ForceBindIP.exe", $"{textBoxVpnIp.Text} \"flash.exe\" {character.Link}");
+            }
             do
             {
                 // Find define handle of project
@@ -189,6 +195,7 @@ namespace AutoVPT
             character.CauCa = (this.checkBoxCauCa.Checked) ? 1 : 0;
             character.AutoThanTu = (this.checkBoxAutoThanTu.Checked) ? 1 : 0;
             character.RunToLast = (this.checkBoxRunAutoToLast.Checked) ? 1 : 0;
+            character.IsChinese = (this.checkBoxIsChinese.Checked) ? 1 : 0;
             character.DoiNangNoLoai = this.comboBoxChonNLDoiNN.Text;
             character.TrongNLLoai = this.comboBoxTrongNL.Text;
             character.CheMatBaoLoai = this.comboBoxNguyenLieuMB.Text;
@@ -298,6 +305,7 @@ namespace AutoVPT
             checkBoxCauCa.Checked = (character.CauCa >= 1) ? true : false;
             checkBoxAutoThanTu.Checked = (character.AutoThanTu >= 1) ? true : false;
             checkBoxRunAutoToLast.Checked = (character.RunToLast >= 1) ? true : false;
+            checkBoxIsChinese.Checked = (character.IsChinese >= 1) ? true : false;
 
             // Status
             character.StatusCheMatBao = setStateFeature(checkBoxStatusCheMB, character.StatusCheMatBao);

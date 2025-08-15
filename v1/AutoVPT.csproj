@@ -199,6 +199,805 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AxInterop.ShockwaveFlashObjects.dll" />
+    <Content Include="BindIP.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BindIP64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\ao_ma_thap\auto.png" />
+    <Content Include="cn_resources\ao_ma_thap\bangcauhoi.png" />
+    <Content Include="cn_resources\ao_ma_thap\bangok.png" />
+    <Content Include="cn_resources\ao_ma_thap\danh.png" />
+    <Content Include="cn_resources\ao_ma_thap\doithoaidichchuyen.png" />
+    <Content Include="cn_resources\ao_ma_thap\doithoaimaanh.png" />
+    <Content Include="cn_resources\ao_ma_thap\lentang.png" />
+    <Content Include="cn_resources\ao_ma_thap\nhanthuong.png" />
+    <Content Include="cn_resources\ao_ma_thap\ok.png" />
+    <Content Include="cn_resources\ao_ma_thap\tendichchuyen.png" />
+    <Content Include="cn_resources\ao_ma_thap\tenmaanh.png" />
+    <Content Include="cn_resources\boss_toc\binhsi1.png" />
+    <Content Include="cn_resources\boss_toc\binhsi2.png" />
+    <Content Include="cn_resources\boss_toc\tinhanh.png" />
+    <Content Include="cn_resources\char_name\15x.dy.png" />
+    <Content Include="cn_resources\char_name\15x.hs.png" />
+    <Content Include="cn_resources\char_name\15x.ts.png" />
+    <Content Include="cn_resources\char_name\15x.xt.png" />
+    <Content Include="cn_resources\char_name\16x.dy.png" />
+    <Content Include="cn_resources\char_name\16x.xt.png" />
+    <Content Include="cn_resources\char_name\cb.png" />
+    <Content Include="cn_resources\char_name\dy.png" />
+    <Content Include="cn_resources\char_name\hs.png" />
+    <Content Include="cn_resources\char_name\mt6.png" />
+    <Content Include="cn_resources\char_name\mt7.png" />
+    <Content Include="cn_resources\char_name\mt8.png" />
+    <Content Include="cn_resources\char_name\ts.10x.png" />
+    <Content Include="cn_resources\char_name\ts.khi.png" />
+    <Content Include="cn_resources\char_name\ts.shiba.png" />
+    <Content Include="cn_resources\char_name\tsnu10x.png" />
+    <Content Include="cn_resources\char_name\xt.dang.png" />
+    <Content Include="cn_resources\char_name\xt.huan.png" />
+    <Content Include="cn_resources\doi_thoai\conghanhlang.png" />
+    <Content Include="cn_resources\doi_thoai\cuma.png" />
+    <Content Include="cn_resources\doi_thoai\cuthu.png" />
+    <Content Include="cn_resources\doi_thoai\dhtmapchuyendich.png" />
+    <Content Include="cn_resources\doi_thoai\dichchuyen.png" />
+    <Content Include="cn_resources\doi_thoai\nguoikhaiquat.png" />
+    <Content Include="cn_resources\doi_thoai\nguoituyetcuonghoan.png" />
+    <Content Include="cn_resources\doi_thoai\phima.png" />
+    <Content Include="cn_resources\doi_thoai\quanquannhudht.png" />
+    <Content Include="cn_resources\doi_thoai\sugiamophuban.png" />
+    <Content Include="cn_resources\doi_thoai\thanhchuquyenco.png" />
+    <Content Include="cn_resources\doi_thoai\thuonghoitruongbbt.png" />
+    <Content Include="cn_resources\doi_thoai\thuonghoitruongtlt.png" />
+    <Content Include="cn_resources\doi_thoai\tinhlinhchuyendich.png" />
+    <Content Include="cn_resources\doi_thoai\tinhlinhdichchuyen.png" />
+    <Content Include="cn_resources\doi_thoai\tramthuylamchuyendich.png" />
+    <Content Include="cn_resources\doi_thoai\trian.png" />
+    <Content Include="cn_resources\doi_thoai\truongcanvedonghuyenthanh.png" />
+    <Content Include="cn_resources\doi_thoai\truonglaovouutoc.png" />
+    <Content Include="cn_resources\event\avc-ldb-ldn-ltd-btn.png" />
+    <Content Include="cn_resources\event\avc1.png" />
+    <Content Include="cn_resources\event\avc2.png" />
+    <Content Include="cn_resources\event\avc3.png" />
+    <Content Include="cn_resources\event\avc4.png" />
+    <Content Include="cn_resources\event\avc5.png" />
+    <Content Include="cn_resources\event\btn1.png" />
+    <Content Include="cn_resources\event\btn2.png" />
+    <Content Include="cn_resources\event\btn3.png" />
+    <Content Include="cn_resources\event\btn4.png" />
+    <Content Include="cn_resources\event\btn5.png" />
+    <Content Include="cn_resources\event\ldb1.png" />
+    <Content Include="cn_resources\event\ldb2.png" />
+    <Content Include="cn_resources\event\ldb3.png" />
+    <Content Include="cn_resources\event\ldb4.png" />
+    <Content Include="cn_resources\event\ldb5.png" />
+    <Content Include="cn_resources\event\ldn1.png" />
+    <Content Include="cn_resources\event\ldn2.png" />
+    <Content Include="cn_resources\event\ldn3.png" />
+    <Content Include="cn_resources\event\ldn4.png" />
+    <Content Include="cn_resources\event\ldn5.png" />
+    <Content Include="cn_resources\event\ltd1.png" />
+    <Content Include="cn_resources\event\ltd2.png" />
+    <Content Include="cn_resources\event\ltd3.png" />
+    <Content Include="cn_resources\event\ltd4.png" />
+    <Content Include="cn_resources\event\ltd5.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan1.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan2.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan3.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan4.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan5.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan6.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan7.png" />
+    <Content Include="cn_resources\event\nguoituyetcuonghoan8.png" />
+    <Content Include="cn_resources\event\tennguoituyetcuonghoan1.png" />
+    <Content Include="cn_resources\event\tennguoituyetcuonghoan2.png" />
+    <Content Include="cn_resources\global\annhanvat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\anten.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\anthanhkynang.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\aoma_co.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\aoma_huybotuluyen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\aoma_nhanphanthuong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\aoma_tuluyen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\aoma_tuluyenaoma.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\aoma_tuluyenaoma_check.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\autothantu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\autothantu_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\autotuhanh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\autotuhanh_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\bangchonkenh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\bangchonkenh_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\bangchonnhanvat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\bangtuido.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\batdau3v3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\batdau3v3_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\batdauautotuhanh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\bay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\blockchat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\blockchat_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\cach_choi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\cach_choi_kiem_tien.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\cach_choi_kiem_tien_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\cach_choi_kiem_tien_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\cayuocnguyen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\cayuocnguyen2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\chatclear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\chatclear_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\chat_tab_he_thong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\daupet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\daupetkhieuchien.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\daupetkhieuchien_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\daupet_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\doikenh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\dongmauchecked.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\dongmenuphai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\dongmenutop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\fps.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\inbattleauto.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\keoxuong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\keoxuong_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\khonggiandieukhac.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\khonggiandieukhacdoi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\khongtrongtrandau.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\khongtrongtrandau_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\khongxong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\loginbatbuoc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\loginQuaTrangNhanVat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\loginvaogame.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\luachonco.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\luachonco_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\minimap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\moauto.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\momenuphai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\movenhom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhannhiemvu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhannhiemvu_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhanthuonghanhlang.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhanthuonghanhlang_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhanvat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhanvat_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhanvip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhiemvu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhiemvuhangngay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhiemvuhangngay_check.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhiemvuvong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nhiemvuvong_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nuoitinhlinh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nuoitinhlinhbangnuoiduong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nuoitinhlinhnuoiduong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhn_hoiphuc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhn_hoiphuc_check.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhp_nhiemvunghe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhp_treothuong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhp_trian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhp_truma.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvhp_tuluyenpet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnochuanhandathu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnochuanhangamvoc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnochuanhangotot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnochuanhankimloaihiem.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnochuanhanphale.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnoduoctradathu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnoduoctragamvoc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnoduoctragotot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnoduoctrakimloaihiem.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\nvunangnoduoctraphale.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\quickFeatureListDownArrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\quickFeatureListUpArrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\quickFeatureXuQue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutbo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutboxacnhan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutboxacnhan_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutbo_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutbo_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutthuongbo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\rutthuongbo_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tangbaodo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tangbaodocaocap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tatbangnhiemvunoi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\thietlap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\thietlapnhanvat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\thunhokhungchat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\thunhokhungchat_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\truong_can_ve_dht.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\truong_can_ve_dht_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tudo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tudo_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tui.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tui_tab_nhiemvu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tui_tab_nhiemvu_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tui_tab_nhiemvu_click.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\tui_tab_nhiemvu_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\uocnguyenmienphi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\uocnguyenmienphi_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\uocnguyenthanhtam.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\uocnguyenthanhtam_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\uocnguyenthanhtam_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\vip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xong_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuongvip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuongvip_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQue1Sao.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQue2Sao.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQue3Sao.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQue4Sao.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQue5Sao.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQueGiai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQuePhanGiai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQueTui.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\global\xuQueXacNhanPhanGiai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cn_resources\icon_full.ico" />
+    <Content Include="cn_resources\in_map\autothantu.png" />
+    <Content Include="cn_resources\in_map\autotuhanh.png" />
+    <Content Include="cn_resources\in_map\char.png" />
+    <Content Include="cn_resources\in_map\dichchuyendht.png" />
+    <Content Include="cn_resources\in_map\dichchuyentinhlinhthanh.png" />
+    <Content Include="cn_resources\in_map\dichchuyentlt.png" />
+    <Content Include="cn_resources\in_map\dichchuyentramthuylam.png" />
+    <Content Include="cn_resources\in_map\doinangnobbt.png" />
+    <Content Include="cn_resources\in_map\doinangnotlt.png" />
+    <Content Include="cn_resources\in_map\nhanphubancd.png" />
+    <Content Include="cn_resources\in_map\nhanphubantlt.png" />
+    <Content Include="cn_resources\in_map\nhanquahanhlang.png" />
+    <Content Include="cn_resources\in_map\quanquannhudht.png" />
+    <Content Include="cn_resources\lat_the_bai\banglatthebai.png" />
+    <Content Include="cn_resources\lat_the_bai\doithebai.png" />
+    <Content Include="cn_resources\lat_the_bai\doithebai_hover.png" />
+    <Content Include="cn_resources\lat_the_bai\hetluotlatthebai.png" />
+    <Content Include="cn_resources\lat_the_bai\nhanthuong.png" />
+    <Content Include="cn_resources\lat_the_bai\nhanthuong_hover.png" />
+    <Content Include="cn_resources\lat_the_bai\phatbai.png" />
+    <Content Include="cn_resources\lat_the_bai\phatbai_hover.png" />
+    <Content Include="cn_resources\lat_the_bai\thebai1.png" />
+    <Content Include="cn_resources\lat_the_bai\thebai2.png" />
+    <Content Include="cn_resources\lat_the_bai\thebai3.png" />
+    <Content Include="cn_resources\lat_the_bai\thebai4.png" />
+    <Content Include="cn_resources\lat_the_bai\thebai5.png" />
+    <Content Include="cn_resources\lat_the_bai\thebai6.png" />
+    <Content Include="cn_resources\lat_the_bai\thebaimathuat.png" />
+    <Content Include="cn_resources\login\start_btn.png" />
+    <Content Include="cn_resources\maps\anhvucanh.png" />
+    <Content Include="cn_resources\maps\anhvucanh_active.png" />
+    <Content Include="cn_resources\maps\anhvucanh_check.png" />
+    <Content Include="cn_resources\maps\bangboithanh.png" />
+    <Content Include="cn_resources\maps\bangboithanh_active.png" />
+    <Content Include="cn_resources\maps\bangboithanh_check.png" />
+    <Content Include="cn_resources\maps\bangtuyetnguyen.png" />
+    <Content Include="cn_resources\maps\bangtuyetnguyen_active.png" />
+    <Content Include="cn_resources\maps\bangtuyetnguyen_check.png" />
+    <Content Include="cn_resources\maps\codao.png" />
+    <Content Include="cn_resources\maps\codao_active.png" />
+    <Content Include="cn_resources\maps\codao_check.png" />
+    <Content Include="cn_resources\maps\donghuyenthanh.png" />
+    <Content Include="cn_resources\maps\donghuyenthanh_active.png" />
+    <Content Include="cn_resources\maps\donghuyenthanh_check.png" />
+    <Content Include="cn_resources\maps\laptuyetdia.png" />
+    <Content Include="cn_resources\maps\laptuyetdia_active.png" />
+    <Content Include="cn_resources\maps\laptuyetdia_check.png" />
+    <Content Include="cn_resources\maps\leduongbac.png" />
+    <Content Include="cn_resources\maps\leduongbac_active.png" />
+    <Content Include="cn_resources\maps\leduongbac_check.png" />
+    <Content Include="cn_resources\maps\leduongnam.png" />
+    <Content Include="cn_resources\maps\leduongnam_active.png" />
+    <Content Include="cn_resources\maps\leduongnam_check.png" />
+    <Content Include="cn_resources\maps\map.png" />
+    <Content Include="cn_resources\maps\phucmacoc.png" />
+    <Content Include="cn_resources\maps\phucmacoc_active.png" />
+    <Content Include="cn_resources\maps\phucmacoc_check.png" />
+    <Content Include="cn_resources\maps\quyencothanh.png" />
+    <Content Include="cn_resources\maps\quyencothanh_active.png" />
+    <Content Include="cn_resources\maps\quyencothanh_check.png" />
+    <Content Include="cn_resources\maps\second_world_map.png" />
+    <Content Include="cn_resources\maps\thientinhdia.png" />
+    <Content Include="cn_resources\maps\thientinhdia_active.png" />
+    <Content Include="cn_resources\maps\thientinhdia_check.png" />
+    <Content Include="cn_resources\maps\tienlapthanh.png" />
+    <Content Include="cn_resources\maps\tienlapthanh_active.png" />
+    <Content Include="cn_resources\maps\tienlapthanh_check.png" />
+    <Content Include="cn_resources\maps\tramthuylam.png" />
+    <Content Include="cn_resources\maps\tramthuylam_active.png" />
+    <Content Include="cn_resources\maps\tramthuylam_check.png" />
+    <Content Include="cn_resources\maps\tuyetlam.png" />
+    <Content Include="cn_resources\maps\tuyetlam_active.png" />
+    <Content Include="cn_resources\maps\tuyetlam_check.png" />
+    <Content Include="cn_resources\maps\world_map.png" />
+    <Content Include="cn_resources\mat_bao\chetao.png" />
+    <Content Include="cn_resources\mat_bao\chetaomatbao.png" />
+    <Content Include="cn_resources\mat_bao\chetaomatbao_hover.png" />
+    <Content Include="cn_resources\mat_bao\chetao_active.png" />
+    <Content Include="cn_resources\mat_bao\chetao_hover.png" />
+    <Content Include="cn_resources\mat_bao\chientrang.png" />
+    <Content Include="cn_resources\mat_bao\clickantoan.png" />
+    <Content Include="cn_resources\mat_bao\hetluotche.png" />
+    <Content Include="cn_resources\mat_bao\honkhi.png" />
+    <Content Include="cn_resources\mat_bao\honkhi_hover.png" />
+    <Content Include="cn_resources\mat_bao\khongdunguyenlieu.png" />
+    <Content Include="cn_resources\mat_bao\lacvien.png" />
+    <Content Include="cn_resources\mat_bao\matbao.png" />
+    <Content Include="cn_resources\mat_bao\matbao_active.png" />
+    <Content Include="cn_resources\mat_bao\matbao_hover.png" />
+    <Content Include="cn_resources\mat_bao\thanbinh.png" />
+    <Content Include="cn_resources\mat_bao\tieudecapmatbao.png" />
+    <Content Include="cn_resources\mat_bao\tudongdatnguyenlieu.png" />
+    <Content Include="cn_resources\npc_code\truongcanvedonghuyenthanh.png" />
+    <Content Include="cn_resources\npc_code\truongcanvedonghuyenthanh_hover.png" />
+    <Content Include="cn_resources\phu_ban\batdaukhobaudaimac.png" />
+    <Content Include="cn_resources\phu_ban\batdaulietdiemthamuyen.png" />
+    <Content Include="cn_resources\phu_ban\batdauluctiencanh.png" />
+    <Content Include="cn_resources\phu_ban\batdaumehuyendong.png" />
+    <Content Include="cn_resources\phu_ban\batdauquyhutmau.png" />
+    <Content Include="cn_resources\phu_ban\batdauthamhiem.png" />
+    <Content Include="cn_resources\phu_ban\batdauthegioiso.png" />
+    <Content Include="cn_resources\phu_ban\batdautrolailanghuyet.png" />
+    <Content Include="cn_resources\phu_ban\chonkho.png" />
+    <Content Include="cn_resources\phu_ban\hoanthanhphuban.png" />
+    <Content Include="cn_resources\phu_ban\hoanthanhphuban_check.png" />
+    <Content Include="cn_resources\phu_ban\khobaudaimac.png" />
+    <Content Include="cn_resources\phu_ban\khobaudaimac_hover.png" />
+    <Content Include="cn_resources\phu_ban\lietdiemthamuyen.png" />
+    <Content Include="cn_resources\phu_ban\lietdiemthamuyen_hover.png" />
+    <Content Include="cn_resources\phu_ban\luctiencanh.png" />
+    <Content Include="cn_resources\phu_ban\luctiencanh_hover.png" />
+    <Content Include="cn_resources\phu_ban\mehuyendong.png" />
+    <Content Include="cn_resources\phu_ban\mehuyendong_hover.png" />
+    <Content Include="cn_resources\phu_ban\nextpage.png" />
+    <Content Include="cn_resources\phu_ban\nhanbando.png" />
+    <Content Include="cn_resources\phu_ban\nhanbando_hover.png" />
+    <Content Include="cn_resources\phu_ban\nhanthuong.png" />
+    <Content Include="cn_resources\phu_ban\prevpage.png" />
+    <Content Include="cn_resources\phu_ban\quyhutmau.png" />
+    <Content Include="cn_resources\phu_ban\quyhutmau_hover.png" />
+    <Content Include="cn_resources\phu_ban\showchondokholietdiemthamuyen.png" />
+    <Content Include="cn_resources\phu_ban\showchondokhoquyhutmau.png" />
+    <Content Include="cn_resources\phu_ban\showchondokhothegioiso.png" />
+    <Content Include="cn_resources\phu_ban\showchondokhotrolailanghuyet.png" />
+    <Content Include="cn_resources\phu_ban\thamhiem.png" />
+    <Content Include="cn_resources\phu_ban\thamhiem_hover.png" />
+    <Content Include="cn_resources\phu_ban\thegioiso.png" />
+    <Content Include="cn_resources\phu_ban\thegioiso_hover.png" />
+    <Content Include="cn_resources\phu_ban\trolailanghuyet.png" />
+    <Content Include="cn_resources\phu_ban\trolailanghuyet_hover.png" />
+    <Content Include="cn_resources\phu_ban\xuong.png" />
+    <Content Include="cn_resources\phu_ban\xuongquicklink.png" />
+    <Content Include="cn_resources\tang_bao_do\cuongthi1.png" />
+    <Content Include="cn_resources\tang_bao_do\cuongthi2.png" />
+    <Content Include="cn_resources\tang_bao_do\cuongthi3.png" />
+    <Content Include="cn_resources\tang_bao_do\cuongthi4.png" />
+    <Content Include="cn_resources\tang_bao_do\hungphach1.png" />
+    <Content Include="cn_resources\tang_bao_do\hungphach2.png" />
+    <Content Include="cn_resources\tang_bao_do\hungphach3.png" />
+    <Content Include="cn_resources\tang_bao_do\hungphach4.png" />
+    <Content Include="cn_resources\tang_bao_do\nuvuong1.png" />
+    <Content Include="cn_resources\tang_bao_do\nuvuong2.png" />
+    <Content Include="cn_resources\tang_bao_do\oanhon1.png" />
+    <Content Include="cn_resources\tang_bao_do\oanhon2.png" />
+    <Content Include="cn_resources\tang_bao_do\oanhon3.png" />
+    <Content Include="cn_resources\tang_bao_do\oanhon4.png" />
+    <Content Include="cn_resources\tang_bao_do\tencuongthi.png" />
+    <Content Include="cn_resources\tang_bao_do\tenhungphach.png" />
+    <Content Include="cn_resources\tang_bao_do\tenoanhon.png" />
+    <Content Include="cn_resources\tri_an\bandonhiemvu.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutrianchuaxong.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutrianchuaxonggreen.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutrianchuaxong_active.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutriandaxong.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutriandaxonggreen.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutriandaxong_active.png" />
+    <Content Include="cn_resources\tri_an\bangnhiemvutruongcanvedht.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphanquan.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphanquandaxong.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphanquandaxong_hover.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphanquan_hover.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphitac.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphitacdaxong.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphitacdaxong_hover.png" />
+    <Content Include="cn_resources\tri_an\nhiemvuphitac_hover.png" />
+    <Content Include="cn_resources\tri_an\nhiemvutrian.png" />
+    <Content Include="cn_resources\tri_an\nhiemvutrianchuanhan.png" />
+    <Content Include="cn_resources\tri_an\nhiemvutrianchuanhan_hover.png" />
+    <Content Include="cn_resources\tri_an\nhiemvutrian_hover.png" />
+    <Content Include="cn_resources\tri_an\noidungphanthuong.png" />
+    <Content Include="cn_resources\tri_an\noidungphanthuong_hover.png" />
+    <Content Include="cn_resources\tri_an\phanquan1.png" />
+    <Content Include="cn_resources\tri_an\phanquan2.png" />
+    <Content Include="cn_resources\tri_an\phitac1.png" />
+    <Content Include="cn_resources\tri_an\phitac2.png" />
+    <Content Include="cn_resources\tri_an\tenphanquan1.png" />
+    <Content Include="cn_resources\tri_an\tenphanquan2.png" />
+    <Content Include="cn_resources\tri_an\tenphanquan2_bk.png" />
+    <Content Include="cn_resources\tri_an\tenphitac1.png" />
+    <Content Include="cn_resources\tri_an\tenphitac2.png" />
+    <Content Include="cn_resources\tri_an\toa_do.png" />
+    <Content Include="cn_resources\tri_an\toa_do2.png" />
+    <Content Include="cn_resources\trong_nl\chuot_an_toan.png" />
+    <Content Include="cn_resources\trong_nl\dat_da_thu_hoach.png" />
+    <Content Include="cn_resources\trong_nl\dat_trong.png" />
+    <Content Include="cn_resources\trong_nl\da_thu.png" />
+    <Content Include="cn_resources\trong_nl\diem_thu_hoach.png" />
+    <Content Include="cn_resources\trong_nl\gam_voc.png" />
+    <Content Include="cn_resources\trong_nl\go.png" />
+    <Content Include="cn_resources\trong_nl\go_tot.png" />
+    <Content Include="cn_resources\trong_nl\kim_loai.png" />
+    <Content Include="cn_resources\trong_nl\kim_loai_hiem.png" />
+    <Content Include="cn_resources\trong_nl\long_thu.png" />
+    <Content Include="cn_resources\trong_nl\ngoc.png" />
+    <Content Include="cn_resources\trong_nl\nuoi_trong.png" />
+    <Content Include="cn_resources\trong_nl\pha_le.png" />
+    <Content Include="cn_resources\trong_nl\thu_hoach.png" />
+    <Content Include="cn_resources\trong_nl\trang_vien.png" />
+    <Content Include="cn_resources\trong_nl\vai.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvucuthuchuaxong.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvucuthuchuaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvucuthudaxong.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvucuthudaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvuphimachuaxong.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvuphimachuaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvuphimadaxong.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvuphimadaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvutrumachuaxong.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvutrumachuaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvutrumadaxong.png" />
+    <Content Include="cn_resources\tru_ma\bangnhiemvutrumadaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\chonchiendau.png" />
+    <Content Include="cn_resources\tru_ma\chonchiendau_hover.png" />
+    <Content Include="cn_resources\tru_ma\cuma1.png" />
+    <Content Include="cn_resources\tru_ma\cuma2.png" />
+    <Content Include="cn_resources\tru_ma\cuma3.png" />
+    <Content Include="cn_resources\tru_ma\cuma4.png" />
+    <Content Include="cn_resources\tru_ma\cuma5.png" />
+    <Content Include="cn_resources\tru_ma\cuma6.png" />
+    <Content Include="cn_resources\tru_ma\cuma7.png" />
+    <Content Include="cn_resources\tru_ma\cuma8.png" />
+    <Content Include="cn_resources\tru_ma\cuthu1.png" />
+    <Content Include="cn_resources\tru_ma\cuthu2.png" />
+    <Content Include="cn_resources\tru_ma\cuthu3.png" />
+    <Content Include="cn_resources\tru_ma\cuthu4.png" />
+    <Content Include="cn_resources\tru_ma\dichuyendonghuyenthanh.png" />
+    <Content Include="cn_resources\tru_ma\dichuyentinhlinhthanh.png" />
+    <Content Include="cn_resources\tru_ma\dichuyentinhlinhthanh_hover.png" />
+    <Content Include="cn_resources\tru_ma\dichuyentramthuylam.png" />
+    <Content Include="cn_resources\tru_ma\dichuyentramthuylam_hover.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvucuma.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvuphima.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvuphimadaxong.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvuphimadaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvuphongancuthudaxong.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvuphongancuthudaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvutruma.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvutrumachuanhan.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvutrumachuanhan_hover.png" />
+    <Content Include="cn_resources\tru_ma\nhiemvutruma_hover.png" />
+    <Content Include="cn_resources\tru_ma\phima1.png" />
+    <Content Include="cn_resources\tru_ma\phima2.png" />
+    <Content Include="cn_resources\tru_ma\phimadaxong.png" />
+    <Content Include="cn_resources\tru_ma\phimadaxong_hover.png" />
+    <Content Include="cn_resources\tru_ma\phongancuthudaxong.png" />
+    <Content Include="cn_resources\tru_ma\phongancuthudaxong_hover.png" />
+    <Content Include="cn_resources\vi_tri_npc\chuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\chuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\conghanhlang1.png" />
+    <Content Include="cn_resources\vi_tri_npc\conghanhlang2.png" />
+    <Content Include="cn_resources\vi_tri_npc\dhtmapchuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\dhtmapchuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\nguoikhaiquat1.png" />
+    <Content Include="cn_resources\vi_tri_npc\nguoikhaiquat2.png" />
+    <Content Include="cn_resources\vi_tri_npc\quanquannhudht1.png" />
+    <Content Include="cn_resources\vi_tri_npc\quanquannhudht2.png" />
+    <Content Include="cn_resources\vi_tri_npc\sugiamophuban1.png" />
+    <Content Include="cn_resources\vi_tri_npc\sugiamophuban2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenconghanhlang1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenconghanhlang2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tendhtmapchuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tendhtmapchuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tennguoikhaiquat1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tennguoikhaiquat2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tensugiamophuban1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tensugiamophuban2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenthanhchuquyenco1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenthanhchuquyenco2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenthuonghoitruongbbt1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenthuonghoitruongbbt2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenthuonghoitruongtlt1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tenthuonghoitruongtlt2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentinhlinhchuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentinhlinhchuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentramthuylamchuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentramthuylamchuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentruongcanvedonghuyenthanh1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentruongcanvedonghuyenthanh2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentruonglaovouutoc1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tentruonglaovouutoc2.png" />
+    <Content Include="cn_resources\vi_tri_npc\thanhchuquyenco1.png" />
+    <Content Include="cn_resources\vi_tri_npc\thanhchuquyenco2.png" />
+    <Content Include="cn_resources\vi_tri_npc\thuonghoitruongbbt1.png" />
+    <Content Include="cn_resources\vi_tri_npc\thuonghoitruongbbt2.png" />
+    <Content Include="cn_resources\vi_tri_npc\thuonghoitruongtlt1.png" />
+    <Content Include="cn_resources\vi_tri_npc\thuonghoitruongtlt2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tinhlinhchuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tinhlinhchuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\tramthuylamchuyendich1.png" />
+    <Content Include="cn_resources\vi_tri_npc\tramthuylamchuyendich2.png" />
+    <Content Include="cn_resources\vi_tri_npc\truongcanvedonghuyenthanh1.png" />
+    <Content Include="cn_resources\vi_tri_npc\truongcanvedonghuyenthanh2.png" />
+    <Content Include="cn_resources\vi_tri_npc\truonglaovouutoc1.png" />
+    <Content Include="cn_resources\vi_tri_npc\truonglaovouutoc2.png" />
     <Content Include="concrt140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -232,6 +1031,21 @@
     <Content Include="database\cb.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="database\chinese.cb.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="database\chinese.dy.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="database\chinese.nc.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="database\chinese.ts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="database\chinese.xt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="database\data.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -246,6 +1060,9 @@
     </Content>
     <Content Include="Emgu.CV.World.dll" />
     <Content Include="flash.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ForceBindIP.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Interop.ShockwaveFlashObjects.dll" />

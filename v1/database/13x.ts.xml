@@ -8,7 +8,7 @@
   <VipPromotion>0</VipPromotion>
   <DoiNangNo>1</DoiNangNo>
   <DoiNangNoNL4>0</DoiNangNoNL4>
-  <DoiNangNoLoai>Kim Loai Hiem</DoiNangNoLoai>
+  <DoiNangNoLoai>Da Thu</DoiNangNoLoai>
   <TrongNL>1</TrongNL>
   <TrongNLLoai>Kim Loai</TrongNLLoai>
   <TriAn>0</TriAn>
@@ -23,7 +23,7 @@
   <CheMatBaoLoai>Thần Binh</CheMatBaoLoai>
   <CheMatBaoCap>1</CheMatBaoCap>
   <AutoPhuBan>1</AutoPhuBan>
-  <AutoPhuBanDanhSach>Liệt Diễm Thâm Uyên,Trở Lại Lang Huyệt</AutoPhuBanDanhSach>
+  <AutoPhuBanDanhSach>Kho Báu Đại Mạc,Liệt Diễm Thâm Uyên,Lục Tiên Cảnh,Mê Huyễn Động,Trở Lại Lang Huyệt,Quỷ Hút Máu</AutoPhuBanDanhSach>
   <UocNguyen>0</UocNguyen>
   <DauPet>0</DauPet>
   <NhanThuongHLVT>1</NhanThuongHLVT>
@@ -32,7 +32,7 @@
   <HaiThuoc>0</HaiThuoc>
   <CauCa>0</CauCa>
   <ViTriNhanVat>3</ViTriNhanVat>
-  <Running>1</Running>
+  <Running>0</Running>
   <AutoThanTu>0</AutoThanTu>
   <RunToLast>0</RunToLast>
   <StatusVipPromotion>0</StatusVipPromotion>

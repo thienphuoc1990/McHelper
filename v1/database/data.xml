@@ -63,4 +63,24 @@
     <Link>https://s3-vuaphapthuat.goplay.vn/s/s32/GameLoader.swf?user=loveli34@goid&amp;pass=5d9493e9b9f23b5729a85624532b9e79&amp;version=0.9.9a33.271&amp;isExpand=true</Link>
   </Table>
   <Table />
+  <Table>
+    <ID>chinese.cb</ID>
+    <Link>http://ss.lezi.com/mc/s120/GameLoader.swf?user=vnntgrabon1&amp;pass=d767fffcf3dde5a6109a37ba5a3735a3&amp;version=0.9.9a33.432</Link>
+  </Table>
+  <Table>
+    <ID>chinese.ts</ID>
+    <Link>http://ss.lezi.com/mc/s120/GameLoader.swf?user=vnntgrabon2&amp;pass=d767fffcf3dde5a6109a37ba5a3735a3&amp;version=0.9.9a33.432</Link>
+  </Table>
+  <Table>
+    <ID>chinese.nc</ID>
+    <Link>http://ss.lezi.com/mc/s120/GameLoader.swf?user=vnntgrabon4&amp;pass=d767fffcf3dde5a6109a37ba5a3735a3&amp;version=0.9.9a33.432</Link>
+  </Table>
+  <Table>
+    <ID>chinese.xt</ID>
+    <Link>http://ss.lezi.com/mc/s120/GameLoader.swf?user=z553263590&amp;pass=0d75e51f9c2241f825c4cc7ae235d0f9&amp;version=0.9.9a33.432</Link>
+  </Table>
+  <Table>
+    <ID>chinese.dy</ID>
+    <Link>http://ss.lezi.com/mc/s120/GameLoader.swf?user=uli567&amp;pass=0d75e51f9c2241f825c4cc7ae235d0f9&amp;version=0.9.9a33.432</Link>
+  </Table>
 </Character>

@@ -51,6 +51,7 @@ namespace AutoVPT.Objects
         private int running = 0;
         private int auto_than_tu = 0;
         private int run_to_last = 0;
+        private int is_chinese = 0;
 
         private int status_vip_promotion = 0;
         private int status_doi_nang_no = 0;
@@ -285,6 +286,12 @@ namespace AutoVPT.Objects
         {
             get { return run_to_last; }
             set { run_to_last = value; }
+        }
+
+        public int IsChinese
+        {
+            get { return is_chinese; }
+            set { is_chinese = value; }
         }
 
         public int StatusVipPromotion

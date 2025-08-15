@@ -80,6 +80,8 @@
             this.checkBoxMeTran = new System.Windows.Forms.CheckBox();
             this.checkBoxNhanThuongHanhLang = new System.Windows.Forms.CheckBox();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.checkBoxIsChinese = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.checkBoxRunAutoToLast = new System.Windows.Forms.CheckBox();
             this.numericUpDownViTriNhanVat = new System.Windows.Forms.NumericUpDown();
@@ -116,6 +118,8 @@
             this.buttonNhanThuongAutoPB = new System.Windows.Forms.Button();
             this.buttonDoiNangNoAll = new System.Windows.Forms.Button();
             this.buttonDoiNangNo = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBoxVpnIp = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -129,7 +133,7 @@
             // 
             // buttonThemNhanVat
             // 
-            this.buttonThemNhanVat.Location = new System.Drawing.Point(12, 312);
+            this.buttonThemNhanVat.Location = new System.Drawing.Point(12, 342);
             this.buttonThemNhanVat.Name = "buttonThemNhanVat";
             this.buttonThemNhanVat.Size = new System.Drawing.Size(105, 23);
             this.buttonThemNhanVat.TabIndex = 5;
@@ -157,7 +161,7 @@
             // 
             // buttonXoaNhanVat
             // 
-            this.buttonXoaNhanVat.Location = new System.Drawing.Point(12, 341);
+            this.buttonXoaNhanVat.Location = new System.Drawing.Point(12, 371);
             this.buttonXoaNhanVat.Name = "buttonXoaNhanVat";
             this.buttonXoaNhanVat.Size = new System.Drawing.Size(105, 23);
             this.buttonXoaNhanVat.TabIndex = 7;
@@ -167,7 +171,7 @@
             // 
             // buttonSuaNhanVat
             // 
-            this.buttonSuaNhanVat.Location = new System.Drawing.Point(12, 370);
+            this.buttonSuaNhanVat.Location = new System.Drawing.Point(12, 400);
             this.buttonSuaNhanVat.Name = "buttonSuaNhanVat";
             this.buttonSuaNhanVat.Size = new System.Drawing.Size(105, 23);
             this.buttonSuaNhanVat.TabIndex = 8;
@@ -177,7 +181,7 @@
             // 
             // buttonOpenGame
             // 
-            this.buttonOpenGame.Location = new System.Drawing.Point(256, 312);
+            this.buttonOpenGame.Location = new System.Drawing.Point(256, 342);
             this.buttonOpenGame.Name = "buttonOpenGame";
             this.buttonOpenGame.Size = new System.Drawing.Size(105, 23);
             this.buttonOpenGame.TabIndex = 9;
@@ -196,7 +200,7 @@
             // 
             // buttonRunAuto
             // 
-            this.buttonRunAuto.Location = new System.Drawing.Point(256, 370);
+            this.buttonRunAuto.Location = new System.Drawing.Point(256, 400);
             this.buttonRunAuto.Name = "buttonRunAuto";
             this.buttonRunAuto.Size = new System.Drawing.Size(105, 23);
             this.buttonRunAuto.TabIndex = 11;
@@ -206,7 +210,7 @@
             // 
             // buttonStopAuto
             // 
-            this.buttonStopAuto.Location = new System.Drawing.Point(256, 399);
+            this.buttonStopAuto.Location = new System.Drawing.Point(256, 429);
             this.buttonStopAuto.Name = "buttonStopAuto";
             this.buttonStopAuto.Size = new System.Drawing.Size(105, 23);
             this.buttonStopAuto.TabIndex = 12;
@@ -216,7 +220,7 @@
             // 
             // buttonSaveConfigAuto
             // 
-            this.buttonSaveConfigAuto.Location = new System.Drawing.Point(12, 399);
+            this.buttonSaveConfigAuto.Location = new System.Drawing.Point(12, 429);
             this.buttonSaveConfigAuto.Name = "buttonSaveConfigAuto";
             this.buttonSaveConfigAuto.Size = new System.Drawing.Size(105, 23);
             this.buttonSaveConfigAuto.TabIndex = 13;
@@ -226,7 +230,7 @@
             // 
             // buttonStopAllAuto
             // 
-            this.buttonStopAllAuto.Location = new System.Drawing.Point(12, 455);
+            this.buttonStopAllAuto.Location = new System.Drawing.Point(12, 485);
             this.buttonStopAllAuto.Name = "buttonStopAllAuto";
             this.buttonStopAllAuto.Size = new System.Drawing.Size(349, 23);
             this.buttonStopAllAuto.TabIndex = 20;
@@ -236,7 +240,7 @@
             // 
             // buttonLoginToGame
             // 
-            this.buttonLoginToGame.Location = new System.Drawing.Point(256, 341);
+            this.buttonLoginToGame.Location = new System.Drawing.Point(256, 371);
             this.buttonLoginToGame.Name = "buttonLoginToGame";
             this.buttonLoginToGame.Size = new System.Drawing.Size(105, 23);
             this.buttonLoginToGame.TabIndex = 18;
@@ -246,7 +250,7 @@
             // 
             // buttonRunEventWithCode
             // 
-            this.buttonRunEventWithCode.Location = new System.Drawing.Point(123, 370);
+            this.buttonRunEventWithCode.Location = new System.Drawing.Point(123, 400);
             this.buttonRunEventWithCode.Name = "buttonRunEventWithCode";
             this.buttonRunEventWithCode.Size = new System.Drawing.Size(122, 23);
             this.buttonRunEventWithCode.TabIndex = 17;
@@ -256,7 +260,7 @@
             // 
             // buttonRunEventBugBay
             // 
-            this.buttonRunEventBugBay.Location = new System.Drawing.Point(123, 341);
+            this.buttonRunEventBugBay.Location = new System.Drawing.Point(123, 371);
             this.buttonRunEventBugBay.Name = "buttonRunEventBugBay";
             this.buttonRunEventBugBay.Size = new System.Drawing.Size(122, 23);
             this.buttonRunEventBugBay.TabIndex = 16;
@@ -275,7 +279,7 @@
             // 
             // buttonRunEvent
             // 
-            this.buttonRunEvent.Location = new System.Drawing.Point(123, 312);
+            this.buttonRunEvent.Location = new System.Drawing.Point(123, 342);
             this.buttonRunEvent.Name = "buttonRunEvent";
             this.buttonRunEvent.Size = new System.Drawing.Size(122, 23);
             this.buttonRunEvent.TabIndex = 14;
@@ -687,6 +691,8 @@
             // 
             // tabPageGeneral
             // 
+            this.tabPageGeneral.Controls.Add(this.label5);
+            this.tabPageGeneral.Controls.Add(this.checkBoxIsChinese);
             this.tabPageGeneral.Controls.Add(this.label9);
             this.tabPageGeneral.Controls.Add(this.checkBoxRunAutoToLast);
             this.tabPageGeneral.Controls.Add(this.numericUpDownViTriNhanVat);
@@ -712,6 +718,24 @@
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "Tùy Chỉnh Chung";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(372, 13);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 13);
+            this.label5.TabIndex = 52;
+            this.label5.Text = "Chinese?";
+            // 
+            // checkBoxIsChinese
+            // 
+            this.checkBoxIsChinese.AutoSize = true;
+            this.checkBoxIsChinese.Location = new System.Drawing.Point(504, 13);
+            this.checkBoxIsChinese.Name = "checkBoxIsChinese";
+            this.checkBoxIsChinese.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxIsChinese.TabIndex = 51;
+            this.checkBoxIsChinese.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -952,7 +976,7 @@
             // 
             // buttonResetStatus
             // 
-            this.buttonResetStatus.Location = new System.Drawing.Point(123, 399);
+            this.buttonResetStatus.Location = new System.Drawing.Point(123, 429);
             this.buttonResetStatus.Name = "buttonResetStatus";
             this.buttonResetStatus.Size = new System.Drawing.Size(122, 23);
             this.buttonResetStatus.TabIndex = 67;
@@ -962,7 +986,7 @@
             // 
             // buttonChayXuQue
             // 
-            this.buttonChayXuQue.Location = new System.Drawing.Point(12, 428);
+            this.buttonChayXuQue.Location = new System.Drawing.Point(12, 458);
             this.buttonChayXuQue.Name = "buttonChayXuQue";
             this.buttonChayXuQue.Size = new System.Drawing.Size(105, 23);
             this.buttonChayXuQue.TabIndex = 68;
@@ -972,7 +996,7 @@
             // 
             // buttonStopXuQue
             // 
-            this.buttonStopXuQue.Location = new System.Drawing.Point(123, 426);
+            this.buttonStopXuQue.Location = new System.Drawing.Point(123, 456);
             this.buttonStopXuQue.Name = "buttonStopXuQue";
             this.buttonStopXuQue.Size = new System.Drawing.Size(122, 23);
             this.buttonStopXuQue.TabIndex = 69;
@@ -982,7 +1006,7 @@
             // 
             // buttonVaoAllGame
             // 
-            this.buttonVaoAllGame.Location = new System.Drawing.Point(256, 428);
+            this.buttonVaoAllGame.Location = new System.Drawing.Point(256, 458);
             this.buttonVaoAllGame.Name = "buttonVaoAllGame";
             this.buttonVaoAllGame.Size = new System.Drawing.Size(105, 23);
             this.buttonVaoAllGame.TabIndex = 70;
@@ -1100,11 +1124,30 @@
             this.buttonDoiNangNo.UseVisualStyleBackColor = true;
             this.buttonDoiNangNo.Click += new System.EventHandler(this.buttonDoiNangNo_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 311);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(83, 13);
+            this.label12.TabIndex = 53;
+            this.label12.Text = "VPN Chinese IP";
+            // 
+            // textBoxVpnIp
+            // 
+            this.textBoxVpnIp.Location = new System.Drawing.Point(101, 308);
+            this.textBoxVpnIp.Name = "textBoxVpnIp";
+            this.textBoxVpnIp.Size = new System.Drawing.Size(158, 20);
+            this.textBoxVpnIp.TabIndex = 82;
+            this.textBoxVpnIp.Text = "10.211.1.72";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.textBoxVpnIp);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.buttonDoiNangNo);
             this.Controls.Add(this.buttonDoiNangNoAll);
             this.Controls.Add(this.buttonNhanThuongAutoPB);
@@ -1250,6 +1293,10 @@
         private System.Windows.Forms.Button buttonNhanThuongAutoPB;
         private System.Windows.Forms.Button buttonDoiNangNoAll;
         private System.Windows.Forms.Button buttonDoiNangNo;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox checkBoxIsChinese;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBoxVpnIp;
     }
 }
 

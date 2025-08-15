@@ -256,6 +256,8 @@ namespace AutoVPT.Libs
                 return false;
             }
 
+            imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
+
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
@@ -279,6 +281,8 @@ namespace AutoVPT.Libs
             {
                 return false;
             }
+
+            imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
@@ -363,6 +367,8 @@ namespace AutoVPT.Libs
                 return false;
             }
 
+            imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
+
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
@@ -387,6 +393,8 @@ namespace AutoVPT.Libs
             {
                 return false;
             }
+
+            imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
             var screen = CaptureHelper.CaptureWindow(mHWnd);
 
@@ -512,7 +520,6 @@ namespace AutoVPT.Libs
             }
             if (findImage(groupPath + name + ".png"))
             {
-                //writeStatus("findImageByGroup findImage " + groupPath + name + ".png");
                 return true;
             }
 
