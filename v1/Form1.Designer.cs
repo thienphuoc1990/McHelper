@@ -113,6 +113,9 @@
             this.buttonAoMaAll = new System.Windows.Forms.Button();
             this.buttonNhanHoiPhuc = new System.Windows.Forms.Button();
             this.buttonNhanHoiPhucAll = new System.Windows.Forms.Button();
+            this.buttonNhanThuongAutoPB = new System.Windows.Forms.Button();
+            this.buttonDoiNangNoAll = new System.Windows.Forms.Button();
+            this.buttonDoiNangNo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -185,7 +188,7 @@
             // labelAuthorVersion
             // 
             this.labelAuthorVersion.AutoSize = true;
-            this.labelAuthorVersion.Location = new System.Drawing.Point(9, 489);
+            this.labelAuthorVersion.Location = new System.Drawing.Point(9, 545);
             this.labelAuthorVersion.Name = "labelAuthorVersion";
             this.labelAuthorVersion.Size = new System.Drawing.Size(35, 13);
             this.labelAuthorVersion.TabIndex = 10;
@@ -1049,7 +1052,7 @@
             // 
             // buttonNhanHoiPhuc
             // 
-            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(589, 457);
+            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(478, 486);
             this.buttonNhanHoiPhuc.Name = "buttonNhanHoiPhuc";
             this.buttonNhanHoiPhuc.Size = new System.Drawing.Size(105, 23);
             this.buttonNhanHoiPhuc.TabIndex = 77;
@@ -1059,7 +1062,7 @@
             // 
             // buttonNhanHoiPhucAll
             // 
-            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(697, 457);
+            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(367, 486);
             this.buttonNhanHoiPhucAll.Name = "buttonNhanHoiPhucAll";
             this.buttonNhanHoiPhucAll.Size = new System.Drawing.Size(105, 23);
             this.buttonNhanHoiPhucAll.TabIndex = 78;
@@ -1067,11 +1070,44 @@
             this.buttonNhanHoiPhucAll.UseVisualStyleBackColor = true;
             this.buttonNhanHoiPhucAll.Click += new System.EventHandler(this.buttonNhanHoiPhucAll_Click);
             // 
+            // buttonNhanThuongAutoPB
+            // 
+            this.buttonNhanThuongAutoPB.Location = new System.Drawing.Point(589, 457);
+            this.buttonNhanThuongAutoPB.Name = "buttonNhanThuongAutoPB";
+            this.buttonNhanThuongAutoPB.Size = new System.Drawing.Size(105, 23);
+            this.buttonNhanThuongAutoPB.TabIndex = 79;
+            this.buttonNhanThuongAutoPB.Text = "Nhận thưởng Auto PB";
+            this.buttonNhanThuongAutoPB.UseVisualStyleBackColor = true;
+            this.buttonNhanThuongAutoPB.Click += new System.EventHandler(this.buttonNhanThuongAutoPB_Click);
+            // 
+            // buttonDoiNangNoAll
+            // 
+            this.buttonDoiNangNoAll.Location = new System.Drawing.Point(592, 486);
+            this.buttonDoiNangNoAll.Name = "buttonDoiNangNoAll";
+            this.buttonDoiNangNoAll.Size = new System.Drawing.Size(105, 23);
+            this.buttonDoiNangNoAll.TabIndex = 80;
+            this.buttonDoiNangNoAll.Text = "Đổi năng nổ All";
+            this.buttonDoiNangNoAll.UseVisualStyleBackColor = true;
+            this.buttonDoiNangNoAll.Click += new System.EventHandler(this.buttonDoiNangNoAll_Click);
+            // 
+            // buttonDoiNangNo
+            // 
+            this.buttonDoiNangNo.Location = new System.Drawing.Point(702, 486);
+            this.buttonDoiNangNo.Name = "buttonDoiNangNo";
+            this.buttonDoiNangNo.Size = new System.Drawing.Size(100, 23);
+            this.buttonDoiNangNo.TabIndex = 81;
+            this.buttonDoiNangNo.Text = "Đổi năng nổ";
+            this.buttonDoiNangNo.UseVisualStyleBackColor = true;
+            this.buttonDoiNangNo.Click += new System.EventHandler(this.buttonDoiNangNo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 509);
+            this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.buttonDoiNangNo);
+            this.Controls.Add(this.buttonDoiNangNoAll);
+            this.Controls.Add(this.buttonNhanThuongAutoPB);
             this.Controls.Add(this.buttonNhanHoiPhucAll);
             this.Controls.Add(this.buttonNhanHoiPhuc);
             this.Controls.Add(this.buttonAoMaAll);
@@ -1211,6 +1247,9 @@
         private System.Windows.Forms.Button buttonAoMaAll;
         private System.Windows.Forms.Button buttonNhanHoiPhuc;
         private System.Windows.Forms.Button buttonNhanHoiPhucAll;
+        private System.Windows.Forms.Button buttonNhanThuongAutoPB;
+        private System.Windows.Forms.Button buttonDoiNangNoAll;
+        private System.Windows.Forms.Button buttonDoiNangNo;
     }
 }
 

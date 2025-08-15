@@ -669,6 +669,27 @@ namespace AutoVPT.Libs
         }
 
         /*
+         * Function: nhanThuongAutoPhuBan
+         * Description: Nhận thưởng Auto Phụ Bản
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2019-11-17 - Updated At: 2019-11-17
+         */
+        public void nhanThuongAutoPhuBan()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAuto.writeStatus("Bắt đầu \"Nhận thưởng Auto Phụ Bản\"");
+            if (!mAutoPhuBan.nhanThuongPhuBan())
+            {
+                mAutoPhuBan.nhanThuongPhuBan();
+            }
+            mAuto.writeStatus("Kết thúc \"Nhận thưởng Auto Phụ Bản\"");
+        }
+
+        /*
          * Function: runNhanAutoPB
          * Description: Nhận và Auto Phụ Bản
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT

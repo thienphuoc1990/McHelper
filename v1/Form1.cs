@@ -873,5 +873,89 @@ namespace AutoVPT
                 }
             }
         }
+
+        private void buttonNhanThuongAutoPB_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            character.Running = 1;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.nhanThuongAutoPhuBan));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + "nhanThuongAutoPhuBan";
+            Helper.threadList[index].Start();
+        }
+
+        private void buttonDoiNangNo_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            character.Running = 1;
+            updateCharacter();
+
+            // Mở game
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            // Find define handle of project
+            hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+            }
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            Helper.threadList.Add(new Thread(mMainAuto.doiNangNo));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + "doinangno";
+            Helper.threadList[index].Start();
+        }
+
+        private void buttonDoiNangNoAll_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.ID != null && character.ID != "")
+                {
+                    character.Running = 1;
+                    updateCharacter();
+                    // Mở game
+                    openWindow();
+
+                    IntPtr hWnd = IntPtr.Zero;
+                    // Find define handle of project
+                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
+
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                    }
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+                    Helper.threadList.Add(new Thread(mMainAuto.doiNangNo));
+                    int index = Helper.threadList.Count() - 1;
+                    Helper.threadList[index].Name = character.ID + "doinangno";
+                    Helper.threadList[index].Start();
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+            }
+        }
     }
 }

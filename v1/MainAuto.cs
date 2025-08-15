@@ -383,6 +383,7 @@ namespace AutoVPT.Libs
                 // Check to run "Đổi năng nổ"
                 if (mCharacter.DoiNangNo == 1)
                 {
+                    mGeneralFunctions.nhanThuongAutoPhuBan();
                     mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);
                 }
 
@@ -429,78 +430,17 @@ namespace AutoVPT.Libs
 
         public void loginToGame()
         {
-            if (mCharacter.Running != 1)
-            {
-                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
-                return;
-            }
-
-            startGameIfNotExists();
-
-            mCharacter.Running = 0;
-            Helper.saveSettingsToXML(mCharacter);
-
-            foreach (var thread in Helper.threadList)
-            {
-                if (thread.Name == (mCharacter.ID + "logintogame"))
-                {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
-                    thread.Abort();
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
-                }
-            }
+            runAction("logintogame", () => startGameIfNotExists());
         }
 
         public void daPet()
         {
-            if (mCharacter.Running != 1)
-            {
-                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
-                return;
-            }
-
-            startGameIfNotExists();
-
-            mGeneralFunctions.dauPet();
-
-            mCharacter.Running = 0;
-            Helper.saveSettingsToXML(mCharacter);
-
-            foreach (var thread in Helper.threadList)
-            {
-                if (thread.Name == (mCharacter.ID + "dapet"))
-                {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
-                    thread.Abort();
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
-                }
-            }
+            runAction("dapet", () => mGeneralFunctions.dauPet());
         }
 
         public void autoPhuBan()
         {
-            if (mCharacter.Running != 1)
-            {
-                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
-                return;
-            }
-            startGameIfNotExists();
-            mGeneralFunctions.prepareScreen();
-
-            string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
-            mGeneralFunctions.runNhanAutoPB(phuBan);
-            mCharacter.StatusAutoPhuBan = 1;
-            mCharacter.Running = 0;
-            Helper.saveSettingsToXML(mCharacter);
-            foreach (var thread in Helper.threadList)
-            {
-                if (thread.Name == (mCharacter.ID + "phuban"))
-                {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
-                    thread.Abort();
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
-                }
-            }
+            runAction("phuban", () => mGeneralFunctions.runNhanAutoPB(mCharacter.AutoPhuBanDanhSach.Split(',')));
         }
 
         public void captureImage()
@@ -511,48 +451,46 @@ namespace AutoVPT.Libs
 
         public void aoMa()
         {
-            if (mCharacter.Running != 1)
-            {
-                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
-                return;
-            }
-
-            startGameIfNotExists();
-
-            mGeneralFunctions.aoMa();
-
-            mCharacter.Running = 0;
-            Helper.saveSettingsToXML(mCharacter);
-
-            foreach (var thread in Helper.threadList)
-            {
-                if (thread.Name == (mCharacter.ID + "aoMa"))
-                {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
-                    thread.Abort();
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
-                }
-            }
+            runAction("aoma", () => mGeneralFunctions.aoMa());
         }
 
         public void hoiPhuc()
         {
+            runAction("hoiphuc", () => mGeneralFunctions.hoiPhuc());
+        }
+
+        public void nhanThuongAutoPhuBan()
+        {
+            runAction("nhanThuongAutoPhuBan", () => mGeneralFunctions.nhanThuongAutoPhuBan());
+        }
+
+        public void doiNangNo()
+        {
+            runAction("doinangno", () => mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1));
+        }
+
+        private void runAction(String actionName, Action action)
+        {
             if (mCharacter.Running != 1)
             {
-                MessageBox.Show("Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
                 return;
             }
-
             startGameIfNotExists();
-
-            mGeneralFunctions.hoiPhuc();
-
+            mGeneralFunctions.prepareScreen();
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Lỗi khi thực hiện hành động {actionName}: {ex.Message}");
+            }
             mCharacter.Running = 0;
             Helper.saveSettingsToXML(mCharacter);
-
             foreach (var thread in Helper.threadList)
             {
-                if (thread.Name == (mCharacter.ID + "hoiphuc"))
+                if (thread.Name == (mCharacter.ID + actionName))
                 {
                     Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
                     thread.Abort();

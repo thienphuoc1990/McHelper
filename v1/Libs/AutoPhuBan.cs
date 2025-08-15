@@ -29,45 +29,7 @@ namespace AutoVPT.Libs
          */
         public bool auto()
         {
-            mAuto.closeAllDialog();
-
-            // Mở auto phụ bản
-            while (!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban_check"))
-            {
-                // Kéo quick feature list lên trên cùng
-                while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("phu_ban", "hoanthanhphuban"))
-                {
-                    mAuto.writeStatus("Kéo lên đầu quick feature list");
-                    mAuto.clickImageByGroup("global", "quickFeatureListUpArrow");
-                    Thread.Sleep(Constant.TimeShort);
-                }
-
-                // Kéo quick feature list xuống để tìm xủ quẻ
-                while (!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban") && mAuto.findImageByGroup("global", "quickFeatureListDownArrow"))
-                {
-                    mAuto.writeStatus("Không tìm thấy Xủ Quẻ, di chuyển sang trang tiếp");
-                    mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
-                    Thread.Sleep(Constant.TimeShort);
-                }
-
-                // Mở auto phụ bản
-                mAuto.clickImageByGroup("phu_ban", "hoanthanhphuban");
-                Thread.Sleep(Constant.TimeMedium);
-            }
-
-            // Nhận hoàn thành phụ bản nếu có
-            for(int x = 0; x < 6; x++)
-            {
-                mAuto.clickImageByGroup("phu_ban", "nhanthuong");
-            }
-
-            // Chuyển trang 2
-            mAuto.clickImageByGroup("phu_ban", "nextpage");
-
-            for (int x = 0; x < 2; x++)
-            {
-                mAuto.clickImageByGroup("phu_ban", "nhanthuong");
-            }
+            nhanThuongPhuBan();
 
             // Chuyển trang 1
             mAuto.clickImageByGroup("phu_ban", "prevpage");
@@ -105,6 +67,61 @@ namespace AutoVPT.Libs
             if (i >= Constant.MaxLoopQ)
             {
                 return false;
+            }
+
+            return true;
+        }
+
+        /*
+         * Function: nhanThuongPhuBan
+         * Description: Chạy nhận thưởng phụ bản
+         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+         * Created At: 2025-08-15 - Updated At: 2025-08-15
+         */
+        public bool nhanThuongPhuBan()
+        {
+            mAuto.closeAllDialog();
+
+            // Mở auto phụ bản
+            while (!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban_check"))
+            {
+                // Kéo quick feature list lên trên cùng
+                while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("phu_ban", "hoanthanhphuban"))
+                {
+                    mAuto.writeStatus("Kéo lên đầu quick feature list");
+                    mAuto.clickImageByGroup("global", "quickFeatureListUpArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+
+                // Kéo quick feature list xuống để tìm Auto Phụ bản
+                while (!mAuto.findImageByGroup("phu_ban", "hoanthanhphuban") && mAuto.findImageByGroup("global", "quickFeatureListDownArrow"))
+                {
+                    mAuto.writeStatus("Không tìm thấy Auto Phụ bản, di chuyển sang trang tiếp");
+                    mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+
+                // Mở auto phụ bản
+                mAuto.clickImageByGroup("phu_ban", "hoanthanhphuban");
+                Thread.Sleep(Constant.TimeMedium);
+            }
+
+            int i = 0;
+            // Nhận hoàn thành phụ bản nếu có
+            while (mAuto.findImageByGroup("phu_ban", "nhanthuong") && i <= Constant.MaxLoopQ)
+            {
+                mAuto.clickImageByGroup("phu_ban", "nhanthuong");
+                Thread.Sleep(Constant.TimeMedium);
+                i++;
+            }
+
+            // Chuyển trang 2 và nhận hoàn thành phụ bản nếu có
+            mAuto.clickImageByGroup("phu_ban", "nextpage");
+            while (mAuto.findImageByGroup("phu_ban", "nhanthuong") && i <= Constant.MaxLoopQ + 5)
+            {
+                mAuto.clickImageByGroup("phu_ban", "nhanthuong");
+                Thread.Sleep(Constant.TimeMedium);
+                i++;
             }
 
             return true;
