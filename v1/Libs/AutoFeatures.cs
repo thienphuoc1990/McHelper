@@ -722,6 +722,7 @@ namespace AutoVPT.Libs
             if (findImage(npcDoiThoaiImagePath))
             {
                 writeStatus("Nhân vật đang đối thoại với " + npc + " ...");
+                clickToImage(npcDoiThoaiImagePath, 0, -20, 1, Constant.TimeShort);
                 return true;
             }
             writeStatus("Nhân vật đang không đối thoại với " + npc + " ...");
