@@ -331,6 +331,10 @@ namespace AutoVPT
                 {
                     checkedListBoxPhuBan.SetItemChecked(count, true);
                 }
+                else
+                {
+                    checkedListBoxPhuBan.SetItemChecked(count, false);
+                }
             }
         }
 
