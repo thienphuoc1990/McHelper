@@ -668,13 +668,10 @@ namespace AutoVPT
             {
                 character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
 
-                if (character.ID != null && character.ID != "")
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
                     character.Running = 1;
                     updateCharacter();
-                    // Mở game
-                    openWindow();
-
                     IntPtr hWnd = IntPtr.Zero;
                     // Find define handle of project
                     hWnd = AutoControl.FindWindowHandle(null, character.ID);
@@ -798,13 +795,10 @@ namespace AutoVPT
             {
                 character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
 
-                if (character.ID != null && character.ID != "")
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
                     character.Running = 1;
                     updateCharacter();
-                    // Mở game
-                    openWindow();
-
                     IntPtr hWnd = IntPtr.Zero;
                     // Find define handle of project
                     hWnd = AutoControl.FindWindowHandle(null, character.ID);
@@ -856,13 +850,10 @@ namespace AutoVPT
             {
                 character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
 
-                if (character.ID != null && character.ID != "")
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
                     character.Running = 1;
                     updateCharacter();
-                    // Mở game
-                    openWindow();
-
                     IntPtr hWnd = IntPtr.Zero;
                     // Find define handle of project
                     hWnd = AutoControl.FindWindowHandle(null, character.ID);
@@ -940,13 +931,10 @@ namespace AutoVPT
             {
                 character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
 
-                if (character.ID != null && character.ID != "")
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
                     character.Running = 1;
                     updateCharacter();
-                    // Mở game
-                    openWindow();
-
                     IntPtr hWnd = IntPtr.Zero;
                     // Find define handle of project
                     hWnd = AutoControl.FindWindowHandle(null, character.ID);
