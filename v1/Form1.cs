@@ -320,6 +320,11 @@ namespace AutoVPT
             character.StatusDoiKGDK = setStateFeature(checkBoxStatusDoiKGDK, character.StatusDoiKGDK);
 
             this.setDanhSachPhuBan();
+
+            if (renewConfig)
+            {
+                parsingAndUpdateCharacter();
+            }
         }
 
         private void setDanhSachPhuBan()
