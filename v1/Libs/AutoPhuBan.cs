@@ -55,6 +55,7 @@ namespace AutoVPT.Libs
                     || mPhuBan[i] == "quyhutmau")
                 {
                     mAuto.clickImageByGroup("phu_ban", "showchondokho" + mPhuBan[i], false, false, 1, 120);
+                    Thread.Sleep(Constant.TimeShort);
                     mAuto.clickImageByGroup("phu_ban", "chonkho");
                 }
 
@@ -205,6 +206,7 @@ namespace AutoVPT.Libs
                 mAuto.writeStatus("Không thể di chuyển đến vị trí nhận phụ bản ở " + m);
                 return false;
             }
+            mAuto.bayXuong();
 
             return true;
         }

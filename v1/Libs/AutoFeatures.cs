@@ -621,7 +621,7 @@ namespace AutoVPT.Libs
             }
             if (!findImage(groupPath + name + ".png"))
             {
-                //writeStatus("clickImageByGroup not found image " + groupPath + name + ".png");
+                writeStatus("clickImageByGroup not found image " + groupPath + name + ".png");
                 return;
             }
 

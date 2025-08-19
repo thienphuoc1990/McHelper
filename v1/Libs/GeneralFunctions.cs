@@ -706,21 +706,21 @@ namespace AutoVPT.Libs
             // Set phụ bản sẽ nhận và auto
             mAutoPhuBan.setPhuBan(phuBan);
 
-            // Nhận phụ bản ở Lạp Tuyết Địa
-            if (mAutoPhuBan.diChuyenDenNhanPhuBan("tienlapthanh"))
-            {
-                mAutoPhuBan.nhanPhuBan("tienlapthanh");
-                mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
-            }
+            //// Nhận phụ bản ở Lạp Tuyết Địa
+            //if (mAutoPhuBan.diChuyenDenNhanPhuBan("tienlapthanh"))
+            //{
+            //    mAutoPhuBan.nhanPhuBan("tienlapthanh");
+            //    mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
+            //}
 
-            if (phuBan.Contains("Thám Hiểm"))
-            {
-                // Nhận phụ bản ở Cổ đạo
-                if (mAutoPhuBan.diChuyenDenNhanPhuBan("codao"))
-                {
-                    mAutoPhuBan.nhanPhuBan("codao");
-                }
-            }
+            //if (phuBan.Contains("Thám Hiểm"))
+            //{
+            //    // Nhận phụ bản ở Cổ đạo
+            //    if (mAutoPhuBan.diChuyenDenNhanPhuBan("codao"))
+            //    {
+            //        mAutoPhuBan.nhanPhuBan("codao");
+            //    }
+            //}
 
             mAuto.writeStatus("Bắt đầu \"Auto Phụ Bản\"");
             // Auto phụ bản
