@@ -371,7 +371,7 @@ namespace AutoVPT.Libs
                 {
                     mAuto.writeStatus("Không tìm thấy ảo ma, di chuyển sang trang tiếp");
                     mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
-                    Thread.Sleep(Constant.TimeShort);
+                    Thread.Sleep(Constant.TimeMedium);
                 }
 
                 mAuto.clickImageByGroup("global", "aoma_tuluyenaoma");
@@ -382,7 +382,7 @@ namespace AutoVPT.Libs
             {
                 mAuto.writeStatus("Đang có tu luyện ảo ma, hủy bỏ tu luyện");
                 mAuto.clickImageByGroup("global", "aoma_huybotuluyen", false, false);
-                Thread.Sleep(Constant.TimeShort);
+                Thread.Sleep(Constant.TimeMedium);
                 mAuto.clickImageByGroup("global", "aoma_co", false, false);
             }
 
@@ -390,7 +390,7 @@ namespace AutoVPT.Libs
             {
                 mAuto.writeStatus("Đang có phần thưởng tu luyện, nhận phần thưởng");
                 mAuto.clickImageByGroup("global", "aoma_nhanphanthuong", false, false);
-                Thread.Sleep(Constant.TimeShort);
+                Thread.Sleep(Constant.TimeMedium);
                 mAuto.clickImageByGroup("global", "aoma_co", false, false);
             }
 
@@ -398,7 +398,7 @@ namespace AutoVPT.Libs
             {
                 mAuto.writeStatus("Tu luyện");
                 mAuto.clickImageByGroup("global", "aoma_tuluyen", false, false);
-                Thread.Sleep(Constant.TimeShort);
+                Thread.Sleep(Constant.TimeMedium);
                 mAuto.clickImageByGroup("global", "aoma_co", false, false);
             }
 
@@ -706,21 +706,21 @@ namespace AutoVPT.Libs
             // Set phụ bản sẽ nhận và auto
             mAutoPhuBan.setPhuBan(phuBan);
 
-            //// Nhận phụ bản ở Lạp Tuyết Địa
-            //if (mAutoPhuBan.diChuyenDenNhanPhuBan("tienlapthanh"))
-            //{
-            //    mAutoPhuBan.nhanPhuBan("tienlapthanh");
-            //    mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
-            //}
+            // Nhận phụ bản ở Lạp Tuyết Địa
+            if (mAutoPhuBan.diChuyenDenNhanPhuBan("tienlapthanh"))
+            {
+                mAutoPhuBan.nhanPhuBan("tienlapthanh");
+                mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
+            }
 
-            //if (phuBan.Contains("Thám Hiểm"))
-            //{
-            //    // Nhận phụ bản ở Cổ đạo
-            //    if (mAutoPhuBan.diChuyenDenNhanPhuBan("codao"))
-            //    {
-            //        mAutoPhuBan.nhanPhuBan("codao");
-            //    }
-            //}
+            if (phuBan.Contains("Thám Hiểm"))
+            {
+                // Nhận phụ bản ở Cổ đạo
+                if (mAutoPhuBan.diChuyenDenNhanPhuBan("codao"))
+                {
+                    mAutoPhuBan.nhanPhuBan("codao");
+                }
+            }
 
             mAuto.writeStatus("Bắt đầu \"Auto Phụ Bản\"");
             // Auto phụ bản

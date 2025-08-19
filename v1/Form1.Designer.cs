@@ -120,6 +120,7 @@
             this.buttonDoiNangNo = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxVpnIp = new System.Windows.Forms.TextBox();
+            this.buttonNhanThuongAutoPBAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1018,7 +1019,7 @@
             // 
             this.buttonDaPetAll.Location = new System.Drawing.Point(367, 428);
             this.buttonDaPetAll.Name = "buttonDaPetAll";
-            this.buttonDaPetAll.Size = new System.Drawing.Size(105, 23);
+            this.buttonDaPetAll.Size = new System.Drawing.Size(72, 23);
             this.buttonDaPetAll.TabIndex = 71;
             this.buttonDaPetAll.Text = "Đá pet All";
             this.buttonDaPetAll.UseVisualStyleBackColor = true;
@@ -1026,9 +1027,9 @@
             // 
             // buttonDaPet
             // 
-            this.buttonDaPet.Location = new System.Drawing.Point(478, 428);
+            this.buttonDaPet.Location = new System.Drawing.Point(368, 455);
             this.buttonDaPet.Name = "buttonDaPet";
-            this.buttonDaPet.Size = new System.Drawing.Size(105, 23);
+            this.buttonDaPet.Size = new System.Drawing.Size(71, 23);
             this.buttonDaPet.TabIndex = 72;
             this.buttonDaPet.Text = "Đá Pet";
             this.buttonDaPet.UseVisualStyleBackColor = true;
@@ -1036,9 +1037,9 @@
             // 
             // buttonAutoPhuBan
             // 
-            this.buttonAutoPhuBan.Location = new System.Drawing.Point(589, 428);
+            this.buttonAutoPhuBan.Location = new System.Drawing.Point(445, 455);
             this.buttonAutoPhuBan.Name = "buttonAutoPhuBan";
-            this.buttonAutoPhuBan.Size = new System.Drawing.Size(105, 23);
+            this.buttonAutoPhuBan.Size = new System.Drawing.Size(89, 23);
             this.buttonAutoPhuBan.TabIndex = 73;
             this.buttonAutoPhuBan.Text = "Auto Phụ bản";
             this.buttonAutoPhuBan.UseVisualStyleBackColor = true;
@@ -1056,9 +1057,9 @@
             // 
             // buttonAoMa
             // 
-            this.buttonAoMa.Location = new System.Drawing.Point(478, 457);
+            this.buttonAoMa.Location = new System.Drawing.Point(368, 514);
             this.buttonAoMa.Name = "buttonAoMa";
-            this.buttonAoMa.Size = new System.Drawing.Size(105, 23);
+            this.buttonAoMa.Size = new System.Drawing.Size(71, 23);
             this.buttonAoMa.TabIndex = 75;
             this.buttonAoMa.Text = "Ảo ma";
             this.buttonAoMa.UseVisualStyleBackColor = true;
@@ -1066,9 +1067,9 @@
             // 
             // buttonAoMaAll
             // 
-            this.buttonAoMaAll.Location = new System.Drawing.Point(367, 455);
+            this.buttonAoMaAll.Location = new System.Drawing.Point(367, 485);
             this.buttonAoMaAll.Name = "buttonAoMaAll";
-            this.buttonAoMaAll.Size = new System.Drawing.Size(105, 23);
+            this.buttonAoMaAll.Size = new System.Drawing.Size(72, 23);
             this.buttonAoMaAll.TabIndex = 76;
             this.buttonAoMaAll.Text = "Ảo ma All";
             this.buttonAoMaAll.UseVisualStyleBackColor = true;
@@ -1076,9 +1077,9 @@
             // 
             // buttonNhanHoiPhuc
             // 
-            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(478, 486);
+            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(445, 429);
             this.buttonNhanHoiPhuc.Name = "buttonNhanHoiPhuc";
-            this.buttonNhanHoiPhuc.Size = new System.Drawing.Size(105, 23);
+            this.buttonNhanHoiPhuc.Size = new System.Drawing.Size(89, 23);
             this.buttonNhanHoiPhuc.TabIndex = 77;
             this.buttonNhanHoiPhuc.Text = "Nhận Hồi phục";
             this.buttonNhanHoiPhuc.UseVisualStyleBackColor = true;
@@ -1086,7 +1087,7 @@
             // 
             // buttonNhanHoiPhucAll
             // 
-            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(367, 486);
+            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(540, 429);
             this.buttonNhanHoiPhucAll.Name = "buttonNhanHoiPhucAll";
             this.buttonNhanHoiPhucAll.Size = new System.Drawing.Size(105, 23);
             this.buttonNhanHoiPhucAll.TabIndex = 78;
@@ -1096,7 +1097,7 @@
             // 
             // buttonNhanThuongAutoPB
             // 
-            this.buttonNhanThuongAutoPB.Location = new System.Drawing.Point(589, 457);
+            this.buttonNhanThuongAutoPB.Location = new System.Drawing.Point(540, 458);
             this.buttonNhanThuongAutoPB.Name = "buttonNhanThuongAutoPB";
             this.buttonNhanThuongAutoPB.Size = new System.Drawing.Size(105, 23);
             this.buttonNhanThuongAutoPB.TabIndex = 79;
@@ -1106,7 +1107,7 @@
             // 
             // buttonDoiNangNoAll
             // 
-            this.buttonDoiNangNoAll.Location = new System.Drawing.Point(592, 486);
+            this.buttonDoiNangNoAll.Location = new System.Drawing.Point(540, 485);
             this.buttonDoiNangNoAll.Name = "buttonDoiNangNoAll";
             this.buttonDoiNangNoAll.Size = new System.Drawing.Size(105, 23);
             this.buttonDoiNangNoAll.TabIndex = 80;
@@ -1116,9 +1117,9 @@
             // 
             // buttonDoiNangNo
             // 
-            this.buttonDoiNangNo.Location = new System.Drawing.Point(702, 486);
+            this.buttonDoiNangNo.Location = new System.Drawing.Point(449, 484);
             this.buttonDoiNangNo.Name = "buttonDoiNangNo";
-            this.buttonDoiNangNo.Size = new System.Drawing.Size(100, 23);
+            this.buttonDoiNangNo.Size = new System.Drawing.Size(85, 23);
             this.buttonDoiNangNo.TabIndex = 81;
             this.buttonDoiNangNo.Text = "Đổi năng nổ";
             this.buttonDoiNangNo.UseVisualStyleBackColor = true;
@@ -1141,11 +1142,22 @@
             this.textBoxVpnIp.TabIndex = 82;
             this.textBoxVpnIp.Text = "10.211.1.72";
             // 
+            // buttonNhanThuongAutoPBAll
+            // 
+            this.buttonNhanThuongAutoPBAll.Location = new System.Drawing.Point(651, 458);
+            this.buttonNhanThuongAutoPBAll.Name = "buttonNhanThuongAutoPBAll";
+            this.buttonNhanThuongAutoPBAll.Size = new System.Drawing.Size(151, 23);
+            this.buttonNhanThuongAutoPBAll.TabIndex = 83;
+            this.buttonNhanThuongAutoPBAll.Text = "Nhận thưởng Auto PB All";
+            this.buttonNhanThuongAutoPBAll.UseVisualStyleBackColor = true;
+            this.buttonNhanThuongAutoPBAll.Click += new System.EventHandler(this.buttonNhanThuongAutoPBAll_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.buttonNhanThuongAutoPBAll);
             this.Controls.Add(this.textBoxVpnIp);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.buttonDoiNangNo);
@@ -1297,6 +1309,7 @@
         private System.Windows.Forms.CheckBox checkBoxIsChinese;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textBoxVpnIp;
+        private System.Windows.Forms.Button buttonNhanThuongAutoPBAll;
     }
 }
 
