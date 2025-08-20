@@ -464,6 +464,11 @@ namespace AutoVPT.Libs
             runAction("nhanThuongAutoPhuBan", () => mGeneralFunctions.nhanThuongAutoPhuBan());
         }
 
+        public void nhanThuongHanhLang()
+        {
+            runAction("nhanThuongHanhLang", () => mGeneralFunctions.nhanThuongHanhLang());
+        }
+
         public void doiNangNo()
         {
             runAction("doinangno", () => mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1));

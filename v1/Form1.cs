@@ -364,26 +364,15 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.run));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "mainauto";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.run, "mainauto");
         }
 
         private void buttonStopAuto_Click(object sender, EventArgs e)
@@ -474,52 +463,30 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 2;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.runEventWithCode));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "autoevent";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.runEventWithCode, "autoevent");
         }
 
         private void buttonLoginToGame_Click(object sender, EventArgs e)
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.loginToGame));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "logintogame";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.loginToGame, "logintogame");
         }
 
         private void buttonStopAllAuto_Click(object sender, EventArgs e)
@@ -600,26 +567,15 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 2;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.runXuQue));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "chayxuque";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.runXuQue, "chayxuque");
         }
 
         private void buttonStopXuQue_Click(object sender, EventArgs e)
@@ -647,25 +603,15 @@ namespace AutoVPT
 
                 if (character.ID != null &&  character.ID != "")
                 {
-                    character.Running = 1;
-                    updateCharacter();
-                    // Mở game
-                    openWindow();
-
-                    IntPtr hWnd = IntPtr.Zero;
-                    // Find define handle of project
-                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+                    IntPtr hWnd = getHandledWindow();
                     if (hWnd == IntPtr.Zero)
                     {
                         MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
                     }
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-                    Helper.threadList.Add(new Thread(mMainAuto.loginToGame));
-                    int index = Helper.threadList.Count() - 1;
-                    Helper.threadList[index].Name = character.ID + "logintogame";
-                    Helper.threadList[index].Start();
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.loginToGame, "logintogame");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -679,22 +625,15 @@ namespace AutoVPT
 
                 if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
-                    character.Running = 1;
-                    updateCharacter();
-                    IntPtr hWnd = IntPtr.Zero;
-                    // Find define handle of project
-                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+                    IntPtr hWnd = getHandledWindow();
                     if (hWnd == IntPtr.Zero)
                     {
                         MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
                     }
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-                    Helper.threadList.Add(new Thread(mMainAuto.daPet));
-                    int index = Helper.threadList.Count() - 1;
-                    Helper.threadList[index].Name = character.ID + "dapet";
-                    Helper.threadList[index].Start();
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.daPet, "dapet");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -704,71 +643,44 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.daPet));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "daPet";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.daPet, "dapet");
         }
 
         private void buttonAutoPhuBan_Click(object sender, EventArgs e)
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.autoPhuBan));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "autoPhuBan";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.autoPhuBan, "autoPhuBan");
         }
 
         private void buttonCaptureImage_Click(object sender, EventArgs e)
         {
             if (!checkSelectCharacter()) { return; }
 
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
             mMainAuto.captureImage();
         }
 
@@ -776,26 +688,15 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.aoMa));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "aoma";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.aoMa, "aoma");
         }
 
         private void buttonAoMaAll_Click(object sender, EventArgs e)
@@ -806,22 +707,15 @@ namespace AutoVPT
 
                 if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
-                    character.Running = 1;
-                    updateCharacter();
-                    IntPtr hWnd = IntPtr.Zero;
-                    // Find define handle of project
-                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+                    IntPtr hWnd = getHandledWindow();
                     if (hWnd == IntPtr.Zero)
                     {
                         MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
                     }
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-                    Helper.threadList.Add(new Thread(mMainAuto.aoMa));
-                    int index = Helper.threadList.Count() - 1;
-                    Helper.threadList[index].Name = character.ID + "aoma";
-                    Helper.threadList[index].Start();
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.aoMa, "aoma");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -831,26 +725,15 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
-            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-            Helper.threadList.Add(new Thread(mMainAuto.hoiPhuc));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "hoiphuc";
-            Helper.threadList[index].Start();
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.hoiPhuc, "hoiphuc");
         }
 
         private void buttonNhanHoiPhucAll_Click(object sender, EventArgs e)
@@ -861,22 +744,15 @@ namespace AutoVPT
 
                 if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
-                    character.Running = 1;
-                    updateCharacter();
-                    IntPtr hWnd = IntPtr.Zero;
-                    // Find define handle of project
-                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+                    IntPtr hWnd = getHandledWindow();
                     if (hWnd == IntPtr.Zero)
                     {
                         MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
                     }
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-                    Helper.threadList.Add(new Thread(mMainAuto.hoiPhuc));
-                    int index = Helper.threadList.Count() - 1;
-                    Helper.threadList[index].Name = character.ID + "hoiphuc";
-                    Helper.threadList[index].Start();
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.hoiPhuc, "hoiphuc");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -886,52 +762,28 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
             MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-
-            Helper.threadList.Add(new Thread(mMainAuto.nhanThuongAutoPhuBan));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "nhanThuongAutoPhuBan";
-            Helper.threadList[index].Start();
+            runTaskInThread(mMainAuto.nhanThuongAutoPhuBan, "nhanThuongAutoPhuBan");
         }
 
         private void buttonDoiNangNo_Click(object sender, EventArgs e)
         {
             if (!checkSelectCharacter()) { return; }
 
-            character.Running = 1;
-            updateCharacter();
-
-            // Mở game
-            openWindow();
-
-            IntPtr hWnd = IntPtr.Zero;
-            // Find define handle of project
-            hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+            IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
             }
             MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-
-            Helper.threadList.Add(new Thread(mMainAuto.doiNangNo));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + "doinangno";
-            Helper.threadList[index].Start();
+            runTaskInThread(mMainAuto.doiNangNo, "doinangno");
         }
 
         private void buttonDoiNangNoAll_Click(object sender, EventArgs e)
@@ -942,22 +794,15 @@ namespace AutoVPT
 
                 if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
-                    character.Running = 1;
-                    updateCharacter();
-                    IntPtr hWnd = IntPtr.Zero;
-                    // Find define handle of project
-                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+                    IntPtr hWnd = getHandledWindow();
                     if (hWnd == IntPtr.Zero)
                     {
                         MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
                     }
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-                    Helper.threadList.Add(new Thread(mMainAuto.doiNangNo));
-                    int index = Helper.threadList.Count() - 1;
-                    Helper.threadList[index].Name = character.ID + "doinangno";
-                    Helper.threadList[index].Start();
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.doiNangNo, "doinangno");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -971,25 +816,51 @@ namespace AutoVPT
 
                 if (character.ID != null && character.ID != "" && checkWindowOpen())
                 {
-                    character.Running = 1;
-                    updateCharacter();
-                    IntPtr hWnd = IntPtr.Zero;
-                    // Find define handle of project
-                    hWnd = AutoControl.FindWindowHandle(null, character.ID);
-
+                    IntPtr hWnd = getHandledWindow();
                     if (hWnd == IntPtr.Zero)
                     {
                         MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
                     }
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
 
-                    Helper.threadList.Add(new Thread(mMainAuto.nhanThuongAutoPhuBan));
-                    int index = Helper.threadList.Count() - 1;
-                    Helper.threadList[index].Name = character.ID + "nhanThuongAutoPhuBan";
-                    Helper.threadList[index].Start();
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.nhanThuongAutoPhuBan, "nhanThuongAutoPhuBan");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
+        }
+
+        private void buttonNhanHL_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.nhanThuongHanhLang, "nhanThuongHanhLang");
+        }
+
+        private void runTaskInThread(ThreadStart action, String actionName)
+        {
+            Helper.threadList.Add(new Thread(action));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = character.ID + actionName;
+            Helper.threadList[index].Start();
+        }
+
+        private IntPtr getHandledWindow()
+        {
+            character.Running = 1;
+            updateCharacter();
+            openWindow();
+
+            IntPtr hWnd = IntPtr.Zero;
+            return AutoControl.FindWindowHandle(null, character.ID);
         }
     }
 }

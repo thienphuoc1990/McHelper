@@ -121,6 +121,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxVpnIp = new System.Windows.Forms.TextBox();
             this.buttonNhanThuongAutoPBAll = new System.Windows.Forms.Button();
+            this.buttonNhanHL = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1117,9 +1118,9 @@
             // 
             // buttonDoiNangNo
             // 
-            this.buttonDoiNangNo.Location = new System.Drawing.Point(449, 484);
+            this.buttonDoiNangNo.Location = new System.Drawing.Point(445, 484);
             this.buttonDoiNangNo.Name = "buttonDoiNangNo";
-            this.buttonDoiNangNo.Size = new System.Drawing.Size(85, 23);
+            this.buttonDoiNangNo.Size = new System.Drawing.Size(89, 23);
             this.buttonDoiNangNo.TabIndex = 81;
             this.buttonDoiNangNo.Text = "Đổi năng nổ";
             this.buttonDoiNangNo.UseVisualStyleBackColor = true;
@@ -1152,11 +1153,22 @@
             this.buttonNhanThuongAutoPBAll.UseVisualStyleBackColor = true;
             this.buttonNhanThuongAutoPBAll.Click += new System.EventHandler(this.buttonNhanThuongAutoPBAll_Click);
             // 
+            // buttonNhanHL
+            // 
+            this.buttonNhanHL.Location = new System.Drawing.Point(445, 513);
+            this.buttonNhanHL.Name = "buttonNhanHL";
+            this.buttonNhanHL.Size = new System.Drawing.Size(89, 23);
+            this.buttonNhanHL.TabIndex = 84;
+            this.buttonNhanHL.Text = "Nhận HL";
+            this.buttonNhanHL.UseVisualStyleBackColor = true;
+            this.buttonNhanHL.Click += new System.EventHandler(this.buttonNhanHL_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.buttonNhanHL);
             this.Controls.Add(this.buttonNhanThuongAutoPBAll);
             this.Controls.Add(this.textBoxVpnIp);
             this.Controls.Add(this.label12);
@@ -1310,6 +1322,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textBoxVpnIp;
         private System.Windows.Forms.Button buttonNhanThuongAutoPBAll;
+        private System.Windows.Forms.Button buttonNhanHL;
     }
 }
 
