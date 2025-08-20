@@ -123,6 +123,8 @@
             this.buttonNhanThuongAutoPBAll = new System.Windows.Forms.Button();
             this.buttonNhanHL = new System.Windows.Forms.Button();
             this.buttonAutoTuHanh = new System.Windows.Forms.Button();
+            this.buttonNhanThuongKGDK = new System.Windows.Forms.Button();
+            this.buttonTrongNL = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1174,11 +1176,33 @@
             this.buttonAutoTuHanh.UseVisualStyleBackColor = true;
             this.buttonAutoTuHanh.Click += new System.EventHandler(this.buttonAutoTuHanh_Click);
             // 
+            // buttonNhanThuongKGDK
+            // 
+            this.buttonNhanThuongKGDK.Location = new System.Drawing.Point(651, 485);
+            this.buttonNhanThuongKGDK.Name = "buttonNhanThuongKGDK";
+            this.buttonNhanThuongKGDK.Size = new System.Drawing.Size(151, 23);
+            this.buttonNhanThuongKGDK.TabIndex = 86;
+            this.buttonNhanThuongKGDK.Text = "Nhận thưởng KGDK";
+            this.buttonNhanThuongKGDK.UseVisualStyleBackColor = true;
+            this.buttonNhanThuongKGDK.Click += new System.EventHandler(this.buttonNhanThuongKGDK_Click);
+            // 
+            // buttonTrongNL
+            // 
+            this.buttonTrongNL.Location = new System.Drawing.Point(651, 513);
+            this.buttonTrongNL.Name = "buttonTrongNL";
+            this.buttonTrongNL.Size = new System.Drawing.Size(151, 23);
+            this.buttonTrongNL.TabIndex = 87;
+            this.buttonTrongNL.Text = "Trồng Nguyên liệu";
+            this.buttonTrongNL.UseVisualStyleBackColor = true;
+            this.buttonTrongNL.Click += new System.EventHandler(this.buttonTrongNL_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.buttonTrongNL);
+            this.Controls.Add(this.buttonNhanThuongKGDK);
             this.Controls.Add(this.buttonAutoTuHanh);
             this.Controls.Add(this.buttonNhanHL);
             this.Controls.Add(this.buttonNhanThuongAutoPBAll);
@@ -1336,6 +1360,8 @@
         private System.Windows.Forms.Button buttonNhanThuongAutoPBAll;
         private System.Windows.Forms.Button buttonNhanHL;
         private System.Windows.Forms.Button buttonAutoTuHanh;
+        private System.Windows.Forms.Button buttonNhanThuongKGDK;
+        private System.Windows.Forms.Button buttonTrongNL;
     }
 }
 

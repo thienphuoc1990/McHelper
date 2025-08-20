@@ -358,25 +358,7 @@ namespace AutoVPT.Libs
             mAuto.closeAllDialog();
 
             // Mở tu luyện ảo ma
-            while (!mAuto.findImageByGroup("global", "aoma_tuluyenaoma_check"))
-            {
-                while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("global", "aoma_tuluyenaoma"))
-                {
-                    mAuto.writeStatus("Kéo lên đầu quick feature list");
-                    mAuto.clickImageByGroup("global", "quickFeatureListUpArrow");
-                    Thread.Sleep(Constant.TimeShort);
-                }
-
-                while (!mAuto.findImageByGroup("global", "aoma_tuluyenaoma") && mAuto.findImageByGroup("global", "quickFeatureListDownArrow"))
-                {
-                    mAuto.writeStatus("Không tìm thấy ảo ma, di chuyển sang trang tiếp");
-                    mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
-                    Thread.Sleep(Constant.TimeMedium);
-                }
-
-                mAuto.clickImageByGroup("global", "aoma_tuluyenaoma");
-                Thread.Sleep(Constant.TimeMedium);
-            }
+            findTheFeatureFromQuickFeatures("aoma_tuluyenaoma");
 
             if (mAuto.findImageByGroup("global", "aoma_huybotuluyen"))
             {
@@ -403,6 +385,29 @@ namespace AutoVPT.Libs
             }
 
             mAuto.closeAllDialog();
+        }
+
+        private void findTheFeatureFromQuickFeatures(String featureName)
+        {
+            while (!mAuto.findImageByGroup("global", featureName + "_check"))
+            {
+                while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("global", featureName))
+                {
+                    mAuto.writeStatus("Kéo lên đầu quick feature list");
+                    mAuto.clickImageByGroup("global", "quickFeatureListUpArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+                while (!mAuto.findImageByGroup("global", featureName) && mAuto.findImageByGroup("global", "quickFeatureListDownArrow"))
+                {
+                    mAuto.writeStatus("Không tìm thấy tính năng, di chuyển sang trang tiếp");
+                    mAuto.clickImageByGroup("global", "quickFeatureListDownArrow");
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+
+                mAuto.writeStatus("Tìm thấy tính năng, mở tính năng...");
+                mAuto.clickImageByGroup("global", featureName);
+                Thread.Sleep(Constant.TimeMedium);
+            }
         }
 
         /*
@@ -590,8 +595,7 @@ namespace AutoVPT.Libs
             mAuto.closeAllDialog();
 
             // Mở bảng KGDK
-            mAuto.clickImageByGroup("global", "khonggiandieukhac", false, false);
-
+            findTheFeatureFromQuickFeatures("khonggiandieukhac");
             Thread.Sleep(2000);
 
             // Chọn đổi
