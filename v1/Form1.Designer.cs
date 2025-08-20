@@ -76,7 +76,7 @@
             this.checkBoxHaiThuoc = new System.Windows.Forms.CheckBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.checkBoxDauPet = new System.Windows.Forms.CheckBox();
-            this.checkBoxBugOnline = new System.Windows.Forms.CheckBox();
+            this.checkBoxNhanHoiPhuc = new System.Windows.Forms.CheckBox();
             this.checkBoxMeTran = new System.Windows.Forms.CheckBox();
             this.checkBoxNhanThuongHanhLang = new System.Windows.Forms.CheckBox();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
@@ -125,6 +125,8 @@
             this.buttonAutoTuHanh = new System.Windows.Forms.Button();
             this.buttonNhanThuongKGDK = new System.Windows.Forms.Button();
             this.buttonTrongNL = new System.Windows.Forms.Button();
+            this.buttonChayAutoAllAcc = new System.Windows.Forms.Button();
+            this.checkBoxStatusNhanHoiPhuc = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -235,7 +237,7 @@
             // 
             // buttonStopAllAuto
             // 
-            this.buttonStopAllAuto.Location = new System.Drawing.Point(12, 485);
+            this.buttonStopAllAuto.Location = new System.Drawing.Point(12, 513);
             this.buttonStopAllAuto.Name = "buttonStopAllAuto";
             this.buttonStopAllAuto.Size = new System.Drawing.Size(349, 23);
             this.buttonStopAllAuto.TabIndex = 20;
@@ -314,6 +316,7 @@
             // 
             // tabPageMain
             // 
+            this.tabPageMain.Controls.Add(this.checkBoxStatusNhanHoiPhuc);
             this.tabPageMain.Controls.Add(this.checkBoxStatusVipPromotion);
             this.tabPageMain.Controls.Add(this.checkBoxStatusAutoThanTu);
             this.tabPageMain.Controls.Add(this.checkBoxDoiNN);
@@ -343,7 +346,7 @@
             this.tabPageMain.Controls.Add(this.checkBoxHaiThuoc);
             this.tabPageMain.Controls.Add(this.splitter1);
             this.tabPageMain.Controls.Add(this.checkBoxDauPet);
-            this.tabPageMain.Controls.Add(this.checkBoxBugOnline);
+            this.tabPageMain.Controls.Add(this.checkBoxNhanHoiPhuc);
             this.tabPageMain.Controls.Add(this.checkBoxMeTran);
             this.tabPageMain.Controls.Add(this.checkBoxNhanThuongHanhLang);
             this.tabPageMain.Location = new System.Drawing.Point(4, 22);
@@ -660,17 +663,17 @@
             this.checkBoxDauPet.Text = "Đấu Pet";
             this.checkBoxDauPet.UseVisualStyleBackColor = true;
             // 
-            // checkBoxBugOnline
+            // checkBoxNhanHoiPhuc
             // 
-            this.checkBoxBugOnline.AutoSize = true;
-            this.checkBoxBugOnline.Checked = true;
-            this.checkBoxBugOnline.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxBugOnline.Location = new System.Drawing.Point(271, 125);
-            this.checkBoxBugOnline.Name = "checkBoxBugOnline";
-            this.checkBoxBugOnline.Size = new System.Drawing.Size(78, 17);
-            this.checkBoxBugOnline.TabIndex = 57;
-            this.checkBoxBugOnline.Text = "Bug Online";
-            this.checkBoxBugOnline.UseVisualStyleBackColor = true;
+            this.checkBoxNhanHoiPhuc.AutoSize = true;
+            this.checkBoxNhanHoiPhuc.Checked = true;
+            this.checkBoxNhanHoiPhuc.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxNhanHoiPhuc.Location = new System.Drawing.Point(271, 125);
+            this.checkBoxNhanHoiPhuc.Name = "checkBoxNhanHoiPhuc";
+            this.checkBoxNhanHoiPhuc.Size = new System.Drawing.Size(149, 17);
+            this.checkBoxNhanHoiPhuc.TabIndex = 57;
+            this.checkBoxNhanHoiPhuc.Text = "Nhận hồi phục hàng ngày";
+            this.checkBoxNhanHoiPhuc.UseVisualStyleBackColor = true;
             // 
             // checkBoxMeTran
             // 
@@ -1196,11 +1199,32 @@
             this.buttonTrongNL.UseVisualStyleBackColor = true;
             this.buttonTrongNL.Click += new System.EventHandler(this.buttonTrongNL_Click);
             // 
+            // buttonChayAutoAllAcc
+            // 
+            this.buttonChayAutoAllAcc.Location = new System.Drawing.Point(256, 484);
+            this.buttonChayAutoAllAcc.Name = "buttonChayAutoAllAcc";
+            this.buttonChayAutoAllAcc.Size = new System.Drawing.Size(105, 23);
+            this.buttonChayAutoAllAcc.TabIndex = 88;
+            this.buttonChayAutoAllAcc.Text = "Chạy Auto All Acc";
+            this.buttonChayAutoAllAcc.UseVisualStyleBackColor = true;
+            this.buttonChayAutoAllAcc.Click += new System.EventHandler(this.buttonChayAutoAllAcc_Click);
+            // 
+            // checkBoxStatusNhanHoiPhuc
+            // 
+            this.checkBoxStatusNhanHoiPhuc.AutoSize = true;
+            this.checkBoxStatusNhanHoiPhuc.Location = new System.Drawing.Point(436, 125);
+            this.checkBoxStatusNhanHoiPhuc.Name = "checkBoxStatusNhanHoiPhuc";
+            this.checkBoxStatusNhanHoiPhuc.Size = new System.Drawing.Size(66, 17);
+            this.checkBoxStatusNhanHoiPhuc.TabIndex = 76;
+            this.checkBoxStatusNhanHoiPhuc.Text = "Đã xong";
+            this.checkBoxStatusNhanHoiPhuc.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.buttonChayAutoAllAcc);
             this.Controls.Add(this.buttonTrongNL);
             this.Controls.Add(this.buttonNhanThuongKGDK);
             this.Controls.Add(this.buttonAutoTuHanh);
@@ -1312,7 +1336,7 @@
         private System.Windows.Forms.CheckBox checkBoxHaiThuoc;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.CheckBox checkBoxDauPet;
-        private System.Windows.Forms.CheckBox checkBoxBugOnline;
+        private System.Windows.Forms.CheckBox checkBoxNhanHoiPhuc;
         private System.Windows.Forms.CheckBox checkBoxMeTran;
         private System.Windows.Forms.CheckBox checkBoxNhanThuongHanhLang;
         private System.Windows.Forms.TabPage tabPageGeneral;
@@ -1362,6 +1386,8 @@
         private System.Windows.Forms.Button buttonAutoTuHanh;
         private System.Windows.Forms.Button buttonNhanThuongKGDK;
         private System.Windows.Forms.Button buttonTrongNL;
+        private System.Windows.Forms.Button buttonChayAutoAllAcc;
+        private System.Windows.Forms.CheckBox checkBoxStatusNhanHoiPhuc;
     }
 }
 

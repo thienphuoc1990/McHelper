@@ -71,8 +71,9 @@ namespace AutoVPT.Objects
         private int status_hai_thuoc = 0;
         private int status_cau_ca = 0;
         private int status_auto_than_tu = 0;
+        private int status_nhan_hoi_phuc = 0;
 
-        public Character()
+		public Character()
         {
             //
             // TODO: Add constructor logic here
@@ -240,7 +241,7 @@ namespace AutoVPT.Objects
             set { nhan_thuong_hlvt = value; }
         }
 
-        public int BugOnline
+        public int NhanHoiPhuc
         {
             get { return bug_online; }
             set { bug_online = value; }
@@ -376,9 +377,15 @@ namespace AutoVPT.Objects
         {
             get { return status_nhan_thuong_hlvt; }
             set { status_nhan_thuong_hlvt = value; }
-        }
+		}
 
-        public int StatusMeTran
+		public int StatusNhanHoiPhuc
+		{
+			get { return status_nhan_hoi_phuc; }
+			set { status_nhan_hoi_phuc = value; }
+		}
+
+		public int StatusMeTran
         {
             get { return status_me_tran; }
             set { status_me_tran = value; }

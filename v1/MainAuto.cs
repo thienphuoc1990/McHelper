@@ -327,22 +327,22 @@ namespace AutoVPT.Libs
                     mCharacter.StatusTuHanh = 1;
                     Helper.saveSettingsToXML(mCharacter);
 
-                    // Bug online sau khi tu hành
-                    mGeneralFunctions.runBugOnline();
+                    //// Bug online sau khi tu hành
+                    //mGeneralFunctions.runNhanHoiPhuc();
 
-                    if (mCharacter.RunToLast == 1)
-                    {
-                        // Ngủ 30p sau khi auto tu hành
-                        Thread.Sleep(60 * 30 * 1000);
+                    //if (mCharacter.RunToLast == 1)
+                    //{
+                    //    // Ngủ 30p sau khi auto tu hành
+                    //    Thread.Sleep(60 * 30 * 1000);
 
-                        startGameIfNotExists();
+                    //    startGameIfNotExists();
 
-                        mGeneralFunctions.prepareScreen();
-                    }
-                    else
-                    {
-                        Thread.CurrentThread.Abort();
-                    }
+                    //    mGeneralFunctions.prepareScreen();
+                    //}
+                    //else
+                    //{
+                    //    Thread.CurrentThread.Abort();
+                    //}
                 }
 
                 // Check to run "Auto Thần tu"
@@ -353,22 +353,22 @@ namespace AutoVPT.Libs
                     mCharacter.StatusAutoThanTu = 1;
                     Helper.saveSettingsToXML(mCharacter);
 
-                    // Bug online sau khi tu hành
-                    mGeneralFunctions.runBugOnline();
+                    //// Bug online sau khi tu hành
+                    //mGeneralFunctions.runNhanHoiPhuc();
 
-                    if (mCharacter.RunToLast == 1)
-                    {
-                        // Ngủ 30p sau khi auto tu hành
-                        Thread.Sleep(60 * 15 * 1000);
+                    //if (mCharacter.RunToLast == 1)
+                    //{
+                    //    // Ngủ 30p sau khi auto tu hành
+                    //    Thread.Sleep(60 * 15 * 1000);
 
-                        startGameIfNotExists();
+                    //    startGameIfNotExists();
 
-                        mGeneralFunctions.prepareScreen();
-                    }
-                    else
-                    {
-                        Thread.CurrentThread.Abort();
-                    }
+                    //    mGeneralFunctions.prepareScreen();
+                    //}
+                    //else
+                    //{
+                    //    Thread.CurrentThread.Abort();
+                    //}
                 }
 
                 // Check to run "Chạy Trị An"
@@ -387,15 +387,33 @@ namespace AutoVPT.Libs
                     mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);
                 }
 
+                if (mCharacter.NhanHoiPhuc == 1)
+                {
+                    mGeneralFunctions.hoiPhuc();
+                }
+
                 if (i == 0)
                 {
-                    // Check to run "Bug Online"
-                    if (mCharacter.BugOnline == 1)
+                    mCharacter.Running = 0;
+                    Helper.saveSettingsToXML(mCharacter);
+                    Thread.CurrentThread.Abort();
+                    break;
+                }
+                else
+                {
+                    // Run ảo ma & đá pet
+                    var numberOfLoop = 0;
+                    while (numberOfLoop <= Constant.MaxLoop)
                     {
-                        mGeneralFunctions.runBugOnline();
-                        mCharacter.Running = 0;
-                        Thread.CurrentThread.Abort();
-                        break;
+                        if (numberOfLoop < 3)
+                        {
+                            mGeneralFunctions.aoMa();
+                        }
+
+                        mGeneralFunctions.dauPet();
+
+                        numberOfLoop++;
+                        Thread.Sleep(60 * 10 * 1000);
                     }
                 }
 

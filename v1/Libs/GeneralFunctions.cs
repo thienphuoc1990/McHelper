@@ -177,35 +177,6 @@ namespace AutoVPT.Libs
         }
 
         /*
-         * Function: runBugOnline
-         * Description: Tự động bug online
-         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
-         * Created At: 2019-11-18 - Updated At: 2019-11-18
-         */
-        public void runBugOnline()
-        {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
-
-            mAuto.writeStatus("Bắt đầu \"Tự động Bug Online\"");
-            mAuto.closeAllDialog();
-
-            // Click vào cài đặt
-            mAuto.clickImageByGroup("global", "thietlap", false, false);
-
-            // Click vào ra screen chọn nhân vật
-            mAuto.clickImageByGroup("global", "thietlapnhanvat", false, false);
-
-            // Click vào nhân vật
-            this.chonNhanVat();
-
-            // Tắt Flash window
-            mAuto.closeFlash();
-        }
-
-        /*
          * Function: runAutoThanTu
          * Description: Tự động auto thần tu
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT

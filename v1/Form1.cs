@@ -189,7 +189,7 @@ namespace AutoVPT
             character.UocNguyen = (this.checkBoxRungCay.Checked) ? 1 : 0;
             character.DauPet = (this.checkBoxDauPet.Checked) ? 1 : 0;
             character.NhanThuongHLVT = (this.checkBoxNhanThuongHanhLang.Checked) ? 1 : 0;
-            character.BugOnline = (this.checkBoxBugOnline.Checked) ? 1 : 0;
+            character.NhanHoiPhuc = (this.checkBoxNhanHoiPhuc.Checked) ? 1 : 0;
             character.MeTran = (this.checkBoxMeTran.Checked) ? 1 : 0;
             character.HaiThuoc = (this.checkBoxHaiThuoc.Checked) ? 1 : 0;
             character.CauCa = (this.checkBoxCauCa.Checked) ? 1 : 0;
@@ -213,6 +213,7 @@ namespace AutoVPT
             character.StatusRutBo = (this.checkBoxStatusRutBo.Checked) ? 1 : 0;
             character.StatusNhanThuongHLVT = (this.checkBoxStatusNhanThuongHL.Checked) ? 1 : 0;
             character.StatusDoiKGDK = (this.checkBoxStatusDoiKGDK.Checked) ? 1 : 0;
+            character.StatusNhanHoiPhuc = (this.checkBoxStatusNhanHoiPhuc.Checked) ? 1 : 0;
 
             // Lấy thông tin danh sách phụ bản
             this.getDanhSachPhuBan();
@@ -299,7 +300,7 @@ namespace AutoVPT
             checkBoxRungCay.Checked = (character.UocNguyen >= 1) ? true : false;
             checkBoxDauPet.Checked = (character.DauPet >= 1) ? true : false;
             checkBoxNhanThuongHanhLang.Checked = (character.NhanThuongHLVT >= 1) ? true : false;
-            checkBoxBugOnline.Checked = (character.BugOnline >= 1) ? true : false;
+            checkBoxNhanHoiPhuc.Checked = (character.NhanHoiPhuc >= 1) ? true : false;
             checkBoxMeTran.Checked = (character.MeTran >= 1) ? true : false;
             checkBoxHaiThuoc.Checked = (character.HaiThuoc >= 1) ? true : false;
             checkBoxCauCa.Checked = (character.CauCa >= 1) ? true : false;
@@ -318,6 +319,7 @@ namespace AutoVPT
             character.StatusRutBo = setStateFeature(checkBoxStatusRutBo, character.StatusRutBo);
             character.StatusNhanThuongHLVT = setStateFeature(checkBoxStatusNhanThuongHL, character.StatusNhanThuongHLVT);
             character.StatusDoiKGDK = setStateFeature(checkBoxStatusDoiKGDK, character.StatusDoiKGDK);
+            character.StatusNhanHoiPhuc = setStateFeature(checkBoxStatusNhanHoiPhuc, character.StatusNhanHoiPhuc);
 
             this.setDanhSachPhuBan();
 
@@ -561,6 +563,7 @@ namespace AutoVPT
             character.StatusRutBo = setStateFeature(checkBoxStatusRutBo, character.StatusRutBo);
             character.StatusNhanThuongHLVT = setStateFeature(checkBoxStatusNhanThuongHL, character.StatusNhanThuongHLVT);
             character.StatusDoiKGDK = setStateFeature(checkBoxStatusDoiKGDK, character.StatusDoiKGDK);
+            character.StatusNhanHoiPhuc = setStateFeature(checkBoxStatusNhanHoiPhuc, character.StatusNhanHoiPhuc);
         }
 
         private void buttonChayXuQue_Click(object sender, EventArgs e)
@@ -906,6 +909,28 @@ namespace AutoVPT
 
             MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
             runTaskInThread(mMainAuto.trongNL, "trongNL");
+        }
+
+        private void buttonChayAutoAllAcc_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
+                {
+                    IntPtr hWnd = getHandledWindow();
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
+                    }
+
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.run, "mainauto");
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+            }
         }
     }
 }
