@@ -862,5 +862,20 @@ namespace AutoVPT
             IntPtr hWnd = IntPtr.Zero;
             return AutoControl.FindWindowHandle(null, character.ID);
         }
+
+        private void buttonAutoTuHanh_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.runAutoTuHanh, "runAutoTuHanh");
+        }
     }
 }

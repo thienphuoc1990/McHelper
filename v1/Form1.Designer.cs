@@ -122,6 +122,7 @@
             this.textBoxVpnIp = new System.Windows.Forms.TextBox();
             this.buttonNhanThuongAutoPBAll = new System.Windows.Forms.Button();
             this.buttonNhanHL = new System.Windows.Forms.Button();
+            this.buttonAutoTuHanh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1163,11 +1164,22 @@
             this.buttonNhanHL.UseVisualStyleBackColor = true;
             this.buttonNhanHL.Click += new System.EventHandler(this.buttonNhanHL_Click);
             // 
+            // buttonAutoTuHanh
+            // 
+            this.buttonAutoTuHanh.Location = new System.Drawing.Point(540, 513);
+            this.buttonAutoTuHanh.Name = "buttonAutoTuHanh";
+            this.buttonAutoTuHanh.Size = new System.Drawing.Size(105, 23);
+            this.buttonAutoTuHanh.TabIndex = 85;
+            this.buttonAutoTuHanh.Text = "Auto Tu hành";
+            this.buttonAutoTuHanh.UseVisualStyleBackColor = true;
+            this.buttonAutoTuHanh.Click += new System.EventHandler(this.buttonAutoTuHanh_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 567);
+            this.Controls.Add(this.buttonAutoTuHanh);
             this.Controls.Add(this.buttonNhanHL);
             this.Controls.Add(this.buttonNhanThuongAutoPBAll);
             this.Controls.Add(this.textBoxVpnIp);
@@ -1323,6 +1335,7 @@
         private System.Windows.Forms.TextBox textBoxVpnIp;
         private System.Windows.Forms.Button buttonNhanThuongAutoPBAll;
         private System.Windows.Forms.Button buttonNhanHL;
+        private System.Windows.Forms.Button buttonAutoTuHanh;
     }
 }
 
