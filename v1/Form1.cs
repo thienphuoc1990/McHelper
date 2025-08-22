@@ -933,7 +933,7 @@ namespace AutoVPT
                 {
                     character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
 
-                    if (character.ID != null && character.ID != "" && checkWindowOpen())
+                    if (character.ID != null && character.ID != "")
                     {
                         IntPtr hWnd = getHandledWindow();
                         if (hWnd == IntPtr.Zero)

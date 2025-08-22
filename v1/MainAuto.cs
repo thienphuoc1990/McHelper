@@ -249,48 +249,6 @@ namespace AutoVPT.Libs
             while (mCharacter.Running == 1)
             {
                 var i = 0;
-                // Trồng nguyên liệu
-                if (mCharacter.TrongNL == 1)
-                {
-                    mGeneralFunctions.trongNL();
-                }
-
-                // "Nhận VIP"
-                if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
-                {
-                    i++;
-                    mGeneralFunctions.nhanVIP();
-                    mCharacter.StatusVipPromotion = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // Check to run "Nhận và Auto Phụ Bản"
-                if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
-                {
-                    i++;
-                    string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
-                    mGeneralFunctions.runNhanAutoPB(phuBan);
-                    mCharacter.StatusAutoPhuBan = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // "Rút bộ"
-                if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
-                {
-                    i++;
-                    mGeneralFunctions.rutBo();
-                    mCharacter.StatusRutBo = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // "Đổi thưởng Không Gian Điêu Khắc"
-                if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
-                {
-                    i++;
-                    mGeneralFunctions.khongGianDieuKhac();
-                    mCharacter.StatusDoiKGDK = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
 
                 // "Nhận thưởng hành lang"
                 if (mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
@@ -301,21 +259,13 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // Check to run "Rung cây"
-                if (mCharacter.UocNguyen == 1 && mCharacter.StatusUocNguyen == 0)
+                // Check to run "Nhận và Auto Phụ Bản"
+                if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
                 {
                     i++;
-                    mGeneralFunctions.rungCay();
-                    mCharacter.StatusUocNguyen = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // Check to run "Chế mật bảo"
-                if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
-                {
-                    i++;
-                    mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap);
-                    mCharacter.StatusCheMatBao = 1;
+                    string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
+                    mGeneralFunctions.runNhanAutoPB(phuBan);
+                    mCharacter.StatusAutoPhuBan = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
@@ -343,6 +293,65 @@ namespace AutoVPT.Libs
                     //{
                     //    Thread.CurrentThread.Abort();
                     //}
+                }
+
+                // Trồng nguyên liệu
+                if (mCharacter.TrongNL == 1)
+                {
+                    mGeneralFunctions.trongNL();
+                }
+
+                // "Nhận VIP"
+                if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
+                {
+                    i++;
+                    mGeneralFunctions.nhanVIP();
+                    mCharacter.StatusVipPromotion = 1;
+                    Helper.saveSettingsToXML(mCharacter);
+                }
+
+                // "Rút bộ"
+                if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
+                {
+                    i++;
+                    mGeneralFunctions.rutBo();
+                    mCharacter.StatusRutBo = 1;
+                    Helper.saveSettingsToXML(mCharacter);
+                }
+
+                // "Đổi thưởng Không Gian Điêu Khắc"
+                if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
+                {
+                    i++;
+                    mGeneralFunctions.khongGianDieuKhac();
+                    mCharacter.StatusDoiKGDK = 1;
+                    Helper.saveSettingsToXML(mCharacter);
+                }
+
+                if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
+                {
+                    i++;
+                    mGeneralFunctions.hoiPhuc();
+                    mCharacter.StatusNhanHoiPhuc = 1;
+                    Helper.saveSettingsToXML(mCharacter);
+                }
+
+                // Check to run "Rung cây"
+                //if (mCharacter.UocNguyen == 1 && mCharacter.StatusUocNguyen == 0)
+                //{
+                //    i++;
+                //    mGeneralFunctions.rungCay();
+                //    mCharacter.StatusUocNguyen = 1;
+                //    Helper.saveSettingsToXML(mCharacter);
+                //}
+
+                // Check to run "Chế mật bảo"
+                if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
+                {
+                    i++;
+                    mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap);
+                    mCharacter.StatusCheMatBao = 1;
+                    Helper.saveSettingsToXML(mCharacter);
                 }
 
                 // Check to run "Auto Thần tu"
@@ -380,16 +389,8 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
-                {
-                    i++;
-                    mGeneralFunctions.hoiPhuc();
-                    mCharacter.StatusNhanHoiPhuc = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
                 // Check to run "Đổi năng nổ"
-                if (mCharacter.DoiNangNo == 1)
+                if (mCharacter.DoiNangNo == 1 && mCharacter.RunToLast == 1)
                 {
                     mGeneralFunctions.nhanThuongAutoPhuBan();
                     mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);

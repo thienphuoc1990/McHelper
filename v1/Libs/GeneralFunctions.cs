@@ -289,7 +289,10 @@ namespace AutoVPT.Libs
             while (numberOfLoop <= 20)
             {
                 dauPet();
-                aoMa();
+                if (numberOfLoop < 3)
+                {
+                    aoMa();
+                }
 
                 numberOfLoop++;
                 Thread.Sleep(60 * 11 * 1000);
