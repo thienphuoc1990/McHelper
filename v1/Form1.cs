@@ -913,6 +913,65 @@ namespace AutoVPT
 
         private void buttonChayAutoAllAcc_Click(object sender, EventArgs e)
         {
+            Helper.threadList.Add(new Thread(runAllAcc));
+            int index = Helper.threadList.Count() - 1;
+            Helper.threadList[index].Name = "runAllAcc";
+            Helper.threadList[index].Start();
+        }
+
+        private void runAllAcc()
+        {
+            int rowIndex = 0;
+            int soLuongChay = int.Parse(textBoxSoLuongAcc.Text);
+
+            while (rowIndex < dataGridViewCharacters.Rows.Count)
+            {
+                DataGridViewRow item = dataGridViewCharacters.Rows[rowIndex];
+                Helper.writeStatus(textBoxStatus, "All acc", "Đang chạy auto " + getRunningThreadsWithNameContaining("mainauto").Count.ToString()  + " acc");
+
+                if (getRunningThreadsWithNameContaining("mainauto").Count < soLuongChay)
+                {
+                    character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                    if (character.ID != null && character.ID != "" && checkWindowOpen())
+                    {
+                        IntPtr hWnd = getHandledWindow();
+                        if (hWnd == IntPtr.Zero)
+                        {
+                            MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                            return;
+                        }
+
+                        MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                        runTaskInThread(mMainAuto.run, "mainauto");
+                        Thread.Sleep(Constant.VeryTimeShort);
+                    }
+
+                    rowIndex++;
+                }
+                else
+                {
+                    Thread.Sleep(60 * 1000);
+                }
+            }
+        }
+
+        private List<Thread> getRunningThreadsWithNameContaining(string searchText)
+        {
+            // Lấy danh sách các thread đang chạy và có tên chứa chuỗi tìm kiếm
+            var runningThreads = Helper.threadList
+                .Where(thread =>
+                    thread.IsAlive &&  // Kiểm tra thread có đang chạy không
+                    !string.IsNullOrEmpty(thread.Name) && // Đảm bảo tên thread không rỗng
+                    thread.Name.Contains(searchText))    // Kiểm tra tên thread có chứa chuỗi
+                .ToList(); // Chuyển kết quả thành List
+
+            return runningThreads;
+        }
+
+        private void buttonAmDpAllToEnd_Click(object sender, EventArgs e)
+        {
+
             foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
             {
                 character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
@@ -927,7 +986,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.run, "mainauto");
+                    runTaskInThread(mMainAuto.aoMaDaPetAllToEnd, "aoMaDaPetAllToEnd");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }

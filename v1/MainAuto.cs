@@ -380,16 +380,19 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
+                if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
+                {
+                    i++;
+                    mGeneralFunctions.hoiPhuc();
+                    mCharacter.StatusNhanHoiPhuc = 1;
+                    Helper.saveSettingsToXML(mCharacter);
+                }
+
                 // Check to run "Đổi năng nổ"
                 if (mCharacter.DoiNangNo == 1)
                 {
                     mGeneralFunctions.nhanThuongAutoPhuBan();
                     mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);
-                }
-
-                if (mCharacter.NhanHoiPhuc == 1)
-                {
-                    mGeneralFunctions.hoiPhuc();
                 }
 
                 if (i == 0)
@@ -398,23 +401,6 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                     Thread.CurrentThread.Abort();
                     break;
-                }
-                else
-                {
-                    // Run ảo ma & đá pet
-                    var numberOfLoop = 0;
-                    while (numberOfLoop <= Constant.MaxLoop)
-                    {
-                        if (numberOfLoop < 3)
-                        {
-                            mGeneralFunctions.aoMa();
-                        }
-
-                        mGeneralFunctions.dauPet();
-
-                        numberOfLoop++;
-                        Thread.Sleep(60 * 10 * 1000);
-                    }
                 }
 
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 1 phút");
@@ -454,6 +440,11 @@ namespace AutoVPT.Libs
         public void daPet()
         {
             runAction("dapet", () => mGeneralFunctions.dauPet());
+        }
+
+        public void aoMaDaPetAllToEnd()
+        {
+            runAction("aoMaDaPetAllToEnd", () => mGeneralFunctions.aoMaDaPetAllToEnd());
         }
 
         public void autoPhuBan()

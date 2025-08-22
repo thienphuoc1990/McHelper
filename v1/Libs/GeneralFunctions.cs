@@ -282,6 +282,20 @@ namespace AutoVPT.Libs
             }
         }
 
+        public void aoMaDaPetAllToEnd()
+        {
+            // Run ảo ma & đá pet
+            var numberOfLoop = 0;
+            while (numberOfLoop <= 20)
+            {
+                dauPet();
+                aoMa();
+
+                numberOfLoop++;
+                Thread.Sleep(60 * 11 * 1000);
+            }
+        }
+
         /*
          * Function: dauPet
          * Description: Đấu Pet
