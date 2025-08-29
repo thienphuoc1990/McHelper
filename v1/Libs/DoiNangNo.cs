@@ -98,6 +98,8 @@ namespace AutoVPT.Libs
                 return false;
             }
 
+            mAuto.bayXuong();
+
             return true;
         }
 
