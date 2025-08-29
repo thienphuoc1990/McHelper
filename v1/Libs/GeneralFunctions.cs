@@ -23,6 +23,7 @@ namespace AutoVPT.Libs
         public CheMatBao mCheMatBao;
         public AutoPhuBan mAutoPhuBan;
         public AutoXuQue mAutoXuQue;
+        public DanhSTMT mDanhSTMT;
 
         public GeneralFunctions(IntPtr hWnd, Character character, TextBox textBoxStatus)
         {
@@ -36,6 +37,7 @@ namespace AutoVPT.Libs
             mDoiNangNo = new DoiNangNo(mHWnd, mWindowName, mAuto);
             mChayTriAn = new ChayTriAn(mHWnd, mWindowName, mCharacter, mAuto);
             mAutoXuQue = new AutoXuQue(mHWnd, mWindowName, mAuto);
+            mDanhSTMT = new DanhSTMT(mHWnd, mWindowName, mAuto);
         }
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Ansi)]
@@ -297,6 +299,22 @@ namespace AutoVPT.Libs
                 numberOfLoop++;
                 Thread.Sleep(60 * 11 * 1000);
             }
+        }
+
+        public void danhSTMT(string[] stmt)
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAuto.writeStatus("Bắt đầu \"Đánh STMT\"");
+            mAuto.closeAllDialog();
+
+            mDanhSTMT.setSTMT(stmt);
+            mDanhSTMT.danhSTMT();
+
+            mAuto.closeAllDialog();
         }
 
         /*

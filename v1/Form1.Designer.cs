@@ -130,6 +130,9 @@
             this.buttonAmDpAllToEnd = new System.Windows.Forms.Button();
             this.textBoxSoLuongAcc = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.tabPageSTMT = new System.Windows.Forms.TabPage();
+            this.checkedListBoxSTMT = new System.Windows.Forms.CheckedListBox();
+            this.buttonDanhSTMT = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -139,6 +142,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownIncreaseFPS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVIPLevel)).BeginInit();
             this.tabPagePhuBan.SuspendLayout();
+            this.tabPageSTMT.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonThemNhanVat
@@ -311,6 +315,7 @@
             this.tabControlAuto.Controls.Add(this.tabPageMain);
             this.tabControlAuto.Controls.Add(this.tabPageGeneral);
             this.tabControlAuto.Controls.Add(this.tabPagePhuBan);
+            this.tabControlAuto.Controls.Add(this.tabPageSTMT);
             this.tabControlAuto.Location = new System.Drawing.Point(265, 12);
             this.tabControlAuto.Name = "tabControlAuto";
             this.tabControlAuto.SelectedIndex = 0;
@@ -1249,11 +1254,121 @@
             this.label13.TabIndex = 90;
             this.label13.Text = "So luong acc";
             // 
+            // tabPageSTMT
+            // 
+            this.tabPageSTMT.Controls.Add(this.checkedListBoxSTMT);
+            this.tabPageSTMT.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSTMT.Name = "tabPageSTMT";
+            this.tabPageSTMT.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSTMT.Size = new System.Drawing.Size(534, 268);
+            this.tabPageSTMT.TabIndex = 3;
+            this.tabPageSTMT.Text = "Sổ tay Ma thú";
+            this.tabPageSTMT.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBoxSTMT
+            // 
+            this.checkedListBoxSTMT.CheckOnClick = true;
+            this.checkedListBoxSTMT.FormattingEnabled = true;
+            this.checkedListBoxSTMT.Items.AddRange(new object[] {
+            "ccgh60",
+            "ccgh70",
+            "ccgh80",
+            "ccgh90",
+            "cc90",
+            "cc95btt",
+            "cc95",
+            "cc105",
+            "cc115qv",
+            "cc115",
+            "cc125",
+            "cc135",
+            "cc140",
+            "cc150",
+            "cc160",
+            "land5",
+            "land10",
+            "land15",
+            "land20mvbg",
+            "land20",
+            "land25",
+            "land30",
+            "land30ogq",
+            "land35cts",
+            "land35",
+            "land40nyhh",
+            "land40",
+            "land45gd",
+            "land45",
+            "land55",
+            "land60",
+            "land65",
+            "land70",
+            "land75oclcd",
+            "land75",
+            "land80",
+            "land85",
+            "land90",
+            "land95",
+            "land97",
+            "land100",
+            "land105",
+            "land110",
+            "land115",
+            "land117",
+            "land120",
+            "land121",
+            "land125",
+            "land130",
+            "land140",
+            "land145",
+            "land150",
+            "land155",
+            "land160",
+            "air65",
+            "air70",
+            "air75",
+            "air80",
+            "air85",
+            "air90",
+            "air95",
+            "air97",
+            "air100",
+            "air105",
+            "air110",
+            "air115",
+            "air117",
+            "air120",
+            "air125",
+            "air127",
+            "air130",
+            "air135",
+            "air140",
+            "air145",
+            "air150",
+            "air155",
+            "air160"});
+            this.checkedListBoxSTMT.Location = new System.Drawing.Point(6, 3);
+            this.checkedListBoxSTMT.MultiColumn = true;
+            this.checkedListBoxSTMT.Name = "checkedListBoxSTMT";
+            this.checkedListBoxSTMT.Size = new System.Drawing.Size(522, 259);
+            this.checkedListBoxSTMT.TabIndex = 2;
+            // 
+            // buttonDanhSTMT
+            // 
+            this.buttonDanhSTMT.Location = new System.Drawing.Point(540, 544);
+            this.buttonDanhSTMT.Name = "buttonDanhSTMT";
+            this.buttonDanhSTMT.Size = new System.Drawing.Size(105, 23);
+            this.buttonDanhSTMT.TabIndex = 92;
+            this.buttonDanhSTMT.Text = "Đánh STMT";
+            this.buttonDanhSTMT.UseVisualStyleBackColor = true;
+            this.buttonDanhSTMT.Click += new System.EventHandler(this.buttonDanhSTMT_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 610);
+            this.Controls.Add(this.buttonDanhSTMT);
             this.Controls.Add(this.textBoxSoLuongAcc);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.buttonAmDpAllToEnd);
@@ -1317,6 +1432,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVIPLevel)).EndInit();
             this.tabPagePhuBan.ResumeLayout(false);
             this.tabPagePhuBan.PerformLayout();
+            this.tabPageSTMT.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1424,6 +1540,9 @@
         private System.Windows.Forms.Button buttonAmDpAllToEnd;
         private System.Windows.Forms.TextBox textBoxSoLuongAcc;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TabPage tabPageSTMT;
+        private System.Windows.Forms.CheckedListBox checkedListBoxSTMT;
+        private System.Windows.Forms.Button buttonDanhSTMT;
     }
 }
 

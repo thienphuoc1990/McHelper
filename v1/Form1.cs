@@ -217,6 +217,8 @@ namespace AutoVPT
 
             // Lấy thông tin danh sách phụ bản
             this.getDanhSachPhuBan();
+            // Lấy thông tin danh sách STMT
+            this.getDanhSachSTMT();
 
             updateCharacter();
         }
@@ -232,6 +234,19 @@ namespace AutoVPT
             }
 
             character.AutoPhuBanDanhSach = string.Join(",", phuBan.Where(x => !string.IsNullOrEmpty(x)).ToArray());
+        }
+
+        private void getDanhSachSTMT()
+        {
+            string[] stmt = new string[16];
+            int i = 0;
+            foreach (string item in checkedListBoxSTMT.CheckedItems)
+            {
+                stmt[i] = item;
+                i++;
+            }
+
+            character.DanhSTMTDanhSach = string.Join(",", stmt.Where(x => !string.IsNullOrEmpty(x)).ToArray());
         }
 
         private void updateCharacter()
@@ -322,10 +337,27 @@ namespace AutoVPT
             character.StatusNhanHoiPhuc = setStateFeature(checkBoxStatusNhanHoiPhuc, character.StatusNhanHoiPhuc);
 
             this.setDanhSachPhuBan();
+            this.setDanhSachSTMT();
 
             if (renewConfig)
             {
                 parsingAndUpdateCharacter();
+            }
+        }
+
+        private void setDanhSachSTMT()
+        {
+            string[] list = character.DanhSTMTDanhSach.Split(',');
+            for (int count = 0; count < checkedListBoxSTMT.Items.Count; count++)
+            {
+                if (list.Contains(checkedListBoxSTMT.Items[count].ToString()))
+                {
+                    checkedListBoxSTMT.SetItemChecked(count, true);
+                }
+                else
+                {
+                    checkedListBoxSTMT.SetItemChecked(count, false);
+                }
             }
         }
 
@@ -858,6 +890,7 @@ namespace AutoVPT
 
         private IntPtr getHandledWindow()
         {
+            checkRenewConfig();
             character.Running = 1;
             updateCharacter();
             openWindow();
@@ -990,6 +1023,21 @@ namespace AutoVPT
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
+        }
+
+        private void buttonDanhSTMT_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.danhSTMT, "danhSTMT");
         }
     }
 }

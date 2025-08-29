@@ -495,6 +495,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "stmt":
+                    groupPath = Constant.ImagePathSTMTFolder;
+                    break;
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
@@ -552,6 +555,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "stmt":
+                    groupPath = Constant.ImagePathSTMTFolder;
+                    break;
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
@@ -596,6 +602,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "stmt":
+                    groupPath = Constant.ImagePathSTMTFolder;
+                    break;
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;

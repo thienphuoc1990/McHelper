@@ -438,6 +438,11 @@ namespace AutoVPT.Libs
             runAction("logintogame", () => startGameIfNotExists());
         }
 
+        public void danhSTMT()
+        {
+            runAction("danhSTMT", () => mGeneralFunctions.danhSTMT(mCharacter.DanhSTMTDanhSach.Split(',')));
+        }
+
         public void daPet()
         {
             runAction("dapet", () => mGeneralFunctions.dauPet());

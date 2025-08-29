@@ -40,6 +40,7 @@ namespace AutoVPT.Objects
         private int che_mat_bao_cap = 0;
         private int auto_phu_ban = 0;
         private string auto_phu_ban_danh_sach = "";
+        private string danh_stmt_danh_sach = "";
         private int uoc_nguyen = 0;
         private int dau_pet = 0;
         private int nhan_thuong_hlvt = 0;
@@ -221,6 +222,12 @@ namespace AutoVPT.Objects
         {
             get { return auto_phu_ban_danh_sach; }
             set { auto_phu_ban_danh_sach = value; }
+        }
+
+        public string DanhSTMTDanhSach
+        {
+            get { return danh_stmt_danh_sach; }
+            set { danh_stmt_danh_sach = value; }
         }
 
         public int UocNguyen
