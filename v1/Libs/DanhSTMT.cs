@@ -72,7 +72,7 @@ namespace AutoVPT.Libs
                 }
                 else
                 {
-                    mAuto.writeStatus("Đánh ma thú bay, bay lên");
+                    mAuto.writeStatus("Đánh ma thú đất, bay xuống");
                     mAuto.bayXuong();
                 }
 
