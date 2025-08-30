@@ -17,6 +17,7 @@ namespace AutoVPT.Libs
 
         public const int WindowTopBarHeight = 25; // Height of window top bar.
 
+        public const int MaxLoopShort = 3;
         public const int MaxLoopQ = 10;
         public const int MaxLoop = 20;
 

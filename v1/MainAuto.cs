@@ -448,6 +448,11 @@ namespace AutoVPT.Libs
             runAction("dapet", () => mGeneralFunctions.dauPet());
         }
 
+        public void nhanKNVU()
+        {
+            runAction("nhanKNVU", () => mGeneralFunctions.nhanKNVU());
+        }
+
         public void aoMaDaPetAllToEnd()
         {
             runAction("aoMaDaPetAllToEnd", () => mGeneralFunctions.aoMaDaPetAllToEnd());

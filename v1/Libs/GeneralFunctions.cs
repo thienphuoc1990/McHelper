@@ -346,6 +346,29 @@ namespace AutoVPT.Libs
             mAuto.clickImageByGroup("global", "daupetkhieuchien", false, true);
             mAuto.closeAllDialog();
         }
+        public void nhanKNVU()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAuto.writeStatus("Bắt đầu \"Nhận KNVU\"");
+            mAuto.closeAllDialog();
+
+            findTheFeatureFromQuickFeatures("knvu_kiepnanvouu");
+
+            if (mAuto.findImageByGroup("global", "knvu_nhan"))
+            {
+                mAuto.writeStatus("Đang có phần thưởng KNVU, nhận phần thưởng");
+                mAuto.clickImageByGroup("global", "knvu_nhan", false, false);
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.clickImageByGroup("global", "knvu_co", false, false);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            mAuto.closeAllDialog();
+        }
 
         /*
          * Function: aoMa
@@ -395,7 +418,8 @@ namespace AutoVPT.Libs
 
         private void findTheFeatureFromQuickFeatures(String featureName)
         {
-            while (!mAuto.findImageByGroup("global", featureName + "_check"))
+            int loop = 0;
+            while (!mAuto.findImageByGroup("global", featureName + "_check") && loop < Constant.MaxLoopShort)
             {
                 while (mAuto.findImageByGroup("global", "quickFeatureListUpArrow") && !mAuto.findImageByGroup("global", featureName))
                 {
@@ -410,9 +434,16 @@ namespace AutoVPT.Libs
                     Thread.Sleep(Constant.TimeMedium);
                 }
 
-                mAuto.writeStatus("Tìm thấy tính năng, mở tính năng...");
-                mAuto.clickImageByGroup("global", featureName);
-                Thread.Sleep(Constant.TimeMedium);
+                if (mAuto.findImageByGroup("global", featureName))
+                {
+                    mAuto.writeStatus("Tìm thấy tính năng, mở tính năng...");
+                    mAuto.clickImageByGroup("global", featureName);
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+                else                 {
+                    mAuto.writeStatus("Không tìm thấy tính năng " + featureName);
+                }
+                loop++;
             }
         }
 
