@@ -154,28 +154,35 @@ namespace AutoVPT.Libs
                 return;
             }
 
+            mAuto.closeAllDialog();
             // Thu nhỏ khung chat
             mAuto.writeStatus("Thu nhỏ khung chat ...");
-            mAuto.clickImageByGroup("global", "thunhokhungchat", false, true, 2);
+            mAuto.clickImageByGroup("global", "morongkhungchat", false, false, 10, 20, -30);
 
             // Tắt bảng nhiệm vụ nổi
             mAuto.writeStatus("Tắt bảng nhiệm vụ nổi ...");
-            mAuto.clickImageByGroup("global", "tatbangnhiemvunoi");
+            while (!mAuto.findImageByGroup("global", "nhiemvu_check"))
+            {
+                mAuto.clickImageByGroup("global", "nhiemvu");
+            }
+            mAuto.clickImageByGroup("global", "nhiemvu_tat", false, false);
 
             // Ẩn thanh kỹ năng
             mAuto.writeStatus("Ẩn thanh kỹ năng ...");
             mAuto.clickImageByGroup("global", "anthanhkynang");
 
-            //// Ẩn tên và nhân vật, mở mẫu
-            //// Click vào cài đặt
-            //mAuto.clickImageByGroup("global", "thietlap");
-            //// click ẩn tên
-            //mAuto.clickImageByGroup("global", "anten");
-            //// click ẩn nhân vật
-            //mAuto.clickImageByGroup("global", "annhanvat");
-            //// click bỏ đóng mẫu
+
+            // Ẩn tên và nhân vật, mở mẫu
+            // Click vào cài đặt
+            mAuto.clickImageByGroup("global", "thietlap");
+            // click ẩn tên
+            mAuto.clickImageByGroup("global", "anten");
+            // click ẩn nhân vật
+            mAuto.clickImageByGroup("global", "annhanvat");
+            // click bỏ đóng mẫu
             //mAuto.clickImageByGroup("global", "dongmauchecked");
 
+            mAuto.closeAllDialog();
         }
 
         /*

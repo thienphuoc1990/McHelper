@@ -36,8 +36,6 @@ namespace AutoVPT.Libs
 
             startGameIfNotExists();
 
-            mGeneralFunctions.prepareScreen();
-
             findMonsterByCode("nguoituyetcuonghoan");
         }
 
@@ -50,8 +48,6 @@ namespace AutoVPT.Libs
             }
 
             startGameIfNotExists();
-
-            mGeneralFunctions.prepareScreen();
 
             findMonstersInMap("nguoituyetcuonghoan", true);
             //findMonsterByCode("nguoituyetcuonghoan");
@@ -67,7 +63,6 @@ namespace AutoVPT.Libs
 
             startGameIfNotExists();
 
-            mGeneralFunctions.prepareScreen();
             mGeneralFunctions.xuQue();
         }
 
@@ -80,8 +75,6 @@ namespace AutoVPT.Libs
             }
 
             startGameIfNotExists();
-
-            mGeneralFunctions.prepareScreen();
 
             findMonstersInMap("nguoituyetcuonghoan");
             //findMonsterByCode("nguoituyetcuonghoan");
@@ -242,9 +235,7 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            startGameIfNotExists();
-
-            mGeneralFunctions.prepareScreen();
+            startGameIfNotExists(true);
 
             while (mCharacter.Running == 1)
             {
@@ -409,11 +400,13 @@ namespace AutoVPT.Libs
             }
         }
 
-        private void startGameIfNotExists()
+        private void startGameIfNotExists(bool isForcePrepareScreen = false)
         {
+            bool isStarting = false;
             // Lập lại việc check và mở windows
             while (!mGeneralFunctions.checkWindowOpen())
             {
+                isStarting = true;
                 mGeneralFunctions.openWindow();
                 Thread.Sleep(5000);
             }
@@ -426,6 +419,10 @@ namespace AutoVPT.Libs
             }
 
             Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã vào game");
+            if (isStarting || isForcePrepareScreen)
+            {
+                mGeneralFunctions.prepareScreen();
+            }
         }
 
         public void testRightClick(string group, string name, int x, int y)
@@ -517,7 +514,7 @@ namespace AutoVPT.Libs
                 return;
             }
             startGameIfNotExists();
-            mGeneralFunctions.prepareScreen();
+
             try
             {
                 action();

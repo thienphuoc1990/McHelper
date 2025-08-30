@@ -77,7 +77,7 @@ namespace AutoVPT.Libs
                 closeAllDialog();
 
                 // Mở bản đồ nhỏ
-                clickToImage(Constant.ImagePathMiniMap);
+                clickImageByGroup("maps", "map");
 
                 // Click vào vị trí cần đến
                 clickImageByGroup("in_map", locationName);
@@ -371,7 +371,7 @@ namespace AutoVPT.Libs
 
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, 0.95);
             if (pBtn != null)
             {
                 au3.click(mWindowName, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
@@ -401,7 +401,7 @@ namespace AutoVPT.Libs
             screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + ".png");
 
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, 0.95);
             if (pBtn != null)
             {
                 return true;
