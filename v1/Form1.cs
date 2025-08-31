@@ -454,7 +454,7 @@ namespace AutoVPT
         {
             foreach (var thread in Helper.threadList)
             {
-                if (thread.ThreadState == System.Threading.ThreadState.Running)
+                if (thread.IsAlive)
                 {
                     Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng " + thread.Name);
                     thread.Abort();
@@ -934,7 +934,6 @@ namespace AutoVPT
 
         private void buttonAmDpAllToEnd_Click(object sender, EventArgs e)
         {
-
             foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
             {
                 character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
@@ -1002,6 +1001,50 @@ namespace AutoVPT
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
                     runTaskInThread(mMainAuto.nhanKNVU, "nhanKNVU");
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+            }
+        }
+
+        private void buttonDapetAllToEnd_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
+                {
+                    IntPtr hWnd = getHandledWindow();
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
+                    }
+
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.daPetAllToEnd, "daPetAllToEnd");
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+            }
+        }
+
+        private void buttonAllCanhKyTruong_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
+                {
+                    IntPtr hWnd = getHandledWindow();
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
+                    }
+
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.goCanhKyTruong, "goCanhKyTruong");
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }

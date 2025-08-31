@@ -132,6 +132,8 @@
             this.buttonDanhSTMT = new System.Windows.Forms.Button();
             this.buttonNhanKNVU = new System.Windows.Forms.Button();
             this.buttonNhanKnvuAll = new System.Windows.Forms.Button();
+            this.buttonDapetAllToEnd = new System.Windows.Forms.Button();
+            this.buttonAllCanhKyTruong = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1352,11 +1354,33 @@
             this.buttonNhanKnvuAll.UseVisualStyleBackColor = true;
             this.buttonNhanKnvuAll.Click += new System.EventHandler(this.buttonNhanKnvuAll_Click);
             // 
+            // buttonDapetAllToEnd
+            // 
+            this.buttonDapetAllToEnd.Location = new System.Drawing.Point(108, 510);
+            this.buttonDapetAllToEnd.Name = "buttonDapetAllToEnd";
+            this.buttonDapetAllToEnd.Size = new System.Drawing.Size(95, 23);
+            this.buttonDapetAllToEnd.TabIndex = 95;
+            this.buttonDapetAllToEnd.Text = "DP All to End";
+            this.buttonDapetAllToEnd.UseVisualStyleBackColor = true;
+            this.buttonDapetAllToEnd.Click += new System.EventHandler(this.buttonDapetAllToEnd_Click);
+            // 
+            // buttonAllCanhKyTruong
+            // 
+            this.buttonAllCanhKyTruong.Location = new System.Drawing.Point(211, 510);
+            this.buttonAllCanhKyTruong.Name = "buttonAllCanhKyTruong";
+            this.buttonAllCanhKyTruong.Size = new System.Drawing.Size(93, 23);
+            this.buttonAllCanhKyTruong.TabIndex = 96;
+            this.buttonAllCanhKyTruong.Text = "All CKT";
+            this.buttonAllCanhKyTruong.UseVisualStyleBackColor = true;
+            this.buttonAllCanhKyTruong.Click += new System.EventHandler(this.buttonAllCanhKyTruong_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 596);
+            this.Controls.Add(this.buttonAllCanhKyTruong);
+            this.Controls.Add(this.buttonDapetAllToEnd);
             this.Controls.Add(this.buttonNhanKnvuAll);
             this.Controls.Add(this.buttonNhanKNVU);
             this.Controls.Add(this.buttonDanhSTMT);
@@ -1530,6 +1554,8 @@
         private System.Windows.Forms.Button buttonDanhSTMT;
         private System.Windows.Forms.Button buttonNhanKNVU;
         private System.Windows.Forms.Button buttonNhanKnvuAll;
+        private System.Windows.Forms.Button buttonDapetAllToEnd;
+        private System.Windows.Forms.Button buttonAllCanhKyTruong;
     }
 }
 

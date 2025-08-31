@@ -321,6 +321,39 @@ namespace AutoVPT.Libs
             }
         }
 
+        public void goCanhKyTruong()
+        {
+            mAuto.closeAllDialog();
+            mAuto.bay();
+            while(!mAuto.findImageByGroup("maps", "canhkytruong_check"))
+            {
+                mAuto.moveToMap("donghuyenthanh");
+                mAuto.clickImageByGroup("maps", "map");
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.clickImageByGroup("in_map", "canhkytruong");
+                while (mAuto.isMoving())
+                {
+                    Thread.Sleep(2000);
+                }
+                mAuto.bayXuong();
+                mAuto.closeAllDialog();
+                mAuto.clickImageByGroup("global", "dichchuyencanhkytruong");
+                Thread.Sleep(Constant.TimeMedium);
+            }
+        }
+
+        public void daPetAllToEnd()
+        {
+            // Run đấu pet
+            var numberOfLoop = 0;
+            while (numberOfLoop <= 20)
+            {
+                dauPet();
+                numberOfLoop++;
+                Thread.Sleep(60 * 11 * 1000);
+            }
+        }   
+
         public void aoMaDaPetAllToEnd()
         {
             // Run ảo ma & đá pet

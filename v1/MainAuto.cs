@@ -455,6 +455,16 @@ namespace AutoVPT.Libs
             runAction("aoMaDaPetAllToEnd", () => mGeneralFunctions.aoMaDaPetAllToEnd());
         }
 
+        public void daPetAllToEnd()
+        {
+            runAction("daPetAllToEnd", () => mGeneralFunctions.daPetAllToEnd());
+        }
+
+        public void goCanhKyTruong()
+        {
+            runAction("goCanhKyTruong", () => mGeneralFunctions.goCanhKyTruong());
+        }
+
         public void autoPhuBan()
         {
             runAction("phuban", () => mGeneralFunctions.runNhanAutoPB(mCharacter.AutoPhuBanDanhSach.Split(',')));
