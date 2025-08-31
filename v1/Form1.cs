@@ -418,15 +418,9 @@ namespace AutoVPT
 
             foreach (var thread in Helper.threadList)
             {
-                if (thread.Name == (character.ID + "mainauto"))
+                if (thread.Name.Contains(character.ID))
                 {
                     Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto");
-                    thread.Abort();
-                }
-
-                if (thread.Name == (character.ID + "autoevent"))
-                {
-                    Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto event");
                     thread.Abort();
                 }
             }
@@ -460,8 +454,11 @@ namespace AutoVPT
         {
             foreach (var thread in Helper.threadList)
             {
-                thread.Abort();
-                Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng " + thread.Name);
+                if (thread.ThreadState == System.Threading.ThreadState.Running)
+                {
+                    Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng " + thread.Name);
+                    thread.Abort();
+                }
             }
         }
 

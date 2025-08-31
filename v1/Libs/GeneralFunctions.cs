@@ -429,25 +429,25 @@ namespace AutoVPT.Libs
             if (mAuto.findImageByGroup("global", "aoma_huybotuluyen"))
             {
                 mAuto.writeStatus("Đang có tu luyện ảo ma, hủy bỏ tu luyện");
-                mAuto.clickImageByGroup("global", "aoma_huybotuluyen", false, false);
+                mAuto.clickImageByGroup("global", "aoma_huybotuluyen");
                 Thread.Sleep(Constant.TimeMedium);
-                mAuto.clickImageByGroup("global", "aoma_co", false, false);
+                mAuto.clickImageByGroup("global", "aoma_co");
             }
 
-            if (mAuto.findImageByGroup("global", "aoma_nhanphanthuong"))
+            if (mAuto.findImageByGroup("global", "aoma_nhanphanthuong", true))
             {
                 mAuto.writeStatus("Đang có phần thưởng tu luyện, nhận phần thưởng");
-                mAuto.clickImageByGroup("global", "aoma_nhanphanthuong", false, false);
+                mAuto.clickImageByGroup("global", "aoma_nhanphanthuong", true);
                 Thread.Sleep(Constant.TimeMedium);
-                mAuto.clickImageByGroup("global", "aoma_co", false, false);
+                mAuto.clickImageByGroup("global", "aoma_co");
             }
 
             if (mAuto.findImageByGroup("global", "aoma_tuluyen"))
             {
                 mAuto.writeStatus("Tu luyện");
-                mAuto.clickImageByGroup("global", "aoma_tuluyen", false, false);
+                mAuto.clickImageByGroup("global", "aoma_tuluyen");
                 Thread.Sleep(Constant.TimeMedium);
-                mAuto.clickImageByGroup("global", "aoma_co", false, false);
+                mAuto.clickImageByGroup("global", "aoma_co");
             }
 
             mAuto.closeAllDialog();
