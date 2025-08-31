@@ -1,4 +1,5 @@
-﻿using AutoVPT.Objects;
+﻿using AutoVPT.Libs;
+using AutoVPT.Objects;
 using System;
 using System.Windows.Forms;
 
@@ -51,9 +52,11 @@ namespace AutoVPT
             else
             {
                 character.Link = this.textBoxLink.Text;
+                character.Group = this.textBoxGroup.Text;
                 try
                 {
                     CharacterList.UpdateCharacter(character);
+                    Helper.saveSettingsToXML(character);
                     this.Close();
                 }
                 catch

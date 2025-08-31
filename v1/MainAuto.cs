@@ -13,6 +13,7 @@ namespace AutoVPT.Libs
         private string mWindowName;
         public AutoFeatures mAuto;
         private Character mCharacter;
+        private string [] mMembers;
         public GeneralFunctions mGeneralFunctions;
         TextBox mTextBoxStatus;
 
@@ -24,6 +25,11 @@ namespace AutoVPT.Libs
             mTextBoxStatus = textBoxStatus;
             mAuto = new AutoFeatures(hWnd, mWindowName, textBoxStatus, mCharacter);
             mGeneralFunctions = new GeneralFunctions(hWnd, mCharacter, textBoxStatus);
+        }
+
+        public void setMembers(string[] members)
+        {
+            mMembers = members;
         }
 
         public void runEventWithCode()
@@ -465,6 +471,16 @@ namespace AutoVPT.Libs
             runAction("goCanhKyTruong", () => mGeneralFunctions.goCanhKyTruong());
         }
 
+        public void taoNhom()
+        {
+            runAction("taoNhom", () => mGeneralFunctions.taoNhom(mMembers));
+        }
+
+        public void dongYVaoNhom()
+        {
+            runAction("dongYVaoNhom", () => mGeneralFunctions.dongYVaoNhom());
+        }
+
         public void autoPhuBan()
         {
             runAction("phuban", () => mGeneralFunctions.runNhanAutoPB(mCharacter.AutoPhuBanDanhSach.Split(',')));
@@ -541,7 +557,6 @@ namespace AutoVPT.Libs
                 {
                     Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
                     thread.Abort();
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto sau khi abort");
                 }
             }
         }

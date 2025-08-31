@@ -321,6 +321,59 @@ namespace AutoVPT.Libs
             }
         }
 
+        public void dongYVaoNhom()
+        {
+            mAuto.writeStatus("Đồng ý váo nhóm ...");
+            while (!mAuto.findImageByGroup("global", "co", false, true))
+            {
+                mAuto.writeStatus("Chưa có lời mời vào nhóm, chờ 5s thử lại ...");
+                Thread.Sleep(Constant.TimeLong);
+            }
+
+            mAuto.writeStatus("Có lời mời vào nhóm, bấm đồng ý ...");
+            mAuto.clickImageByGroup("global", "co", false, true);
+        }
+
+        public void taoNhom(string[] members)
+        {
+            foreach (string member in members)
+            {
+                while (!mAuto.findImageByGroup("global", "member_check", false, false))
+                {
+                    while (!mAuto.findImageByGroup("global", "giaoluu_check"))
+                    {
+                        mAuto.clickImageByGroup("global", "giaoluu", false, false);
+                        Thread.Sleep(Constant.TimeShort);
+                    }
+
+                    string direction = "xuong";
+                    while (!mAuto.findImageByGroup("char_name", "gl_" + member, false, true))
+                    {
+                        if (mAuto.findImageByGroup("global", "gl_xuonghet", true))
+                        {
+                            direction = "len";
+                        }
+
+                        if (mAuto.findImageByGroup("global", "gl_lenhet", true))
+                        {
+                            direction = "xuong";
+                        }
+
+                        mAuto.writeStatus("Tìm member " + member);
+                        mAuto.clickImageByGroup("global", "gl_" + direction, true, false, 5);
+                        Thread.Sleep(Constant.TimeShort);
+                    }
+
+                    mAuto.writeStatus("Tìm thấy member " + member);
+                    mAuto.clickImageByGroup("char_name", "gl_" + member, false, true);
+                    mAuto.clickImageByGroup("global", "gl_thongtin");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+                mAuto.writeStatus("Mở được bảng member " + member);
+                mAuto.clickImageByGroup("global", "member_moinhom");
+            }
+        }
+
         public void goCanhKyTruong()
         {
             mAuto.closeAllDialog();

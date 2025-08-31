@@ -134,6 +134,7 @@
             this.buttonNhanKnvuAll = new System.Windows.Forms.Button();
             this.buttonDapetAllToEnd = new System.Windows.Forms.Button();
             this.buttonAllCanhKyTruong = new System.Windows.Forms.Button();
+            this.buttonTaoNhom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1374,11 +1375,22 @@
             this.buttonAllCanhKyTruong.UseVisualStyleBackColor = true;
             this.buttonAllCanhKyTruong.Click += new System.EventHandler(this.buttonAllCanhKyTruong_Click);
             // 
+            // buttonTaoNhom
+            // 
+            this.buttonTaoNhom.Location = new System.Drawing.Point(306, 547);
+            this.buttonTaoNhom.Name = "buttonTaoNhom";
+            this.buttonTaoNhom.Size = new System.Drawing.Size(93, 23);
+            this.buttonTaoNhom.TabIndex = 97;
+            this.buttonTaoNhom.Text = "Tạo Nhóm";
+            this.buttonTaoNhom.UseVisualStyleBackColor = true;
+            this.buttonTaoNhom.Click += new System.EventHandler(this.buttonTaoNhom_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 596);
+            this.Controls.Add(this.buttonTaoNhom);
             this.Controls.Add(this.buttonAllCanhKyTruong);
             this.Controls.Add(this.buttonDapetAllToEnd);
             this.Controls.Add(this.buttonNhanKnvuAll);
@@ -1556,6 +1568,7 @@
         private System.Windows.Forms.Button buttonNhanKnvuAll;
         private System.Windows.Forms.Button buttonDapetAllToEnd;
         private System.Windows.Forms.Button buttonAllCanhKyTruong;
+        private System.Windows.Forms.Button buttonTaoNhom;
     }
 }
 

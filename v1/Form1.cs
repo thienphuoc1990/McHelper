@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
+using Emgu.CV.Tracking;
 
 namespace AutoVPT
 {
@@ -818,15 +819,16 @@ namespace AutoVPT
             Helper.threadList[index].Start();
         }
 
-        private IntPtr getHandledWindow()
+        private IntPtr getHandledWindow(Character member = null)
         {
+            Character lCharacter = (member != null) ? member : character;
             checkRenewConfig();
-            character.Running = 1;
+            lCharacter.Running = 1;
             updateCharacter();
             openWindow();
 
             IntPtr hWnd = IntPtr.Zero;
-            return AutoControl.FindWindowHandle(null, character.ID);
+            return AutoControl.FindWindowHandle(null, lCharacter.ID);
         }
 
         private void buttonAutoTuHanh_Click(object sender, EventArgs e)
@@ -1048,6 +1050,58 @@ namespace AutoVPT
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
+        }
+
+        private void buttonTaoNhom_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+
+            string[] memberList = null;
+
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                Character member = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.Group == member.Group && character.ID != member.ID)
+                {
+                    if (memberList == null)
+                    {
+                        memberList = new string[] { member.ID };
+                    }
+                    else
+                    {
+                        Array.Resize(ref memberList, memberList.Length + 1);
+                        memberList[memberList.Length - 1] = member.ID;
+                    }
+
+                    if (member.ID != null && member.ID != "")
+                    {
+                        IntPtr hWndMember = getHandledWindow(member);
+                        if (hWndMember == IntPtr.Zero)
+                        {
+                            MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                            return;
+                        }
+
+                        MainAuto mMainAutoMember = new MainAuto(hWndMember, member, textBoxStatus);
+                        runTaskInThread(mMainAutoMember.dongYVaoNhom, member.ID + "dongYVaoNhom");
+                        Thread.Sleep(Constant.VeryTimeShort);
+                    }
+                }
+            }
+            Helper.writeStatus(textBoxStatus, "All", "Đang chạy tạo nhóm cho: " + string.Join(",", memberList));
+            mMainAuto.setMembers(memberList);
+
+            runTaskInThread(mMainAuto.taoNhom, "taoNhom");
         }
     }
 }
