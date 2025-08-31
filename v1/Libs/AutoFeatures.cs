@@ -495,6 +495,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "nvhn":
+                    groupPath = Constant.ImagePathNVHNFolder;
+                    break;
                 case "stmt":
                     groupPath = Constant.ImagePathSTMTFolder;
                     break;
@@ -555,6 +558,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "nvhn":
+                    groupPath = Constant.ImagePathNVHNFolder;
+                    break;
                 case "stmt":
                     groupPath = Constant.ImagePathSTMTFolder;
                     break;
@@ -602,6 +608,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "nvhn":
+                    groupPath = Constant.ImagePathNVHNFolder;
+                    break;
                 case "stmt":
                     groupPath = Constant.ImagePathSTMTFolder;
                     break;
@@ -628,7 +637,7 @@ namespace AutoVPT.Libs
                     groupPath = Constant.ImagePathGlobalFolder;
                     break;
             }
-            if (!findImage(groupPath + name + ".png"))
+            if (!findImageByGroup(group, name, active, hover))
             {
                 writeStatus("clickImageByGroup not found image " + groupPath + name + ".png");
                 return;

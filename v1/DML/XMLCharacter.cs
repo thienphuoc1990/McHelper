@@ -24,11 +24,12 @@ namespace AutoVPT.DML
         {
             ds.WriteXml(Application.StartupPath + "\\database\\data.xml", XmlWriteMode.WriteSchema);
         }
-        public static void Insert(string id, string link)
+        public static void Insert(string id, string link, string group)
         {
             DataRow dr = dv.Table.NewRow();
             dr[0] = id;
             dr[1] = link;
+            dr[2] = group;
             dv.Table.Rows.Add(dr);
             save();
         }
@@ -36,10 +37,11 @@ namespace AutoVPT.DML
         /// <summary>
         /// Updates a record in the Category table.
         /// </summary>
-        public static void Update(string id, string link)
+        public static void Update(string id, string link, string group)
         {
             DataRow dr = Select(id);
             dr[1] = link;
+            dr[2] = group;
             save();
         }
 

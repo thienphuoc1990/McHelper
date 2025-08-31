@@ -488,7 +488,7 @@ namespace AutoVPT.Libs
 
         public void runAutoTuHanh()
         {
-            runAction("runAutoTuHanh", () => mGeneralFunctions.runAutoTuHanh());
+            runAction("runAutoTuHanh", () => mGeneralFunctions.runAutoTuHanhByNVHN());
         }
 
         public void khongGianDieuKhac()

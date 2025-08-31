@@ -238,12 +238,63 @@ namespace AutoVPT.Libs
             }
         }
 
-        /*
-         * Function: runAutoTuHanh
-         * Description: Tự động auto tu hành
-         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
-         * Created At: 2019-11-18 - Updated At: 2019-11-18
-         */
+        public void runAutoTuHanhByNVHN()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+            mAuto.writeStatus("Bắt đầu \"Auto Tu Hành\"");
+            mAuto.closeAllDialog();
+            mAuto.bay();
+
+            while (!mAuto.isTalkWithNPC("truonglaovouutoc"))
+            {
+                openQuestByNVHN("tuhanh");
+                Thread.Sleep(Constant.TimeMedium);
+            }
+
+            autoTuHanh();
+            Thread.Sleep(Constant.TimeMedium);
+            mAuto.writeStatus("Xong \"Auto Tu Hành\"");
+        }
+
+        public void autoTuHanh()
+        {
+            while(!mAuto.findImageByGroup("global", "autotuhanh_check", false, false))
+            {
+                mAuto.clickImageByGroup("global", "autotuhanh", false, true);
+                mAuto.clickImageByGroup("global", "batdauautotuhanh", false, false);
+                mAuto.clickImageByGroup("global", "luachonco", false, true);
+            }
+        }
+
+        public void openQuestByNVHN(string questName)
+        {
+            // Mở nhiệm vụ hàng ngày    
+            while (!mAuto.findImageByGroup("nvhn", "bang_check"))
+            {
+                mAuto.writeStatus("Mở bảng nhiệm vụ hàng ngày");
+                mAuto.clickImageByGroup("nvhn", "bang");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            while (!mAuto.findImageByGroup("nvhn", questName, true, true))
+            {
+                mAuto.writeStatus("Tìm nhiệm vụ " + questName);
+                mAuto.clickImageByGroup("nvhn", "xuong", true, false, 10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            mAuto.clickImageByGroup("nvhn", questName, true, true, 1, 370);
+        }
+
+            /*
+             * Function: runAutoTuHanh
+             * Description: Tự động auto tu hành
+             * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
+             * Created At: 2019-11-18 - Updated At: 2019-11-18
+             */
         public void runAutoTuHanh()
         {
             if (mCharacter.Running == 0)

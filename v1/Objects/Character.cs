@@ -18,6 +18,7 @@ namespace AutoVPT.Objects
     {
         private string id;
         private string link;
+        private string group;
         private int vip_level = 0;
         private int increase_fps = 0;
         private string date = "";
@@ -90,6 +91,12 @@ namespace AutoVPT.Objects
         {
             get { return link; }
             set { link = value; }
+        }
+
+        public string Group
+        {
+            get { return group; }
+            set { group = value; }
         }
 
         public int VipLevel
@@ -429,6 +436,7 @@ namespace AutoVPT.Objects
                 character = new Character();
                 character.ID = iDr[0] != DBNull.Value ? iDr[0].ToString() : string.Empty;
                 character.Link = iDr[1] != DBNull.Value ? iDr[1].ToString() : string.Empty;
+                character.Group = iDr[2] != DBNull.Value ? iDr[2].ToString() : string.Empty;
             }
             return character;
         }
@@ -443,6 +451,7 @@ namespace AutoVPT.Objects
                 character = new Character();
                 character.ID = iDr[0] != DBNull.Value ? iDr[0].ToString() : string.Empty;
                 character.Link = iDr[1] != DBNull.Value ? iDr[1].ToString() : string.Empty;
+                character.Group = iDr[2] != DBNull.Value ? iDr[2].ToString() : string.Empty;
             }
             return character;
         }
@@ -455,12 +464,12 @@ namespace AutoVPT.Objects
 
         public static void UpdateCharacter(Character character)
         {
-            XMLCharacter.Update(character.ID, character.Link);
+            XMLCharacter.Update(character.ID, character.Link, character.Group);
         }
 
         public static void InsertCharacter(Character character)
         {
-            XMLCharacter.Insert(character.ID, character.Link);
+            XMLCharacter.Insert(character.ID, character.Link, character.Group);
         }
 
         public static void DeleteCharacter(string characterID)

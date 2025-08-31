@@ -33,6 +33,8 @@
             this.textBoxLink = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonAddNewCharacter = new System.Windows.Forms.Button();
+            this.textBoxGroup = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -69,7 +71,7 @@
             // 
             // buttonAddNewCharacter
             // 
-            this.buttonAddNewCharacter.Location = new System.Drawing.Point(108, 81);
+            this.buttonAddNewCharacter.Location = new System.Drawing.Point(107, 88);
             this.buttonAddNewCharacter.Name = "buttonAddNewCharacter";
             this.buttonAddNewCharacter.Size = new System.Drawing.Size(129, 23);
             this.buttonAddNewCharacter.TabIndex = 4;
@@ -77,11 +79,29 @@
             this.buttonAddNewCharacter.UseVisualStyleBackColor = true;
             this.buttonAddNewCharacter.Click += new System.EventHandler(this.buttonAddNewCharacter_Click);
             // 
+            // textBoxGroup
+            // 
+            this.textBoxGroup.Location = new System.Drawing.Point(96, 62);
+            this.textBoxGroup.Name = "textBoxGroup";
+            this.textBoxGroup.Size = new System.Drawing.Size(230, 20);
+            this.textBoxGroup.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Group";
+            // 
             // FormAddCharacter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 116);
+            this.ClientSize = new System.Drawing.Size(347, 130);
+            this.Controls.Add(this.textBoxGroup);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonAddNewCharacter);
             this.Controls.Add(this.textBoxLink);
             this.Controls.Add(this.label2);
@@ -101,5 +121,7 @@
         private System.Windows.Forms.TextBox textBoxLink;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonAddNewCharacter;
+        private System.Windows.Forms.TextBox textBoxGroup;
+        private System.Windows.Forms.Label label3;
     }
 }

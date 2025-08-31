@@ -37,6 +37,7 @@ namespace AutoVPT
                 character = new Character();
                 character.ID = this.textBoxID.Text;
                 character.Link = this.textBoxLink.Text;
+                character.Group = this.textBoxGroup.Text;
                 try
                 {
                     CharacterList.InsertCharacter(character);
@@ -90,6 +91,7 @@ namespace AutoVPT
                 this.buttonAddNewCharacter.Text = "Cập nhật";
                 this.textBoxID.Text = character.ID;
                 this.textBoxLink.Text = character.Link;
+                this.textBoxGroup.Text = character.Group;
             }
         }
     }
