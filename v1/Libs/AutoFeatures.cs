@@ -486,7 +486,6 @@ namespace AutoVPT.Libs
         }
         public void openQuestByNVHN(string questName)
         {
-            bayXuong();
             bay();
             // Mở nhiệm vụ hàng ngày    
             while (!findImageByGroup("nvhn", "bang_check"))
@@ -496,15 +495,21 @@ namespace AutoVPT.Libs
                 Thread.Sleep(Constant.TimeShort);
             }
 
+            string direction = "xuong";
             while (!findImageByGroup("nvhn", questName, true, true))
             {
                 if (findImageByGroup("nvhn", "xuonghet", true))
                 {
-                    closeAllDialog();
-                    break;
+                    direction = "len";
                 }
+
+                if (findImageByGroup("nvhn", "lenhet", true))
+                {
+                    direction = "xuong";
+                }
+
                 writeStatus("Tìm nhiệm vụ " + questName);
-                clickImageByGroup("nvhn", "xuong", true, false, 7);
+                clickImageByGroup("nvhn", direction, true, false, 7);
                 Thread.Sleep(Constant.TimeShort);
             }
     
