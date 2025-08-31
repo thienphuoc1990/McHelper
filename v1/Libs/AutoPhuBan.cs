@@ -56,12 +56,13 @@ namespace AutoVPT.Libs
                 {
                     mAuto.clickImageByGroup("phu_ban", "showchondokho" + mPhuBan[i], false, false, 1, 120);
                     Thread.Sleep(Constant.TimeShort);
-                    mAuto.clickImageByGroup("phu_ban", "chonkho");
+                    mAuto.clickImageByGroup("phu_ban", "chonkho", false, false, 1, 10, -25);
                 }
 
                 // Auto phụ bản
                 mAuto.clickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 60, 40);
                 mAuto.clickImageByGroup("global", "luachonco", false, true);
+                Thread.Sleep(Constant.TimeShort);
                 i++;
             }
 
@@ -164,6 +165,29 @@ namespace AutoVPT.Libs
                         Thread.Sleep(2000);
                     }
                 }
+                i++;
+            }
+        }
+        public void nhanPhuBanTLTByNVHN()
+        {
+            int i = 0;
+            while (mPhuBan[i] != null && i <= Constant.MaxLoopQ)
+            {
+
+                while (!mAuto.isTalkWithNPC("sugiamophuban"))
+                {
+                    mAuto.openQuestByNVHN("phuban");
+                }
+
+                // Click vào nhiệm vụ được trả hoặc chưa nhận
+                mAuto.clickImageByGroup("phu_ban", mPhuBan[i], false, true);
+
+                // Click nhận nhiệm vụ và trả nhiệm vụ
+                mAuto.clickImageByGroup("global", "nhannhiemvu", false, true);
+                mAuto.clickImageByGroup("global", "xong", false, true);
+
+                mAuto.writeStatus("Nhận phụ bản thành công ...");
+                Thread.Sleep(Constant.TimeShort);
                 i++;
             }
         }

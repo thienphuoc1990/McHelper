@@ -250,8 +250,7 @@ namespace AutoVPT.Libs
 
             while (!mAuto.isTalkWithNPC("truonglaovouutoc"))
             {
-                openQuestByNVHN("tuhanh");
-                Thread.Sleep(Constant.TimeMedium);
+                mAuto.openQuestByNVHN("tuhanh");
             }
 
             autoTuHanh();
@@ -267,26 +266,6 @@ namespace AutoVPT.Libs
                 mAuto.clickImageByGroup("global", "batdauautotuhanh", false, false);
                 mAuto.clickImageByGroup("global", "luachonco", false, true);
             }
-        }
-
-        public void openQuestByNVHN(string questName)
-        {
-            // Mở nhiệm vụ hàng ngày    
-            while (!mAuto.findImageByGroup("nvhn", "bang_check"))
-            {
-                mAuto.writeStatus("Mở bảng nhiệm vụ hàng ngày");
-                mAuto.clickImageByGroup("nvhn", "bang");
-                Thread.Sleep(Constant.TimeShort);
-            }
-
-            while (!mAuto.findImageByGroup("nvhn", questName, true, true))
-            {
-                mAuto.writeStatus("Tìm nhiệm vụ " + questName);
-                mAuto.clickImageByGroup("nvhn", "xuong", true, false, 10);
-                Thread.Sleep(Constant.TimeShort);
-            }
-
-            mAuto.clickImageByGroup("nvhn", questName, true, true, 1, 370);
         }
 
             /*
@@ -806,11 +785,8 @@ namespace AutoVPT.Libs
             mAutoPhuBan.setPhuBan(phuBan);
 
             // Nhận phụ bản ở Lạp Tuyết Địa
-            if (mAutoPhuBan.diChuyenDenNhanPhuBan("tienlapthanh"))
-            {
-                mAutoPhuBan.nhanPhuBan("tienlapthanh");
-                mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
-            }
+            mAutoPhuBan.nhanPhuBanTLTByNVHN();
+            mAuto.writeStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
 
             if (phuBan.Contains("Thám Hiểm"))
             {
@@ -822,11 +798,7 @@ namespace AutoVPT.Libs
             }
 
             mAuto.writeStatus("Bắt đầu \"Auto Phụ Bản\"");
-            // Auto phụ bản
-            if (!mAutoPhuBan.auto())
-            {
-                mAutoPhuBan.auto();
-            }
+            mAutoPhuBan.auto();
             mAuto.writeStatus("Kết thúc \"Auto Phụ Bản\"");
         }
 

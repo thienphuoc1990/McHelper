@@ -1,4 +1,5 @@
 ﻿using AutoVPT.Objects;
+using Emgu.CV;
 using KAutoHelper;
 using System;
 using System.Diagnostics;
@@ -483,6 +484,33 @@ namespace AutoVPT.Libs
 
             clickImageByGroup("global", "momenuphai");
         }
+        public void openQuestByNVHN(string questName)
+        {
+            bayXuong();
+            bay();
+            // Mở nhiệm vụ hàng ngày    
+            while (!findImageByGroup("nvhn", "bang_check"))
+            {
+                writeStatus("Mở bảng nhiệm vụ hàng ngày");
+                clickImageByGroup("nvhn", "bang");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            while (!findImageByGroup("nvhn", questName, true, true))
+            {
+                if (findImageByGroup("nvhn", "xuonghet", true))
+                {
+                    closeAllDialog();
+                    break;
+                }
+                writeStatus("Tìm nhiệm vụ " + questName);
+                clickImageByGroup("nvhn", "xuong", true, false, 7);
+                Thread.Sleep(Constant.TimeShort);
+            }
+    
+            clickImageByGroup("nvhn", questName, true, true, 1, 370);
+            Thread.Sleep(Constant.TimeMedium);
+        }
 
         public bool findImageByGroup(string group, string name, bool active = false, bool hover = false)
         {
@@ -524,28 +552,14 @@ namespace AutoVPT.Libs
                     groupPath = Constant.ImagePathGlobalFolder;
                     break;
             }
-            if (findImage(groupPath + name + ".png"))
-            {
-                return true;
-            }
 
-            if (active)
+            bool found = findImage(groupPath + name + ".png") || (active && findImage(groupPath + name + "_active.png")) || (hover && findImage(groupPath + name + "_hover.png"));
+            if (!found)
             {
-                if (findImage(groupPath + name + "_active.png"))
-                {
-                    return true;
-                }
-            }
+                writeStatus("findImageByGroup not found image " + groupPath + name + ".png");
+            }    
 
-            if (hover)
-            {
-                if (findImage(groupPath + name + "_hover.png"))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return found;
         }
 
         public void clickRightImageByGroup(string group, string name, bool active = false, bool hover = false, int numClick = 1, int x = 0, int y = -20)
