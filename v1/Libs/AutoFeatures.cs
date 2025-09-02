@@ -2,6 +2,7 @@
 using Emgu.CV;
 using KAutoHelper;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
@@ -414,6 +415,22 @@ namespace AutoVPT.Libs
             return false;
         }
 
+        public List<Point> findImages(string imagePath)
+        {
+
+            if (mCharacter.Running == 0)
+            {
+                return null;
+            }
+
+            imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
+
+            var screen = CaptureHelper.CaptureWindow(mHWnd);
+
+            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
+            return ImageScanOpenCV.FindOutPoints((Bitmap)screen, iBtn, 0.95);
+        }
+
         public void captureImage()
         {
             var screen = CaptureHelper.CaptureWindow(mHWnd);
@@ -824,7 +841,7 @@ namespace AutoVPT.Libs
                 return false;
             }
 
-            if (!findImage(Constant.ImagePathKhongTrongTranDau))
+            if (!findImage(Constant.ImagePathKhongTrongTranDau) && findImageByGroup("global", "inbattlethongtin"))
             {
                 //writeStatus("Nhân vật đang trong trận đấu ...");
                 return true;

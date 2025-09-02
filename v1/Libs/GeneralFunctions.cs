@@ -372,7 +372,15 @@ namespace AutoVPT.Libs
             List<Point> mapPoints = new List<Point>();
 
             // Mở bảng đồ mini;
-            mAuto.sendKey("~");
+            if (!mAuto.findImageByGroup("global", "map_top"))
+            {
+                mAuto.sendKey("~");
+
+                if (!mAuto.findImageByGroup("global", "map_top"))
+                {
+                    mAuto.clickImageByGroup("maps", "map");
+                }
+            }
 
             var full_screen = CaptureHelper.CaptureWindow(mHWnd);
 
@@ -387,13 +395,59 @@ namespace AutoVPT.Libs
 
             if (iBtnMapTop != null && iBtnMapBottom != null)
             {
-                mapPoints.Add(new Point(pBtnMapTop.Value.X + 50, pBtnMapTop.Value.Y + 50));
-                mapPoints.Add(new Point(pBtnMapTop.Value.X + 380, pBtnMapTop.Value.Y + 50));
-                mapPoints.Add(new Point(pBtnMapBottom.Value.X + 50, pBtnMapBottom.Value.Y - 70));
-                mapPoints.Add(new Point(pBtnMapBottom.Value.X + 380, pBtnMapBottom.Value.Y - 70));
+                mapPoints.Add(new Point(pBtnMapTop.Value.X + 190, pBtnMapTop.Value.Y + 190));
+                mapPoints.Add(new Point(pBtnMapTop.Value.X + 80, pBtnMapTop.Value.Y + 80));
+                mapPoints.Add(new Point(pBtnMapTop.Value.X + 300, pBtnMapTop.Value.Y + 80));
+                mapPoints.Add(new Point(pBtnMapBottom.Value.X + 80, pBtnMapBottom.Value.Y - 100));
+                mapPoints.Add(new Point(pBtnMapBottom.Value.X + 300, pBtnMapBottom.Value.Y - 100));
             }
 
+            mAuto.writeStatus("Thu thập điểm trên bản đồ xong, có " + mapPoints.Count);
             return mapPoints;
+        }
+
+        public void epPetByColor(string color)
+        {
+            int petNumber = 0;
+            do
+            {
+                mAuto.closeAllDialog();
+                while (!mAuto.findImageByGroup("global", "eppet_bang_check"))
+                {
+                    mAuto.clickImageByGroup("global", "eppet_bang");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+
+                mAuto.clickImageByGroup("global", "eppet_dunghop", true);
+                mAuto.clickImageByGroup("global", "eppet_morongtuipet");
+                mAuto.clickImageByGroup("global", "eppet_" + color, true);
+                Thread.Sleep(Constant.TimeMedium);
+
+                List<Point> pets = mAuto.findImages("/bat_pet/pet_ep.png");
+                petNumber = pets.Count;
+                mAuto.writeStatus("Đang có " + petNumber + " pet trong bảng ép pet");
+                if (petNumber >= 5)
+                {
+                    int petInUse = 0;
+                    while (petInUse < 5)
+                    {
+                        mAuto.clickPoint(pets[petInUse].X, pets[petInUse].Y - 20, 2);
+                        mAuto.clickImageByGroup("global", "eppet_bang_check");
+                        Thread.Sleep(Constant.TimeShort);
+                        petInUse++;
+                    }
+
+                    mAuto.clickImageByGroup("global", "eppet_hop");
+                    //mAuto.clickImageByGroup("global", "co");
+                }
+            } while (petNumber >= 5);
+        }
+
+        public void epPet()
+        {
+            epPetByColor("trang");
+            epPetByColor("luc");
+            //epPetByColor("lam");
         }
 
         public void batPet()
@@ -403,27 +457,52 @@ namespace AutoVPT.Libs
 
             while (true)
             {
-                foreach (Point p in mapPoints)
-                {
-                    if (!mAuto.dangTrongTranDau())
-                    {
-                        mAuto.clickPoint(p.X, p.Y);
-                        Thread.Sleep(Constant.TimeMedium);
-                    }
+                epPet();
 
-                    while (mAuto.dangTrongTranDau())
+                int batPetLoop = 0;
+                while (batPetLoop < 10)
+                {
+                    foreach (Point p in mapPoints)
                     {
-                        if (!mAuto.findImageByGroup("global", "auto_check") && mAuto.findImageByGroup("global", "inbattleauto"))
+                        if (!mAuto.dangTrongTranDau())
                         {
-                            if (!mAuto.findImageByGroup("bat_pet", "pet"))
+                            mAuto.clickImageByGroup("global", "outbattletatauto");
+                            if (!mAuto.findImageByGroup("global", "map_top"))
                             {
-                                mAuto.clickImageByGroup("global", "inbattleauto");
-                                Thread.Sleep(Constant.TimeShort);
-                                mAuto.clickImageByGroup("global", "tatbattleauto");
+                                mAuto.sendKey("~");
+
+                                if (!mAuto.findImageByGroup("global", "map_top"))
+                                {
+                                    mAuto.clickImageByGroup("maps", "map");
+                                }
                             }
+                            mAuto.clickPoint(p.X, p.Y);
+                            Thread.Sleep(Constant.TimeMedium);
                         }
-                        Thread.Sleep(Constant.TimeMedium);
+
+                        while (mAuto.dangTrongTranDau())
+                        {
+                            if (!mAuto.findImageByGroup("global", "auto_check") && mAuto.findImageByGroup("global", "inbattleauto"))
+                            {
+                                mAuto.clickImageByGroup("global", "inbattlebatpet");
+                                Thread.Sleep(Constant.TimeShort);
+                                if (!mAuto.findImageByGroup("bat_pet", "pet"))
+                                {
+                                    mAuto.clickPoint(50, 50);
+                                    mAuto.clickImageByGroup("global", "inbattleauto");
+                                    Thread.Sleep(Constant.TimeShort);
+                                    mAuto.clickImageByGroup("global", "inbattletatauto");
+                                }
+                                else
+                                {
+                                    mAuto.clickImageByGroup("bat_pet", "pet");
+                                    mAuto.sendKey("d");
+                                }
+                            }
+                            Thread.Sleep(Constant.TimeMedium);
+                        }
                     }
+                    batPetLoop++;
                 }
             }
         }
