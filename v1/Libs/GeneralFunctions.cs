@@ -365,6 +365,42 @@ namespace AutoVPT.Libs
             }
         }
 
+        public void trainByMap()
+        {
+            mAuto.writeStatus("Bắt đầu train quái với tọa độ trên map");
+            List<Point> mapPoints = collectMiniMapPointsForTrain();
+
+            while (true)
+            {
+                foreach (Point p in mapPoints)
+                {
+                    if (!mAuto.dangTrongTranDau())
+                    {
+                        if (!mAuto.findImageByGroup("global", "map_top"))
+                        {
+                            mAuto.sendKey("~");
+
+                            if (!mAuto.findImageByGroup("global", "map_top"))
+                            {
+                                mAuto.clickImageByGroup("maps", "map");
+                            }
+                        }
+                        mAuto.clickPoint(p.X, p.Y);
+                        Thread.Sleep(Constant.TimeMedium);
+                    }
+
+                    while (mAuto.dangTrongTranDau())
+                    {
+                        if (!mAuto.findImageByGroup("global", "auto_check") && mAuto.findImageByGroup("global", "inbattleauto"))
+                        {
+                            mAuto.clickImageByGroup("global", "inbattleauto");
+                        }
+                        Thread.Sleep(Constant.TimeMedium);
+                    }
+                }
+            }
+        }
+
         public List<Point> collectMiniMapPointsForTrain()
         {
             string resourcePath = mCharacter.IsChinese == 1 ? "cn_resources" : "resources";

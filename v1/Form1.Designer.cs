@@ -137,6 +137,7 @@
             this.buttonTaoNhom = new System.Windows.Forms.Button();
             this.buttonTrainQuai = new System.Windows.Forms.Button();
             this.buttonBatPet = new System.Windows.Forms.Button();
+            this.buttonTrainByMap = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1515,11 +1516,23 @@
             this.buttonBatPet.UseVisualStyleBackColor = true;
             this.buttonBatPet.Click += new System.EventHandler(this.buttonBatPet_Click);
             // 
+            // buttonTrainByMap
+            // 
+            this.buttonTrainByMap.Location = new System.Drawing.Point(804, 758);
+            this.buttonTrainByMap.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTrainByMap.Name = "buttonTrainByMap";
+            this.buttonTrainByMap.Size = new System.Drawing.Size(124, 28);
+            this.buttonTrainByMap.TabIndex = 100;
+            this.buttonTrainByMap.Text = "Train by map";
+            this.buttonTrainByMap.UseVisualStyleBackColor = true;
+            this.buttonTrainByMap.Click += new System.EventHandler(this.buttonTrainByMap_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1144, 830);
+            this.Controls.Add(this.buttonTrainByMap);
             this.Controls.Add(this.buttonBatPet);
             this.Controls.Add(this.buttonTrainQuai);
             this.Controls.Add(this.buttonTaoNhom);
@@ -1704,6 +1717,7 @@
         private System.Windows.Forms.Button buttonTaoNhom;
         private System.Windows.Forms.Button buttonTrainQuai;
         private System.Windows.Forms.Button buttonBatPet;
+        private System.Windows.Forms.Button buttonTrainByMap;
     }
 }
 

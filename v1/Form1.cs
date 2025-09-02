@@ -1133,5 +1133,20 @@ namespace AutoVPT
             MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
             runTaskInThread(mMainAuto.batPet, "batPet");
         }
+
+        private void buttonTrainByMap_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.trainByMap, "trainByMap");
+        }
     }
 }

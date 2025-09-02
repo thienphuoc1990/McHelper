@@ -475,6 +475,11 @@ namespace AutoVPT.Libs
             runAction("trainQuai", () => mGeneralFunctions.trainQuai());
         }
 
+        public void trainByMap()
+        {
+            runAction("trainByMap", () => mGeneralFunctions.trainByMap());
+        }
+
         public void batPet()
         {
             runAction("batPet", () => mGeneralFunctions.batPet());
