@@ -270,12 +270,9 @@ namespace AutoVPT.Libs
                 if (mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
                 {
                     i++;
-                    mGeneralFunctions.runAutoTuHanh();
+                    mGeneralFunctions.runAutoTuHanhByNVHN();
                     mCharacter.StatusTuHanh = 1;
                     Helper.saveSettingsToXML(mCharacter);
-
-                    //// Bug online sau khi tu hành
-                    //mGeneralFunctions.runNhanHoiPhuc();
 
                     //if (mCharacter.RunToLast == 1)
                     //{
@@ -359,9 +356,6 @@ namespace AutoVPT.Libs
                     mCharacter.StatusAutoThanTu = 1;
                     Helper.saveSettingsToXML(mCharacter);
 
-                    //// Bug online sau khi tu hành
-                    //mGeneralFunctions.runNhanHoiPhuc();
-
                     //if (mCharacter.RunToLast == 1)
                     //{
                     //    // Ngủ 30p sau khi auto tu hành
@@ -393,7 +387,7 @@ namespace AutoVPT.Libs
                     mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);
                 }
 
-                if (i == 0)
+                if (i == 0 || mCharacter.RunToLast != 1)
                 {
                     mCharacter.Running = 0;
                     Helper.saveSettingsToXML(mCharacter);
@@ -401,8 +395,8 @@ namespace AutoVPT.Libs
                     break;
                 }
 
-                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 1 phút");
-                Thread.Sleep(10 * 1000);
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 30 phút cho thần tu hoặc tu hành");
+                Thread.Sleep(60 * 31 * 1000);
             }
         }
 
@@ -474,6 +468,21 @@ namespace AutoVPT.Libs
         public void taoNhom()
         {
             runAction("taoNhom", () => mGeneralFunctions.taoNhom(mMembers));
+        }
+
+        public void trainQuai()
+        {
+            runAction("trainQuai", () => mGeneralFunctions.trainQuai());
+        }
+
+        public void trainByMap()
+        {
+            runAction("trainByMap", () => mGeneralFunctions.trainByMap());
+        }
+
+        public void batPet()
+        {
+            runAction("batPet", () => mGeneralFunctions.batPet());
         }
 
         public void dongYVaoNhom()

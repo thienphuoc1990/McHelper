@@ -77,7 +77,7 @@ namespace AutoVPT.Libs
                 }
 
                 // Đánh MT
-                mAuto.clickImageByGroup("stmt", mStmt[mtIndex]);
+                mAuto.clickImageByGroup("stmt", mStmt[mtIndex], false, false, 1, -5, 0);
                 Thread.Sleep(Constant.TimeShort);
                 mAuto.clickImageByGroup("stmt", "co");
                 Thread.Sleep(Constant.TimeMedium);

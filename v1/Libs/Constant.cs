@@ -90,6 +90,7 @@ namespace AutoVPT.Libs
         public const string ImagePathViTriNPC = "/vi_tri_npc/";
         public const string ImagePathKhongTrongTranDau = "/global/khongtrongtrandau.png";
 
+        public const string ImagePathBatPetFolder = "/bat_pet/";
         public const string ImagePathNVHNFolder = "/nvhn/";
         public const string ImagePathSTMTFolder = "/stmt/";
         public const string ImagePathMapsFolder = "/maps/";

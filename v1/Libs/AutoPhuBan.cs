@@ -216,7 +216,7 @@ namespace AutoVPT.Libs
 
             mAuto.closeAllDialog();
 
-            if (!mAuto.moveToMap(map, 1, x, y))
+            if (!mAuto.moveToMap(map, x, y))
             {
                 mAuto.writeStatus("Không thể di chuyển đến map nhận phụ bản ở " + m);
                 return false;
