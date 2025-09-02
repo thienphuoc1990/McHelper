@@ -647,7 +647,7 @@ namespace AutoVPT
             }
 
             MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-            mMainAuto.captureImage();
+            runTaskInThread(mMainAuto.captureImage, "captureImage");
         }
 
         private void buttonAoMa_Click(object sender, EventArgs e)
@@ -1102,6 +1102,36 @@ namespace AutoVPT
             mMainAuto.setMembers(memberList);
 
             runTaskInThread(mMainAuto.taoNhom, "taoNhom");
+        }
+
+        private void buttonTrainQuai_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.trainQuai, "trainQuai");
+        }
+
+        private void buttonBatPet_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.batPet, "batPet");
         }
     }
 }

@@ -198,43 +198,38 @@ namespace AutoVPT.Libs
          *  2. Mở bản đồ thế giới
          *  3. Nhấn vào vị trí của map
          */
-        public bool moveToMap(string mapName, int worldMapIndex = 1, int x = 0, int y = -20)
+        public bool moveToMap(string mapName, int x = 0, int y = -20)
         {
             if (mCharacter.Running == 0)
             {
                 return false;
             }
 
-            string mapPath = Constant.ImagePathMapsFolder + mapName + ".png";
-            string mapActivePath = Constant.ImagePathMapsFolder + mapName + "_active.png";
-            string mapCheckPath = Constant.ImagePathMapsFolder + mapName + "_check.png";
-            int loop = 1;
-
-            while(!findImage(mapCheckPath) && loop <= Constant.MaxLoop && mCharacter.Running != 0)
+            int loop = 0;
+            while(!findImageByGroup("maps", mapName + "_check") && loop < Constant.MaxLoopShort && mCharacter.Running != 0)
             {
                 closeAllDialog();
 
+                Thread.Sleep(Constant.TimeShort);
                 // Mở bản đồ nhỏ
-                clickToImage(Constant.ImagePathMiniMap);
+                sendKey("~");
 
                 // Mở bản đồ thể giới
-                clickToImage(Constant.ImagePathWorldMap);
+                clickImageByGroup("maps", "world_map");
 
-                // Nếu worldMapIndex == 2 thì mở sang bản đồ 2
-                if (worldMapIndex == 2)
+                int loopInMap = 0;
+                while (!findImageByGroup("maps", mapName, true) && loopInMap < Constant.MaxLoopShort)
                 {
-                    clickToImage(Constant.ImagePathSecondWorldMap);
+                    clickImageByGroup("maps", "second_world_map", false, false, 1, x, y);
+                    loopInMap++;
                 }
 
-                clickToImage(mapPath, x, y);
-                clickToImage(mapActivePath, x, y);
+                clickImageByGroup("maps", mapName, true, false, 1, x, y);
                 loop++;
-                Thread.Sleep(3000);
-
-                closeAllDialog();
+                Thread.Sleep(Constant.TimeShort);
             }
 
-            if (loop >= Constant.MaxLoop)
+            if (loop >= Constant.MaxLoopShort)
             {
                 writeStatus("Không thể di chuyển đến " + mapName);
                 return false;
@@ -320,14 +315,22 @@ namespace AutoVPT.Libs
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
          * Created At: 2019-11-09 - Updated At: 2019-11-09
          */
-        public void clickPoint(int x = 0, int y = 0, int numClick = 1, int wait = Constant.TimeShort)
+        public void clickPoint(int x = 0, int y = 0, int numClick = 1, int wait = Constant.TimeShort, bool isRightClick = false)
         {
             if (mCharacter.Running == 0)
             {
                 return;
             }
 
-            au3.click(mWindowName, numClick, x, y);
+            if (isRightClick)
+            {
+                au3.clickRight(mWindowName, numClick, x, y);
+            }
+            else
+            {
+                au3.click(mWindowName, numClick, x, y);
+            }
+            
             Thread.Sleep(wait);
         }
 
@@ -411,15 +414,10 @@ namespace AutoVPT.Libs
             return false;
         }
 
-        public bool captureImage()
+        public void captureImage()
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + "_captured.png");
-            return true;
         }
 
         public void login(IntPtr hWnd, string windowName)
@@ -528,6 +526,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "bat_pet":
+                    groupPath = Constant.ImagePathBatPetFolder;
+                    break;
                 case "nvhn":
                     groupPath = Constant.ImagePathNVHNFolder;
                     break;
@@ -577,6 +578,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "bat_pet":
+                    groupPath = Constant.ImagePathBatPetFolder;
+                    break;
                 case "nvhn":
                     groupPath = Constant.ImagePathNVHNFolder;
                     break;
@@ -627,6 +631,9 @@ namespace AutoVPT.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
+                case "bat_pet":
+                    groupPath = Constant.ImagePathBatPetFolder;
+                    break;
                 case "nvhn":
                     groupPath = Constant.ImagePathNVHNFolder;
                     break;

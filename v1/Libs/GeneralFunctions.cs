@@ -205,7 +205,7 @@ namespace AutoVPT.Libs
             mAuto.closeAllDialog();
 
             // Chạy đến map
-            if (!mAuto.moveToMap(map, 1, 7, -18))
+            if (!mAuto.moveToMap(map, 7, -18))
             {
                 mAuto.writeStatus("Không thể di chuyển đến " + map + " , thử lại ...");
                 runAutoThanTu();
@@ -288,7 +288,7 @@ namespace AutoVPT.Libs
             mAuto.closeAllDialog();
 
             // Chạy đến Thiên Tĩnh Địa
-            if (!mAuto.moveToMap(map, 1, 7, -18))
+            if (!mAuto.moveToMap(map, 7, -18))
             {
                 mAuto.writeStatus("Không thể di chuyển đến Thiên Tĩnh Địa, thử lại ...");
                 runAutoTuHanh();
@@ -332,6 +332,100 @@ namespace AutoVPT.Libs
 
             mAuto.writeStatus("Có lời mời vào nhóm, bấm đồng ý ...");
             mAuto.clickImageByGroup("global", "co", false, true);
+        }
+
+        public void trainQuai()
+        {
+            int x = mCharacter.IsChinese == 1 ? 120 : 160;
+            int y = mCharacter.IsChinese == 1 ? 460 : 550;
+            int y2 = y + 15;
+            mAuto.writeStatus("Bắt đầu tìm quái để đánh");
+            while(true)
+            {
+                if (!mAuto.dangTrongTranDau())
+                {
+                    mAuto.clickPoint(x, y);
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+
+                while (mAuto.dangTrongTranDau())
+                {
+                    if (!mAuto.findImageByGroup("global", "auto_check") && mAuto.findImageByGroup("global", "inbattleauto"))
+                    {
+                        mAuto.clickImageByGroup("global", "inbattleauto");
+                    }
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+
+                if (!mAuto.dangTrongTranDau())
+                {
+                    mAuto.clickPoint(x, y2);
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+            }
+        }
+
+        public List<Point> collectMiniMapPointsForTrain()
+        {
+            string resourcePath = mCharacter.IsChinese == 1 ? "cn_resources" : "resources";
+            mAuto.writeStatus("Thu thập điểm trên bản đồ");
+            List<Point> mapPoints = new List<Point>();
+
+            // Mở bảng đồ mini;
+            mAuto.sendKey("~");
+
+            var full_screen = CaptureHelper.CaptureWindow(mHWnd);
+
+            // Tắt các bảng nổi
+            mAuto.closeAllDialog();
+
+            Bitmap iBtnMapTop = ImageScanOpenCV.GetImage(resourcePath + "/global/map_top.png");
+            var pBtnMapTop = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtnMapTop);
+
+            Bitmap iBtnMapBottom = ImageScanOpenCV.GetImage(resourcePath + "/global/map_bottom.png");
+            var pBtnMapBottom = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtnMapBottom);
+
+            if (iBtnMapTop != null && iBtnMapBottom != null)
+            {
+                mapPoints.Add(new Point(pBtnMapTop.Value.X + 50, pBtnMapTop.Value.Y + 50));
+                mapPoints.Add(new Point(pBtnMapTop.Value.X + 380, pBtnMapTop.Value.Y + 50));
+                mapPoints.Add(new Point(pBtnMapBottom.Value.X + 50, pBtnMapBottom.Value.Y - 70));
+                mapPoints.Add(new Point(pBtnMapBottom.Value.X + 380, pBtnMapBottom.Value.Y - 70));
+            }
+
+            return mapPoints;
+        }
+
+        public void batPet()
+        {
+            mAuto.writeStatus("Bắt đầu tìm pet để bắt");
+            List<Point> mapPoints = collectMiniMapPointsForTrain();
+
+            while (true)
+            {
+                foreach (Point p in mapPoints)
+                {
+                    if (!mAuto.dangTrongTranDau())
+                    {
+                        mAuto.clickPoint(p.X, p.Y);
+                        Thread.Sleep(Constant.TimeMedium);
+                    }
+
+                    while (mAuto.dangTrongTranDau())
+                    {
+                        if (!mAuto.findImageByGroup("global", "auto_check") && mAuto.findImageByGroup("global", "inbattleauto"))
+                        {
+                            if (!mAuto.findImageByGroup("bat_pet", "pet"))
+                            {
+                                mAuto.clickImageByGroup("global", "inbattleauto");
+                                Thread.Sleep(Constant.TimeShort);
+                                mAuto.clickImageByGroup("global", "tatbattleauto");
+                            }
+                        }
+                        Thread.Sleep(Constant.TimeMedium);
+                    }
+                }
+            }
         }
 
         public void taoNhom(string[] members)
@@ -659,7 +753,7 @@ namespace AutoVPT.Libs
             mAuto.closeAllDialog();
 
             // Di chuyển đến Quyến Cố Thành
-            if (!mAuto.moveToMap("quyencothanh", 1, 5))
+            if (!mAuto.moveToMap("quyencothanh", 5))
             {
                 mAuto.writeStatus("Không thể di chuyển đến Quyến Cố Thành, thử lại ...");
                 nhanThuongHanhLang();
@@ -707,7 +801,7 @@ namespace AutoVPT.Libs
             mAuto.closeAllDialog();
 
             // Di chuyển đến Anh Vũ Cảnh
-            if (!mAuto.moveToMap("anhvucanh", 1, 60))
+            if (!mAuto.moveToMap("anhvucanh", 60))
             {
                 mAuto.writeStatus("Không thể di chuyển đến Anh Vũ Cảnh, thử lại ...");
                 rungCay();
