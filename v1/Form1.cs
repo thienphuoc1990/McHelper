@@ -577,7 +577,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.loginToGame, "logintogame");
+                    runTaskInThread(mMainAuto.loginToGame, "logintogame", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -599,7 +599,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.daPet, "dapet");
+                    runTaskInThread(mMainAuto.daPet, "dapet", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -681,7 +681,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.aoMa, "aoma");
+                    runTaskInThread(mMainAuto.aoMa, "aoma", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -718,7 +718,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.hoiPhuc, "hoiphuc");
+                    runTaskInThread(mMainAuto.hoiPhuc, "hoiphuc", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -768,7 +768,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.doiNangNo, "doinangno");
+                    runTaskInThread(mMainAuto.doiNangNo, "doinangno", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -790,7 +790,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.nhanThuongAutoPhuBan, "nhanThuongAutoPhuBan");
+                    runTaskInThread(mMainAuto.nhanThuongAutoPhuBan, "nhanThuongAutoPhuBan", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -811,11 +811,11 @@ namespace AutoVPT
             runTaskInThread(mMainAuto.nhanThuongHanhLang, "nhanThuongHanhLang");
         }
 
-        private void runTaskInThread(ThreadStart action, String actionName)
+        private void runTaskInThread(ThreadStart action, String actionName, Character customCharacter = null)
         {
             Helper.threadList.Add(new Thread(action));
             int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = character.ID + actionName;
+            Helper.threadList[index].Name = (customCharacter != null ? customCharacter.ID : character.ID) + actionName;
             Helper.threadList[index].Start();
         }
 
@@ -908,7 +908,7 @@ namespace AutoVPT
                         }
 
                         MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                        runTaskInThread(mMainAuto.run, "mainauto");
+                        runTaskInThread(mMainAuto.run, "mainauto", character);
                         Thread.Sleep(Constant.VeryTimeShort);
                     }
 
@@ -950,7 +950,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.aoMaDaPetAllToEnd, "aoMaDaPetAllToEnd");
+                    runTaskInThread(mMainAuto.aoMaDaPetAllToEnd, "aoMaDaPetAllToEnd", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -1002,7 +1002,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.nhanKNVU, "nhanKNVU");
+                    runTaskInThread(mMainAuto.nhanKNVU, "nhanKNVU", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -1024,7 +1024,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.daPetAllToEnd, "daPetAllToEnd");
+                    runTaskInThread(mMainAuto.daPetAllToEnd, "daPetAllToEnd", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -1046,7 +1046,7 @@ namespace AutoVPT
                     }
 
                     MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.goCanhKyTruong, "goCanhKyTruong");
+                    runTaskInThread(mMainAuto.goCanhKyTruong, "goCanhKyTruong", character);
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
             }
@@ -1093,7 +1093,7 @@ namespace AutoVPT
                         }
 
                         MainAuto mMainAutoMember = new MainAuto(hWndMember, member, textBoxStatus);
-                        runTaskInThread(mMainAutoMember.dongYVaoNhom, member.ID + "dongYVaoNhom");
+                        runTaskInThread(mMainAutoMember.dongYVaoNhom, "dongYVaoNhom", member);
                         Thread.Sleep(Constant.VeryTimeShort);
                     }
                 }
@@ -1147,6 +1147,43 @@ namespace AutoVPT
 
             MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
             runTaskInThread(mMainAuto.trainByMap, "trainByMap");
+        }
+
+        private void buttonCheMatBao_Click(object sender, EventArgs e)
+        {
+            if (!checkSelectCharacter()) { return; }
+
+            IntPtr hWnd = getHandledWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+            runTaskInThread(mMainAuto.cheMatBao, "cheMatBao");
+        }
+
+        private void buttonCheMbAll_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
+                {
+                    IntPtr hWnd = getHandledWindow();
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
+                    }
+
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.cheMatBao, "cheMatBao", character);
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+            }
         }
     }
 }

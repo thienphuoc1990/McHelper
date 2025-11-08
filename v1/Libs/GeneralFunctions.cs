@@ -31,7 +31,7 @@ namespace AutoVPT.Libs
             mCharacter = character;
             mWindowName = mCharacter.ID;
             mAuto = new AutoFeatures(hWnd, mWindowName, textBoxStatus, mCharacter);
-            mTrongNL = new TrongNL(mHWnd, mWindowName, mAuto);
+            mTrongNL = new TrongNL(mHWnd, mWindowName, mAuto, mCharacter.TrongNLLoai);
             mCheMatBao = new CheMatBao(mHWnd, mWindowName, mAuto);
             mAutoPhuBan = new AutoPhuBan(mHWnd, mWindowName, mAuto);
             mDoiNangNo = new DoiNangNo(mHWnd, mWindowName, mAuto);
@@ -370,6 +370,12 @@ namespace AutoVPT.Libs
             mAuto.writeStatus("Bắt đầu train quái với tọa độ trên map");
             List<Point> mapPoints = collectMiniMapPointsForTrain();
 
+            if (mapPoints.Count == 0)
+            {
+                mAuto.writeStatus("Không tìm thấy điểm trên bản đồ để train, thoát khỏi chức năng train theo map");
+                return;
+            }
+
             while (true)
             {
                 foreach (Point p in mapPoints)
@@ -378,11 +384,11 @@ namespace AutoVPT.Libs
                     {
                         if (!mAuto.findImageByGroup("global", "map_top"))
                         {
-                            mAuto.sendKey("~");
+                            mAuto.sendKey(Keys.Oemtilde);
 
                             if (!mAuto.findImageByGroup("global", "map_top"))
                             {
-                                mAuto.clickImageByGroup("maps", "map");
+                                mAuto.clickImageByGroup("maps", "map", true);
                             }
                         }
                         mAuto.clickPoint(p.X, p.Y);
@@ -410,7 +416,7 @@ namespace AutoVPT.Libs
             // Mở bảng đồ mini;
             if (!mAuto.findImageByGroup("global", "map_top"))
             {
-                mAuto.sendKey("~");
+                mAuto.sendKey(Keys.Oemtilde);
 
                 if (!mAuto.findImageByGroup("global", "map_top"))
                 {
@@ -444,20 +450,22 @@ namespace AutoVPT.Libs
 
         public void epPetByColor(string color)
         {
+            int viTriColor = 355 - (color == "trang" ? 0 : 40);
             int petNumber = 0;
             do
             {
                 mAuto.closeAllDialog();
+                Thread.Sleep(Constant.TimeShort);
                 while (!mAuto.findImageByGroup("global", "eppet_bang_check"))
                 {
-                    mAuto.clickImageByGroup("global", "eppet_bang");
+                    mAuto.clickImageByGroup("global", "eppet_bang", true, true);
                     Thread.Sleep(Constant.TimeShort);
                 }
 
-                mAuto.clickImageByGroup("global", "eppet_dunghop", true);
                 mAuto.clickImageByGroup("global", "eppet_morongtuipet");
-                mAuto.clickImageByGroup("global", "eppet_" + color, true);
-                Thread.Sleep(Constant.TimeMedium);
+                mAuto.clickImageByGroup("global", "eppet_bang_check", false, false, 1, -210, 10);
+                mAuto.clickImageByGroup("global", "eppet_bang_check", false, false, 1, viTriColor, 10);
+                Thread.Sleep(Constant.TimeShort * 2);
 
                 List<Point> pets = mAuto.findImages("/bat_pet/pet_ep.png");
                 petNumber = pets.Count;
@@ -474,8 +482,26 @@ namespace AutoVPT.Libs
                     }
 
                     mAuto.clickImageByGroup("global", "eppet_hop");
-                    //mAuto.clickImageByGroup("global", "co");
+                } else
+                {
+                    List<Point> pets2 = mAuto.findImages("/bat_pet/pet2_ep.png");
+                    petNumber = pets2.Count;
+                    mAuto.writeStatus("Đang có " + petNumber + " pet trong bảng ép pet");
+                    if (petNumber >= 5)
+                    {
+                        int petInUse = 0;
+                        while (petInUse < 5)
+                        {
+                            mAuto.clickPoint(pets2[petInUse].X, pets2[petInUse].Y - 20, 2);
+                            mAuto.clickImageByGroup("global", "eppet_bang_check");
+                            Thread.Sleep(Constant.TimeShort);
+                            petInUse++;
+                        }
+
+                        mAuto.clickImageByGroup("global", "eppet_hop");
+                    }
                 }
+                
             } while (petNumber >= 5);
         }
 
@@ -498,6 +524,7 @@ namespace AutoVPT.Libs
                 int batPetLoop = 0;
                 while (batPetLoop < 10)
                 {
+                    mAuto.closeAllDialog();
                     foreach (Point p in mapPoints)
                     {
                         if (!mAuto.dangTrongTranDau())
@@ -505,11 +532,11 @@ namespace AutoVPT.Libs
                             mAuto.clickImageByGroup("global", "outbattletatauto");
                             if (!mAuto.findImageByGroup("global", "map_top"))
                             {
-                                mAuto.sendKey("~");
+                                mAuto.sendKey(Keys.Oemtilde);
 
                                 if (!mAuto.findImageByGroup("global", "map_top"))
                                 {
-                                    mAuto.clickImageByGroup("maps", "map");
+                                    mAuto.clickImageByGroup("maps", "map", true);
                                 }
                             }
                             mAuto.clickPoint(p.X, p.Y);
@@ -522,7 +549,7 @@ namespace AutoVPT.Libs
                             {
                                 mAuto.clickImageByGroup("global", "inbattlebatpet");
                                 Thread.Sleep(Constant.TimeShort);
-                                if (!mAuto.findImageByGroup("bat_pet", "pet"))
+                                if (!mAuto.findImageByGroup("bat_pet", "pet") && !mAuto.findImageByGroup("bat_pet", "pet2"))
                                 {
                                     mAuto.clickPoint(50, 50);
                                     mAuto.clickImageByGroup("global", "inbattleauto");
@@ -532,7 +559,8 @@ namespace AutoVPT.Libs
                                 else
                                 {
                                     mAuto.clickImageByGroup("bat_pet", "pet");
-                                    mAuto.sendKey("d");
+                                    mAuto.clickImageByGroup("bat_pet", "pet2");
+                                    mAuto.sendKey(Keys.D);
                                 }
                             }
                             Thread.Sleep(Constant.TimeMedium);
@@ -599,7 +627,7 @@ namespace AutoVPT.Libs
                 }
                 mAuto.bayXuong();
                 mAuto.closeAllDialog();
-                mAuto.clickImageByGroup("global", "dichchuyencanhkytruong");
+                mAuto.clickImageByGroup("global", "dichchuyencanhkytruong", false, false, 1, -50, 50);
                 Thread.Sleep(Constant.TimeMedium);
             }
         }
@@ -1251,7 +1279,7 @@ namespace AutoVPT.Libs
 
             // Mở bảng đồ mini
             //mAuto.clickToImage(Constant.ImagePathMiniMap);
-            mAuto.sendKey("~");
+            mAuto.sendKey(Keys.Oemtilde);
 
             var full_screen = CaptureHelper.CaptureWindow(mHWnd);
 
@@ -1284,7 +1312,7 @@ namespace AutoVPT.Libs
 
             // Mở bảng đồ mini
             //mAuto.clickToImage(Constant.ImagePathMiniMap);
-            mAuto.sendKey("~");
+            mAuto.sendKey(Keys.Oemtilde);
 
             var full_screen = CaptureHelper.CaptureWindow(mHWnd);
 
@@ -1333,7 +1361,7 @@ namespace AutoVPT.Libs
 
                 // Mở bảng đồ mini
                 //mAuto.clickToImage(Constant.ImagePathMiniMap);
-                mAuto.sendKey("~");
+                mAuto.sendKey(Keys.Oemtilde);
 
                 // Nhấp vào vị trí map
                 mAuto.clickPoint(mapPoints[i].X, mapPoints[i].Y);
@@ -1430,7 +1458,7 @@ namespace AutoVPT.Libs
 
                 // Mở bảng đồ mini
                 //mAuto.clickToImage(Constant.ImagePathMiniMap);
-                mAuto.sendKey("~");
+                mAuto.sendKey(Keys.Oemtilde);
 
                 // Nhấp vào vị trí map
                 mAuto.clickImage(mapPaths[i], 50, 0);

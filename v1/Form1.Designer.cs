@@ -138,6 +138,8 @@
             this.buttonTrainQuai = new System.Windows.Forms.Button();
             this.buttonBatPet = new System.Windows.Forms.Button();
             this.buttonTrainByMap = new System.Windows.Forms.Button();
+            this.buttonCheMatBao = new System.Windows.Forms.Button();
+            this.buttonCheMbAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -152,10 +154,9 @@
             // 
             // buttonThemNhanVat
             // 
-            this.buttonThemNhanVat.Location = new System.Drawing.Point(20, 319);
-            this.buttonThemNhanVat.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonThemNhanVat.Location = new System.Drawing.Point(15, 259);
             this.buttonThemNhanVat.Name = "buttonThemNhanVat";
-            this.buttonThemNhanVat.Size = new System.Drawing.Size(116, 28);
+            this.buttonThemNhanVat.Size = new System.Drawing.Size(87, 23);
             this.buttonThemNhanVat.TabIndex = 5;
             this.buttonThemNhanVat.Text = "Thêm nhân vật";
             this.buttonThemNhanVat.UseVisualStyleBackColor = true;
@@ -169,23 +170,21 @@
             this.dataGridViewCharacters.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCharacters.GridColor = System.Drawing.SystemColors.Window;
-            this.dataGridViewCharacters.Location = new System.Drawing.Point(16, 15);
-            this.dataGridViewCharacters.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridViewCharacters.Location = new System.Drawing.Point(12, 12);
             this.dataGridViewCharacters.MultiSelect = false;
             this.dataGridViewCharacters.Name = "dataGridViewCharacters";
             this.dataGridViewCharacters.ReadOnly = true;
             this.dataGridViewCharacters.RowHeadersWidth = 70;
             this.dataGridViewCharacters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewCharacters.Size = new System.Drawing.Size(1109, 232);
+            this.dataGridViewCharacters.Size = new System.Drawing.Size(832, 189);
             this.dataGridViewCharacters.TabIndex = 6;
             this.dataGridViewCharacters.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCharacters_CellClick);
             // 
             // buttonXoaNhanVat
             // 
-            this.buttonXoaNhanVat.Location = new System.Drawing.Point(20, 390);
-            this.buttonXoaNhanVat.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonXoaNhanVat.Location = new System.Drawing.Point(15, 317);
             this.buttonXoaNhanVat.Name = "buttonXoaNhanVat";
-            this.buttonXoaNhanVat.Size = new System.Drawing.Size(116, 28);
+            this.buttonXoaNhanVat.Size = new System.Drawing.Size(87, 23);
             this.buttonXoaNhanVat.TabIndex = 7;
             this.buttonXoaNhanVat.Text = "Xóa nhân vật";
             this.buttonXoaNhanVat.UseVisualStyleBackColor = true;
@@ -193,10 +192,9 @@
             // 
             // buttonSuaNhanVat
             // 
-            this.buttonSuaNhanVat.Location = new System.Drawing.Point(20, 355);
-            this.buttonSuaNhanVat.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSuaNhanVat.Location = new System.Drawing.Point(15, 288);
             this.buttonSuaNhanVat.Name = "buttonSuaNhanVat";
-            this.buttonSuaNhanVat.Size = new System.Drawing.Size(116, 28);
+            this.buttonSuaNhanVat.Size = new System.Drawing.Size(87, 23);
             this.buttonSuaNhanVat.TabIndex = 8;
             this.buttonSuaNhanVat.Text = "Sửa nhân vật";
             this.buttonSuaNhanVat.UseVisualStyleBackColor = true;
@@ -204,10 +202,9 @@
             // 
             // buttonOpenGame
             // 
-            this.buttonOpenGame.Location = new System.Drawing.Point(279, 323);
-            this.buttonOpenGame.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonOpenGame.Location = new System.Drawing.Point(209, 262);
             this.buttonOpenGame.Name = "buttonOpenGame";
-            this.buttonOpenGame.Size = new System.Drawing.Size(127, 28);
+            this.buttonOpenGame.Size = new System.Drawing.Size(95, 23);
             this.buttonOpenGame.TabIndex = 9;
             this.buttonOpenGame.Text = "Mở Game";
             this.buttonOpenGame.UseVisualStyleBackColor = true;
@@ -216,19 +213,17 @@
             // labelAuthorVersion
             // 
             this.labelAuthorVersion.AutoSize = true;
-            this.labelAuthorVersion.Location = new System.Drawing.Point(25, 801);
-            this.labelAuthorVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelAuthorVersion.Location = new System.Drawing.Point(16, 708);
             this.labelAuthorVersion.Name = "labelAuthorVersion";
-            this.labelAuthorVersion.Size = new System.Drawing.Size(44, 16);
+            this.labelAuthorVersion.Size = new System.Drawing.Size(41, 15);
             this.labelAuthorVersion.TabIndex = 10;
             this.labelAuthorVersion.Text = "label1";
             // 
             // buttonRunAuto
             // 
-            this.buttonRunAuto.Location = new System.Drawing.Point(279, 394);
-            this.buttonRunAuto.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRunAuto.Location = new System.Drawing.Point(209, 320);
             this.buttonRunAuto.Name = "buttonRunAuto";
-            this.buttonRunAuto.Size = new System.Drawing.Size(127, 28);
+            this.buttonRunAuto.Size = new System.Drawing.Size(95, 23);
             this.buttonRunAuto.TabIndex = 11;
             this.buttonRunAuto.Text = "Chạy Auto";
             this.buttonRunAuto.UseVisualStyleBackColor = true;
@@ -236,10 +231,9 @@
             // 
             // buttonStopAuto
             // 
-            this.buttonStopAuto.Location = new System.Drawing.Point(279, 427);
-            this.buttonStopAuto.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonStopAuto.Location = new System.Drawing.Point(209, 347);
             this.buttonStopAuto.Name = "buttonStopAuto";
-            this.buttonStopAuto.Size = new System.Drawing.Size(127, 28);
+            this.buttonStopAuto.Size = new System.Drawing.Size(95, 23);
             this.buttonStopAuto.TabIndex = 12;
             this.buttonStopAuto.Text = "Ngừng Auto";
             this.buttonStopAuto.UseVisualStyleBackColor = true;
@@ -247,10 +241,9 @@
             // 
             // buttonSaveConfigAuto
             // 
-            this.buttonSaveConfigAuto.Location = new System.Drawing.Point(144, 319);
-            this.buttonSaveConfigAuto.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSaveConfigAuto.Location = new System.Drawing.Point(108, 259);
             this.buttonSaveConfigAuto.Name = "buttonSaveConfigAuto";
-            this.buttonSaveConfigAuto.Size = new System.Drawing.Size(127, 28);
+            this.buttonSaveConfigAuto.Size = new System.Drawing.Size(95, 23);
             this.buttonSaveConfigAuto.TabIndex = 13;
             this.buttonSaveConfigAuto.Text = "Lưu Cài đặt Auto";
             this.buttonSaveConfigAuto.UseVisualStyleBackColor = true;
@@ -258,10 +251,9 @@
             // 
             // buttonStopAllAuto
             // 
-            this.buttonStopAllAuto.Location = new System.Drawing.Point(20, 758);
-            this.buttonStopAllAuto.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonStopAllAuto.Location = new System.Drawing.Point(12, 673);
             this.buttonStopAllAuto.Name = "buttonStopAllAuto";
-            this.buttonStopAllAuto.Size = new System.Drawing.Size(380, 28);
+            this.buttonStopAllAuto.Size = new System.Drawing.Size(285, 23);
             this.buttonStopAllAuto.TabIndex = 20;
             this.buttonStopAllAuto.Text = "Ngừng tất cả auto";
             this.buttonStopAllAuto.UseVisualStyleBackColor = true;
@@ -269,10 +261,9 @@
             // 
             // buttonLoginToGame
             // 
-            this.buttonLoginToGame.Location = new System.Drawing.Point(279, 358);
-            this.buttonLoginToGame.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonLoginToGame.Location = new System.Drawing.Point(209, 291);
             this.buttonLoginToGame.Name = "buttonLoginToGame";
-            this.buttonLoginToGame.Size = new System.Drawing.Size(127, 28);
+            this.buttonLoginToGame.Size = new System.Drawing.Size(95, 23);
             this.buttonLoginToGame.TabIndex = 18;
             this.buttonLoginToGame.Text = "Vào Game";
             this.buttonLoginToGame.UseVisualStyleBackColor = true;
@@ -280,22 +271,20 @@
             // 
             // buttonOpenTestForm
             // 
-            this.buttonOpenTestForm.Location = new System.Drawing.Point(1187, 538);
-            this.buttonOpenTestForm.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonOpenTestForm.Location = new System.Drawing.Point(890, 437);
             this.buttonOpenTestForm.Name = "buttonOpenTestForm";
-            this.buttonOpenTestForm.Size = new System.Drawing.Size(37, 28);
+            this.buttonOpenTestForm.Size = new System.Drawing.Size(28, 23);
             this.buttonOpenTestForm.TabIndex = 15;
             this.buttonOpenTestForm.UseVisualStyleBackColor = true;
             this.buttonOpenTestForm.Click += new System.EventHandler(this.buttonOpenTestForm_Click);
             // 
             // textBoxStatus
             // 
-            this.textBoxStatus.Location = new System.Drawing.Point(408, 619);
-            this.textBoxStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxStatus.Location = new System.Drawing.Point(306, 503);
             this.textBoxStatus.Multiline = true;
             this.textBoxStatus.Name = "textBoxStatus";
             this.textBoxStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxStatus.Size = new System.Drawing.Size(716, 134);
+            this.textBoxStatus.Size = new System.Drawing.Size(538, 110);
             this.textBoxStatus.TabIndex = 65;
             // 
             // tabControlAuto
@@ -304,11 +293,10 @@
             this.tabControlAuto.Controls.Add(this.tabPageGeneral);
             this.tabControlAuto.Controls.Add(this.tabPagePhuBan);
             this.tabControlAuto.Controls.Add(this.tabPageSTMT);
-            this.tabControlAuto.Location = new System.Drawing.Point(408, 255);
-            this.tabControlAuto.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControlAuto.Location = new System.Drawing.Point(306, 207);
             this.tabControlAuto.Name = "tabControlAuto";
             this.tabControlAuto.SelectedIndex = 0;
-            this.tabControlAuto.Size = new System.Drawing.Size(723, 362);
+            this.tabControlAuto.Size = new System.Drawing.Size(542, 294);
             this.tabControlAuto.TabIndex = 66;
             // 
             // tabPageMain
@@ -346,10 +334,9 @@
             this.tabPageMain.Controls.Add(this.checkBoxNhanHoiPhuc);
             this.tabPageMain.Controls.Add(this.checkBoxMeTran);
             this.tabPageMain.Controls.Add(this.checkBoxNhanThuongHanhLang);
-            this.tabPageMain.Location = new System.Drawing.Point(4, 25);
-            this.tabPageMain.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageMain.Location = new System.Drawing.Point(4, 22);
             this.tabPageMain.Name = "tabPageMain";
-            this.tabPageMain.Size = new System.Drawing.Size(715, 333);
+            this.tabPageMain.Size = new System.Drawing.Size(534, 268);
             this.tabPageMain.TabIndex = 2;
             this.tabPageMain.Text = "Auto";
             this.tabPageMain.UseVisualStyleBackColor = true;
@@ -357,10 +344,9 @@
             // checkBoxStatusNhanHoiPhuc
             // 
             this.checkBoxStatusNhanHoiPhuc.AutoSize = true;
-            this.checkBoxStatusNhanHoiPhuc.Location = new System.Drawing.Point(581, 154);
-            this.checkBoxStatusNhanHoiPhuc.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusNhanHoiPhuc.Location = new System.Drawing.Point(436, 125);
             this.checkBoxStatusNhanHoiPhuc.Name = "checkBoxStatusNhanHoiPhuc";
-            this.checkBoxStatusNhanHoiPhuc.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusNhanHoiPhuc.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusNhanHoiPhuc.TabIndex = 76;
             this.checkBoxStatusNhanHoiPhuc.Text = "Đã xong";
             this.checkBoxStatusNhanHoiPhuc.UseVisualStyleBackColor = true;
@@ -368,10 +354,9 @@
             // checkBoxStatusVipPromotion
             // 
             this.checkBoxStatusVipPromotion.AutoSize = true;
-            this.checkBoxStatusVipPromotion.Location = new System.Drawing.Point(240, 298);
-            this.checkBoxStatusVipPromotion.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusVipPromotion.Location = new System.Drawing.Point(180, 242);
             this.checkBoxStatusVipPromotion.Name = "checkBoxStatusVipPromotion";
-            this.checkBoxStatusVipPromotion.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusVipPromotion.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusVipPromotion.TabIndex = 75;
             this.checkBoxStatusVipPromotion.Text = "Đã xong";
             this.checkBoxStatusVipPromotion.UseVisualStyleBackColor = true;
@@ -379,10 +364,9 @@
             // checkBoxStatusAutoThanTu
             // 
             this.checkBoxStatusAutoThanTu.AutoSize = true;
-            this.checkBoxStatusAutoThanTu.Location = new System.Drawing.Point(581, 182);
-            this.checkBoxStatusAutoThanTu.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusAutoThanTu.Location = new System.Drawing.Point(436, 148);
             this.checkBoxStatusAutoThanTu.Name = "checkBoxStatusAutoThanTu";
-            this.checkBoxStatusAutoThanTu.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusAutoThanTu.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusAutoThanTu.TabIndex = 74;
             this.checkBoxStatusAutoThanTu.Text = "Đã xong";
             this.checkBoxStatusAutoThanTu.UseVisualStyleBackColor = true;
@@ -392,10 +376,9 @@
             this.checkBoxDoiNN.AutoSize = true;
             this.checkBoxDoiNN.Checked = true;
             this.checkBoxDoiNN.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDoiNN.Location = new System.Drawing.Point(16, 15);
-            this.checkBoxDoiNN.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxDoiNN.Location = new System.Drawing.Point(12, 12);
             this.checkBoxDoiNN.Name = "checkBoxDoiNN";
-            this.checkBoxDoiNN.Size = new System.Drawing.Size(193, 20);
+            this.checkBoxDoiNN.Size = new System.Drawing.Size(183, 19);
             this.checkBoxDoiNN.TabIndex = 45;
             this.checkBoxDoiNN.Text = "Đổi năng nổ (Only NL Hiếm)";
             this.checkBoxDoiNN.UseVisualStyleBackColor = true;
@@ -405,10 +388,9 @@
             this.checkBoxTuHanh.AutoSize = true;
             this.checkBoxTuHanh.Checked = true;
             this.checkBoxTuHanh.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTuHanh.Location = new System.Drawing.Point(16, 185);
-            this.checkBoxTuHanh.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTuHanh.Location = new System.Drawing.Point(12, 150);
             this.checkBoxTuHanh.Name = "checkBoxTuHanh";
-            this.checkBoxTuHanh.Size = new System.Drawing.Size(77, 20);
+            this.checkBoxTuHanh.Size = new System.Drawing.Size(74, 19);
             this.checkBoxTuHanh.TabIndex = 56;
             this.checkBoxTuHanh.Text = "Tu hành";
             this.checkBoxTuHanh.UseVisualStyleBackColor = true;
@@ -416,10 +398,9 @@
             // checkBoxStatusNhanThuongHL
             // 
             this.checkBoxStatusNhanThuongHL.AutoSize = true;
-            this.checkBoxStatusNhanThuongHL.Location = new System.Drawing.Point(581, 128);
-            this.checkBoxStatusNhanThuongHL.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusNhanThuongHL.Location = new System.Drawing.Point(436, 104);
             this.checkBoxStatusNhanThuongHL.Name = "checkBoxStatusNhanThuongHL";
-            this.checkBoxStatusNhanThuongHL.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusNhanThuongHL.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusNhanThuongHL.TabIndex = 73;
             this.checkBoxStatusNhanThuongHL.Text = "Đã xong";
             this.checkBoxStatusNhanThuongHL.UseVisualStyleBackColor = true;
@@ -427,10 +408,9 @@
             // checkBoxTruMa
             // 
             this.checkBoxTruMa.AutoSize = true;
-            this.checkBoxTruMa.Location = new System.Drawing.Point(16, 213);
-            this.checkBoxTruMa.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTruMa.Location = new System.Drawing.Point(12, 173);
             this.checkBoxTruMa.Name = "checkBoxTruMa";
-            this.checkBoxTruMa.Size = new System.Drawing.Size(174, 20);
+            this.checkBoxTruMa.Size = new System.Drawing.Size(164, 19);
             this.checkBoxTruMa.TabIndex = 58;
             this.checkBoxTruMa.Text = "Trừ ma (chưa hoạt động)";
             this.checkBoxTruMa.UseVisualStyleBackColor = true;
@@ -440,10 +420,9 @@
             this.checkBoxDoiKGDK.AutoSize = true;
             this.checkBoxDoiKGDK.Checked = true;
             this.checkBoxDoiKGDK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDoiKGDK.Location = new System.Drawing.Point(16, 159);
-            this.checkBoxDoiKGDK.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxDoiKGDK.Location = new System.Drawing.Point(12, 129);
             this.checkBoxDoiKGDK.Name = "checkBoxDoiKGDK";
-            this.checkBoxDoiKGDK.Size = new System.Drawing.Size(179, 20);
+            this.checkBoxDoiKGDK.Size = new System.Drawing.Size(168, 19);
             this.checkBoxDoiKGDK.TabIndex = 54;
             this.checkBoxDoiKGDK.Text = "Đổi không gian điêu khắc";
             this.checkBoxDoiKGDK.UseVisualStyleBackColor = true;
@@ -453,10 +432,9 @@
             this.checkBoxNhanVIP.AutoSize = true;
             this.checkBoxNhanVIP.Checked = true;
             this.checkBoxNhanVIP.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxNhanVIP.Location = new System.Drawing.Point(16, 298);
-            this.checkBoxNhanVIP.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxNhanVIP.Location = new System.Drawing.Point(12, 242);
             this.checkBoxNhanVIP.Name = "checkBoxNhanVIP";
-            this.checkBoxNhanVIP.Size = new System.Drawing.Size(134, 20);
+            this.checkBoxNhanVIP.Size = new System.Drawing.Size(126, 19);
             this.checkBoxNhanVIP.TabIndex = 30;
             this.checkBoxNhanVIP.Text = "Nhận phúc lợi VIP";
             this.checkBoxNhanVIP.UseVisualStyleBackColor = true;
@@ -464,10 +442,9 @@
             // checkBoxStatusRungCay
             // 
             this.checkBoxStatusRungCay.AutoSize = true;
-            this.checkBoxStatusRungCay.Location = new System.Drawing.Point(581, 71);
-            this.checkBoxStatusRungCay.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusRungCay.Location = new System.Drawing.Point(436, 58);
             this.checkBoxStatusRungCay.Name = "checkBoxStatusRungCay";
-            this.checkBoxStatusRungCay.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusRungCay.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusRungCay.TabIndex = 72;
             this.checkBoxStatusRungCay.Text = "Đã xong";
             this.checkBoxStatusRungCay.UseVisualStyleBackColor = true;
@@ -475,10 +452,9 @@
             // checkBoxAoMaThap
             // 
             this.checkBoxAoMaThap.AutoSize = true;
-            this.checkBoxAoMaThap.Location = new System.Drawing.Point(16, 241);
-            this.checkBoxAoMaThap.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxAoMaThap.Location = new System.Drawing.Point(12, 196);
             this.checkBoxAoMaThap.Name = "checkBoxAoMaThap";
-            this.checkBoxAoMaThap.Size = new System.Drawing.Size(200, 20);
+            this.checkBoxAoMaThap.Size = new System.Drawing.Size(187, 19);
             this.checkBoxAoMaThap.TabIndex = 60;
             this.checkBoxAoMaThap.Text = "Ảo ma tháp (chưa hoạt động)";
             this.checkBoxAoMaThap.UseVisualStyleBackColor = true;
@@ -488,10 +464,9 @@
             this.checkBoxRutBo.AutoSize = true;
             this.checkBoxRutBo.Checked = true;
             this.checkBoxRutBo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRutBo.Location = new System.Drawing.Point(15, 130);
-            this.checkBoxRutBo.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxRutBo.Location = new System.Drawing.Point(11, 106);
             this.checkBoxRutBo.Name = "checkBoxRutBo";
-            this.checkBoxRutBo.Size = new System.Drawing.Size(68, 20);
+            this.checkBoxRutBo.Size = new System.Drawing.Size(65, 19);
             this.checkBoxRutBo.TabIndex = 52;
             this.checkBoxRutBo.Text = "Rút bộ";
             this.checkBoxRutBo.UseVisualStyleBackColor = true;
@@ -499,10 +474,9 @@
             // checkBoxStatusNhanVaAutoPB
             // 
             this.checkBoxStatusNhanVaAutoPB.AutoSize = true;
-            this.checkBoxStatusNhanVaAutoPB.Location = new System.Drawing.Point(581, 43);
-            this.checkBoxStatusNhanVaAutoPB.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusNhanVaAutoPB.Location = new System.Drawing.Point(436, 35);
             this.checkBoxStatusNhanVaAutoPB.Name = "checkBoxStatusNhanVaAutoPB";
-            this.checkBoxStatusNhanVaAutoPB.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusNhanVaAutoPB.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusNhanVaAutoPB.TabIndex = 71;
             this.checkBoxStatusNhanVaAutoPB.Text = "Đã xong";
             this.checkBoxStatusNhanVaAutoPB.UseVisualStyleBackColor = true;
@@ -510,10 +484,9 @@
             // checkBoxTrongCay
             // 
             this.checkBoxTrongCay.AutoSize = true;
-            this.checkBoxTrongCay.Location = new System.Drawing.Point(16, 270);
-            this.checkBoxTrongCay.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTrongCay.Location = new System.Drawing.Point(12, 219);
             this.checkBoxTrongCay.Name = "checkBoxTrongCay";
-            this.checkBoxTrongCay.Size = new System.Drawing.Size(193, 20);
+            this.checkBoxTrongCay.Size = new System.Drawing.Size(178, 19);
             this.checkBoxTrongCay.TabIndex = 62;
             this.checkBoxTrongCay.Text = "Trồng cây (chưa hoạt động)";
             this.checkBoxTrongCay.UseVisualStyleBackColor = true;
@@ -521,10 +494,9 @@
             // checkBoxLatTheBai
             // 
             this.checkBoxLatTheBai.AutoSize = true;
-            this.checkBoxLatTheBai.Location = new System.Drawing.Point(16, 102);
-            this.checkBoxLatTheBai.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxLatTheBai.Location = new System.Drawing.Point(12, 83);
             this.checkBoxLatTheBai.Name = "checkBoxLatTheBai";
-            this.checkBoxLatTheBai.Size = new System.Drawing.Size(193, 20);
+            this.checkBoxLatTheBai.Size = new System.Drawing.Size(182, 19);
             this.checkBoxLatTheBai.TabIndex = 50;
             this.checkBoxLatTheBai.Text = "Lật thẻ bài (chưa hoạt động)";
             this.checkBoxLatTheBai.UseVisualStyleBackColor = true;
@@ -532,10 +504,9 @@
             // checkBoxStatusCheMB
             // 
             this.checkBoxStatusCheMB.AutoSize = true;
-            this.checkBoxStatusCheMB.Location = new System.Drawing.Point(581, 15);
-            this.checkBoxStatusCheMB.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusCheMB.Location = new System.Drawing.Point(436, 12);
             this.checkBoxStatusCheMB.Name = "checkBoxStatusCheMB";
-            this.checkBoxStatusCheMB.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusCheMB.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusCheMB.TabIndex = 70;
             this.checkBoxStatusCheMB.Text = "Đã xong";
             this.checkBoxStatusCheMB.UseVisualStyleBackColor = true;
@@ -543,10 +514,9 @@
             // checkBoxStatusTriAn
             // 
             this.checkBoxStatusTriAn.AutoSize = true;
-            this.checkBoxStatusTriAn.Location = new System.Drawing.Point(240, 74);
-            this.checkBoxStatusTriAn.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusTriAn.Location = new System.Drawing.Point(180, 60);
             this.checkBoxStatusTriAn.Name = "checkBoxStatusTriAn";
-            this.checkBoxStatusTriAn.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusTriAn.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusTriAn.TabIndex = 65;
             this.checkBoxStatusTriAn.Text = "Đã xong";
             this.checkBoxStatusTriAn.UseVisualStyleBackColor = true;
@@ -554,10 +524,9 @@
             // checkBoxStatusTuHanh
             // 
             this.checkBoxStatusTuHanh.AutoSize = true;
-            this.checkBoxStatusTuHanh.Location = new System.Drawing.Point(240, 187);
-            this.checkBoxStatusTuHanh.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusTuHanh.Location = new System.Drawing.Point(180, 152);
             this.checkBoxStatusTuHanh.Name = "checkBoxStatusTuHanh";
-            this.checkBoxStatusTuHanh.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusTuHanh.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusTuHanh.TabIndex = 69;
             this.checkBoxStatusTuHanh.Text = "Đã xong";
             this.checkBoxStatusTuHanh.UseVisualStyleBackColor = true;
@@ -567,10 +536,9 @@
             this.checkBoxCheMatBao.AutoSize = true;
             this.checkBoxCheMatBao.Checked = true;
             this.checkBoxCheMatBao.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxCheMatBao.Location = new System.Drawing.Point(361, 15);
-            this.checkBoxCheMatBao.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxCheMatBao.Location = new System.Drawing.Point(271, 12);
             this.checkBoxCheMatBao.Name = "checkBoxCheMatBao";
-            this.checkBoxCheMatBao.Size = new System.Drawing.Size(106, 20);
+            this.checkBoxCheMatBao.Size = new System.Drawing.Size(100, 19);
             this.checkBoxCheMatBao.TabIndex = 49;
             this.checkBoxCheMatBao.Text = "Chế Mật Bảo";
             this.checkBoxCheMatBao.UseVisualStyleBackColor = true;
@@ -578,10 +546,9 @@
             // checkBoxAutoThanTu
             // 
             this.checkBoxAutoThanTu.AutoSize = true;
-            this.checkBoxAutoThanTu.Location = new System.Drawing.Point(361, 182);
-            this.checkBoxAutoThanTu.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxAutoThanTu.Location = new System.Drawing.Point(271, 148);
             this.checkBoxAutoThanTu.Name = "checkBoxAutoThanTu";
-            this.checkBoxAutoThanTu.Size = new System.Drawing.Size(135, 20);
+            this.checkBoxAutoThanTu.Size = new System.Drawing.Size(126, 19);
             this.checkBoxAutoThanTu.TabIndex = 64;
             this.checkBoxAutoThanTu.Text = "Auto Thần tu (VIP)";
             this.checkBoxAutoThanTu.UseVisualStyleBackColor = true;
@@ -589,10 +556,9 @@
             // checkBoxTriAn
             // 
             this.checkBoxTriAn.AutoSize = true;
-            this.checkBoxTriAn.Location = new System.Drawing.Point(16, 74);
-            this.checkBoxTriAn.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTriAn.Location = new System.Drawing.Point(12, 60);
             this.checkBoxTriAn.Name = "checkBoxTriAn";
-            this.checkBoxTriAn.Size = new System.Drawing.Size(144, 20);
+            this.checkBoxTriAn.Size = new System.Drawing.Size(133, 19);
             this.checkBoxTriAn.TabIndex = 44;
             this.checkBoxTriAn.Text = "Trị An (Phải có VIP)";
             this.checkBoxTriAn.UseVisualStyleBackColor = true;
@@ -602,10 +568,9 @@
             this.checkBoxAutoPhuBan.AutoSize = true;
             this.checkBoxAutoPhuBan.Checked = true;
             this.checkBoxAutoPhuBan.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAutoPhuBan.Location = new System.Drawing.Point(361, 43);
-            this.checkBoxAutoPhuBan.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxAutoPhuBan.Location = new System.Drawing.Point(271, 35);
             this.checkBoxAutoPhuBan.Name = "checkBoxAutoPhuBan";
-            this.checkBoxAutoPhuBan.Size = new System.Drawing.Size(162, 20);
+            this.checkBoxAutoPhuBan.Size = new System.Drawing.Size(151, 19);
             this.checkBoxAutoPhuBan.TabIndex = 48;
             this.checkBoxAutoPhuBan.Text = "Nhận và Auto Phụ Bản";
             this.checkBoxAutoPhuBan.UseVisualStyleBackColor = true;
@@ -613,10 +578,9 @@
             // checkBoxStatusRutBo
             // 
             this.checkBoxStatusRutBo.AutoSize = true;
-            this.checkBoxStatusRutBo.Location = new System.Drawing.Point(240, 130);
-            this.checkBoxStatusRutBo.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusRutBo.Location = new System.Drawing.Point(180, 106);
             this.checkBoxStatusRutBo.Name = "checkBoxStatusRutBo";
-            this.checkBoxStatusRutBo.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusRutBo.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusRutBo.TabIndex = 67;
             this.checkBoxStatusRutBo.Text = "Đã xong";
             this.checkBoxStatusRutBo.UseVisualStyleBackColor = true;
@@ -624,10 +588,9 @@
             // checkBoxCauCa
             // 
             this.checkBoxCauCa.AutoSize = true;
-            this.checkBoxCauCa.Location = new System.Drawing.Point(361, 270);
-            this.checkBoxCauCa.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxCauCa.Location = new System.Drawing.Point(271, 219);
             this.checkBoxCauCa.Name = "checkBoxCauCa";
-            this.checkBoxCauCa.Size = new System.Drawing.Size(174, 20);
+            this.checkBoxCauCa.Size = new System.Drawing.Size(163, 19);
             this.checkBoxCauCa.TabIndex = 63;
             this.checkBoxCauCa.Text = "Câu cá (chưa hoạt động)";
             this.checkBoxCauCa.UseVisualStyleBackColor = true;
@@ -635,10 +598,9 @@
             // checkBoxStatusDoiKGDK
             // 
             this.checkBoxStatusDoiKGDK.AutoSize = true;
-            this.checkBoxStatusDoiKGDK.Location = new System.Drawing.Point(240, 159);
-            this.checkBoxStatusDoiKGDK.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxStatusDoiKGDK.Location = new System.Drawing.Point(180, 129);
             this.checkBoxStatusDoiKGDK.Name = "checkBoxStatusDoiKGDK";
-            this.checkBoxStatusDoiKGDK.Size = new System.Drawing.Size(78, 20);
+            this.checkBoxStatusDoiKGDK.Size = new System.Drawing.Size(75, 19);
             this.checkBoxStatusDoiKGDK.TabIndex = 68;
             this.checkBoxStatusDoiKGDK.Text = "Đã xong";
             this.checkBoxStatusDoiKGDK.UseVisualStyleBackColor = true;
@@ -648,10 +610,9 @@
             this.checkBoxRungCay.AutoSize = true;
             this.checkBoxRungCay.Checked = true;
             this.checkBoxRungCay.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRungCay.Location = new System.Drawing.Point(361, 71);
-            this.checkBoxRungCay.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxRungCay.Location = new System.Drawing.Point(271, 58);
             this.checkBoxRungCay.Name = "checkBoxRungCay";
-            this.checkBoxRungCay.Size = new System.Drawing.Size(86, 20);
+            this.checkBoxRungCay.Size = new System.Drawing.Size(80, 19);
             this.checkBoxRungCay.TabIndex = 51;
             this.checkBoxRungCay.Text = "Rung cây";
             this.checkBoxRungCay.UseVisualStyleBackColor = true;
@@ -661,10 +622,9 @@
             this.checkBoxTrongNL.AutoSize = true;
             this.checkBoxTrongNL.Checked = true;
             this.checkBoxTrongNL.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTrongNL.Location = new System.Drawing.Point(16, 46);
-            this.checkBoxTrongNL.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTrongNL.Location = new System.Drawing.Point(12, 37);
             this.checkBoxTrongNL.Name = "checkBoxTrongNL";
-            this.checkBoxTrongNL.Size = new System.Drawing.Size(85, 20);
+            this.checkBoxTrongNL.Size = new System.Drawing.Size(80, 19);
             this.checkBoxTrongNL.TabIndex = 42;
             this.checkBoxTrongNL.Text = "Trồng NL";
             this.checkBoxTrongNL.UseVisualStyleBackColor = true;
@@ -672,10 +632,9 @@
             // checkBoxHaiThuoc
             // 
             this.checkBoxHaiThuoc.AutoSize = true;
-            this.checkBoxHaiThuoc.Location = new System.Drawing.Point(361, 242);
-            this.checkBoxHaiThuoc.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxHaiThuoc.Location = new System.Drawing.Point(271, 197);
             this.checkBoxHaiThuoc.Name = "checkBoxHaiThuoc";
-            this.checkBoxHaiThuoc.Size = new System.Drawing.Size(188, 20);
+            this.checkBoxHaiThuoc.Size = new System.Drawing.Size(177, 19);
             this.checkBoxHaiThuoc.TabIndex = 61;
             this.checkBoxHaiThuoc.Text = "Hái thuốc (chưa hoạt động)";
             this.checkBoxHaiThuoc.UseVisualStyleBackColor = true;
@@ -684,19 +643,17 @@
             // 
             this.splitter1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.splitter1.Location = new System.Drawing.Point(0, 0);
-            this.splitter1.Margin = new System.Windows.Forms.Padding(4);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(353, 333);
+            this.splitter1.Size = new System.Drawing.Size(265, 268);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
             // checkBoxDauPet
             // 
             this.checkBoxDauPet.AutoSize = true;
-            this.checkBoxDauPet.Location = new System.Drawing.Point(361, 100);
-            this.checkBoxDauPet.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxDauPet.Location = new System.Drawing.Point(271, 81);
             this.checkBoxDauPet.Name = "checkBoxDauPet";
-            this.checkBoxDauPet.Size = new System.Drawing.Size(76, 20);
+            this.checkBoxDauPet.Size = new System.Drawing.Size(73, 19);
             this.checkBoxDauPet.TabIndex = 53;
             this.checkBoxDauPet.Text = "Đấu Pet";
             this.checkBoxDauPet.UseVisualStyleBackColor = true;
@@ -706,10 +663,9 @@
             this.checkBoxNhanHoiPhuc.AutoSize = true;
             this.checkBoxNhanHoiPhuc.Checked = true;
             this.checkBoxNhanHoiPhuc.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxNhanHoiPhuc.Location = new System.Drawing.Point(361, 154);
-            this.checkBoxNhanHoiPhuc.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxNhanHoiPhuc.Location = new System.Drawing.Point(271, 125);
             this.checkBoxNhanHoiPhuc.Name = "checkBoxNhanHoiPhuc";
-            this.checkBoxNhanHoiPhuc.Size = new System.Drawing.Size(180, 20);
+            this.checkBoxNhanHoiPhuc.Size = new System.Drawing.Size(169, 19);
             this.checkBoxNhanHoiPhuc.TabIndex = 57;
             this.checkBoxNhanHoiPhuc.Text = "Nhận hồi phục hàng ngày";
             this.checkBoxNhanHoiPhuc.UseVisualStyleBackColor = true;
@@ -717,10 +673,9 @@
             // checkBoxMeTran
             // 
             this.checkBoxMeTran.AutoSize = true;
-            this.checkBoxMeTran.Location = new System.Drawing.Point(361, 213);
-            this.checkBoxMeTran.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxMeTran.Location = new System.Drawing.Point(271, 173);
             this.checkBoxMeTran.Name = "checkBoxMeTran";
-            this.checkBoxMeTran.Size = new System.Drawing.Size(176, 20);
+            this.checkBoxMeTran.Size = new System.Drawing.Size(167, 19);
             this.checkBoxMeTran.TabIndex = 59;
             this.checkBoxMeTran.Text = "Mê trận (chưa hoạt động)";
             this.checkBoxMeTran.UseVisualStyleBackColor = true;
@@ -730,10 +685,9 @@
             this.checkBoxNhanThuongHanhLang.AutoSize = true;
             this.checkBoxNhanThuongHanhLang.Checked = true;
             this.checkBoxNhanThuongHanhLang.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxNhanThuongHanhLang.Location = new System.Drawing.Point(361, 128);
-            this.checkBoxNhanThuongHanhLang.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxNhanThuongHanhLang.Location = new System.Drawing.Point(271, 104);
             this.checkBoxNhanThuongHanhLang.Name = "checkBoxNhanThuongHanhLang";
-            this.checkBoxNhanThuongHanhLang.Size = new System.Drawing.Size(165, 20);
+            this.checkBoxNhanThuongHanhLang.Size = new System.Drawing.Size(158, 19);
             this.checkBoxNhanThuongHanhLang.TabIndex = 55;
             this.checkBoxNhanThuongHanhLang.Text = "Nhận thưởng hành lang";
             this.checkBoxNhanThuongHanhLang.UseVisualStyleBackColor = true;
@@ -760,11 +714,10 @@
             this.tabPageGeneral.Controls.Add(this.label3);
             this.tabPageGeneral.Controls.Add(this.label2);
             this.tabPageGeneral.Controls.Add(this.numericUpDownVIPLevel);
-            this.tabPageGeneral.Location = new System.Drawing.Point(4, 25);
-            this.tabPageGeneral.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneral.Name = "tabPageGeneral";
-            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageGeneral.Size = new System.Drawing.Size(715, 333);
+            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageGeneral.Size = new System.Drawing.Size(534, 268);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "Tùy Chỉnh Chung";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
@@ -772,18 +725,16 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(496, 16);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(372, 13);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 16);
+            this.label5.Size = new System.Drawing.Size(59, 15);
             this.label5.TabIndex = 52;
             this.label5.Text = "Chinese?";
             // 
             // checkBoxIsChinese
             // 
             this.checkBoxIsChinese.AutoSize = true;
-            this.checkBoxIsChinese.Location = new System.Drawing.Point(672, 16);
-            this.checkBoxIsChinese.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxIsChinese.Location = new System.Drawing.Point(504, 13);
             this.checkBoxIsChinese.Name = "checkBoxIsChinese";
             this.checkBoxIsChinese.Size = new System.Drawing.Size(18, 17);
             this.checkBoxIsChinese.TabIndex = 51;
@@ -792,18 +743,16 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 260);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(6, 211);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(139, 16);
+            this.label9.Size = new System.Drawing.Size(128, 15);
             this.label9.TabIndex = 50;
             this.label9.Text = "Chạy auto cho đến hết";
             // 
             // checkBoxRunAutoToLast
             // 
             this.checkBoxRunAutoToLast.AutoSize = true;
-            this.checkBoxRunAutoToLast.Location = new System.Drawing.Point(184, 260);
-            this.checkBoxRunAutoToLast.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxRunAutoToLast.Location = new System.Drawing.Point(138, 211);
             this.checkBoxRunAutoToLast.Name = "checkBoxRunAutoToLast";
             this.checkBoxRunAutoToLast.Size = new System.Drawing.Size(18, 17);
             this.checkBoxRunAutoToLast.TabIndex = 49;
@@ -811,8 +760,7 @@
             // 
             // numericUpDownViTriNhanVat
             // 
-            this.numericUpDownViTriNhanVat.Location = new System.Drawing.Point(184, 43);
-            this.numericUpDownViTriNhanVat.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDownViTriNhanVat.Location = new System.Drawing.Point(138, 35);
             this.numericUpDownViTriNhanVat.Maximum = new decimal(new int[] {
             9,
             0,
@@ -824,7 +772,7 @@
             0,
             0});
             this.numericUpDownViTriNhanVat.Name = "numericUpDownViTriNhanVat";
-            this.numericUpDownViTriNhanVat.Size = new System.Drawing.Size(191, 22);
+            this.numericUpDownViTriNhanVat.Size = new System.Drawing.Size(143, 20);
             this.numericUpDownViTriNhanVat.TabIndex = 48;
             this.numericUpDownViTriNhanVat.Value = new decimal(new int[] {
             1,
@@ -835,17 +783,15 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 46);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Location = new System.Drawing.Point(6, 37);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(88, 16);
+            this.label8.Size = new System.Drawing.Size(82, 15);
             this.label8.TabIndex = 47;
             this.label8.Text = "Vị trí nhân vật:";
             // 
             // numericUpDownCapMB
             // 
-            this.numericUpDownCapMB.Location = new System.Drawing.Point(184, 194);
-            this.numericUpDownCapMB.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDownCapMB.Location = new System.Drawing.Point(138, 158);
             this.numericUpDownCapMB.Maximum = new decimal(new int[] {
             6,
             0,
@@ -857,7 +803,7 @@
             0,
             0});
             this.numericUpDownCapMB.Name = "numericUpDownCapMB";
-            this.numericUpDownCapMB.Size = new System.Drawing.Size(191, 22);
+            this.numericUpDownCapMB.Size = new System.Drawing.Size(143, 20);
             this.numericUpDownCapMB.TabIndex = 41;
             this.numericUpDownCapMB.Value = new decimal(new int[] {
             5,
@@ -868,40 +814,36 @@
             // comboBoxNguyenLieuMB
             // 
             this.comboBoxNguyenLieuMB.FormattingEnabled = true;
-            this.comboBoxNguyenLieuMB.Location = new System.Drawing.Point(184, 226);
-            this.comboBoxNguyenLieuMB.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxNguyenLieuMB.Location = new System.Drawing.Point(138, 184);
             this.comboBoxNguyenLieuMB.Name = "comboBoxNguyenLieuMB";
-            this.comboBoxNguyenLieuMB.Size = new System.Drawing.Size(189, 24);
+            this.comboBoxNguyenLieuMB.Size = new System.Drawing.Size(143, 21);
             this.comboBoxNguyenLieuMB.TabIndex = 40;
             this.comboBoxNguyenLieuMB.Text = "-- Chọn loại nguyên liệu --";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 230);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(6, 187);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(89, 16);
+            this.label11.Size = new System.Drawing.Size(83, 15);
             this.label11.TabIndex = 39;
             this.label11.Text = "Loại Mật Bảo:";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 203);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(6, 165);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(88, 16);
+            this.label10.Size = new System.Drawing.Size(81, 15);
             this.label10.TabIndex = 38;
             this.label10.Text = "Cấp Mật Bảo:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 174);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(6, 141);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(85, 16);
+            this.label6.Size = new System.Drawing.Size(80, 15);
             this.label6.TabIndex = 37;
             this.label6.Text = "Đổi NL Cấp 4";
             // 
@@ -910,8 +852,7 @@
             this.checkBoxDoiNLCap4.AutoSize = true;
             this.checkBoxDoiNLCap4.Checked = true;
             this.checkBoxDoiNLCap4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDoiNLCap4.Location = new System.Drawing.Point(184, 172);
-            this.checkBoxDoiNLCap4.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxDoiNLCap4.Location = new System.Drawing.Point(138, 140);
             this.checkBoxDoiNLCap4.Name = "checkBoxDoiNLCap4";
             this.checkBoxDoiNLCap4.Size = new System.Drawing.Size(18, 17);
             this.checkBoxDoiNLCap4.TabIndex = 36;
@@ -921,82 +862,74 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 110);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(6, 89);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 16);
+            this.label4.Size = new System.Drawing.Size(108, 15);
             this.label4.TabIndex = 34;
             this.label4.Text = "Trồng nguyên liệu:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 139);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(6, 113);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(154, 16);
+            this.label1.Size = new System.Drawing.Size(143, 15);
             this.label1.TabIndex = 33;
             this.label1.Text = "Nguyên liệu đổi năng nổ:";
             // 
             // comboBoxChonNLDoiNN
             // 
             this.comboBoxChonNLDoiNN.FormattingEnabled = true;
-            this.comboBoxChonNLDoiNN.Location = new System.Drawing.Point(184, 139);
-            this.comboBoxChonNLDoiNN.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxChonNLDoiNN.Location = new System.Drawing.Point(138, 113);
             this.comboBoxChonNLDoiNN.Name = "comboBoxChonNLDoiNN";
-            this.comboBoxChonNLDoiNN.Size = new System.Drawing.Size(189, 24);
+            this.comboBoxChonNLDoiNN.Size = new System.Drawing.Size(143, 21);
             this.comboBoxChonNLDoiNN.TabIndex = 32;
             this.comboBoxChonNLDoiNN.Text = "-- Chọn loại nguyên liệu --";
             // 
             // comboBoxTrongNL
             // 
             this.comboBoxTrongNL.FormattingEnabled = true;
-            this.comboBoxTrongNL.Location = new System.Drawing.Point(184, 110);
-            this.comboBoxTrongNL.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxTrongNL.Location = new System.Drawing.Point(138, 89);
             this.comboBoxTrongNL.Name = "comboBoxTrongNL";
-            this.comboBoxTrongNL.Size = new System.Drawing.Size(189, 24);
+            this.comboBoxTrongNL.Size = new System.Drawing.Size(143, 21);
             this.comboBoxTrongNL.TabIndex = 31;
             this.comboBoxTrongNL.Text = "-- Chọn loại nguyên liệu --";
             // 
             // numericUpDownIncreaseFPS
             // 
-            this.numericUpDownIncreaseFPS.Location = new System.Drawing.Point(184, 75);
-            this.numericUpDownIncreaseFPS.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDownIncreaseFPS.Location = new System.Drawing.Point(138, 61);
             this.numericUpDownIncreaseFPS.Name = "numericUpDownIncreaseFPS";
-            this.numericUpDownIncreaseFPS.Size = new System.Drawing.Size(191, 22);
+            this.numericUpDownIncreaseFPS.Size = new System.Drawing.Size(143, 20);
             this.numericUpDownIncreaseFPS.TabIndex = 29;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 78);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(6, 63);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 16);
+            this.label3.Size = new System.Drawing.Size(40, 15);
             this.label3.TabIndex = 28;
             this.label3.Text = "+FPS:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 16);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(6, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 16);
+            this.label2.Size = new System.Drawing.Size(53, 15);
             this.label2.TabIndex = 26;
             this.label2.Text = "Cấp VIP:";
             // 
             // numericUpDownVIPLevel
             // 
-            this.numericUpDownVIPLevel.Location = new System.Drawing.Point(184, 14);
-            this.numericUpDownVIPLevel.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDownVIPLevel.Location = new System.Drawing.Point(138, 11);
             this.numericUpDownVIPLevel.Maximum = new decimal(new int[] {
             9,
             0,
             0,
             0});
             this.numericUpDownVIPLevel.Name = "numericUpDownVIPLevel";
-            this.numericUpDownVIPLevel.Size = new System.Drawing.Size(191, 22);
+            this.numericUpDownVIPLevel.Size = new System.Drawing.Size(143, 20);
             this.numericUpDownVIPLevel.TabIndex = 27;
             this.numericUpDownVIPLevel.Value = new decimal(new int[] {
             5,
@@ -1008,11 +941,10 @@
             // 
             this.tabPagePhuBan.Controls.Add(this.label7);
             this.tabPagePhuBan.Controls.Add(this.checkedListBoxPhuBan);
-            this.tabPagePhuBan.Location = new System.Drawing.Point(4, 25);
-            this.tabPagePhuBan.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPagePhuBan.Location = new System.Drawing.Point(4, 22);
             this.tabPagePhuBan.Name = "tabPagePhuBan";
-            this.tabPagePhuBan.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPagePhuBan.Size = new System.Drawing.Size(715, 333);
+            this.tabPagePhuBan.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePhuBan.Size = new System.Drawing.Size(534, 268);
             this.tabPagePhuBan.TabIndex = 1;
             this.tabPagePhuBan.Text = "Phụ Bản";
             this.tabPagePhuBan.UseVisualStyleBackColor = true;
@@ -1021,8 +953,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(8, 9);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(6, 7);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(68, 17);
             this.label7.TabIndex = 6;
@@ -1041,20 +972,18 @@
             "Quỷ Hút Máu",
             "Thế Giới Số",
             "Thám Hiểm"});
-            this.checkedListBoxPhuBan.Location = new System.Drawing.Point(8, 31);
-            this.checkedListBoxPhuBan.Margin = new System.Windows.Forms.Padding(4);
+            this.checkedListBoxPhuBan.Location = new System.Drawing.Point(6, 25);
             this.checkedListBoxPhuBan.Name = "checkedListBoxPhuBan";
-            this.checkedListBoxPhuBan.Size = new System.Drawing.Size(528, 123);
+            this.checkedListBoxPhuBan.Size = new System.Drawing.Size(397, 94);
             this.checkedListBoxPhuBan.TabIndex = 1;
             // 
             // tabPageSTMT
             // 
             this.tabPageSTMT.Controls.Add(this.checkedListBoxSTMT);
-            this.tabPageSTMT.Location = new System.Drawing.Point(4, 25);
-            this.tabPageSTMT.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageSTMT.Location = new System.Drawing.Point(4, 22);
             this.tabPageSTMT.Name = "tabPageSTMT";
-            this.tabPageSTMT.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageSTMT.Size = new System.Drawing.Size(715, 333);
+            this.tabPageSTMT.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageSTMT.Size = new System.Drawing.Size(534, 268);
             this.tabPageSTMT.TabIndex = 3;
             this.tabPageSTMT.Text = "Sổ tay Ma thú";
             this.tabPageSTMT.UseVisualStyleBackColor = true;
@@ -1141,19 +1070,17 @@
             "air150",
             "air155",
             "air160"});
-            this.checkedListBoxSTMT.Location = new System.Drawing.Point(8, 4);
-            this.checkedListBoxSTMT.Margin = new System.Windows.Forms.Padding(4);
+            this.checkedListBoxSTMT.Location = new System.Drawing.Point(6, 3);
             this.checkedListBoxSTMT.MultiColumn = true;
             this.checkedListBoxSTMT.Name = "checkedListBoxSTMT";
-            this.checkedListBoxSTMT.Size = new System.Drawing.Size(695, 310);
+            this.checkedListBoxSTMT.Size = new System.Drawing.Size(522, 244);
             this.checkedListBoxSTMT.TabIndex = 2;
             // 
             // buttonResetStatus
             // 
-            this.buttonResetStatus.Location = new System.Drawing.Point(20, 426);
-            this.buttonResetStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonResetStatus.Location = new System.Drawing.Point(15, 346);
             this.buttonResetStatus.Name = "buttonResetStatus";
-            this.buttonResetStatus.Size = new System.Drawing.Size(116, 28);
+            this.buttonResetStatus.Size = new System.Drawing.Size(87, 23);
             this.buttonResetStatus.TabIndex = 67;
             this.buttonResetStatus.Text = "Làm mới trạng thái";
             this.buttonResetStatus.UseVisualStyleBackColor = true;
@@ -1161,10 +1088,9 @@
             // 
             // buttonChayXuQue
             // 
-            this.buttonChayXuQue.Location = new System.Drawing.Point(144, 355);
-            this.buttonChayXuQue.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonChayXuQue.Location = new System.Drawing.Point(108, 288);
             this.buttonChayXuQue.Name = "buttonChayXuQue";
-            this.buttonChayXuQue.Size = new System.Drawing.Size(127, 28);
+            this.buttonChayXuQue.Size = new System.Drawing.Size(95, 23);
             this.buttonChayXuQue.TabIndex = 68;
             this.buttonChayXuQue.Text = "Chạy Xủ Quẻ";
             this.buttonChayXuQue.UseVisualStyleBackColor = true;
@@ -1172,10 +1098,9 @@
             // 
             // buttonStopXuQue
             // 
-            this.buttonStopXuQue.Location = new System.Drawing.Point(144, 390);
-            this.buttonStopXuQue.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonStopXuQue.Location = new System.Drawing.Point(108, 317);
             this.buttonStopXuQue.Name = "buttonStopXuQue";
-            this.buttonStopXuQue.Size = new System.Drawing.Size(127, 28);
+            this.buttonStopXuQue.Size = new System.Drawing.Size(95, 23);
             this.buttonStopXuQue.TabIndex = 69;
             this.buttonStopXuQue.Text = "Ngừng Xủ Quẻ";
             this.buttonStopXuQue.UseVisualStyleBackColor = true;
@@ -1183,10 +1108,9 @@
             // 
             // buttonVaoAllGame
             // 
-            this.buttonVaoAllGame.Location = new System.Drawing.Point(279, 462);
-            this.buttonVaoAllGame.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonVaoAllGame.Location = new System.Drawing.Point(209, 375);
             this.buttonVaoAllGame.Name = "buttonVaoAllGame";
-            this.buttonVaoAllGame.Size = new System.Drawing.Size(127, 28);
+            this.buttonVaoAllGame.Size = new System.Drawing.Size(95, 23);
             this.buttonVaoAllGame.TabIndex = 70;
             this.buttonVaoAllGame.Text = "Vào All Game";
             this.buttonVaoAllGame.UseVisualStyleBackColor = true;
@@ -1194,10 +1118,9 @@
             // 
             // buttonDaPetAll
             // 
-            this.buttonDaPetAll.Location = new System.Drawing.Point(279, 497);
-            this.buttonDaPetAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDaPetAll.Location = new System.Drawing.Point(209, 404);
             this.buttonDaPetAll.Name = "buttonDaPetAll";
-            this.buttonDaPetAll.Size = new System.Drawing.Size(127, 28);
+            this.buttonDaPetAll.Size = new System.Drawing.Size(95, 23);
             this.buttonDaPetAll.TabIndex = 71;
             this.buttonDaPetAll.Text = "Đá pet All";
             this.buttonDaPetAll.UseVisualStyleBackColor = true;
@@ -1205,10 +1128,9 @@
             // 
             // buttonDaPet
             // 
-            this.buttonDaPet.Location = new System.Drawing.Point(144, 641);
-            this.buttonDaPet.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDaPet.Location = new System.Drawing.Point(108, 521);
             this.buttonDaPet.Name = "buttonDaPet";
-            this.buttonDaPet.Size = new System.Drawing.Size(129, 28);
+            this.buttonDaPet.Size = new System.Drawing.Size(97, 23);
             this.buttonDaPet.TabIndex = 72;
             this.buttonDaPet.Text = "Đá Pet";
             this.buttonDaPet.UseVisualStyleBackColor = true;
@@ -1216,10 +1138,9 @@
             // 
             // buttonAutoPhuBan
             // 
-            this.buttonAutoPhuBan.Location = new System.Drawing.Point(20, 641);
-            this.buttonAutoPhuBan.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAutoPhuBan.Location = new System.Drawing.Point(15, 521);
             this.buttonAutoPhuBan.Name = "buttonAutoPhuBan";
-            this.buttonAutoPhuBan.Size = new System.Drawing.Size(116, 28);
+            this.buttonAutoPhuBan.Size = new System.Drawing.Size(87, 23);
             this.buttonAutoPhuBan.TabIndex = 73;
             this.buttonAutoPhuBan.Text = "Auto Phụ bản";
             this.buttonAutoPhuBan.UseVisualStyleBackColor = true;
@@ -1227,10 +1148,9 @@
             // 
             // buttonCaptureImage
             // 
-            this.buttonCaptureImage.Location = new System.Drawing.Point(985, 762);
-            this.buttonCaptureImage.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonCaptureImage.Location = new System.Drawing.Point(736, 676);
             this.buttonCaptureImage.Name = "buttonCaptureImage";
-            this.buttonCaptureImage.Size = new System.Drawing.Size(140, 28);
+            this.buttonCaptureImage.Size = new System.Drawing.Size(105, 23);
             this.buttonCaptureImage.TabIndex = 74;
             this.buttonCaptureImage.Text = "Capture image";
             this.buttonCaptureImage.UseVisualStyleBackColor = true;
@@ -1238,10 +1158,9 @@
             // 
             // buttonAoMa
             // 
-            this.buttonAoMa.Location = new System.Drawing.Point(144, 677);
-            this.buttonAoMa.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAoMa.Location = new System.Drawing.Point(108, 550);
             this.buttonAoMa.Name = "buttonAoMa";
-            this.buttonAoMa.Size = new System.Drawing.Size(129, 28);
+            this.buttonAoMa.Size = new System.Drawing.Size(97, 23);
             this.buttonAoMa.TabIndex = 75;
             this.buttonAoMa.Text = "Ảo ma";
             this.buttonAoMa.UseVisualStyleBackColor = true;
@@ -1249,10 +1168,9 @@
             // 
             // buttonAoMaAll
             // 
-            this.buttonAoMaAll.Location = new System.Drawing.Point(279, 533);
-            this.buttonAoMaAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAoMaAll.Location = new System.Drawing.Point(209, 433);
             this.buttonAoMaAll.Name = "buttonAoMaAll";
-            this.buttonAoMaAll.Size = new System.Drawing.Size(127, 28);
+            this.buttonAoMaAll.Size = new System.Drawing.Size(95, 23);
             this.buttonAoMaAll.TabIndex = 76;
             this.buttonAoMaAll.Text = "Ảo ma All";
             this.buttonAoMaAll.UseVisualStyleBackColor = true;
@@ -1260,10 +1178,9 @@
             // 
             // buttonNhanHoiPhuc
             // 
-            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(144, 604);
-            this.buttonNhanHoiPhuc.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanHoiPhuc.Location = new System.Drawing.Point(108, 491);
             this.buttonNhanHoiPhuc.Name = "buttonNhanHoiPhuc";
-            this.buttonNhanHoiPhuc.Size = new System.Drawing.Size(129, 28);
+            this.buttonNhanHoiPhuc.Size = new System.Drawing.Size(97, 23);
             this.buttonNhanHoiPhuc.TabIndex = 77;
             this.buttonNhanHoiPhuc.Text = "Nhận Hồi phục";
             this.buttonNhanHoiPhuc.UseVisualStyleBackColor = true;
@@ -1271,10 +1188,9 @@
             // 
             // buttonNhanHoiPhucAll
             // 
-            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(281, 569);
-            this.buttonNhanHoiPhucAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanHoiPhucAll.Location = new System.Drawing.Point(211, 462);
             this.buttonNhanHoiPhucAll.Name = "buttonNhanHoiPhucAll";
-            this.buttonNhanHoiPhucAll.Size = new System.Drawing.Size(124, 28);
+            this.buttonNhanHoiPhucAll.Size = new System.Drawing.Size(93, 23);
             this.buttonNhanHoiPhucAll.TabIndex = 78;
             this.buttonNhanHoiPhucAll.Text = "Hồi phục All";
             this.buttonNhanHoiPhucAll.UseVisualStyleBackColor = true;
@@ -1282,10 +1198,9 @@
             // 
             // buttonNhanThuongAutoPB
             // 
-            this.buttonNhanThuongAutoPB.Location = new System.Drawing.Point(20, 569);
-            this.buttonNhanThuongAutoPB.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanThuongAutoPB.Location = new System.Drawing.Point(15, 462);
             this.buttonNhanThuongAutoPB.Name = "buttonNhanThuongAutoPB";
-            this.buttonNhanThuongAutoPB.Size = new System.Drawing.Size(253, 28);
+            this.buttonNhanThuongAutoPB.Size = new System.Drawing.Size(190, 23);
             this.buttonNhanThuongAutoPB.TabIndex = 79;
             this.buttonNhanThuongAutoPB.Text = "Nhận thưởng Auto PB";
             this.buttonNhanThuongAutoPB.UseVisualStyleBackColor = true;
@@ -1293,10 +1208,9 @@
             // 
             // buttonDoiNangNoAll
             // 
-            this.buttonDoiNangNoAll.Location = new System.Drawing.Point(281, 604);
-            this.buttonDoiNangNoAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDoiNangNoAll.Location = new System.Drawing.Point(211, 491);
             this.buttonDoiNangNoAll.Name = "buttonDoiNangNoAll";
-            this.buttonDoiNangNoAll.Size = new System.Drawing.Size(124, 28);
+            this.buttonDoiNangNoAll.Size = new System.Drawing.Size(93, 23);
             this.buttonDoiNangNoAll.TabIndex = 80;
             this.buttonDoiNangNoAll.Text = "Đổi năng nổ All";
             this.buttonDoiNangNoAll.UseVisualStyleBackColor = true;
@@ -1304,10 +1218,9 @@
             // 
             // buttonDoiNangNo
             // 
-            this.buttonDoiNangNo.Location = new System.Drawing.Point(20, 677);
-            this.buttonDoiNangNo.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDoiNangNo.Location = new System.Drawing.Point(15, 550);
             this.buttonDoiNangNo.Name = "buttonDoiNangNo";
-            this.buttonDoiNangNo.Size = new System.Drawing.Size(116, 28);
+            this.buttonDoiNangNo.Size = new System.Drawing.Size(87, 23);
             this.buttonDoiNangNo.TabIndex = 81;
             this.buttonDoiNangNo.Text = "Đổi năng nổ";
             this.buttonDoiNangNo.UseVisualStyleBackColor = true;
@@ -1316,28 +1229,25 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(25, 259);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(19, 210);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(102, 16);
+            this.label12.Size = new System.Drawing.Size(93, 15);
             this.label12.TabIndex = 53;
             this.label12.Text = "VPN Chinese IP";
             // 
             // textBoxVpnIp
             // 
-            this.textBoxVpnIp.Location = new System.Drawing.Point(144, 255);
-            this.textBoxVpnIp.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxVpnIp.Location = new System.Drawing.Point(108, 207);
             this.textBoxVpnIp.Name = "textBoxVpnIp";
-            this.textBoxVpnIp.Size = new System.Drawing.Size(255, 22);
+            this.textBoxVpnIp.Size = new System.Drawing.Size(192, 20);
             this.textBoxVpnIp.TabIndex = 82;
             this.textBoxVpnIp.Text = "10.211.1.72";
             // 
             // buttonNhanThuongAutoPBAll
             // 
-            this.buttonNhanThuongAutoPBAll.Location = new System.Drawing.Point(20, 497);
-            this.buttonNhanThuongAutoPBAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanThuongAutoPBAll.Location = new System.Drawing.Point(15, 404);
             this.buttonNhanThuongAutoPBAll.Name = "buttonNhanThuongAutoPBAll";
-            this.buttonNhanThuongAutoPBAll.Size = new System.Drawing.Size(253, 28);
+            this.buttonNhanThuongAutoPBAll.Size = new System.Drawing.Size(190, 23);
             this.buttonNhanThuongAutoPBAll.TabIndex = 83;
             this.buttonNhanThuongAutoPBAll.Text = "Nhận thưởng Auto PB All";
             this.buttonNhanThuongAutoPBAll.UseVisualStyleBackColor = true;
@@ -1345,10 +1255,9 @@
             // 
             // buttonNhanHL
             // 
-            this.buttonNhanHL.Location = new System.Drawing.Point(20, 713);
-            this.buttonNhanHL.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanHL.Location = new System.Drawing.Point(15, 579);
             this.buttonNhanHL.Name = "buttonNhanHL";
-            this.buttonNhanHL.Size = new System.Drawing.Size(116, 28);
+            this.buttonNhanHL.Size = new System.Drawing.Size(87, 23);
             this.buttonNhanHL.TabIndex = 84;
             this.buttonNhanHL.Text = "Nhận HL";
             this.buttonNhanHL.UseVisualStyleBackColor = true;
@@ -1356,10 +1265,9 @@
             // 
             // buttonAutoTuHanh
             // 
-            this.buttonAutoTuHanh.Location = new System.Drawing.Point(20, 533);
-            this.buttonAutoTuHanh.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAutoTuHanh.Location = new System.Drawing.Point(15, 433);
             this.buttonAutoTuHanh.Name = "buttonAutoTuHanh";
-            this.buttonAutoTuHanh.Size = new System.Drawing.Size(116, 28);
+            this.buttonAutoTuHanh.Size = new System.Drawing.Size(87, 23);
             this.buttonAutoTuHanh.TabIndex = 85;
             this.buttonAutoTuHanh.Text = "Auto Tu hành";
             this.buttonAutoTuHanh.UseVisualStyleBackColor = true;
@@ -1367,10 +1275,9 @@
             // 
             // buttonNhanThuongKGDK
             // 
-            this.buttonNhanThuongKGDK.Location = new System.Drawing.Point(144, 533);
-            this.buttonNhanThuongKGDK.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanThuongKGDK.Location = new System.Drawing.Point(108, 433);
             this.buttonNhanThuongKGDK.Name = "buttonNhanThuongKGDK";
-            this.buttonNhanThuongKGDK.Size = new System.Drawing.Size(129, 28);
+            this.buttonNhanThuongKGDK.Size = new System.Drawing.Size(97, 23);
             this.buttonNhanThuongKGDK.TabIndex = 86;
             this.buttonNhanThuongKGDK.Text = "Nhận KGDK";
             this.buttonNhanThuongKGDK.UseVisualStyleBackColor = true;
@@ -1378,10 +1285,9 @@
             // 
             // buttonTrongNL
             // 
-            this.buttonTrongNL.Location = new System.Drawing.Point(20, 606);
-            this.buttonTrongNL.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTrongNL.Location = new System.Drawing.Point(15, 492);
             this.buttonTrongNL.Name = "buttonTrongNL";
-            this.buttonTrongNL.Size = new System.Drawing.Size(116, 28);
+            this.buttonTrongNL.Size = new System.Drawing.Size(87, 23);
             this.buttonTrongNL.TabIndex = 87;
             this.buttonTrongNL.Text = "Trồng NL";
             this.buttonTrongNL.UseVisualStyleBackColor = true;
@@ -1389,10 +1295,9 @@
             // 
             // buttonChayAutoAllAcc
             // 
-            this.buttonChayAutoAllAcc.Location = new System.Drawing.Point(279, 287);
-            this.buttonChayAutoAllAcc.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonChayAutoAllAcc.Location = new System.Drawing.Point(209, 233);
             this.buttonChayAutoAllAcc.Name = "buttonChayAutoAllAcc";
-            this.buttonChayAutoAllAcc.Size = new System.Drawing.Size(127, 28);
+            this.buttonChayAutoAllAcc.Size = new System.Drawing.Size(95, 23);
             this.buttonChayAutoAllAcc.TabIndex = 88;
             this.buttonChayAutoAllAcc.Text = "Chạy Auto All";
             this.buttonChayAutoAllAcc.UseVisualStyleBackColor = true;
@@ -1400,10 +1305,9 @@
             // 
             // buttonAmDpAllToEnd
             // 
-            this.buttonAmDpAllToEnd.Location = new System.Drawing.Point(20, 462);
-            this.buttonAmDpAllToEnd.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAmDpAllToEnd.Location = new System.Drawing.Point(15, 375);
             this.buttonAmDpAllToEnd.Name = "buttonAmDpAllToEnd";
-            this.buttonAmDpAllToEnd.Size = new System.Drawing.Size(253, 28);
+            this.buttonAmDpAllToEnd.Size = new System.Drawing.Size(190, 23);
             this.buttonAmDpAllToEnd.TabIndex = 89;
             this.buttonAmDpAllToEnd.Text = "AM và DP All to End";
             this.buttonAmDpAllToEnd.UseVisualStyleBackColor = true;
@@ -1411,29 +1315,26 @@
             // 
             // textBoxSoLuongAcc
             // 
-            this.textBoxSoLuongAcc.Location = new System.Drawing.Point(144, 291);
-            this.textBoxSoLuongAcc.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSoLuongAcc.Location = new System.Drawing.Point(108, 236);
             this.textBoxSoLuongAcc.Name = "textBoxSoLuongAcc";
-            this.textBoxSoLuongAcc.Size = new System.Drawing.Size(125, 22);
+            this.textBoxSoLuongAcc.Size = new System.Drawing.Size(95, 20);
             this.textBoxSoLuongAcc.TabIndex = 91;
             this.textBoxSoLuongAcc.Text = "3";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(25, 294);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Location = new System.Drawing.Point(19, 239);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(85, 16);
+            this.label13.Size = new System.Drawing.Size(78, 15);
             this.label13.TabIndex = 90;
             this.label13.Text = "So luong acc";
             // 
             // buttonDanhSTMT
             // 
-            this.buttonDanhSTMT.Location = new System.Drawing.Point(281, 641);
-            this.buttonDanhSTMT.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDanhSTMT.Location = new System.Drawing.Point(211, 521);
             this.buttonDanhSTMT.Name = "buttonDanhSTMT";
-            this.buttonDanhSTMT.Size = new System.Drawing.Size(124, 28);
+            this.buttonDanhSTMT.Size = new System.Drawing.Size(93, 23);
             this.buttonDanhSTMT.TabIndex = 92;
             this.buttonDanhSTMT.Text = "Đánh STMT";
             this.buttonDanhSTMT.UseVisualStyleBackColor = true;
@@ -1441,10 +1342,9 @@
             // 
             // buttonNhanKNVU
             // 
-            this.buttonNhanKNVU.Location = new System.Drawing.Point(281, 677);
-            this.buttonNhanKNVU.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanKNVU.Location = new System.Drawing.Point(211, 550);
             this.buttonNhanKNVU.Name = "buttonNhanKNVU";
-            this.buttonNhanKNVU.Size = new System.Drawing.Size(124, 28);
+            this.buttonNhanKNVU.Size = new System.Drawing.Size(93, 23);
             this.buttonNhanKNVU.TabIndex = 93;
             this.buttonNhanKNVU.Text = "Nhận KNVU";
             this.buttonNhanKNVU.UseVisualStyleBackColor = true;
@@ -1452,10 +1352,9 @@
             // 
             // buttonNhanKnvuAll
             // 
-            this.buttonNhanKnvuAll.Location = new System.Drawing.Point(147, 427);
-            this.buttonNhanKnvuAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonNhanKnvuAll.Location = new System.Drawing.Point(110, 347);
             this.buttonNhanKnvuAll.Name = "buttonNhanKnvuAll";
-            this.buttonNhanKnvuAll.Size = new System.Drawing.Size(127, 28);
+            this.buttonNhanKnvuAll.Size = new System.Drawing.Size(95, 23);
             this.buttonNhanKnvuAll.TabIndex = 94;
             this.buttonNhanKnvuAll.Text = "Nhận KNVU All";
             this.buttonNhanKnvuAll.UseVisualStyleBackColor = true;
@@ -1463,10 +1362,9 @@
             // 
             // buttonDapetAllToEnd
             // 
-            this.buttonDapetAllToEnd.Location = new System.Drawing.Point(144, 713);
-            this.buttonDapetAllToEnd.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDapetAllToEnd.Location = new System.Drawing.Point(108, 579);
             this.buttonDapetAllToEnd.Name = "buttonDapetAllToEnd";
-            this.buttonDapetAllToEnd.Size = new System.Drawing.Size(127, 28);
+            this.buttonDapetAllToEnd.Size = new System.Drawing.Size(95, 23);
             this.buttonDapetAllToEnd.TabIndex = 95;
             this.buttonDapetAllToEnd.Text = "DP All to End";
             this.buttonDapetAllToEnd.UseVisualStyleBackColor = true;
@@ -1474,10 +1372,9 @@
             // 
             // buttonAllCanhKyTruong
             // 
-            this.buttonAllCanhKyTruong.Location = new System.Drawing.Point(281, 713);
-            this.buttonAllCanhKyTruong.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAllCanhKyTruong.Location = new System.Drawing.Point(211, 579);
             this.buttonAllCanhKyTruong.Name = "buttonAllCanhKyTruong";
-            this.buttonAllCanhKyTruong.Size = new System.Drawing.Size(124, 28);
+            this.buttonAllCanhKyTruong.Size = new System.Drawing.Size(93, 23);
             this.buttonAllCanhKyTruong.TabIndex = 96;
             this.buttonAllCanhKyTruong.Text = "All CKT";
             this.buttonAllCanhKyTruong.UseVisualStyleBackColor = true;
@@ -1485,10 +1382,9 @@
             // 
             // buttonTaoNhom
             // 
-            this.buttonTaoNhom.Location = new System.Drawing.Point(408, 758);
-            this.buttonTaoNhom.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTaoNhom.Location = new System.Drawing.Point(303, 673);
             this.buttonTaoNhom.Name = "buttonTaoNhom";
-            this.buttonTaoNhom.Size = new System.Drawing.Size(124, 28);
+            this.buttonTaoNhom.Size = new System.Drawing.Size(93, 23);
             this.buttonTaoNhom.TabIndex = 97;
             this.buttonTaoNhom.Text = "Tạo Nhóm";
             this.buttonTaoNhom.UseVisualStyleBackColor = true;
@@ -1496,10 +1392,9 @@
             // 
             // buttonTrainQuai
             // 
-            this.buttonTrainQuai.Location = new System.Drawing.Point(540, 758);
-            this.buttonTrainQuai.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTrainQuai.Location = new System.Drawing.Point(402, 673);
             this.buttonTrainQuai.Name = "buttonTrainQuai";
-            this.buttonTrainQuai.Size = new System.Drawing.Size(124, 28);
+            this.buttonTrainQuai.Size = new System.Drawing.Size(93, 23);
             this.buttonTrainQuai.TabIndex = 98;
             this.buttonTrainQuai.Text = "Train quái";
             this.buttonTrainQuai.UseVisualStyleBackColor = true;
@@ -1507,10 +1402,9 @@
             // 
             // buttonBatPet
             // 
-            this.buttonBatPet.Location = new System.Drawing.Point(672, 758);
-            this.buttonBatPet.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonBatPet.Location = new System.Drawing.Point(501, 673);
             this.buttonBatPet.Name = "buttonBatPet";
-            this.buttonBatPet.Size = new System.Drawing.Size(124, 28);
+            this.buttonBatPet.Size = new System.Drawing.Size(93, 23);
             this.buttonBatPet.TabIndex = 99;
             this.buttonBatPet.Text = "Bắt pet";
             this.buttonBatPet.UseVisualStyleBackColor = true;
@@ -1518,20 +1412,41 @@
             // 
             // buttonTrainByMap
             // 
-            this.buttonTrainByMap.Location = new System.Drawing.Point(804, 758);
-            this.buttonTrainByMap.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTrainByMap.Location = new System.Drawing.Point(600, 673);
             this.buttonTrainByMap.Name = "buttonTrainByMap";
-            this.buttonTrainByMap.Size = new System.Drawing.Size(124, 28);
+            this.buttonTrainByMap.Size = new System.Drawing.Size(93, 23);
             this.buttonTrainByMap.TabIndex = 100;
             this.buttonTrainByMap.Text = "Train by map";
             this.buttonTrainByMap.UseVisualStyleBackColor = true;
             this.buttonTrainByMap.Click += new System.EventHandler(this.buttonTrainByMap_Click);
             // 
+            // buttonCheMatBao
+            // 
+            this.buttonCheMatBao.Location = new System.Drawing.Point(15, 608);
+            this.buttonCheMatBao.Name = "buttonCheMatBao";
+            this.buttonCheMatBao.Size = new System.Drawing.Size(87, 23);
+            this.buttonCheMatBao.TabIndex = 101;
+            this.buttonCheMatBao.Text = "Chế MB";
+            this.buttonCheMatBao.UseVisualStyleBackColor = true;
+            this.buttonCheMatBao.Click += new System.EventHandler(this.buttonCheMatBao_Click);
+            // 
+            // buttonCheMbAll
+            // 
+            this.buttonCheMbAll.Location = new System.Drawing.Point(108, 608);
+            this.buttonCheMbAll.Name = "buttonCheMbAll";
+            this.buttonCheMbAll.Size = new System.Drawing.Size(95, 23);
+            this.buttonCheMbAll.TabIndex = 102;
+            this.buttonCheMbAll.Text = "Chế MB All";
+            this.buttonCheMbAll.UseVisualStyleBackColor = true;
+            this.buttonCheMbAll.Click += new System.EventHandler(this.buttonCheMbAll_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1144, 830);
+            this.ClientSize = new System.Drawing.Size(858, 733);
+            this.Controls.Add(this.buttonCheMbAll);
+            this.Controls.Add(this.buttonCheMatBao);
             this.Controls.Add(this.buttonTrainByMap);
             this.Controls.Add(this.buttonBatPet);
             this.Controls.Add(this.buttonTrainQuai);
@@ -1583,7 +1498,6 @@
             this.Controls.Add(this.buttonSaveConfigAuto);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
@@ -1718,6 +1632,8 @@
         private System.Windows.Forms.Button buttonTrainQuai;
         private System.Windows.Forms.Button buttonBatPet;
         private System.Windows.Forms.Button buttonTrainByMap;
+        private System.Windows.Forms.Button buttonCheMatBao;
+        private System.Windows.Forms.Button buttonCheMbAll;
     }
 }
 

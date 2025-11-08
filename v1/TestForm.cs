@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VPT_Login.Libs;
 
 namespace AutoVPT
 {
@@ -106,7 +107,6 @@ namespace AutoVPT
 
         private void buttonClickRightOnImage_Click(object sender, EventArgs e)
         {
-            AutoIT au3 = new AutoIT();
             IntPtr hWnd = IntPtr.Zero;
             // Find define handle of project
             hWnd = AutoControl.FindWindowHandle(null, textBoxTestID.Text);
@@ -125,14 +125,13 @@ namespace AutoVPT
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
             if (pBtn != null)
             {
-                au3.clickRight(textBoxTestID.Text, 1, pBtn.Value.X + int.Parse(numericUpDownTestX.Value.ToString()), pBtn.Value.Y + int.Parse(numericUpDownTestY.Value.ToString()));
+                ClickHelper.ClickRight(hWnd, 1, pBtn.Value.X + int.Parse(numericUpDownTestX.Value.ToString()), pBtn.Value.Y + int.Parse(numericUpDownTestY.Value.ToString()));
                 Thread.Sleep(Constant.TimeShort);
             }
         }
 
         private void buttonClickRightOnPoint_Click(object sender, EventArgs e)
         {
-            AutoIT au3 = new AutoIT();
             IntPtr hWnd = IntPtr.Zero;
             // Find define handle of project
             hWnd = AutoControl.FindWindowHandle(null, textBoxTestID.Text);
@@ -143,7 +142,7 @@ namespace AutoVPT
                 return;
             }
 
-            au3.clickRight(textBoxTestID.Text, 1, int.Parse(numericUpDownTestX.Value.ToString()), int.Parse(numericUpDownTestY.Value.ToString()));
+            ClickHelper.ClickRight(hWnd, 1, int.Parse(numericUpDownTestX.Value.ToString()), int.Parse(numericUpDownTestY.Value.ToString()));
             Thread.Sleep(Constant.TimeShort);
         }
     }

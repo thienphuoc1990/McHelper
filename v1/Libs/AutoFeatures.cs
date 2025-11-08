@@ -7,12 +7,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using VPT_Login.Libs;
 
 namespace AutoVPT.Libs
 {
     class AutoFeatures
     {
-        public AutoIT au3 = new AutoIT();
         public IntPtr mHWnd;
         public string mWindowName;
         TextBox mTextBoxStatus;
@@ -29,17 +29,17 @@ namespace AutoVPT.Libs
 
         public void closeFlash()
         {
-            au3.winclose(mWindowName);
+            ClickHelper.CloseWindow(mHWnd);
         }
 
-        public void sendKey(string key, int wait = 1000)
+        public void sendKey(Keys key, int wait = 1000)
         {
             if (mCharacter.Running == 0)
             {
                 return;
             }
 
-            au3.controlsend(mWindowName, key);
+            ClickHelper.ControlSendKey(mHWnd, key);
             Thread.Sleep(wait);
         }
 
@@ -53,8 +53,9 @@ namespace AutoVPT.Libs
             // Đóng tất cả hộp thoại đang có
             for (int i = 0; i <= 3; i++)
             {
-                au3.controlsend(mWindowName, "{ESC}");
+                ClickHelper.ControlSendKey(mHWnd, Keys.Escape);
             }
+            clickImageByGroup("global", "gui", true);
         }
 
         /*
@@ -213,7 +214,7 @@ namespace AutoVPT.Libs
 
                 Thread.Sleep(Constant.TimeShort);
                 // Mở bản đồ nhỏ
-                sendKey("~");
+                sendKey(Keys.Oemtilde);
 
                 // Mở bản đồ thể giới
                 clickImageByGroup("maps", "world_map");
@@ -241,32 +242,6 @@ namespace AutoVPT.Libs
         }
 
         /*
-         * Function: Move mouse
-         * Description: Find position of image on window and move mouse to it
-         * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
-         * Created At: 2019-11-09 - Updated At: 2019-11-09
-         */
-        public bool moveToImage(string imagePath, int xRange = 0, int yRange = -20)
-        {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
-
-            imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
-
-            var screen = CaptureHelper.CaptureWindow(mHWnd);
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
-            if (pBtn != null)
-            {
-                au3.move(mWindowName, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
-                return true;
-            }
-            return false;
-        }
-
-        /*
          * Function: Click to Image
          * Description: Find position of image on window and click it
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
@@ -286,7 +261,7 @@ namespace AutoVPT.Libs
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
             if (pBtn != null)
             {
-                au3.clickRight(mWindowName, 1, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                ClickHelper.ClickRight(mHWnd, 1, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
                 Thread.Sleep(Constant.TimeShort);
                 return true;
             }
@@ -306,7 +281,7 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            au3.click(mWindowName, numClick, xRange, yRange);
+            ClickHelper.Click(mHWnd, numClick, xRange, yRange);
             Thread.Sleep(wait);
         }
 
@@ -325,11 +300,11 @@ namespace AutoVPT.Libs
 
             if (isRightClick)
             {
-                au3.clickRight(mWindowName, numClick, x, y);
+                ClickHelper.ClickRight(mHWnd, numClick, x, y);
             }
             else
             {
-                au3.click(mWindowName, numClick, x, y);
+                ClickHelper.Click(mHWnd, numClick, x, y);
             }
             
             Thread.Sleep(wait);
@@ -352,7 +327,7 @@ namespace AutoVPT.Libs
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, image);
             if (pBtn != null)
             {
-                au3.click(mWindowName, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                ClickHelper.Click(mHWnd, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
                 Thread.Sleep(wait);
                 return true;
             }
@@ -379,7 +354,7 @@ namespace AutoVPT.Libs
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, 0.95);
             if (pBtn != null)
             {
-                au3.click(mWindowName, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                ClickHelper.Click(mHWnd, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
                 Thread.Sleep(wait);
                 return true;
             }
@@ -686,12 +661,12 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            clickToImage(groupPath + name + ".png", x, y, numClick);
-            if (active)
+            bool clicked = clickToImage(groupPath + name + ".png", x, y, numClick);
+            if (!clicked && active)
             {
-                clickToImage(groupPath + name + "_active.png", x, y, numClick);
+                clicked = clickToImage(groupPath + name + "_active.png", x, y, numClick);
             }
-            if (hover)
+            if (!clicked && hover)
             {
                 clickToImage(groupPath + name + "_hover.png", x, y, numClick);
             }

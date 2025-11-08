@@ -10,11 +10,12 @@ namespace AutoVPT.Libs
         public AutoFeatures mAuto;
         public string mLoaiNL;
 
-        public TrongNL(IntPtr hWnd, string windowName, AutoFeatures auto)
+        public TrongNL(IntPtr hWnd, string windowName, AutoFeatures auto, string loaiNL)
         {
             mHWnd = hWnd;
             mWindowName = windowName;
             mAuto = auto;
+            mLoaiNL = loaiNL;
         }
 
         public void thuHoach()

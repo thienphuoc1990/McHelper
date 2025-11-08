@@ -480,6 +480,11 @@ namespace AutoVPT.Libs
             runAction("trainByMap", () => mGeneralFunctions.trainByMap());
         }
 
+        public void cheMatBao()
+        {
+            runAction("cheMatBao", () => mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap));
+        }
+
         public void batPet()
         {
             runAction("batPet", () => mGeneralFunctions.batPet());
