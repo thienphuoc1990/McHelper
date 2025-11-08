@@ -140,6 +140,7 @@
             this.buttonTrainByMap = new System.Windows.Forms.Button();
             this.buttonCheMatBao = new System.Windows.Forms.Button();
             this.buttonCheMbAll = new System.Windows.Forms.Button();
+            this.buttonTrongNLAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -1440,11 +1441,22 @@
             this.buttonCheMbAll.UseVisualStyleBackColor = true;
             this.buttonCheMbAll.Click += new System.EventHandler(this.buttonCheMbAll_Click);
             // 
+            // buttonTrongNLAll
+            // 
+            this.buttonTrongNLAll.Location = new System.Drawing.Point(213, 608);
+            this.buttonTrongNLAll.Name = "buttonTrongNLAll";
+            this.buttonTrongNLAll.Size = new System.Drawing.Size(87, 23);
+            this.buttonTrongNLAll.TabIndex = 103;
+            this.buttonTrongNLAll.Text = "Trồng NL All";
+            this.buttonTrongNLAll.UseVisualStyleBackColor = true;
+            this.buttonTrongNLAll.Click += new System.EventHandler(this.buttonTrongNLAll_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 733);
+            this.Controls.Add(this.buttonTrongNLAll);
             this.Controls.Add(this.buttonCheMbAll);
             this.Controls.Add(this.buttonCheMatBao);
             this.Controls.Add(this.buttonTrainByMap);
@@ -1634,6 +1646,7 @@
         private System.Windows.Forms.Button buttonTrainByMap;
         private System.Windows.Forms.Button buttonCheMatBao;
         private System.Windows.Forms.Button buttonCheMbAll;
+        private System.Windows.Forms.Button buttonTrongNLAll;
     }
 }
 

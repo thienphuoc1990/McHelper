@@ -1185,5 +1185,27 @@ namespace AutoVPT
                 }
             }
         }
+
+        private void buttonTrongNLAll_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                if (character.ID != null && character.ID != "" && checkWindowOpen())
+                {
+                    IntPtr hWnd = getHandledWindow();
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                        return;
+                    }
+
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(mMainAuto.trongNL, "trongNL", character);
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+            }
+        }
     }
 }
