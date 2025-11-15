@@ -58,6 +58,7 @@ namespace AutoVPT.Libs
         public const string ImagePathInMapFolder = "/in_map/";
         public const string ImagePathGlobalFolder = "/global/";
         public const string ImagePathTriAnFolder = "/tri_an/";
+        public const string ImagePathTruMaFolder = "/tru_ma/";
         public const string ImagePathEventFolder = "/event/";
 
         public const string ImagePathGlobalMiniMap = "/global/minimap.png";

@@ -38,9 +38,8 @@ namespace AutoVPT.Libs
 
             if (mAuto.talkToNPC(npc))
             {
-                // Click vào nhiệm vụ được trả hoặc chưa nhận
-                mAuto.clickImageByGroup("global", "nvunangnochuanhan" + mLoaiNL);
-                mAuto.clickImageByGroup("global", "nvunangnoduoctra" + mLoaiNL);
+                // Click vào nhiệm vụ đổi năng nổ
+                mAuto.clickImageByGroup("global", "nvunangno" + mLoaiNL);
 
                 // Click nhận nhiệm vụ và trả nhiệm vụ
                 mAuto.clickImageByGroup("global", "nhannhiemvu", false, true);

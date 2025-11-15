@@ -80,7 +80,7 @@ namespace AutoVPT.Libs
                 closeAllDialog();
 
                 // Mở bản đồ nhỏ
-                clickImageByGroup("maps", "map");
+                sendKey(Keys.Oemtilde);
 
                 // Click vào vị trí cần đến
                 clickImageByGroup("in_map", locationName);
@@ -125,8 +125,8 @@ namespace AutoVPT.Libs
             if (findImage(npcViTriImagePath1)
                 || findImage(npcViTriImagePath2)
                 || findImage(npcViTriTenImagePath1)
-                || findImage(npcViTriTenImagePath2)) 
-            { 
+                || findImage(npcViTriTenImagePath2))
+            {
                 return true;
             }
 
@@ -340,7 +340,7 @@ namespace AutoVPT.Libs
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
          * Created At: 2019-11-09 - Updated At: 2019-11-09
          */
-        public bool clickToImage(string imagePath, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort)
+        public bool clickToImage(string imagePath, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort, double percent = 0.95)
         {
             if (mCharacter.Running == 0)
             {
@@ -351,7 +351,7 @@ namespace AutoVPT.Libs
 
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, 0.95);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
             if (pBtn != null)
             {
                 ClickHelper.Click(mHWnd, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
@@ -367,7 +367,7 @@ namespace AutoVPT.Libs
          * Author: Tử La Lan - Facebook: https://www.facebook.com/Tu.La.Lan.NT
          * Created At: 2019-11-09 - Updated At: 2019-11-09
          */
-        public bool findImage(string imagePath)
+        public bool findImage(string imagePath, double percent = 0.95)
         {
             if (mCharacter.Running == 0)
             {
@@ -381,7 +381,7 @@ namespace AutoVPT.Libs
             screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + ".png");
 
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, 0.95);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
             if (pBtn != null)
             {
                 return true;
@@ -503,11 +503,11 @@ namespace AutoVPT.Libs
                 Thread.Sleep(Constant.TimeShort);
             }
     
-            clickImageByGroup("nvhn", questName, true, true, 1, 370);
+            clickImageByGroup("nvhn", questName, true, true);
             Thread.Sleep(Constant.TimeMedium);
         }
 
-        public bool findImageByGroup(string group, string name, bool active = false, bool hover = false)
+        public bool findImageByGroup(string group, string name, bool active = false, bool hover = false, double percent = 0.95)
         {
             if (mCharacter.Running == 0)
             {
@@ -545,13 +545,19 @@ namespace AutoVPT.Libs
                 case "in_map":
                     groupPath = Constant.ImagePathInMapFolder;
                     break;
+                case "doi_thoai":
+                    groupPath = Constant.ImagePathDoiThoai;
+                    break;
+                case "tru_ma":
+                    groupPath = Constant.ImagePathTruMaFolder;
+                    break;
                 case "global":
                 default:
                     groupPath = Constant.ImagePathGlobalFolder;
                     break;
             }
 
-            bool found = findImage(groupPath + name + ".png") || (active && findImage(groupPath + name + "_active.png")) || (hover && findImage(groupPath + name + "_hover.png"));
+            bool found = findImage(groupPath + name + ".png", percent) || (active && findImage(groupPath + name + "_active.png", percent)) || (hover && findImage(groupPath + name + "_hover.png", percent));
             if (!found)
             {
                 writeStatus("findImageByGroup not found image " + groupPath + name + ".png");
@@ -650,6 +656,12 @@ namespace AutoVPT.Libs
                 case "in_map":
                     groupPath = Constant.ImagePathInMapFolder;
                     break;
+                case "doi_thoai":
+                    groupPath = Constant.ImagePathDoiThoai;
+                    break;
+                case "tru_ma":
+                    groupPath = Constant.ImagePathTruMaFolder;
+                    break;
                 case "global":
                 default:
                     groupPath = Constant.ImagePathGlobalFolder;
@@ -700,6 +712,119 @@ namespace AutoVPT.Libs
             }
 
             clickImageByGroup("global", "xong", false, true);
+        }
+
+        // ---------- MOVED FROM GeneralFunctions ----------
+        // Collect grid points from the mini-map (used by several flows)
+        public List<Point> collectMapMiniPoints()
+        {
+            writeStatus("Thu thập điểm trên bản đồ");
+            List<Point> mapPoints = new List<Point>();
+
+            // Mở bảng đồ mini
+            sendKey(Keys.Oemtilde);
+
+            var full_screen = CaptureHelper.CaptureWindow(mHWnd);
+
+            // Tắt các bảng nổi
+            closeAllDialog();
+
+            string imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + Constant.ImagePathGlobalMiniMap;
+            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)full_screen, iBtn);
+
+            if (pBtn != null)
+            {
+                int x_start_point = pBtn.Value.X + 0;
+                int y_start_point = pBtn.Value.Y + 60;
+                for (int y = 0; y < 5; y++)
+                {
+                    for (int x = 0; x < 4; x++)
+                    {
+                        mapPoints.Add(new Point(x_start_point + (x * 100) + 50, y_start_point + (y * 56)));
+                    }
+                }
+            }
+
+            writeStatus("Thu thập điểm trên bản đồ xong, có " + mapPoints.Count);
+            return mapPoints;
+        }
+
+        public bool isExistsMonster(List<Monster> monsters)
+        {
+            int y = 0;
+            while (y < monsters.Count)
+            {
+                writeStatus("Tìm quái " + y.ToString() + ": " + monsters[y].imagePath);
+                if (findImage(monsters[y].imagePath, 0.85))
+                {
+                    writeStatus("Tìm thấy quái " + y.ToString() + ": " + monsters[y].imagePath);
+                    clickToImage(monsters[y].imagePath, monsters[y].x, monsters[y].y, 1, 1000, 0.85);
+                    Thread.Sleep(Constant.TimeMedium);
+                    return true;
+                }
+
+                y++;
+            }
+
+            return false;
+        }
+
+        // Move through map points and find monsters (logic moved from GeneralFunctions)
+        public void moveAndFindMonsters(List<Point> mapPoints, List<Monster> monsters, string monster_name)
+        {
+            string imageTalkMonster = Constant.ImagePathDoiThoai + monster_name + ".png";
+            int i = 0;
+            while (i < mapPoints.Count)
+            {
+                // Tắt các bảng nổi
+                closeAllDialog();
+                // Mở bảng đồ mini
+                sendKey(Keys.Oemtilde);
+                // Nhấp vào vị trí map
+                clickPoint(mapPoints[i].X, mapPoints[i].Y);
+                // Tắt các bảng nổi
+                closeAllDialog();
+
+                while (isMoving())
+                {
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+
+                // tìm quái vật
+                while (isExistsMonster(monsters))
+                {
+                    writeStatus("Có tồn tại quái");
+                    int y = 0;
+                    while (!findImage(imageTalkMonster) && y < monsters.Count)
+                    {
+                        writeStatus("Chưa nói chuyện dc với quái, nhấp lại");
+                        if (findImage(monsters[y].imagePath, 0.85))
+                        {
+                            writeStatus("Tìm thấy quái lần 2 " + y.ToString() + ": " + monsters[y].imagePath);
+                            clickToImage(monsters[y].imagePath, monsters[y].x, monsters[y].y, 1, 1000, 0.85);
+                            Thread.Sleep(Constant.TimeShort);
+                        }
+
+                        y++;
+                    }
+
+                    // Đánh
+                    clickToImage(imageTalkMonster);
+                    Thread.Sleep(Constant.TimeMedium);
+
+                    // Nghỉ 5s nếu nhân vật đang trong trận đấu
+                    while (dangTrongTranDau())
+                    {
+                        clickImageByGroup("global", "inbattleauto");
+                        Thread.Sleep(Constant.TimeLong);
+                    }
+
+                    return;
+                }
+
+                i++;
+            }
         }
 
         /*

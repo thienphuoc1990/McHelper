@@ -541,6 +541,11 @@ namespace AutoVPT.Libs
             runAction("trongNL", () => mGeneralFunctions.trongNL());
         }
 
+        public void truMa()
+        {
+            runAction("truMa", () => mGeneralFunctions.truMa());
+        }
+
         public void doiNangNo()
         {
             runAction("doinangno", () => mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1));

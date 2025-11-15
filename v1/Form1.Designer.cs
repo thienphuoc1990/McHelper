@@ -141,6 +141,7 @@
             this.buttonCheMatBao = new System.Windows.Forms.Button();
             this.buttonCheMbAll = new System.Windows.Forms.Button();
             this.buttonTrongNLAll = new System.Windows.Forms.Button();
+            this.buttonTruMa = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCharacters)).BeginInit();
             this.tabControlAuto.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -717,7 +718,7 @@
             this.tabPageGeneral.Controls.Add(this.numericUpDownVIPLevel);
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneral.Name = "tabPageGeneral";
-            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageGeneral.Size = new System.Drawing.Size(534, 268);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "Tùy Chỉnh Chung";
@@ -944,7 +945,7 @@
             this.tabPagePhuBan.Controls.Add(this.checkedListBoxPhuBan);
             this.tabPagePhuBan.Location = new System.Drawing.Point(4, 22);
             this.tabPagePhuBan.Name = "tabPagePhuBan";
-            this.tabPagePhuBan.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePhuBan.Padding = new System.Windows.Forms.Padding(3);
             this.tabPagePhuBan.Size = new System.Drawing.Size(534, 268);
             this.tabPagePhuBan.TabIndex = 1;
             this.tabPagePhuBan.Text = "Phụ Bản";
@@ -983,7 +984,7 @@
             this.tabPageSTMT.Controls.Add(this.checkedListBoxSTMT);
             this.tabPageSTMT.Location = new System.Drawing.Point(4, 22);
             this.tabPageSTMT.Name = "tabPageSTMT";
-            this.tabPageSTMT.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageSTMT.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSTMT.Size = new System.Drawing.Size(534, 268);
             this.tabPageSTMT.TabIndex = 3;
             this.tabPageSTMT.Text = "Sổ tay Ma thú";
@@ -1451,11 +1452,22 @@
             this.buttonTrongNLAll.UseVisualStyleBackColor = true;
             this.buttonTrongNLAll.Click += new System.EventHandler(this.buttonTrongNLAll_Click);
             // 
+            // buttonTruMa
+            // 
+            this.buttonTruMa.Location = new System.Drawing.Point(15, 637);
+            this.buttonTruMa.Name = "buttonTruMa";
+            this.buttonTruMa.Size = new System.Drawing.Size(87, 23);
+            this.buttonTruMa.TabIndex = 104;
+            this.buttonTruMa.Text = "Trừ ma";
+            this.buttonTruMa.UseVisualStyleBackColor = true;
+            this.buttonTruMa.Click += new System.EventHandler(this.buttonTruMa_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 733);
+            this.Controls.Add(this.buttonTruMa);
             this.Controls.Add(this.buttonTrongNLAll);
             this.Controls.Add(this.buttonCheMbAll);
             this.Controls.Add(this.buttonCheMatBao);
@@ -1647,6 +1659,7 @@
         private System.Windows.Forms.Button buttonCheMatBao;
         private System.Windows.Forms.Button buttonCheMbAll;
         private System.Windows.Forms.Button buttonTrongNLAll;
+        private System.Windows.Forms.Button buttonTruMa;
     }
 }
 

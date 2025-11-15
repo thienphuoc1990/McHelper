@@ -24,6 +24,7 @@ namespace AutoVPT.Libs
         public AutoPhuBan mAutoPhuBan;
         public AutoXuQue mAutoXuQue;
         public DanhSTMT mDanhSTMT;
+        public AutoTruMa mAutoTruMa;
 
         public GeneralFunctions(IntPtr hWnd, Character character, TextBox textBoxStatus)
         {
@@ -38,6 +39,7 @@ namespace AutoVPT.Libs
             mChayTriAn = new ChayTriAn(mHWnd, mWindowName, mCharacter, mAuto);
             mAutoXuQue = new AutoXuQue(mHWnd, mWindowName, mAuto);
             mDanhSTMT = new DanhSTMT(mHWnd, mWindowName, mAuto);
+            mAutoTruMa = new AutoTruMa(mHWnd, mWindowName, mAuto);
         }
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Ansi)]
@@ -1270,6 +1272,33 @@ namespace AutoVPT.Libs
             }
             mTrongNL.thuHoach();
             mTrongNL.dongTrangVien();
+        }
+
+        public void truMa()
+        {
+            if (mCharacter.Running == 0)
+            {
+                return;
+            }
+
+            mAuto.writeStatus("Bắt đầu \"Trừ Ma\" ...");
+            mAuto.closeAllDialog();
+
+            if (mAutoTruMa == null)
+            {
+                mAutoTruMa = new AutoTruMa(mHWnd, mWindowName, mAuto);
+            }
+
+            // Delegate the Trừ Ma flow to AutoTruMa.auto()
+            bool result = mAutoTruMa.auto();
+            if (!result)
+            {
+                mAuto.writeStatus("Trừ Ma không hoàn thành (không tìm thấy NPC hoặc lỗi).");
+            }
+            else
+            {
+                mAuto.writeStatus("Kết thúc \"Trừ Ma\".");
+            }
         }
 
         public List<Point> collectMapMiniPoints()
