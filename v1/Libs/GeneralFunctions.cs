@@ -452,7 +452,7 @@ namespace AutoVPT.Libs
 
         public void epPetByColor(string color)
         {
-            int viTriColor = 355 - (color == "trang" ? 0 : 40);
+            int viTriColor = 355 - (color == "trang" ? 0 : color == "luc" ? 40 : 70);
             int petNumber = 0;
             do
             {
@@ -469,32 +469,21 @@ namespace AutoVPT.Libs
                 mAuto.clickImageByGroup("global", "eppet_bang_check", false, false, 1, viTriColor, 10);
                 Thread.Sleep(Constant.TimeShort * 2);
 
-                List<Point> pets = mAuto.findImages("/bat_pet/pet_ep.png");
-                petNumber = pets.Count;
-                mAuto.writeStatus("Đang có " + petNumber + " pet trong bảng ép pet");
-                if (petNumber >= 5)
-                {
-                    int petInUse = 0;
-                    while (petInUse < 5)
-                    {
-                        mAuto.clickPoint(pets[petInUse].X, pets[petInUse].Y - 20, 2);
-                        mAuto.clickImageByGroup("global", "eppet_bang_check");
-                        Thread.Sleep(Constant.TimeShort);
-                        petInUse++;
-                    }
+                List<Point> pets;
+                int loop = 0;
 
-                    mAuto.clickImageByGroup("global", "eppet_hop");
-                } else
+                do
                 {
-                    List<Point> pets2 = mAuto.findImages("/bat_pet/pet2_ep.png");
-                    petNumber = pets2.Count;
+                    pets = mAuto.findImages("/bat_pet/pet_ep.png");
+                    petNumber = pets.Count;
                     mAuto.writeStatus("Đang có " + petNumber + " pet trong bảng ép pet");
+
                     if (petNumber >= 5)
                     {
                         int petInUse = 0;
                         while (petInUse < 5)
                         {
-                            mAuto.clickPoint(pets2[petInUse].X, pets2[petInUse].Y - 20, 2);
+                            mAuto.clickPoint(pets[petInUse].X, pets[petInUse].Y - 20, 2);
                             mAuto.clickImageByGroup("global", "eppet_bang_check");
                             Thread.Sleep(Constant.TimeShort);
                             petInUse++;
@@ -502,8 +491,28 @@ namespace AutoVPT.Libs
 
                         mAuto.clickImageByGroup("global", "eppet_hop");
                     }
-                }
-                
+                    else
+                    {
+                        List<Point> pets2 = mAuto.findImages("/bat_pet/pet2_ep.png");
+                        petNumber = pets2.Count;
+                        mAuto.writeStatus("Đang có " + petNumber + " pet trong bảng ép pet");
+                        if (petNumber >= 5)
+                        {
+                            int petInUse = 0;
+                            while (petInUse < 5)
+                            {
+                                mAuto.clickPoint(pets2[petInUse].X, pets2[petInUse].Y - 20, 2);
+                                mAuto.clickImageByGroup("global", "eppet_bang_check");
+                                Thread.Sleep(Constant.TimeShort);
+                                petInUse++;
+                            }
+
+                            mAuto.clickImageByGroup("global", "eppet_hop");
+                        }
+                    }
+                    mAuto.clickImageByGroup("global", "eppet_bang_check", false, false, 1, 320, 110);
+                    loop++;
+                } while (petNumber < 5 && loop < 5) ;
             } while (petNumber >= 5);
         }
 
@@ -511,7 +520,7 @@ namespace AutoVPT.Libs
         {
             epPetByColor("trang");
             epPetByColor("luc");
-            //epPetByColor("lam");
+            epPetByColor("lam");
         }
 
         public void batPet()
