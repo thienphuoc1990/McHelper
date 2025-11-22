@@ -26,6 +26,10 @@ namespace AutoVPT.Libs
         public DanhSTMT mDanhSTMT;
         public AutoTruMa mAutoTruMa;
 
+        // Process tracking for cleanup
+        private static Dictionary<string, Process> _gameProcesses = new Dictionary<string, Process>();
+        private static object _processLock = new object();
+
         public GeneralFunctions(IntPtr hWnd, Character character, TextBox textBoxStatus)
         {
             mHWnd = hWnd;
@@ -135,18 +139,136 @@ namespace AutoVPT.Libs
         public void openWindow()
         {
             IntPtr defaultHWnd = IntPtr.Zero;
-
             string defaultWindowName = "Adobe Flash Player 10";
 
-            Process.Start("flash.exe", mCharacter.Link);
-
-            do
+            try
             {
-                // Find define handle of project
-                defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
+                // Check if process already exists
+                lock (_processLock)
+                {
+                    if (_gameProcesses.ContainsKey(mCharacter.ID))
+                    {
+                        var existingProcess = _gameProcesses[mCharacter.ID];
+                        if (!existingProcess.HasExited)
+                        {
+                            // Process already running, just return
+                            return;
+                        }
+                        else
+                        {
+                            // Process exited, clean up
+                            existingProcess.Dispose();
+                            _gameProcesses.Remove(mCharacter.ID);
+                        }
+                    }
+                }
 
-                SetWindowText(defaultHWnd, mCharacter.ID);
-            } while (defaultHWnd == IntPtr.Zero);
+                var process = Process.Start("flash.exe", mCharacter.Link);
+
+                // Track the process
+                lock (_processLock)
+                {
+                    _gameProcesses[mCharacter.ID] = process;
+                }
+
+                do
+                {
+                    // Find define handle of project
+                    defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
+
+                    if (defaultHWnd != IntPtr.Zero)
+                    {
+                        SetWindowText(defaultHWnd, mCharacter.ID);
+                    }
+                    else
+                    {
+                        Thread.Sleep(100); // Small delay before retrying
+                    }
+                } while (defaultHWnd == IntPtr.Zero);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(mCharacter.ID, "openWindow", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Close and cleanup game window/process
+        /// </summary>
+        public void CloseWindow()
+        {
+            try
+            {
+                lock (_processLock)
+                {
+                    if (_gameProcesses.TryGetValue(mCharacter.ID, out var process))
+                    {
+                        try
+                        {
+                            if (!process.HasExited)
+                            {
+                                // Try graceful close first
+                                process.CloseMainWindow();
+
+                                // Wait up to 5 seconds for graceful close
+                                if (!process.WaitForExit(5000))
+                                {
+                                    // Force kill if not closed
+                                    process.Kill();
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.LogError(mCharacter.ID, "CloseWindow - process cleanup", ex);
+                        }
+                        finally
+                        {
+                            process.Dispose();
+                            _gameProcesses.Remove(mCharacter.ID);
+                        }
+                    }
+                }
+
+                // Also clear image cache
+                mAuto?.ClearImageCache();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(mCharacter.ID, "CloseWindow", ex);
+            }
+        }
+
+        /// <summary>
+        /// Cleanup all game processes
+        /// </summary>
+        public static void CloseAllWindows()
+        {
+            lock (_processLock)
+            {
+                foreach (var kvp in _gameProcesses.ToList())
+                {
+                    try
+                    {
+                        var process = kvp.Value;
+                        if (!process.HasExited)
+                        {
+                            process.CloseMainWindow();
+                            if (!process.WaitForExit(5000))
+                            {
+                                process.Kill();
+                            }
+                        }
+                        process.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(kvp.Key, "CloseAllWindows", ex);
+                    }
+                }
+                _gameProcesses.Clear();
+            }
         }
 
         public void prepareScreen()

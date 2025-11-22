@@ -11,7 +11,7 @@ using VPT_Login.Libs;
 
 namespace AutoVPT.Libs
 {
-    class AutoFeatures
+    class AutoFeatures : IDisposable
     {
         public IntPtr mHWnd;
         public string mWindowName;
@@ -19,12 +19,74 @@ namespace AutoVPT.Libs
         private Character mCharacter;
         public Random random = new Random();
 
+        // Image cache to prevent repeated disk I/O and memory leaks
+        private Dictionary<string, Bitmap> _imageCache = new Dictionary<string, Bitmap>();
+        private object _imageCacheLock = new object();
+        private bool _disposed = false;
+
         public AutoFeatures(IntPtr hWnd, string windowName, TextBox textBoxStatus, Character character)
         {
             mHWnd = hWnd;
             mWindowName = windowName;
             mTextBoxStatus = textBoxStatus;
             mCharacter = character;
+        }
+
+        // Clear image cache and free memory
+        public void ClearImageCache()
+        {
+            lock (_imageCacheLock)
+            {
+                foreach (var image in _imageCache.Values)
+                {
+                    image?.Dispose();
+                }
+                _imageCache.Clear();
+            }
+        }
+
+        // Get cached image or load from disk
+        private Bitmap GetCachedImage(string imagePath)
+        {
+            lock (_imageCacheLock)
+            {
+                if (!_imageCache.ContainsKey(imagePath))
+                {
+                    try
+                    {
+                        _imageCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        writeStatus($"Failed to load image {imagePath}: {ex.Message}");
+                        return null;
+                    }
+                }
+                return _imageCache[imagePath];
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    ClearImageCache();
+                }
+                _disposed = true;
+            }
+        }
+
+        ~AutoFeatures()
+        {
+            Dispose(false);
         }
 
         public void closeFlash()
@@ -256,16 +318,34 @@ namespace AutoVPT.Libs
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mHWnd);
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
-            if (pBtn != null)
+            Bitmap screen = null;
+            try
             {
-                ClickHelper.ClickRight(mHWnd, 1, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
-                Thread.Sleep(Constant.TimeShort);
-                return true;
+                screen = CaptureHelper.CaptureWindow(mHWnd) as Bitmap;
+                if (screen == null)
+                {
+                    return false;
+                }
+
+                Bitmap iBtn = GetCachedImage(imagePath);
+                if (iBtn == null)
+                {
+                    return false;
+                }
+
+                var pBtn = ImageScanOpenCV.FindOutPoint(screen, iBtn);
+                if (pBtn != null)
+                {
+                    ClickHelper.ClickRight(mHWnd, 1, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                    Thread.Sleep(Constant.TimeShort);
+                    return true;
+                }
+                return false;
             }
-            return false;
+            finally
+            {
+                screen?.Dispose();
+            }
         }
 
         /*
@@ -349,16 +429,34 @@ namespace AutoVPT.Libs
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mHWnd);
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
-            if (pBtn != null)
+            Bitmap screen = null;
+            try
             {
-                ClickHelper.Click(mHWnd, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
-                Thread.Sleep(wait);
-                return true;
+                screen = CaptureHelper.CaptureWindow(mHWnd) as Bitmap;
+                if (screen == null)
+                {
+                    return false;
+                }
+
+                Bitmap iBtn = GetCachedImage(imagePath);
+                if (iBtn == null)
+                {
+                    return false;
+                }
+
+                var pBtn = ImageScanOpenCV.FindOutPoint(screen, iBtn, percent);
+                if (pBtn != null)
+                {
+                    ClickHelper.Click(mHWnd, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                    Thread.Sleep(wait);
+                    return true;
+                }
+                return false;
             }
-            return false;
+            finally
+            {
+                screen?.Dispose();
+            }
         }
 
         /*
@@ -376,23 +474,35 @@ namespace AutoVPT.Libs
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mHWnd);
-
-            screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + ".png");
-
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
-            if (pBtn != null)
+            Bitmap screen = null;
+            try
             {
-                return true;
-            }
+                screen = CaptureHelper.CaptureWindow(mHWnd) as Bitmap;
+                if (screen == null)
+                {
+                    return false;
+                }
 
-            return false;
+                // Only save screenshot if tracking is needed (for debugging)
+                // screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + ".png");
+
+                Bitmap iBtn = GetCachedImage(imagePath);
+                if (iBtn == null)
+                {
+                    return false;
+                }
+
+                var pBtn = ImageScanOpenCV.FindOutPoint(screen, iBtn, percent);
+                return pBtn != null;
+            }
+            finally
+            {
+                screen?.Dispose();
+            }
         }
 
         public List<Point> findImages(string imagePath)
         {
-
             if (mCharacter.Running == 0)
             {
                 return null;
@@ -400,16 +510,44 @@ namespace AutoVPT.Libs
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mHWnd);
+            Bitmap screen = null;
+            try
+            {
+                screen = CaptureHelper.CaptureWindow(mHWnd) as Bitmap;
+                if (screen == null)
+                {
+                    return null;
+                }
 
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            return ImageScanOpenCV.FindOutPoints((Bitmap)screen, iBtn, 0.95);
+                Bitmap iBtn = GetCachedImage(imagePath);
+                if (iBtn == null)
+                {
+                    return null;
+                }
+
+                return ImageScanOpenCV.FindOutPoints(screen, iBtn, 0.95);
+            }
+            finally
+            {
+                screen?.Dispose();
+            }
         }
 
         public void captureImage()
         {
-            var screen = CaptureHelper.CaptureWindow(mHWnd);
-            screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + "_captured.png");
+            Bitmap screen = null;
+            try
+            {
+                screen = CaptureHelper.CaptureWindow(mHWnd) as Bitmap;
+                if (screen != null)
+                {
+                    screen.Save(Application.StartupPath + "\\tracking\\" + mCharacter.ID + "_captured.png");
+                }
+            }
+            finally
+            {
+                screen?.Dispose();
+            }
         }
 
         public void login(IntPtr hWnd, string windowName)

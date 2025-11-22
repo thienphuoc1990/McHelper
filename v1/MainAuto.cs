@@ -553,30 +553,36 @@ namespace AutoVPT.Libs
 
         private void runAction(String actionName, Action action)
         {
+            string threadKey = mCharacter.ID + actionName;
+            CancellationToken cancellationToken = Helper.GetCancellationToken(threadKey);
+
             if (mCharacter.Running != 1)
             {
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Nhân vật " + mCharacter.ID + " đang không được chạy hoặc đang chạy auto khác như: event, ...");
+                Helper.RemoveToken(threadKey);
                 return;
             }
-            startGameIfNotExists();
 
             try
             {
+                startGameIfNotExists();
                 action();
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Hoàn thành {actionName}");
+            }
+            catch (OperationCanceledException)
+            {
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã dừng {actionName}");
             }
             catch (Exception ex)
             {
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Lỗi khi thực hiện hành động {actionName}: {ex.Message}");
+                Logger.LogError(mCharacter.ID, actionName, ex);
             }
-            mCharacter.Running = 0;
-            Helper.saveSettingsToXML(mCharacter);
-            foreach (var thread in Helper.threadList)
+            finally
             {
-                if (thread.Name == (mCharacter.ID + actionName))
-                {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã ngừng auto");
-                    thread.Abort();
-                }
+                mCharacter.Running = 0;
+                Helper.saveSettingsToXML(mCharacter);
+                Helper.RemoveToken(threadKey);
             }
         }
     }

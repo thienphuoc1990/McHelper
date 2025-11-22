@@ -123,14 +123,27 @@ namespace VPT_Login.Libs
 
         public static string GetClipboardText()
         {
-            try { return Clipboard.GetText(); }
-            catch { return string.Empty; }
+            try
+            {
+                return Clipboard.GetText();
+            }
+            catch (Exception ex)
+            {
+                AutoVPT.Libs.Logger.LogError("System", "GetClipboardText", ex);
+                return string.Empty;
+            }
         }
 
         public static void SetClipboardText(string text)
         {
-            try { Clipboard.SetText(text); }
-            catch { }
+            try
+            {
+                Clipboard.SetText(text);
+            }
+            catch (Exception ex)
+            {
+                AutoVPT.Libs.Logger.LogError("System", "SetClipboardText", ex);
+            }
         }
 
         public static IntPtr GetHwndByTitle(string title)

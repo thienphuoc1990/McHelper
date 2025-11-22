@@ -154,8 +154,11 @@
     </Compile>
     <Compile Include="DML\XMLCharacter.cs" />
     <Compile Include="Libs\AutoFeatures.cs" />
+    <Compile Include="Libs\CharacterSettingsManager.cs" />
     <Compile Include="Libs\Constant.cs" />
     <Compile Include="Libs\Helper.cs" />
+    <Compile Include="Libs\Logger.cs" />
+    <Compile Include="Libs\RateLimiter.cs" />
     <Compile Include="Objects\Character.cs" />
     <Compile Include="Objects\Map.cs" />
     <Compile Include="Objects\Monster.cs" />
@@ -200,7 +203,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AxInterop.ShockwaveFlashObjects.dll" />
+    <None Include="AxInterop.ShockwaveFlashObjects.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="BindIP.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1630,7 +1635,9 @@
     <Content Include="ForceBindIP.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Interop.ShockwaveFlashObjects.dll" />
+    <None Include="Interop.ShockwaveFlashObjects.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="KAutoHelper.dll" />
     <Content Include="License-LGPL.txt" />
     <Content Include="logo_vpt_tulalan_eko_icon.ico" />

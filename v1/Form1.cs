@@ -21,6 +21,7 @@ namespace AutoVPT
         public Character character;
         public bool renewConfig = false;
         public string current_selected;
+        private RateLimiter batchRateLimiter = new RateLimiter(3); // Max 3 concurrent batch operations
 
         public MainForm()
         {
@@ -417,14 +418,17 @@ namespace AutoVPT
             character.Running = 0;
             updateCharacter();
 
-            foreach (var thread in Helper.threadList)
+            // Cancel all tokens for this character
+            var keysToCancel = Helper.cancellationTokens.Keys
+                .Where(k => k.StartsWith(character.ID))
+                .ToList();
+
+            foreach (var key in keysToCancel)
             {
-                if (thread.Name.Contains(character.ID))
-                {
-                    Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto");
-                    thread.Abort();
-                }
+                Helper.CancelToken(key);
             }
+
+            Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto");
         }
 
         private void buttonOpenTestForm_Click(object sender, EventArgs e)
@@ -453,13 +457,11 @@ namespace AutoVPT
 
         private void buttonStopAllAuto_Click(object sender, EventArgs e)
         {
-            foreach (var thread in Helper.threadList)
+            var allKeys = Helper.cancellationTokens.Keys.ToList();
+            foreach (var key in allKeys)
             {
-                if (thread.IsAlive)
-                {
-                    Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng " + thread.Name);
-                    thread.Abort();
-                }
+                Helper.CancelToken(key);
+                Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng " + key);
             }
         }
 
@@ -507,8 +509,11 @@ namespace AutoVPT
             try
             {
                 Directory.CreateDirectory(Application.StartupPath + "\\tracking\\");
-            } catch {
-                Helper.writeStatus(textBoxStatus, character.ID, "Không tạo được thư mục cần thiết!");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("System", "initConfigs - Create tracking directory", ex);
+                Helper.writeStatus(textBoxStatus, "System", "Không tạo được thư mục cần thiết!");
             }
         }
 
@@ -551,14 +556,9 @@ namespace AutoVPT
             character.Running = 0;
             updateCharacter();
 
-            foreach (var thread in Helper.threadList)
-            {
-                if (thread.Name == (character.ID + "chayxuque"))
-                {
-                    Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto Xủ Quẻ");
-                    thread.Abort();
-                }
-            }
+            string threadKey = character.ID + "chayxuque";
+            Helper.CancelToken(threadKey);
+            Helper.writeStatus(textBoxStatus, character.ID, "Đã ngừng auto Xủ Quẻ");
         }
 
         private void buttonVaoAllGame_Click(object sender, EventArgs e)
@@ -756,21 +756,27 @@ namespace AutoVPT
         {
             foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
             {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+                var charId = item.Cells[0].Value.ToString();
 
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
+                // Use rate limiter to prevent overwhelming the system
+                batchRateLimiter.Execute(() =>
                 {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
+                    character = Helper.loadSettingsFromXML(charId);
 
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.doiNangNo, "doinangno", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
+                    if (character.ID != null && character.ID != "" && checkWindowOpen())
+                    {
+                        IntPtr hWnd = getHandledWindow();
+                        if (hWnd == IntPtr.Zero)
+                        {
+                            Helper.writeStatus(textBoxStatus, character.ID, "Không tìm thấy nhân vật này đang được chạy.");
+                            return;
+                        }
+
+                        MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                        runTaskInThread(mMainAuto.doiNangNo, "doinangno", character);
+                        Thread.Sleep(Constant.VeryTimeShort);
+                    }
+                });
             }
         }
 
