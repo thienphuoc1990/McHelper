@@ -286,6 +286,78 @@ namespace AutoVPT
             }
         }
 
+        /// <summary>
+        /// Automatically check if configuration needs renewal and renew if necessary
+        /// This is called before running automation to ensure status flags are reset daily
+        /// </summary>
+        private void autoRenewConfigIfNeeded()
+        {
+            try
+            {
+                // Check if date is empty or invalid
+                if (string.IsNullOrEmpty(character.Date))
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Ngày không hợp lệ, làm mới cấu hình");
+                    resetAllStatusFlags();
+                    character.Date = DateTime.Today.ToString("dd/MM/yyyy");
+                    Helper.saveSettingsToXML(character);
+                    return;
+                }
+
+                // Parse and compare dates
+                DateTime lastRunDate = DateTime.ParseExact(character.Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime today = DateTime.Today;
+                int compareDate = DateTime.Compare(lastRunDate, today);
+
+                if (compareDate < 0)
+                {
+                    // Date is old, need to renew
+                    Helper.writeStatus(textBoxStatus, character.ID, "Ngày mới, tự động làm mới trạng thái");
+                    resetAllStatusFlags();
+                    character.Date = today.ToString("dd/MM/yyyy");
+                    Helper.saveSettingsToXML(character);
+                }
+                else
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Trạng thái đã được cập nhật hôm nay");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(character.ID, "autoRenewConfigIfNeeded", ex);
+                Helper.writeStatus(textBoxStatus, character.ID, "Lỗi khi kiểm tra ngày, làm mới cấu hình để an toàn");
+                resetAllStatusFlags();
+                character.Date = DateTime.Today.ToString("dd/MM/yyyy");
+                Helper.saveSettingsToXML(character);
+            }
+        }
+
+        /// <summary>
+        /// Reset all status flags to 0 (not completed)
+        /// </summary>
+        private void resetAllStatusFlags()
+        {
+            character.StatusVipPromotion = 0;
+            character.StatusDoiNangNo = 0;
+            character.StatusTriAn = 0;
+            character.StatusLatTheBai = 0;
+            character.StatusRutBo = 0;
+            character.StatusDoiKGDK = 0;
+            character.StatusTuHanh = 0;
+            character.StatusTruMa = 0;
+            character.StatusAoMaThap = 0;
+            character.StatusTrongCay = 0;
+            character.StatusCheMatBao = 0;
+            character.StatusAutoPhuBan = 0;
+            character.StatusUocNguyen = 0;
+            character.StatusNhanThuongHLVT = 0;
+            character.StatusNhanHoiPhuc = 0;
+            character.StatusMeTran = 0;
+            character.StatusHaiThuoc = 0;
+            character.StatusCauCa = 0;
+            character.StatusAutoThanTu = 0;
+        }
+
         private void loadCharacterSettings()
         {
             if (!checkSelectCharacter()) { return; }
@@ -399,6 +471,9 @@ namespace AutoVPT
         private void buttonRunAuto_Click(object sender, EventArgs e)
         {
             if (!checkSelectCharacter()) { return; }
+
+            // Automatically check and renew configuration if needed
+            autoRenewConfigIfNeeded();
 
             IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
@@ -609,6 +684,9 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
+            // Auto-renew config if needed
+            autoRenewConfigIfNeeded();
+
             IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
@@ -765,6 +843,9 @@ namespace AutoVPT
 
                     if (character.ID != null && character.ID != "" && checkWindowOpen())
                     {
+                        // Auto-renew config if needed (for each character)
+                        autoRenewConfigIfNeeded();
+
                         IntPtr hWnd = getHandledWindow();
                         if (hWnd == IntPtr.Zero)
                         {
