@@ -74,8 +74,7 @@ namespace AutoVPT.DependencyInjection
                     var windowManager = sp.GetService<IWindowManager>();
                     var logger = sp.GetService<ILogger>();
 
-                    // Create empty list of executors for now
-                    // In practice, you'd register executors here
+                    // Create list of feature executors
                     var executors = new List<IFeatureExecutor>();
 
                     return new AutomationService(characterRepo, windowManager, logger, executors);
@@ -186,6 +185,38 @@ namespace AutoVPT.DependencyInjection
             }
 
             throw new InvalidOperationException($"Service {typeof(TService).Name} not available");
+        }
+
+        /// <summary>
+        /// Create a feature executor for this window
+        /// </summary>
+        public TExecutor CreateExecutor<TExecutor>(int vipLevel = 0) where TExecutor : class
+        {
+            var imageRecognition = GetService<IImageRecognition>();
+            var inputSimulator = GetService<IInputSimulator>();
+            var logger = GetService<ILogger>();
+
+            var executorType = typeof(TExecutor);
+
+            // Create executor based on type
+            if (executorType == typeof(DoiNangNoExecutor))
+            {
+                return new DoiNangNoExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(TrongNLExecutor))
+            {
+                return new TrongNLExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(TriAnExecutor))
+            {
+                return new TriAnExecutor(imageRecognition, inputSimulator, logger, vipLevel) as TExecutor;
+            }
+            else if (executorType == typeof(CheMatBaoExecutor))
+            {
+                return new CheMatBaoExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+
+            throw new InvalidOperationException($"Executor type {executorType.Name} not registered");
         }
 
         public void Dispose()

@@ -190,6 +190,9 @@
     <Compile Include="Services\BaseFeatureExecutor.cs" />
     <Compile Include="Services\FeatureExecutorFactory.cs" />
     <Compile Include="Services\Executors\DoiNangNoExecutor.cs" />
+    <Compile Include="Services\Executors\TrongNLExecutor.cs" />
+    <Compile Include="Services\Executors\TriAnExecutor.cs" />
+    <Compile Include="Services\Executors\CheMatBaoExecutor.cs" />
     <Compile Include="DependencyInjection\SimpleServiceProvider.cs" />
     <Compile Include="DependencyInjection\ServiceContainer.cs" />
     <Compile Include="Objects\Character.cs" />
