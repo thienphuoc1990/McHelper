@@ -193,6 +193,9 @@
     <Compile Include="Services\Executors\TrongNLExecutor.cs" />
     <Compile Include="Services\Executors\TriAnExecutor.cs" />
     <Compile Include="Services\Executors\CheMatBaoExecutor.cs" />
+    <Compile Include="Services\Executors\AutoPhuBanExecutor.cs" />
+    <Compile Include="Services\Executors\TruMaExecutor.cs" />
+    <Compile Include="Services\Executors\VipPromotionExecutor.cs" />
     <Compile Include="DependencyInjection\SimpleServiceProvider.cs" />
     <Compile Include="DependencyInjection\ServiceContainer.cs" />
     <Compile Include="Objects\Character.cs" />

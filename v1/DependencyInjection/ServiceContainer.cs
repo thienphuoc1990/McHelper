@@ -215,6 +215,18 @@ namespace AutoVPT.DependencyInjection
             {
                 return new CheMatBaoExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
             }
+            else if (executorType == typeof(AutoPhuBanExecutor))
+            {
+                return new AutoPhuBanExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(TruMaExecutor))
+            {
+                return new TruMaExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(VipPromotionExecutor))
+            {
+                return new VipPromotionExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
 
             throw new InvalidOperationException($"Executor type {executorType.Name} not registered");
         }
