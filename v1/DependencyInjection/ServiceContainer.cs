@@ -29,7 +29,8 @@ namespace AutoVPT.DependencyInjection
             {
                 if (_provider != null)
                 {
-                    throw new InvalidOperationException("Service container already initialized");
+                    // Already initialized, skip silently (idempotent)
+                    return;
                 }
 
                 _provider = new SimpleServiceProvider();

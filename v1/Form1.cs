@@ -42,6 +42,10 @@ namespace AutoVPT
         private void MainForm_Load(object sender, EventArgs e)
         {
             labelAuthorVersion.Text = Constant.Version;
+
+            // Initialize ServiceContainer for dependency injection
+            AutoVPT.DependencyInjection.ServiceContainer.Initialize(textBoxStatus);
+
             populate();
             initConfigs();
         }

@@ -49,6 +49,11 @@ namespace AutoVPT.Services
         /// Cancellation token
         /// </summary>
         public CancellationToken CancellationToken { get; set; }
+
+        /// <summary>
+        /// Status text box for logging (optional, for legacy compatibility)
+        /// </summary>
+        public System.Windows.Forms.TextBox StatusTextBox { get; set; }
     }
 
     /// <summary>

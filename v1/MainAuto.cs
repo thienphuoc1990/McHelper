@@ -1,8 +1,13 @@
 ﻿using AutoVPT.Objects;
+using AutoVPT.Domain;
+using AutoVPT.DependencyInjection;
+using AutoVPT.Services;
+using AutoVPT.Services.Executors;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AutoVPT.Libs
@@ -31,6 +36,111 @@ namespace AutoVPT.Libs
         {
             mMembers = members;
         }
+
+        #region Executor Integration Helpers
+
+        /// <summary>
+        /// Execute a feature using the new executor pattern
+        /// </summary>
+        private bool ExecuteFeature<TExecutor>(FeatureType featureType, Dictionary<string, string> parameters = null)
+            where TExecutor : class, IFeatureExecutor
+        {
+            try
+            {
+                // Ensure ServiceContainer is initialized (idempotent operation)
+                ServiceContainer.Initialize(mTextBoxStatus);
+
+                // Convert legacy Character to new CharacterAggregate
+                var characterAggregate = CharacterAdapter.ToAggregate(mCharacter);
+
+                // Create window services for this character
+                var windowServices = ServiceContainer.CreateWindowServices(mHWnd, mCharacter);
+
+                // Create the executor
+                var executor = windowServices.CreateExecutor<TExecutor>(mCharacter.VipLevel) as IFeatureExecutor;
+
+                // Create execution context
+                var context = new Services.ExecutionContext
+                {
+                    Character = characterAggregate,
+                    WindowHandle = mHWnd,
+                    Config = CreateFeatureConfig(featureType, parameters),
+                    CancellationToken = Helper.GetCancellationToken(mCharacter.ID + featureType.ToString()),
+                    StatusTextBox = mTextBoxStatus
+                };
+
+                // Execute synchronously (blocking call from async)
+                var result = Task.Run(() => executor.ExecuteAsync(context)).GetAwaiter().GetResult();
+
+                // Log result
+                if (result.Success)
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"✓ {featureType}: {result.Message}");
+                }
+                else
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"✗ {featureType}: {result.Message}");
+                }
+
+                // Clean up
+                Helper.RemoveToken(mCharacter.ID + featureType.ToString());
+                windowServices.Dispose();
+
+                return result.Success;
+            }
+            catch (Exception ex)
+            {
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Error in {featureType}: {ex.Message}");
+                Logger.LogError(mCharacter.ID, $"ExecuteFeature<{typeof(TExecutor).Name}>", ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Create feature configuration from legacy character properties
+        /// </summary>
+        private FeatureConfig CreateFeatureConfig(FeatureType featureType, Dictionary<string, string> parameters = null)
+        {
+            var config = new FeatureConfig(featureType);
+
+            // Add parameters if provided
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                {
+                    config.SetParameter(param.Key, param.Value);
+                }
+            }
+
+            // Map legacy character properties to feature config based on feature type
+            switch (featureType)
+            {
+                case FeatureType.CheMatBao:
+                    config.SetParameter("Loai", mCharacter.CheMatBaoLoai);
+                    config.SetParameter("Cap", mCharacter.CheMatBaoCap.ToString());
+                    break;
+
+                case FeatureType.TrongNL:
+                    config.SetParameter("Loai", mCharacter.TrongNLLoai);
+                    break;
+
+                case FeatureType.TriAn:
+                    config.SetParameter("VipLevel", mCharacter.VipLevel.ToString());
+                    break;
+
+                case FeatureType.DoiNangNo:
+                    config.SetParameter("UseLevel4", mCharacter.DoiNangNoNL4 == 1 ? "true" : "false");
+                    break;
+
+                case FeatureType.AutoPhuBan:
+                    config.SetParameter("DanhSach", mCharacter.AutoPhuBanDanhSach);
+                    break;
+            }
+
+            return config;
+        }
+
+        #endregion
 
         public void runEventWithCode()
         {
@@ -281,12 +391,11 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // Check to run "Nhận và Auto Phụ Bản"
+                // Check to run "Nhận và Auto Phụ Bản" - Using new executor pattern
                 if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
                 {
                     i++;
-                    string[] phuBan = mCharacter.AutoPhuBanDanhSach.Split(',');
-                    mGeneralFunctions.runNhanAutoPB(phuBan);
+                    ExecuteFeature<AutoPhuBanExecutor>(FeatureType.AutoPhuBan);
                     mCharacter.StatusAutoPhuBan = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
@@ -314,17 +423,17 @@ namespace AutoVPT.Libs
                     //}
                 }
 
-                // Trồng nguyên liệu
+                // Trồng nguyên liệu - Using new executor pattern
                 if (mCharacter.TrongNL == 1)
                 {
-                    mGeneralFunctions.trongNL();
+                    ExecuteFeature<TrongNLExecutor>(FeatureType.TrongNL);
                 }
 
-                // "Nhận VIP"
+                // "Nhận VIP" - Using new executor pattern
                 if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
                 {
                     i++;
-                    mGeneralFunctions.nhanVIP();
+                    ExecuteFeature<VipPromotionExecutor>(FeatureType.VipPromotion);
                     mCharacter.StatusVipPromotion = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
@@ -364,11 +473,11 @@ namespace AutoVPT.Libs
                 //    Helper.saveSettingsToXML(mCharacter);
                 //}
 
-                // Check to run "Chế mật bảo"
+                // Check to run "Chế mật bảo" - Using new executor pattern
                 if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
                 {
                     i++;
-                    mGeneralFunctions.runCheMatBao(mCharacter.CheMatBaoLoai, mCharacter.CheMatBaoCap);
+                    ExecuteFeature<CheMatBaoExecutor>(FeatureType.CheMatBao);
                     mCharacter.StatusCheMatBao = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
@@ -396,20 +505,20 @@ namespace AutoVPT.Libs
                     //}
                 }
 
-                // Check to run "Chạy Trị An"
+                // Check to run "Chạy Trị An" - Using new executor pattern
                 if (mCharacter.TriAn == 1 && mCharacter.StatusTriAn == 0)
                 {
                     i++;
-                    mGeneralFunctions.runTriAn();
+                    ExecuteFeature<TriAnExecutor>(FeatureType.TriAn);
                     mCharacter.StatusTriAn = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // Check to run "Đổi năng nổ"
+                // Check to run "Đổi năng nổ" - Using new executor pattern
                 if (mCharacter.DoiNangNo == 1 && mCharacter.RunToLast == 1)
                 {
                     mGeneralFunctions.nhanThuongAutoPhuBan();
-                    mGeneralFunctions.runDoiNangNo(mCharacter.DoiNangNoNL4 == 1);
+                    ExecuteFeature<DoiNangNoExecutor>(FeatureType.DoiNangNo);
                 }
 
                 if (i == 0 || mCharacter.RunToLast != 1)
@@ -574,7 +683,8 @@ namespace AutoVPT.Libs
 
         public void truMa()
         {
-            runAction("truMa", () => mGeneralFunctions.truMa());
+            // Using new executor pattern
+            runAction("truMa", () => ExecuteFeature<TruMaExecutor>(FeatureType.TruMa));
         }
 
         public void doiNangNo()

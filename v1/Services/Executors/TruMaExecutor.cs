@@ -37,23 +37,34 @@ namespace AutoVPT.Services.Executors
                     // Convert to legacy Character object
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
 
-                    // Create AutoFeatures instance for legacy code
-                    var autoFeatures = new AutoFeatures(
-                        context.WindowHandle,
-                        context.Character.Identity.Id,
-                        null, // StatusTextBox not available in ExecutionContext
-                        legacyCharacter
-                    );
+                    // Register character for Stop All functionality
+                    Helper.RegisterRunningCharacter(legacyCharacter);
 
-                    // Create AutoTruMa instance
-                    var autoTruMa = new AutoTruMa(
-                        context.WindowHandle,
-                        context.Character.Identity.Id,
-                        autoFeatures
-                    );
+                    try
+                    {
+                        // Create AutoFeatures instance for legacy code
+                        var autoFeatures = new AutoFeatures(
+                            context.WindowHandle,
+                            context.Character.Identity.Id,
+                            context.StatusTextBox,
+                            legacyCharacter
+                        );
 
-                    // Run monster hunting automation
-                    return autoTruMa.auto();
+                        // Create AutoTruMa instance
+                        var autoTruMa = new AutoTruMa(
+                            context.WindowHandle,
+                            context.Character.Identity.Id,
+                            autoFeatures
+                        );
+
+                        // Run monster hunting automation
+                        return autoTruMa.auto();
+                    }
+                    finally
+                    {
+                        // Unregister character when done
+                        Helper.UnregisterRunningCharacter(legacyCharacter.ID);
+                    }
 
                 }, context.CancellationToken);
 
