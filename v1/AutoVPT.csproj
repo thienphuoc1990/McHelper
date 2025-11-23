@@ -196,6 +196,10 @@
     <Compile Include="Services\Executors\AutoPhuBanExecutor.cs" />
     <Compile Include="Services\Executors\TruMaExecutor.cs" />
     <Compile Include="Services\Executors\VipPromotionExecutor.cs" />
+    <Compile Include="Services\Executors\NhanThuongHLVTExecutor.cs" />
+    <Compile Include="Services\Executors\RutBoExecutor.cs" />
+    <Compile Include="Services\Executors\DoiKGDKExecutor.cs" />
+    <Compile Include="Services\Executors\NhanHoiPhucExecutor.cs" />
     <Compile Include="DependencyInjection\SimpleServiceProvider.cs" />
     <Compile Include="DependencyInjection\ServiceContainer.cs" />
     <Compile Include="Objects\Character.cs" />

@@ -382,11 +382,11 @@ namespace AutoVPT.Libs
             {
                 var i = 0;
 
-                // "Nhận thưởng hành lang"
+                // "Nhận thưởng hành lang" - Using new executor pattern
                 if (mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
                 {
                     i++;
-                    mGeneralFunctions.nhanThuongHanhLang();
+                    ExecuteFeature<NhanThuongHLVTExecutor>(FeatureType.NhanThuongHLVT);
                     mCharacter.StatusNhanThuongHLVT = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
@@ -438,28 +438,29 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // "Rút bộ"
+                // "Rút bộ" - Using new executor pattern
                 if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
                 {
                     i++;
-                    mGeneralFunctions.rutBo();
+                    ExecuteFeature<RutBoExecutor>(FeatureType.RutBo);
                     mCharacter.StatusRutBo = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // "Đổi thưởng Không Gian Điêu Khắc"
+                // "Đổi thưởng Không Gian Điêu Khắc" - Using new executor pattern
                 if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
                 {
                     i++;
-                    mGeneralFunctions.khongGianDieuKhac();
+                    ExecuteFeature<DoiKGDKExecutor>(FeatureType.DoiKGDK);
                     mCharacter.StatusDoiKGDK = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
+                // "Nhận hồi phục" - Using new executor pattern
                 if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
                 {
                     i++;
-                    mGeneralFunctions.hoiPhuc();
+                    ExecuteFeature<NhanHoiPhucExecutor>(FeatureType.NhanHoiPhuc);
                     mCharacter.StatusNhanHoiPhuc = 1;
                     Helper.saveSettingsToXML(mCharacter);
                 }

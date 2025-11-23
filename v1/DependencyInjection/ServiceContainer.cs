@@ -228,6 +228,22 @@ namespace AutoVPT.DependencyInjection
             {
                 return new VipPromotionExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
             }
+            else if (executorType == typeof(NhanThuongHLVTExecutor))
+            {
+                return new NhanThuongHLVTExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(RutBoExecutor))
+            {
+                return new RutBoExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(DoiKGDKExecutor))
+            {
+                return new DoiKGDKExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(NhanHoiPhucExecutor))
+            {
+                return new NhanHoiPhucExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
 
             throw new InvalidOperationException($"Executor type {executorType.Name} not registered");
         }
