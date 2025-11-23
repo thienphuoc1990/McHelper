@@ -16,7 +16,10 @@ namespace AutoVPT.Libs
     {
         public static List<Thread> threadList = new List<Thread>();
         public static Dictionary<string, CancellationTokenSource> cancellationTokens = new Dictionary<string, CancellationTokenSource>();
+        public static Dictionary<string, Character> runningCharacters = new Dictionary<string, Character>();
         private static object _tokenLock = new object();
+        private static object _charLock = new object();
+        private static object _threadLock = new object();
 
         public static CancellationToken GetCancellationToken(string key)
         {
@@ -52,6 +55,83 @@ namespace AutoVPT.Libs
                     cancellationTokens[key].Dispose();
                     cancellationTokens.Remove(key);
                 }
+            }
+        }
+
+        public static void RegisterRunningCharacter(Character character)
+        {
+            lock (_charLock)
+            {
+                if (character != null && !string.IsNullOrEmpty(character.ID))
+                {
+                    runningCharacters[character.ID] = character;
+                }
+            }
+        }
+
+        public static void UnregisterRunningCharacter(string characterId)
+        {
+            lock (_charLock)
+            {
+                if (runningCharacters.ContainsKey(characterId))
+                {
+                    runningCharacters.Remove(characterId);
+                }
+            }
+        }
+
+        public static void StopAllRunningCharacters()
+        {
+            lock (_charLock)
+            {
+                foreach (var character in runningCharacters.Values)
+                {
+                    character.Running = 0;
+                    saveSettingsToXML(character);
+                }
+            }
+        }
+
+        public static void AbortAllThreads()
+        {
+            // Make a copy of the thread list to avoid modification during iteration
+            Thread[] threads;
+            lock (_threadLock)
+            {
+                threads = threadList.ToArray();
+            }
+
+            foreach (var thread in threads)
+            {
+                try
+                {
+                    if (thread != null && thread.IsAlive)
+                    {
+                        // Try to interrupt the thread first (for sleeping threads)
+                        thread.Interrupt();
+
+                        // Give it a moment to wake up and check Running flag
+                        Thread.Sleep(100);
+
+                        // If still alive, abort it
+                        if (thread.IsAlive)
+                        {
+#pragma warning disable CS0618 // Thread.Abort is obsolete but necessary here
+                            thread.Abort();
+#pragma warning restore CS0618
+                        }
+                    }
+                }
+                catch
+                {
+                    // Ignore errors during thread abort
+                }
+            }
+
+            // Clear the thread list
+            lock (_threadLock)
+            {
+                threadList.Clear();
             }
         }
 

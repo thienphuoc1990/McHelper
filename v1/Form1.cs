@@ -532,12 +532,24 @@ namespace AutoVPT
 
         private void buttonStopAllAuto_Click(object sender, EventArgs e)
         {
+            // Step 1: Stop all running characters by setting their Running flag to 0
+            // This updates the actual Character objects being used by the threads
+            Helper.StopAllRunningCharacters();
+
+            // Step 2: Cancel all cancellation tokens
             var allKeys = Helper.cancellationTokens.Keys.ToList();
             foreach (var key in allKeys)
             {
                 Helper.CancelToken(key);
-                Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng " + key);
             }
+
+            // Step 3: Abort all threads (interrupt sleeping threads and abort if necessary)
+            Helper.AbortAllThreads();
+
+            // Step 4: Clear any remaining registered characters
+            Helper.runningCharacters.Clear();
+
+            Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng tất cả auto");
         }
 
         private void dataGridViewCharacters_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -900,10 +912,15 @@ namespace AutoVPT
 
         private void runTaskInThread(ThreadStart action, String actionName, Character customCharacter = null)
         {
-            Helper.threadList.Add(new Thread(action));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = (customCharacter != null ? customCharacter.ID : character.ID) + actionName;
-            Helper.threadList[index].Start();
+            var thread = new Thread(action);
+            thread.Name = (customCharacter != null ? customCharacter.ID : character.ID) + actionName;
+
+            lock (Helper.threadList)
+            {
+                Helper.threadList.Add(thread);
+            }
+
+            thread.Start();
         }
 
         private IntPtr getHandledWindow(Character member = null)

@@ -88,11 +88,16 @@ namespace AutoVPT.Libs
 
         public void findMonsterByCode(string monster_name)
         {
-            string imageTalkMonster = Constant.ImagePathDoiThoai + monster_name + ".png";
-            int x = 0;
-            int y = 0;
+            // Register character for Stop All functionality
+            Helper.RegisterRunningCharacter(mCharacter);
 
-            List<Map> maps = new List<Map>();
+            try
+            {
+                string imageTalkMonster = Constant.ImagePathDoiThoai + monster_name + ".png";
+                int x = 0;
+                int y = 0;
+
+                List<Map> maps = new List<Map>();
             maps.Add(new Map("leduongbac", 1, 30, -20));
             maps.Add(new Map("leduongnam", 1, 10, -20));
             maps.Add(new Map("laptuyetdia", 1, 30, -20));
@@ -200,22 +205,32 @@ namespace AutoVPT.Libs
                     x++;
                 }
             }
+            }
+            finally
+            {
+                Helper.UnregisterRunningCharacter(mCharacter.ID);
+            }
         }
 
         public void findMonstersInMap(string monster_name, bool is_bug_flight = false)
         {
-            List<Map> maps = new List<Map>();
-            maps.Add(new Map("leduongbac", 1, 30, -20));
-            maps.Add(new Map("leduongnam", 1, 10, -20));
-            maps.Add(new Map("laptuyetdia", 1, 30, -20));
-            maps.Add(new Map("anhvucanh", 1, 60, -20));
-            maps.Add(new Map("bangtuyetnguyen", 1, 10, -20));
+            // Register character for Stop All functionality
+            Helper.RegisterRunningCharacter(mCharacter);
 
-            List<Monster> monsters = mGeneralFunctions.initListMonsters(monster_name, 40, -40);
+            try
+            {
+                List<Map> maps = new List<Map>();
+                maps.Add(new Map("leduongbac", 1, 30, -20));
+                maps.Add(new Map("leduongnam", 1, 10, -20));
+                maps.Add(new Map("laptuyetdia", 1, 30, -20));
+                maps.Add(new Map("anhvucanh", 1, 60, -20));
+                maps.Add(new Map("bangtuyetnguyen", 1, 10, -20));
 
-            List<Point> mapPoints = mGeneralFunctions.collectMapMiniPoints();
+                List<Monster> monsters = mGeneralFunctions.initListMonsters(monster_name, 40, -40);
 
-            while (mCharacter.Running == 2)
+                List<Point> mapPoints = mGeneralFunctions.collectMapMiniPoints();
+
+                while (mCharacter.Running == 2)
             {
                 int x = 0;
                 while (x < maps.Count)
@@ -231,6 +246,11 @@ namespace AutoVPT.Libs
                     x++;
                 }
             }
+            }
+            finally
+            {
+                Helper.UnregisterRunningCharacter(mCharacter.ID);
+            }
         }
 
         public void run()
@@ -241,9 +261,14 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            startGameIfNotExists(true);
+            // Register this character as running so Stop All can find it
+            Helper.RegisterRunningCharacter(mCharacter);
 
-            while (mCharacter.Running == 1)
+            try
+            {
+                startGameIfNotExists(true);
+
+                while (mCharacter.Running == 1)
             {
                 var i = 0;
 
@@ -397,6 +422,12 @@ namespace AutoVPT.Libs
 
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 30 phút cho thần tu hoặc tu hành");
                 Thread.Sleep(60 * 31 * 1000);
+            }
+            }
+            finally
+            {
+                // Unregister character when auto stops
+                Helper.UnregisterRunningCharacter(mCharacter.ID);
             }
         }
 
