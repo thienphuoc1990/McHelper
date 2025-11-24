@@ -36,8 +36,10 @@ namespace AutoVPT.Libs
 
             int i = 0;
 
-            while(mPhuBan[i] != null && i <= Constant.MaxLoopQ)
+            while(i < mPhuBan.Length && mPhuBan[i] != null && !string.IsNullOrEmpty(mPhuBan[i]) && i <= Constant.MaxLoopQ)
             {
+                mAuto.writeStatus($"Đang auto phụ bản: {mPhuBan[i]}");
+
                 // Chuyển trang
                 if(mPhuBan[i] == "thamhiem")
                 {
@@ -50,7 +52,7 @@ namespace AutoVPT.Libs
 
 
                 // Chọn độ khó
-                if (mPhuBan[i] == "lietdiemthamuyen" 
+                if (mPhuBan[i] == "lietdiemthamuyen"
                     || mPhuBan[i] == "trolailanghuyet"
                     || mPhuBan[i] == "quyhutmau")
                 {
@@ -60,7 +62,9 @@ namespace AutoVPT.Libs
                 }
 
                 // Auto phụ bản
-                mAuto.clickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 60, 40);
+                string imageName = "batdau" + mPhuBan[i];
+                mAuto.writeStatus($"Tìm và click nút bắt đầu: {imageName}.png");
+                mAuto.clickImageByGroup("phu_ban", imageName, false, false, 1, 60, 40);
                 mAuto.clickImageByGroup("global", "luachonco", false, true);
                 Thread.Sleep(Constant.TimeShort);
                 i++;
@@ -247,7 +251,16 @@ namespace AutoVPT.Libs
             int i = 0;
             foreach (string phuban in phuBan)
             {
-                switch (phuban)
+                // Skip empty or null entries
+                if (string.IsNullOrWhiteSpace(phuban))
+                {
+                    continue;
+                }
+
+                // Trim whitespace before matching
+                string trimmedPhuBan = phuban.Trim();
+
+                switch (trimmedPhuBan)
                 {
                     case "Mê Huyễn Động":
                         mPhuBan[i] = "mehuyendong";
@@ -274,9 +287,19 @@ namespace AutoVPT.Libs
                         mPhuBan[i] = "thamhiem";
                         break;
                     default:
-                        break;
+                        mAuto.writeStatus($"Cảnh báo: Không tìm thấy phụ bản '{trimmedPhuBan}', bỏ qua...");
+                        continue; // Skip to next iteration without incrementing i
                 }
                 i++;
+            }
+
+            if (i == 0)
+            {
+                mAuto.writeStatus("Cảnh báo: Không có phụ bản hợp lệ nào được cấu hình!");
+            }
+            else
+            {
+                mAuto.writeStatus($"Đã cấu hình {i} phụ bản để auto");
             }
         }
     }

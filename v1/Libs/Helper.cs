@@ -107,28 +107,21 @@ namespace AutoVPT.Libs
                 {
                     if (thread != null && thread.IsAlive)
                     {
-                        // Try to interrupt the thread first (for sleeping threads)
+                        // Only interrupt the thread (for sleeping threads)
+                        // DO NOT use Thread.Abort() as it can crash the application
                         thread.Interrupt();
-
-                        // Give it a moment to wake up and check Running flag
-                        Thread.Sleep(100);
-
-                        // If still alive, abort it
-                        if (thread.IsAlive)
-                        {
-#pragma warning disable CS0618 // Thread.Abort is obsolete but necessary here
-                            thread.Abort();
-#pragma warning restore CS0618
-                        }
                     }
                 }
                 catch
                 {
-                    // Ignore errors during thread abort
+                    // Ignore errors during thread interrupt
                 }
             }
 
-            // Clear the thread list
+            // Wait a short time for threads to respond to interrupts
+            Thread.Sleep(500);
+
+            // Clear the thread list (threads should stop gracefully via Running flag)
             lock (_threadLock)
             {
                 threadList.Clear();

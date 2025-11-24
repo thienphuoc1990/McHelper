@@ -3,6 +3,7 @@ using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using AutoVPT.Objects;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoVPT.Services.Executors
@@ -40,11 +41,15 @@ namespace AutoVPT.Services.Executors
 
                 LogInfo($"Dungeon list: {dungeonList}", context);
 
-                // Get dungeon array
-                string[] dungeons = dungeonList.Split(',');
+                // Get dungeon array and trim whitespace from each entry
+                string[] dungeons = dungeonList.Split(',')
+                    .Select(d => d.Trim())
+                    .Where(d => !string.IsNullOrEmpty(d))
+                    .ToArray();
+
                 if (dungeons.Length == 0)
                 {
-                    LogWarning("Empty dungeon list", context);
+                    LogWarning("Empty dungeon list after filtering", context);
                     return FeatureResult.Failed("Empty dungeon list");
                 }
 
@@ -76,9 +81,24 @@ namespace AutoVPT.Services.Executors
                         );
 
                         // Set dungeon list
-                        autoPhuBan.mPhuBan = dungeons;
+                        autoPhuBan.setPhuBan(dungeons);
+
+                        // Receive quests at TLT (Lap Tuyet Dia)
+                        autoPhuBan.nhanPhuBanTLTByNVHN();
+                        autoFeatures.writeStatus("Completed receiving quests at TLT");
+
+                        // Receive quest at Co Dao if "Thám Hiểm" is in the list
+                        if (dungeonList.Contains("Thám Hiểm"))
+                        {
+                            if (autoPhuBan.diChuyenDenNhanPhuBan("codao"))
+                            {
+                                autoPhuBan.nhanPhuBan("codao");
+                                autoFeatures.writeStatus("Completed receiving Thám Hiểm quest at Cổ Đạo");
+                            }
+                        }
 
                         // Run dungeon automation
+                        autoFeatures.writeStatus("Starting dungeon runs");
                         autoPhuBan.auto();
                     }
                     finally
