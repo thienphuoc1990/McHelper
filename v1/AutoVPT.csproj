@@ -200,6 +200,8 @@
     <Compile Include="Services\Executors\RutBoExecutor.cs" />
     <Compile Include="Services\Executors\DoiKGDKExecutor.cs" />
     <Compile Include="Services\Executors\NhanHoiPhucExecutor.cs" />
+    <Compile Include="Services\Executors\TuHanhExecutor.cs" />
+    <Compile Include="Services\Executors\AutoThanTuExecutor.cs" />
     <Compile Include="DependencyInjection\SimpleServiceProvider.cs" />
     <Compile Include="DependencyInjection\ServiceContainer.cs" />
     <Compile Include="Objects\Character.cs" />

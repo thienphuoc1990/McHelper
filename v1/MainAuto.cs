@@ -400,11 +400,11 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // Check to run "Tu Hành"
+                // Check to run "Tu Hành" - Using new executor pattern
                 if (mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
                 {
                     i++;
-                    mGeneralFunctions.runAutoTuHanhByNVHN();
+                    ExecuteFeature<TuHanhExecutor>(FeatureType.TuHanh);
                     mCharacter.StatusTuHanh = 1;
                     Helper.saveSettingsToXML(mCharacter);
 
@@ -483,11 +483,11 @@ namespace AutoVPT.Libs
                     Helper.saveSettingsToXML(mCharacter);
                 }
 
-                // Check to run "Auto Thần tu"
+                // Check to run "Auto Thần tu" - Using new executor pattern
                 if (mCharacter.AutoThanTu == 1 && mCharacter.StatusAutoThanTu == 0)
                 {
                     i++;
-                    mGeneralFunctions.runAutoThanTu();
+                    ExecuteFeature<AutoThanTuExecutor>(FeatureType.AutoThanTu);
                     mCharacter.StatusAutoThanTu = 1;
                     Helper.saveSettingsToXML(mCharacter);
 

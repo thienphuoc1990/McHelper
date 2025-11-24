@@ -244,6 +244,14 @@ namespace AutoVPT.DependencyInjection
             {
                 return new NhanHoiPhucExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
             }
+            else if (executorType == typeof(TuHanhExecutor))
+            {
+                return new TuHanhExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
+            else if (executorType == typeof(AutoThanTuExecutor))
+            {
+                return new AutoThanTuExecutor(imageRecognition, inputSimulator, logger) as TExecutor;
+            }
 
             throw new InvalidOperationException($"Executor type {executorType.Name} not registered");
         }
