@@ -10,7 +10,8 @@ namespace AutoVPT.Services.Executors
     /// <summary>
     /// Executor for AutoThanTu (Divine Cultivation) feature.
     /// Navigates to Quyền Cô Thánh, talks to NPC, and starts divine cultivation training.
-    /// TODO: Refactor to use new architecture instead of wrapping legacy GeneralFunctions.
+    /// NOTE: Uses legacy AutoFeatures for navigation (moveToMap, moveToNPC, bay).
+    /// TODO: Refactor navigation to native async when navigation service is available.
     /// </summary>
     public class AutoThanTuExecutor : BaseFeatureExecutor
     {
@@ -30,33 +31,53 @@ namespace AutoVPT.Services.Executors
             {
                 LogInfo("Starting AutoThanTu (Divine Cultivation) feature", context);
 
-                // Call legacy implementation
-                // TODO: Replace with native async implementation
+                // Hybrid approach: Uses AutoFeatures for navigation
                 await Task.Run(() =>
                 {
-                    // Convert to legacy Character object
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
+                    var autoFeatures = new AutoFeatures(
+                        context.WindowHandle,
+                        context.Character.Identity.Id,
+                        context.StatusTextBox,
+                        legacyCharacter
+                    );
 
-                    // Register character for Stop All functionality
-                    Helper.RegisterRunningCharacter(legacyCharacter);
+                    // Step 1: Close all dialogs
+                    LogInfo("Closing all dialogs...", context);
+                    autoFeatures.closeAllDialog();
 
-                    try
+                    // Step 2: Navigate to Quyền Cô Thánh
+                    LogInfo("Navigating to Quyền Cô Thánh...", context);
+                    if (!autoFeatures.moveToMap("quyencothanh", 7, -18))
                     {
-                        // Create GeneralFunctions instance for legacy code
-                        var generalFunctions = new GeneralFunctions(
-                            context.WindowHandle,
-                            legacyCharacter,
-                            context.StatusTextBox
-                        );
+                        throw new Exception("Failed to navigate to Quyền Cô Thánh");
+                    }
 
-                        // Run divine cultivation
-                        generalFunctions.runAutoThanTu();
-                    }
-                    finally
+                    // Step 3: Fly up
+                    LogInfo("Flying up...", context);
+                    autoFeatures.bay();
+
+                    // Step 4: Move to divine cultivation NPC
+                    LogInfo("Moving to divine cultivation NPC...", context);
+                    if (!autoFeatures.moveToNPC("thanhchuquyenco", "autothantu"))
                     {
-                        // Unregister character when done
-                        Helper.UnregisterRunningCharacter(legacyCharacter.ID);
+                        throw new Exception("Failed to reach divine cultivation NPC");
                     }
+
+                    // Step 5: Fly down
+                    LogInfo("Flying down...", context);
+                    autoFeatures.bayXuong();
+
+                    // Step 6: Talk to NPC
+                    LogInfo("Talking to NPC...", context);
+                    if (!autoFeatures.talkToNPC("thanhchuquyenco"))
+                    {
+                        throw new Exception("Failed to talk to NPC");
+                    }
+
+                    // Step 7: Start divine cultivation
+                    LogInfo("Starting divine cultivation...", context);
+                    StartDivineCultivation(autoFeatures);
 
                 }, context.CancellationToken);
 
@@ -68,6 +89,21 @@ namespace AutoVPT.Services.Executors
                 LogError($"AutoThanTu feature failed: {ex.Message}", ex, context);
                 return FeatureResult.Failed(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Start divine cultivation by clicking the necessary buttons
+        /// </summary>
+        private void StartDivineCultivation(AutoFeatures autoFeatures)
+        {
+            // Click divine cultivation option
+            autoFeatures.clickImageByGroup("global", "autothantu", false, true);
+
+            // Click start button
+            autoFeatures.clickImageByGroup("global", "batdauautotuhanh", false, false);
+
+            // Click confirm
+            autoFeatures.clickImageByGroup("global", "luachonco", false, true);
         }
 
         public override bool CanExecute(ExecutionContext context)

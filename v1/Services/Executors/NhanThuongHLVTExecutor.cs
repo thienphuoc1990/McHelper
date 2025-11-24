@@ -1,6 +1,7 @@
 using AutoVPT.Domain;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
+using AutoVPT.Objects;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +9,9 @@ namespace AutoVPT.Services.Executors
 {
     /// <summary>
     /// Executor for NhanThuongHLVT (Corridor Rewards) feature.
-    /// Automates collecting daily corridor rewards from NPC.
+    /// Automates collecting daily corridor rewards from NPC at Quyền Cô Thành.
+    /// NOTE: Uses legacy AutoFeatures for complex navigation (moveToMap, moveToNPC, bay).
+    /// TODO: Refactor navigation to native async when navigation service is available.
     /// </summary>
     public class NhanThuongHLVTExecutor : BaseFeatureExecutor
     {
@@ -28,40 +31,58 @@ namespace AutoVPT.Services.Executors
             {
                 LogInfo("Starting NhanThuongHLVT (Corridor Rewards) feature", context);
 
-                // Call legacy implementation via wrapper
+                // For complex navigation features, we still need legacy AutoFeatures
+                // This is a hybrid approach until navigation is fully refactored
                 await Task.Run(() =>
                 {
-                    // Convert to legacy Character object
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
+                    var autoFeatures = new AutoFeatures(
+                        context.WindowHandle,
+                        context.Character.Identity.Id,
+                        context.StatusTextBox,
+                        legacyCharacter
+                    );
 
-                    // Register character for Stop All functionality
-                    Helper.RegisterRunningCharacter(legacyCharacter);
+                    // Step 1: Close all dialogs
+                    LogInfo("Closing all dialogs...", context);
+                    autoFeatures.closeAllDialog();
 
-                    try
+                    // Step 2: Navigate to Quyền Cô Thành
+                    LogInfo("Navigating to Quyền Cô Thành...", context);
+                    if (!autoFeatures.moveToMap("quyencothanh", 5))
                     {
-                        // Create AutoFeatures instance
-                        var autoFeatures = new AutoFeatures(
-                            context.WindowHandle,
-                            context.Character.Identity.Id,
-                            context.StatusTextBox,
-                            legacyCharacter
-                        );
-
-                        // Create GeneralFunctions instance
-                        var generalFunctions = new GeneralFunctions(
-                            context.WindowHandle,
-                            legacyCharacter,
-                            context.StatusTextBox
-                        );
-
-                        // Execute the feature
-                        generalFunctions.nhanThuongHanhLang();
+                        throw new Exception("Failed to navigate to Quyền Cô Thành");
                     }
-                    finally
+
+                    // Step 3: Fly up
+                    LogInfo("Flying up...", context);
+                    autoFeatures.bay();
+
+                    // Step 4: Move to NPC
+                    LogInfo("Moving to corridor NPC...", context);
+                    if (!autoFeatures.moveToNPC("conghanhlang", "nhanquahanhlang"))
                     {
-                        // Unregister character when done
-                        Helper.UnregisterRunningCharacter(legacyCharacter.ID);
+                        throw new Exception("Failed to reach corridor NPC");
                     }
+
+                    // Step 5: Fly down
+                    LogInfo("Flying down...", context);
+                    autoFeatures.bayXuong();
+
+                    // Step 6: Talk to NPC
+                    LogInfo("Talking to NPC...", context);
+                    if (!autoFeatures.talkToNPC("conghanhlang", 0, 0, -40))
+                    {
+                        throw new Exception("Failed to talk to NPC");
+                    }
+
+                    // Step 7: Scroll down in dialog
+                    LogInfo("Scrolling down...", context);
+                    autoFeatures.clickImageByGroup("global", "keoxuong", false, true, 3);
+
+                    // Step 8: Click receive rewards button
+                    LogInfo("Collecting corridor rewards...", context);
+                    autoFeatures.clickImageByGroup("global", "nhanthuonghanhlang", false, true);
 
                 }, context.CancellationToken);
 

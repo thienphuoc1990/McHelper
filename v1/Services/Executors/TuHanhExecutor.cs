@@ -10,7 +10,8 @@ namespace AutoVPT.Services.Executors
     /// <summary>
     /// Executor for TuHanh (Cultivation Quest) feature.
     /// Uses NVHN quest helper to navigate to and start cultivation training.
-    /// TODO: Refactor to use new architecture instead of wrapping legacy GeneralFunctions.
+    /// NOTE: Uses legacy AutoFeatures for NVHN quest navigation (openQuestByNVHN).
+    /// TODO: Refactor navigation to native async when quest system is available.
     /// </summary>
     public class TuHanhExecutor : BaseFeatureExecutor
     {
@@ -30,33 +31,35 @@ namespace AutoVPT.Services.Executors
             {
                 LogInfo("Starting TuHanh (Cultivation Quest) feature", context);
 
-                // Call legacy implementation
-                // TODO: Replace with native async implementation
+                // Hybrid approach: Uses AutoFeatures for NVHN navigation
                 await Task.Run(() =>
                 {
-                    // Convert to legacy Character object
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
+                    var autoFeatures = new AutoFeatures(
+                        context.WindowHandle,
+                        context.Character.Identity.Id,
+                        context.StatusTextBox,
+                        legacyCharacter
+                    );
 
-                    // Register character for Stop All functionality
-                    Helper.RegisterRunningCharacter(legacyCharacter);
+                    // Step 1: Close all dialogs
+                    LogInfo("Closing all dialogs...", context);
+                    autoFeatures.closeAllDialog();
 
-                    try
+                    // Step 2: Fly up
+                    LogInfo("Flying up...", context);
+                    autoFeatures.bay();
+
+                    // Step 3: Use NVHN quest helper to navigate to cultivation NPC
+                    LogInfo("Using NVHN quest helper to navigate...", context);
+                    while (!autoFeatures.isTalkWithNPC("truonglaovouutoc"))
                     {
-                        // Create GeneralFunctions instance for legacy code
-                        var generalFunctions = new GeneralFunctions(
-                            context.WindowHandle,
-                            legacyCharacter,
-                            context.StatusTextBox
-                        );
+                        autoFeatures.openQuestByNVHN("tuhanh");
+                    }
 
-                        // Run cultivation quest using NVHN helper
-                        generalFunctions.runAutoTuHanhByNVHN();
-                    }
-                    finally
-                    {
-                        // Unregister character when done
-                        Helper.UnregisterRunningCharacter(legacyCharacter.ID);
-                    }
+                    // Step 4: Start auto cultivation
+                    LogInfo("Starting auto cultivation...", context);
+                    StartAutoCultivation(autoFeatures);
 
                 }, context.CancellationToken);
 
@@ -67,6 +70,19 @@ namespace AutoVPT.Services.Executors
             {
                 LogError($"TuHanh feature failed: {ex.Message}", ex, context);
                 return FeatureResult.Failed(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Start auto cultivation by clicking the necessary buttons
+        /// </summary>
+        private void StartAutoCultivation(AutoFeatures autoFeatures)
+        {
+            while (!autoFeatures.findImageByGroup("global", "autotuhanh_check", false, false))
+            {
+                autoFeatures.clickImageByGroup("global", "autotuhanh", false, true);
+                autoFeatures.clickImageByGroup("global", "batdauautotuhanh", false, false);
+                autoFeatures.clickImageByGroup("global", "luachonco", false, true);
             }
         }
 
