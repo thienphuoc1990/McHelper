@@ -172,6 +172,8 @@
     <Compile Include="Infrastructure\FileLogger.cs" />
     <Compile Include="Infrastructure\UiLogger.cs" />
     <Compile Include="Infrastructure\DebugLogger.cs" />
+    <Compile Include="Infrastructure\LruCache.cs" />
+    <Compile Include="Infrastructure\SearchRegions.cs" />
     <Compile Include="Configuration\AppConfiguration.cs" />
     <Compile Include="Configuration\XmlConfigurationStore.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
