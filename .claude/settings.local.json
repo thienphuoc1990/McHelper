@@ -9,7 +9,9 @@
       "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" -restore AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)",
       "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" -t:restore AutoVPT.sln)",
       "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
