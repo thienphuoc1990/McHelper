@@ -30,7 +30,7 @@ namespace AutoVPT.Services.Executors
 
                 // Step 1: Close all dialogs first
                 LogInfo("Closing all dialogs...", context);
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 // Step 2: Open VIP panel
                 LogInfo("Opening VIP panel...", context);
@@ -103,7 +103,7 @@ namespace AutoVPT.Services.Executors
 
                 // Step 6: Close VIP panel
                 LogInfo("Closing VIP panel...", context);
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 LogInfo("VipPromotion completed successfully", context);
                 return FeatureResult.Successful("VIP rewards collected");
@@ -133,15 +133,7 @@ namespace AutoVPT.Services.Executors
         /// <summary>
         /// Close all open dialogs by pressing ESC key
         /// </summary>
-        private async Task CloseAllDialogsAsync(ExecutionContext context)
-        {
-            // Press ESC key multiple times to close dialogs
-            for (int i = 0; i < 3; i++)
-            {
-                await _inputSimulator.SendKeyAsync(System.Windows.Forms.Keys.Escape);
-                await Task.Delay(500);
-            }
-        }
+        // Removed CloseAllDialogsAsync - now using ExecutorHelpers.CloseAllDialogsAsync
 
         #endregion
     }

@@ -171,7 +171,7 @@ namespace AutoVPT.Services.Executors
                 await NavigateToQuestLocationAsync(context);
 
                 // Close all dialogs
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 // Land if using flight
                 if (_vipLevel > 0 && _vipLevel < 6)
@@ -245,7 +245,7 @@ namespace AutoVPT.Services.Executors
         {
             await OpenRightMenuAsync(context);
             await MoveToMapAsync(context, "donghuyenthanh");
-            await CloseAllDialogsAsync(context);
+            await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
             if (_vipLevel > 0 && _vipLevel < 6)
             {
@@ -280,7 +280,7 @@ namespace AutoVPT.Services.Executors
         private async Task NavigateToQuestLocationAsync(ExecutionContext context)
         {
             // Open quest bag
-            await CloseAllDialogsAsync(context);
+            await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
             var questBagLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalTui,
@@ -310,7 +310,7 @@ namespace AutoVPT.Services.Executors
 
             // Wait for map to load
             await Task.Delay(2000);
-            await CloseAllDialogsAsync(context);
+            await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
             // Click on coordinates if VIP < 6
             if (_vipLevel > 0 && _vipLevel < 6)
@@ -392,7 +392,7 @@ namespace AutoVPT.Services.Executors
         /// </summary>
         private async Task<bool> CheckQuestAcceptedAsync(ExecutionContext context)
         {
-            await CloseAllDialogsAsync(context);
+            await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
             await ClickImageByGroupAsync(context, "global", "nhiemvu");
             await ClickImageByGroupAsync(context, "global", "nhiemvuvong");
 
@@ -410,7 +410,7 @@ namespace AutoVPT.Services.Executors
         /// </summary>
         private async Task<bool> CheckQuestObjectivesCompletedAsync(ExecutionContext context)
         {
-            await CloseAllDialogsAsync(context);
+            await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
             await ClickImageByGroupAsync(context, "global", "nhiemvu");
             await ClickImageByGroupAsync(context, "global", "nhiemvuvong");
 
@@ -572,15 +572,7 @@ namespace AutoVPT.Services.Executors
             return false;
         }
 
-        private async Task CloseAllDialogsAsync(ExecutionContext context)
-        {
-            // Press ESC key multiple times to close dialogs
-            for (int i = 0; i < 3; i++)
-            {
-                await _inputSimulator.SendKeyAsync(System.Windows.Forms.Keys.Escape);
-                await Task.Delay(500);
-            }
-        }
+        // Removed CloseAllDialogsAsync - now using ExecutorHelpers.CloseAllDialogsAsync
 
         #endregion
 

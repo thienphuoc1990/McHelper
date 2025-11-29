@@ -100,7 +100,7 @@ namespace AutoVPT.Services.Executors
         {
             // Close all dialogs first
             LogInfo("Closing all dialogs...", context);
-            await CloseAllDialogsAsync(context);
+            await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
             // Open right menu
             LogInfo("Opening right menu...", context);
@@ -265,15 +265,7 @@ namespace AutoVPT.Services.Executors
         /// <summary>
         /// Close all open dialogs by pressing ESC key
         /// </summary>
-        private async Task CloseAllDialogsAsync(ExecutionContext context)
-        {
-            // Press ESC key multiple times to close dialogs
-            for (int i = 0; i < 3; i++)
-            {
-                await _inputSimulator.SendKeyAsync(System.Windows.Forms.Keys.Escape);
-                await Task.Delay(500);
-            }
-        }
+        // Removed CloseAllDialogsAsync - now using ExecutorHelpers.CloseAllDialogsAsync
 
         /// <summary>
         /// Get image path for material type

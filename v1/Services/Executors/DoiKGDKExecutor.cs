@@ -31,11 +31,12 @@ namespace AutoVPT.Services.Executors
 
                 // Step 1: Close all dialogs first
                 LogInfo("Closing all dialogs...", context);
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 // Step 2: Open Space-Time Carving panel
                 LogInfo("Opening Space-Time Carving panel...", context);
-                bool panelOpened = await OpenFeatureFromQuickListAsync("khonggiandieukhac", context);
+                bool panelOpened = await ExecutorHelpers.OpenFeatureFromQuickListAsync(
+                    _imageRecognition, _inputSimulator, "khonggiandieukhac");
 
                 if (!panelOpened)
                 {
@@ -74,7 +75,7 @@ namespace AutoVPT.Services.Executors
 
                 // Step 5: Close panel
                 LogInfo("Closing panel...", context);
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 LogInfo("DoiKGDK completed successfully", context);
                 return FeatureResult.Successful("Space-time exchange completed");
@@ -104,94 +105,8 @@ namespace AutoVPT.Services.Executors
         /// <summary>
         /// Close all open dialogs by pressing ESC key
         /// </summary>
-        private async Task CloseAllDialogsAsync(ExecutionContext context)
-        {
-            // Press ESC key multiple times to close dialogs
-            for (int i = 0; i < 3; i++)
-            {
-                await _inputSimulator.SendKeyAsync(System.Windows.Forms.Keys.Escape);
-                await Task.Delay(500);
-            }
-        }
-
-        /// <summary>
-        /// Open a feature from the quick features list by scrolling and clicking
-        /// </summary>
-        private async Task<bool> OpenFeatureFromQuickListAsync(string featureName, ExecutionContext context)
-        {
-            int loop = 0;
-
-            while (loop < Constant.MaxLoopShort)
-            {
-                // Check if feature panel is already open
-                var featureCheckLocation = await _imageRecognition.FindImageAsync(
-                    Constant.ImagePathGlobalFolder + featureName + "_check.png",
-                    threshold: 0.8);
-
-                if (featureCheckLocation.HasValue)
-                {
-                    LogInfo($"Feature panel '{featureName}' is open", context);
-                    return true;
-                }
-
-                // Scroll to top of quick features list first
-                while (true)
-                {
-                    var upArrowLocation = await _imageRecognition.FindImageAsync(
-                        Constant.ImagePathGlobalFolder + "quickFeatureListUpArrow.png",
-                        threshold: 0.8);
-
-                    var featureLocation = await _imageRecognition.FindImageAsync(
-                        Constant.ImagePathGlobalFolder + featureName + ".png",
-                        threshold: 0.8);
-
-                    if (!upArrowLocation.HasValue || featureLocation.HasValue)
-                    {
-                        break; // Reached top or found feature
-                    }
-
-                    LogInfo("Scrolling to top of quick feature list", context);
-                    await _inputSimulator.ClickAsync(upArrowLocation.Value);
-                    await Task.Delay(Constant.TimeShort);
-                }
-
-                // Scroll down to find the feature
-                while (true)
-                {
-                    var featureLocation = await _imageRecognition.FindImageAsync(
-                        Constant.ImagePathGlobalFolder + featureName + ".png",
-                        threshold: 0.8);
-
-                    if (featureLocation.HasValue)
-                    {
-                        // Found the feature, click it
-                        LogInfo($"Found feature '{featureName}', clicking...", context);
-                        await _inputSimulator.ClickAsync(featureLocation.Value);
-                        await Task.Delay(Constant.TimeMedium);
-                        break;
-                    }
-
-                    var downArrowLocation = await _imageRecognition.FindImageAsync(
-                        Constant.ImagePathGlobalFolder + "quickFeatureListDownArrow.png",
-                        threshold: 0.8);
-
-                    if (!downArrowLocation.HasValue)
-                    {
-                        // Reached bottom without finding feature
-                        LogWarning($"Feature '{featureName}' not found in quick list", context);
-                        return false;
-                    }
-
-                    LogInfo("Scrolling down to find feature", context);
-                    await _inputSimulator.ClickAsync(downArrowLocation.Value);
-                    await Task.Delay(Constant.TimeMedium);
-                }
-
-                loop++;
-            }
-
-            return false;
-        }
+        // Removed CloseAllDialogsAsync - now using ExecutorHelpers.CloseAllDialogsAsync
+        // Removed OpenFeatureFromQuickListAsync - now using ExecutorHelpers.OpenFeatureFromQuickListAsync
 
         #endregion
     }

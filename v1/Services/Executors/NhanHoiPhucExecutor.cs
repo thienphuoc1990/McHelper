@@ -32,15 +32,15 @@ namespace AutoVPT.Services.Executors
 
                 // Step 1: Close all dialogs first
                 LogInfo("Closing all dialogs...", context);
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 // Step 2: Open daily quest panel
                 LogInfo("Opening daily quest panel...", context);
-                bool dailyQuestOpened = await WaitForPanelAsync(
-                    "nhiemvuhangngay",
-                    "nhiemvuhangngay_check",
-                    "daily quest",
-                    context);
+                bool dailyQuestOpened = await ExecutorHelpers.WaitForPanelAsync(
+                    _imageRecognition,
+                    _inputSimulator,
+                    Constant.ImagePathGlobalFolder + "nhiemvuhangngay.png",
+                    Constant.ImagePathGlobalFolder + "nhiemvuhangngay_check.png");
 
                 if (!dailyQuestOpened)
                 {
@@ -50,11 +50,11 @@ namespace AutoVPT.Services.Executors
 
                 // Step 3: Open recovery panel
                 LogInfo("Opening recovery panel...", context);
-                bool recoveryPanelOpened = await WaitForPanelAsync(
-                    "nvhn_hoiphuc",
-                    "nvhn_hoiphuc_check",
-                    "recovery",
-                    context);
+                bool recoveryPanelOpened = await ExecutorHelpers.WaitForPanelAsync(
+                    _imageRecognition,
+                    _inputSimulator,
+                    Constant.ImagePathGlobalFolder + "nvhn_hoiphuc.png",
+                    Constant.ImagePathGlobalFolder + "nvhn_hoiphuc_check.png");
 
                 if (!recoveryPanelOpened)
                 {
@@ -87,7 +87,7 @@ namespace AutoVPT.Services.Executors
 
                 // Step 5: Close panels
                 LogInfo("Closing panels...", context);
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 LogInfo($"NhanHoiPhuc completed successfully. Collected {collectedCount} recovery rewards", context);
                 return FeatureResult.Successful($"Collected {collectedCount} recovery rewards");
@@ -117,55 +117,8 @@ namespace AutoVPT.Services.Executors
         /// <summary>
         /// Close all open dialogs by pressing ESC key
         /// </summary>
-        private async Task CloseAllDialogsAsync(ExecutionContext context)
-        {
-            // Press ESC key multiple times to close dialogs
-            for (int i = 0; i < 3; i++)
-            {
-                await _inputSimulator.SendKeyAsync(System.Windows.Forms.Keys.Escape);
-                await Task.Delay(500);
-            }
-        }
-
-        /// <summary>
-        /// Wait for a panel to open by clicking its button until check image appears
-        /// </summary>
-        private async Task<bool> WaitForPanelAsync(string buttonImageName, string checkImageName, string panelDescription, ExecutionContext context)
-        {
-            int attempts = 0;
-            int maxAttempts = Constant.MaxLoop;
-
-            while (attempts < maxAttempts)
-            {
-                // Check if panel is already open
-                var checkLocation = await _imageRecognition.FindImageAsync(
-                    Constant.ImagePathGlobalFolder + checkImageName + ".png",
-                    threshold: 0.8);
-
-                if (checkLocation.HasValue)
-                {
-                    LogInfo($"{panelDescription} panel is now open", context);
-                    return true;
-                }
-
-                // Click button to open panel
-                var buttonLocation = await _imageRecognition.FindImageAsync(
-                    Constant.ImagePathGlobalFolder + buttonImageName + ".png",
-                    threshold: 0.8);
-
-                if (buttonLocation.HasValue)
-                {
-                    LogInfo($"Clicking {panelDescription} button...", context);
-                    await _inputSimulator.ClickAsync(buttonLocation.Value);
-                    await Task.Delay(Constant.TimeShort);
-                }
-
-                attempts++;
-                await Task.Delay(500);
-            }
-
-            return false;
-        }
+        // Removed CloseAllDialogsAsync - now using ExecutorHelpers.CloseAllDialogsAsync
+        // Removed WaitForPanelAsync - now using ExecutorHelpers.WaitForPanelAsync
 
         /// <summary>
         /// Collect recovery reward for a specific activity

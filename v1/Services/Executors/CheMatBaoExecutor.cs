@@ -79,31 +79,32 @@ namespace AutoVPT.Services.Executors
                 attempt++;
 
                 // Close all dialogs
-                await CloseAllDialogsAsync(context);
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
                 // Open character panel
                 LogInfo("Opening character panel...", context);
-                await ClickImageByGroupAsync(context, "global", "nhanvat");
+                await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "global", "nhanvat");
 
                 // Open soul/spirit panel (hồn khí)
                 LogInfo("Opening soul panel...", context);
-                await ClickImageByGroupAsync(context, "mat_bao", "honkhi");
+                await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "honkhi");
 
                 // Wait for panel to load
                 await Task.Delay(5000);
 
                 // Open secret manual panel (mật bảo)
                 LogInfo("Opening secret manual panel...", context);
-                await ClickImageByGroupAsync(context, "mat_bao", "matbao", useCache: true);
+                await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "matbao");
 
                 // Open crafting tab
                 LogInfo("Opening crafting tab...", context);
-                await ClickImageByGroupAsync(context, "mat_bao", "chetao", useCache: true);
+                await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "chetao");
 
                 await Task.Delay(1000);
 
                 // Verify panel opened
-                bool panelOpened = await FindImageByGroupAsync(context, "mat_bao", "chetaomatbao");
+                var panelLocation = await ExecutorHelpers.FindImageByGroupAsync(_imageRecognition, "mat_bao", "chetaomatbao");
+                bool panelOpened = panelLocation.HasValue;
 
                 if (panelOpened)
                 {
@@ -127,12 +128,12 @@ namespace AutoVPT.Services.Executors
             await SelectManualTierAsync(context, manualTier);
 
             // Click safe area
-            await ClickImageByGroupAsync(context, "mat_bao", "clickantoan");
+            await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "clickantoan");
 
             // Select manual type
             LogInfo($"Selecting manual type: {manualType}...", context);
             string manualTypeKey = GetManualTypeKey(manualType);
-            await ClickImageByGroupAsync(context, "mat_bao", manualTypeKey);
+            await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", manualTypeKey);
 
             // Craft loop
             int craftedCount = 0;
@@ -143,22 +144,23 @@ namespace AutoVPT.Services.Executors
             for (int i = 0; i < maxCraftAttempts; i++)
             {
                 // Click auto-place materials
-                await ClickImageByGroupAsync(context, "mat_bao", "tudongdatnguyenlieu");
+                await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "tudongdatnguyenlieu");
 
                 // Click craft button
-                bool crafted = await ClickImageByGroupAsync(context, "mat_bao", "chetaomatbao");
+                bool crafted = await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "chetaomatbao");
 
                 if (crafted)
                 {
                     craftedCount++;
 
                     // Click safe area to clear any popups
-                    await ClickImageByGroupAsync(context, "mat_bao", "clickantoan");
+                    await ExecutorHelpers.ClickImageByGroupAsync(_imageRecognition, _inputSimulator, "mat_bao", "clickantoan");
 
                     await Task.Delay(2000); // Wait for crafting animation
 
                     // Check if out of crafting attempts
-                    bool outOfAttempts = await FindImageByGroupAsync(context, "mat_bao", "hetluotche");
+                    var outOfAttemptsLocation = await ExecutorHelpers.FindImageByGroupAsync(_imageRecognition, "mat_bao", "hetluotche");
+                    bool outOfAttempts = outOfAttemptsLocation.HasValue;
                     if (outOfAttempts)
                     {
                         LogInfo("Out of crafting attempts", context);
@@ -185,8 +187,8 @@ namespace AutoVPT.Services.Executors
             // Each tier is 25 pixels apart
             int yOffset = -20 + (tier * 25);
 
-            var tierHeaderLocation = await FindImageByGroupLocationAsync(
-                context,
+            var tierHeaderLocation = await ExecutorHelpers.FindImageByGroupAsync(
+                _imageRecognition,
                 "mat_bao",
                 "tieudecapmatbao");
 
@@ -243,95 +245,11 @@ namespace AutoVPT.Services.Executors
         /// <summary>
         /// Click on an image in a group (simplified version)
         /// </summary>
-        private async Task<bool> ClickImageByGroupAsync(
-            ExecutionContext context,
-            string group,
-            string imageName,
-            bool useCache = false,
-            bool waitAfter = false)
-        {
-            // Build path using group folder constants
-            string groupPath = GetGroupPath(group);
-            string imagePath = groupPath + imageName + ".png";
-
-            var location = await _imageRecognition.FindImageAsync(imagePath, threshold: 0.8);
-
-            if (location.HasValue)
-            {
-                await _inputSimulator.ClickAsync(location.Value);
-
-                if (waitAfter)
-                {
-                    await Task.Delay(1000);
-                }
-                else
-                {
-                    await Task.Delay(200);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Find an image in a group
-        /// </summary>
-        private async Task<bool> FindImageByGroupAsync(
-            ExecutionContext context,
-            string group,
-            string imageName)
-        {
-            string groupPath = GetGroupPath(group);
-            string imagePath = groupPath + imageName + ".png";
-            var location = await _imageRecognition.FindImageAsync(imagePath, threshold: 0.8);
-            return location.HasValue;
-        }
-
-        /// <summary>
-        /// Find an image in a group and return its location
-        /// </summary>
-        private async Task<Point?> FindImageByGroupLocationAsync(
-            ExecutionContext context,
-            string group,
-            string imageName)
-        {
-            string groupPath = GetGroupPath(group);
-            string imagePath = groupPath + imageName + ".png";
-            return await _imageRecognition.FindImageAsync(imagePath, threshold: 0.8);
-        }
-
-        /// <summary>
-        /// Get folder path for a group
-        /// </summary>
-        private string GetGroupPath(string group)
-        {
-            switch (group)
-            {
-                case "mat_bao":
-                    return Constant.ImagePathMatBaoFolder;
-                case "global":
-                    return Constant.ImagePathGlobalFolder;
-                case "tri_an":
-                    return Constant.ImagePathTriAnFolder;
-                default:
-                    return Constant.ImagePathGlobalFolder;
-            }
-        }
-
-        /// <summary>
-        /// Close all open dialogs by pressing ESC key
-        /// </summary>
-        private async Task CloseAllDialogsAsync(ExecutionContext context)
-        {
-            // Press ESC key multiple times to close dialogs
-            for (int i = 0; i < 3; i++)
-            {
-                await _inputSimulator.SendKeyAsync(System.Windows.Forms.Keys.Escape);
-                await Task.Delay(500);
-            }
-        }
+        // Removed ClickImageByGroupAsync - now using ExecutorHelpers.ClickImageByGroupAsync
+        // Removed FindImageByGroupAsync - now using ExecutorHelpers.FindImageByGroupAsync
+        // Removed FindImageByGroupLocationAsync - now using ExecutorHelpers.FindImageByGroupAsync
+        // Removed GetGroupPath - now using ExecutorHelpers.GetGroupPath
+        // Removed CloseAllDialogsAsync - now using ExecutorHelpers.CloseAllDialogsAsync
 
         #endregion
 
