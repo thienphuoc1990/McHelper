@@ -1,4 +1,5 @@
 using AutoVPT.Domain;
+using AutoVPT.Infrastructure;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using System;
@@ -36,6 +37,7 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Opening VIP panel...", context);
                 var vipButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "vip.png",
+                    searchArea: SearchRegions.TopRight,  // 16x faster - VIP button is top-right
                     threshold: 0.8);
 
                 if (!vipButtonLocation.HasValue)
@@ -55,6 +57,7 @@ namespace AutoVPT.Services.Executors
                 {
                     var nhanVipLocation = await _imageRecognition.FindImageAsync(
                         nhanVipImagePath,
+                        searchArea: SearchRegions.DialogArea,  // 3x faster - receive button in VIP dialog
                         threshold: 0.8);
 
                     if (nhanVipLocation.HasValue)
@@ -72,6 +75,7 @@ namespace AutoVPT.Services.Executors
                 {
                     var xuongVipLocation = await _imageRecognition.FindImageAsync(
                         xuongVipImagePath,
+                        searchArea: SearchRegions.DialogArea,  // 3x faster - scroll button in VIP dialog
                         threshold: 0.8);
 
                     if (xuongVipLocation.HasValue)
@@ -92,6 +96,7 @@ namespace AutoVPT.Services.Executors
                 {
                     var nhanVipLocation = await _imageRecognition.FindImageAsync(
                         nhanVipImagePath,
+                        searchArea: SearchRegions.DialogArea,  // 3x faster - receive button in VIP dialog
                         threshold: 0.8);
 
                     if (nhanVipLocation.HasValue)

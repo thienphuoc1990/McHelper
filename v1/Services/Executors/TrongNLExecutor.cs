@@ -1,4 +1,5 @@
 using AutoVPT.Domain;
+using AutoVPT.Infrastructure;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using System;
@@ -106,6 +107,7 @@ namespace AutoVPT.Services.Executors
             LogInfo("Opening right menu...", context);
             var menuLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalFolder + "menu_phai.png",
+                searchArea: SearchRegions.TopRight,  // 16x faster - menu is always top-right
                 threshold: 0.8);
 
             if (menuLocation.HasValue)
@@ -117,6 +119,7 @@ namespace AutoVPT.Services.Executors
             // Click farm button
             var farmButtonLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTrangVienButton,
+                searchArea: SearchRegions.RightPanel,  // 6x faster - farm button in right menu
                 threshold: 0.8);
 
             if (!farmButtonLocation.HasValue)
@@ -138,6 +141,7 @@ namespace AutoVPT.Services.Executors
         {
             var farmButtonLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTrangVienButton,
+                searchArea: SearchRegions.RightPanel,  // 6x faster - farm button in right menu
                 threshold: 0.8);
 
             if (farmButtonLocation.HasValue)
@@ -154,6 +158,7 @@ namespace AutoVPT.Services.Executors
         {
             var farmingButtonLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathNuoiTrongButton,
+                searchArea: SearchRegions.DialogArea,  // 3x faster - button in farm dialog
                 threshold: 0.8);
 
             if (!farmingButtonLocation.HasValue)
@@ -172,6 +177,7 @@ namespace AutoVPT.Services.Executors
         {
             var emptyPlotLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathDatTrong,
+                searchArea: SearchRegions.GameplayArea,  // 2x faster - plots in gameplay area
                 threshold: 0.8);
 
             return emptyPlotLocation.HasValue;
@@ -186,6 +192,7 @@ namespace AutoVPT.Services.Executors
 
             var materialLocation = await _imageRecognition.FindImageAsync(
                 imagePath,
+                searchArea: SearchRegions.DialogArea,  // 3x faster - material selection in dialog
                 threshold: 0.8);
 
             if (!materialLocation.HasValue)
@@ -210,6 +217,7 @@ namespace AutoVPT.Services.Executors
                 // Find empty plot
                 var emptyPlotLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathDatTrong,
+                    searchArea: SearchRegions.GameplayArea,  // 2x faster - plots in gameplay area
                     threshold: 0.8);
 
                 if (!emptyPlotLocation.HasValue)
@@ -237,6 +245,7 @@ namespace AutoVPT.Services.Executors
             // Click harvest button
             var harvestButtonLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathThuHoachButton,
+                searchArea: SearchRegions.DialogArea,  // 3x faster - harvest button in dialog
                 threshold: 0.8);
 
             if (harvestButtonLocation.HasValue)
@@ -247,6 +256,7 @@ namespace AutoVPT.Services.Executors
                 // Click collect button
                 var collectButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathDiemThuHoachButton,
+                    searchArea: SearchRegions.DialogArea,  // 3x faster - collect button in dialog
                     threshold: 0.8);
 
                 if (collectButtonLocation.HasValue)

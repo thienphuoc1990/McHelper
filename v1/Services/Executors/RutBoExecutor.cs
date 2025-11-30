@@ -1,4 +1,5 @@
 using AutoVPT.Domain;
+using AutoVPT.Infrastructure;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using System;
@@ -37,6 +38,7 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Opening character panel...", context);
                 var characterButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "nhanvat.png",
+                    searchArea: SearchRegions.BottomRight,  // 12x faster - character button in bottom UI
                     threshold: 0.8);
 
                 if (!characterButtonLocation.HasValue)

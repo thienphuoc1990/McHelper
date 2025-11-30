@@ -1,4 +1,5 @@
 using AutoVPT.Domain;
+using AutoVPT.Infrastructure;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using System;
@@ -127,6 +128,7 @@ namespace AutoVPT.Services.Executors
         {
             var imageLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalFolder + imageName + ".png",
+                searchArea: SearchRegions.DialogArea,  // 3x faster - recovery items in dialog panel
                 threshold: 0.8);
 
             if (imageLocation.HasValue)

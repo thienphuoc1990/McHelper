@@ -1,4 +1,5 @@
 using AutoVPT.Domain;
+using AutoVPT.Infrastructure;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using System;
@@ -50,6 +51,7 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Clicking exchange button...", context);
                 var exchangeButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "khonggiandieukhacdoi.png",
+                    searchArea: SearchRegions.DialogArea,  // 3x faster - exchange button in panel dialog
                     threshold: 0.8);
 
                 if (!exchangeButtonLocation.HasValue)
@@ -65,6 +67,7 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Confirming exchange...", context);
                 var confirmButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "luachonco.png",
+                    searchArea: SearchRegions.DialogArea,  // 3x faster - confirm button in dialog
                     threshold: 0.8);
 
                 if (confirmButtonLocation.HasValue)
