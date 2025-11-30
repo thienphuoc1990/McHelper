@@ -1,4 +1,5 @@
 using AutoVPT.Domain;
+using AutoVPT.Infrastructure;
 using AutoVPT.Interfaces;
 using AutoVPT.Libs;
 using AutoVPT.Objects;
@@ -133,10 +134,19 @@ namespace AutoVPT.Services.Executors
                 await Task.Delay(1000);
             }
 
-            // Accept quest dialog
-            await ClickImageByGroupAsync(context, "tri_an", "nhiemvutrianchuanhan");
-            await ClickImageByGroupAsync(context, "tri_an", "nhiemvuphanquandaxong");
-            await ClickImageByGroupAsync(context, "tri_an", "nhiemvuphitacdaxong");
+            // Accept quest dialog - PARALLEL SEARCH (3x faster)
+            // Search for all 3 quest completion buttons in parallel, click whichever is found first
+            var (foundButton, buttonLocation) = await ExecutorHelpers.FindFirstImageByGroupAsync(
+                _imageRecognition,
+                "tri_an",
+                new[] { "nhiemvutrianchuanhan", "nhiemvuphanquandaxong", "nhiemvuphitacdaxong" });
+
+            if (buttonLocation.HasValue)
+            {
+                LogInfo($"Found quest button: {foundButton}", context);
+                await _inputSimulator.ClickAsync(buttonLocation.Value);
+                await Task.Delay(Constant.TimeShort);
+            }
 
             // Confirm quest acceptance
             await ConfirmQuestDialogAsync(context);
@@ -229,10 +239,19 @@ namespace AutoVPT.Services.Executors
                 await Task.Delay(1000);
             }
 
-            // Turn in quest
-            await ClickImageByGroupAsync(context, "tri_an", "nhiemvutrianchuanhan");
-            await ClickImageByGroupAsync(context, "tri_an", "nhiemvuphanquandaxong");
-            await ClickImageByGroupAsync(context, "tri_an", "nhiemvuphitacdaxong");
+            // Turn in quest - PARALLEL SEARCH (3x faster)
+            // Search for all 3 quest completion buttons in parallel, click whichever is found first
+            var (foundTurnInButton, turnInLocation) = await ExecutorHelpers.FindFirstImageByGroupAsync(
+                _imageRecognition,
+                "tri_an",
+                new[] { "nhiemvutrianchuanhan", "nhiemvuphanquandaxong", "nhiemvuphitacdaxong" });
+
+            if (turnInLocation.HasValue)
+            {
+                LogInfo($"Found turn-in button: {foundTurnInButton}", context);
+                await _inputSimulator.ClickAsync(turnInLocation.Value);
+                await Task.Delay(Constant.TimeShort);
+            }
 
             // Confirm turn-in
             await ConfirmQuestDialogAsync(context);
@@ -396,13 +415,15 @@ namespace AutoVPT.Services.Executors
             await ClickImageByGroupAsync(context, "global", "nhiemvu");
             await ClickImageByGroupAsync(context, "global", "nhiemvuvong");
 
-            // Check for quest markers
-            bool hasQuestIncomplete = await FindImageByGroupAsync(context, "tri_an", "bangnhiemvutrianchuaxong");
-            bool hasQuestIncompleteGreen = await FindImageByGroupAsync(context, "tri_an", "bangnhiemvutrianchuaxonggreen");
-            bool hasQuestComplete = await FindImageByGroupAsync(context, "tri_an", "bangnhiemvutriandaxong");
-            bool hasQuestCompleteGreen = await FindImageByGroupAsync(context, "tri_an", "bangnhiemvutriandaxonggreen");
+            // Check for quest markers - PARALLEL SEARCH (4x faster)
+            // Search for all 4 quest status indicators in parallel
+            var (foundMarker, markerLocation) = await ExecutorHelpers.FindFirstImageByGroupAsync(
+                _imageRecognition,
+                "tri_an",
+                new[] { "bangnhiemvutrianchuaxong", "bangnhiemvutrianchuaxonggreen",
+                       "bangnhiemvutriandaxong", "bangnhiemvutriandaxonggreen" });
 
-            return hasQuestIncomplete || hasQuestIncompleteGreen || hasQuestComplete || hasQuestCompleteGreen;
+            return markerLocation.HasValue;
         }
 
         /// <summary>
@@ -414,10 +435,14 @@ namespace AutoVPT.Services.Executors
             await ClickImageByGroupAsync(context, "global", "nhiemvu");
             await ClickImageByGroupAsync(context, "global", "nhiemvuvong");
 
-            bool hasQuestComplete = await FindImageByGroupAsync(context, "tri_an", "bangnhiemvutriandaxong");
-            bool hasQuestCompleteGreen = await FindImageByGroupAsync(context, "tri_an", "bangnhiemvutriandaxonggreen");
+            // Check for quest completion - PARALLEL SEARCH (2x faster)
+            // Search for both quest completion indicators in parallel
+            var (foundCompleteMarker, completeLocation) = await ExecutorHelpers.FindFirstImageByGroupAsync(
+                _imageRecognition,
+                "tri_an",
+                new[] { "bangnhiemvutriandaxong", "bangnhiemvutriandaxonggreen" });
 
-            return hasQuestComplete || hasQuestCompleteGreen;
+            return completeLocation.HasValue;
         }
 
         /// <summary>

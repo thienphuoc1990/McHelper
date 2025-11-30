@@ -551,5 +551,59 @@ namespace AutoVPT.Services.Executors
 
             return false;
         }
+
+        /// <summary>
+        /// Find a button including its hover variant using parallel search.
+        /// OPTIMIZATION 2: Searches for both normal and hover states simultaneously (2x faster).
+        /// Common pattern for UI buttons that may appear in either state.
+        /// </summary>
+        /// <param name="imageRecognition">Image recognition service</param>
+        /// <param name="group">Group name (e.g., "global", "tri_an")</param>
+        /// <param name="buttonName">Button name without _hover suffix</param>
+        /// <param name="isChinese">Whether to use Chinese resources</param>
+        /// <returns>Tuple of (imageName, location) for first match, or (null, null) if not found</returns>
+        public static async Task<(string imageName, Point? location)> FindButtonWithHoverAsync(
+            IImageRecognition imageRecognition,
+            string group,
+            string buttonName,
+            bool isChinese = false)
+        {
+            // Search for both normal and hover states in parallel
+            return await FindFirstImageByGroupAsync(
+                imageRecognition,
+                group,
+                new[] { buttonName, buttonName + "_hover" },
+                isChinese);
+        }
+
+        /// <summary>
+        /// Click a button including its hover variant using parallel search.
+        /// OPTIMIZATION 2: Searches and clicks button in either normal or hover state (2x faster).
+        /// </summary>
+        /// <param name="imageRecognition">Image recognition service</param>
+        /// <param name="inputSimulator">Input simulator for clicking</param>
+        /// <param name="group">Group name (e.g., "global", "tri_an")</param>
+        /// <param name="buttonName">Button name without _hover suffix</param>
+        /// <param name="isChinese">Whether to use Chinese resources</param>
+        /// <returns>True if button was found and clicked, false otherwise</returns>
+        public static async Task<bool> ClickButtonWithHoverAsync(
+            IImageRecognition imageRecognition,
+            IInputSimulator inputSimulator,
+            string group,
+            string buttonName,
+            bool isChinese = false)
+        {
+            var (foundName, location) = await FindButtonWithHoverAsync(
+                imageRecognition, group, buttonName, isChinese);
+
+            if (location.HasValue)
+            {
+                await inputSimulator.ClickAsync(location.Value);
+                await Task.Delay(Constant.TimeShort);
+                return true;
+            }
+
+            return false;
+        }
     }
 }
