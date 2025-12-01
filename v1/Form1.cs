@@ -992,40 +992,100 @@ namespace AutoVPT
             Helper.threadList[index].Start();
         }
 
+        /// <summary>
+        /// Runs automation for all accounts, respecting the maximum concurrent limit.
+        /// Handles ThreadInterruptedException gracefully when "Stop All" is pressed.
+        /// NOTE: If you see ThreadInterruptedException in the debugger, it's a "first-chance exception"
+        /// which is normal - the exception is caught and handled properly. You can continue execution.
+        /// </summary>
         private void runAllAcc()
         {
             int rowIndex = 0;
             int soLuongChay = int.Parse(textBoxSoLuongAcc.Text);
 
-            while (rowIndex < dataGridViewCharacters.Rows.Count)
+            try
             {
-                DataGridViewRow item = dataGridViewCharacters.Rows[rowIndex];
-                Helper.writeStatus(textBoxStatus, "All acc", "Đang chạy auto " + getRunningThreadsWithNameContaining("mainauto").Count.ToString()  + " acc");
-
-                if (getRunningThreadsWithNameContaining("mainauto").Count < soLuongChay)
+                while (rowIndex < dataGridViewCharacters.Rows.Count)
                 {
-                    character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                    if (character.ID != null && character.ID != "")
+                    // Check if thread should continue (for graceful shutdown)
+                    Thread currentThread = Thread.CurrentThread;
+                    if (currentThread == null || !currentThread.IsAlive)
                     {
-                        IntPtr hWnd = getHandledWindow();
-                        if (hWnd == IntPtr.Zero)
-                        {
-                            MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                            return;
-                        }
-
-                        MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                        runTaskInThread(mMainAuto.run, "mainauto", character);
-                        Thread.Sleep(Constant.VeryTimeShort);
+                        break;
                     }
 
-                    rowIndex++;
+                    DataGridViewRow item = dataGridViewCharacters.Rows[rowIndex];
+                    int runningCount = getRunningThreadsWithNameContaining("mainauto").Count;
+                    Helper.writeStatus(textBoxStatus, "All acc", "Đang chạy auto " + runningCount.ToString() + " acc");
+
+                    if (runningCount < soLuongChay)
+                    {
+                        character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                        if (character.ID != null && character.ID != "")
+                        {
+                            IntPtr hWnd = getHandledWindow();
+                            if (hWnd == IntPtr.Zero)
+                            {
+                                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                                return;
+                            }
+
+                            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                            runTaskInThread(mMainAuto.run, "mainauto", character);
+                            
+                            try
+                            {
+                                Thread.Sleep(Constant.VeryTimeShort);
+                            }
+                            catch (ThreadInterruptedException)
+                            {
+                                // Thread was interrupted, exit gracefully
+                                Helper.writeStatus(textBoxStatus, "All acc", "Đã dừng chạy auto all");
+                                return;
+                            }
+                        }
+
+                        rowIndex++;
+                    }
+                    else
+                    {
+                        // Wait for a slot to become available, but check more frequently for cancellation
+                        // Sleep in smaller increments to be more responsive to thread interruption
+                        int waitTimeMs = 0;
+                        const int checkIntervalMs = 5000; // Check every 5 seconds
+                        const int maxWaitMs = 60 * 1000; // Maximum 60 seconds total
+
+                        while (waitTimeMs < maxWaitMs && getRunningThreadsWithNameContaining("mainauto").Count >= soLuongChay)
+                        {
+                            try
+                            {
+                                Thread.Sleep(checkIntervalMs);
+                                waitTimeMs += checkIntervalMs;
+                            }
+                            catch (ThreadInterruptedException)
+                            {
+                                // Thread was interrupted (e.g., by Stop All), exit gracefully
+                                Helper.writeStatus(textBoxStatus, "All acc", "Đã dừng chạy auto all");
+                                return;
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    Thread.Sleep(60 * 1000);
-                }
+            }
+            catch (ThreadInterruptedException)
+            {
+                // Thread was interrupted - this is expected and normal when Stop All is pressed
+                // Catching this exception clears the interrupted status automatically
+                Helper.writeStatus(textBoxStatus, "All acc", "Đã dừng chạy auto all");
+                // Exit gracefully - exception is handled, no need to rethrow
+            }
+            catch (Exception ex)
+            {
+                // Only log non-interruption exceptions
+                // ThreadInterruptedException is already handled above and should not reach here
+                Helper.writeStatus(textBoxStatus, "All acc", $"Lỗi khi chạy auto all: {ex.Message}");
+                Logger.LogError("All acc", "runAllAcc", ex);
             }
         }
 

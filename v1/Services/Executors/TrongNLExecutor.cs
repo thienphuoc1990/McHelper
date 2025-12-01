@@ -103,31 +103,128 @@ namespace AutoVPT.Services.Executors
             LogInfo("Closing all dialogs...", context);
             await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
-            // Open right menu
-            LogInfo("Opening right menu...", context);
-            var menuLocation = await _imageRecognition.FindImageAsync(
-                Constant.ImagePathGlobalFolder + "menu_phai.png",
-                searchArea: SearchRegions.TopRight,  // 16x faster - menu is always top-right
-                threshold: 0.8);
-
-            if (menuLocation.HasValue)
-            {
-                await _inputSimulator.ClickAsync(menuLocation.Value);
-                await Task.Delay(Constant.TimeShort);
-            }
-
-            // Click farm button
-            var farmButtonLocation = await _imageRecognition.FindImageAsync(
+            // Step 1: Check if menu is already open by looking for farm button
+            LogInfo("Checking if right menu is already open...", context);
+            var farmButtonCheck = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTrangVienButton,
-                searchArea: SearchRegions.RightPanel,  // 6x faster - farm button in right menu
+                searchArea: SearchRegions.RightPanel,
                 threshold: 0.8);
 
-            if (!farmButtonLocation.HasValue)
+            if (!farmButtonCheck.HasValue)
             {
-                throw new Exception("Farm button not found");
+                // Menu is not open, need to open it
+                LogInfo("Right menu not open, attempting to open...", context);
+                
+                // Try to open menu using the menu button (similar to legacy moMenuPhai)
+                int menuOpenRetries = 0;
+                const int maxMenuOpenRetries = 5;
+                bool menuButtonClicked = false;
+
+                while (!menuButtonClicked && menuOpenRetries < maxMenuOpenRetries)
+                {
+                    // Look for menu open button
+                    var menuOpenLocation = await _imageRecognition.FindImageAsync(
+                        Constant.ImagePathGlobalFolder + "momenuphai.png",
+                        searchArea: SearchRegions.TopRight,
+                        threshold: 0.8);
+
+                    if (menuOpenLocation.HasValue)
+                    {
+                        await _inputSimulator.ClickAsync(menuOpenLocation.Value);
+                        await Task.Delay(Constant.TimeShort);
+                        menuButtonClicked = true;
+                        LogInfo("Menu open button clicked", context);
+                    }
+                    else
+                    {
+                        // Also try menu_phai.png (alternative button name)
+                        var menuPhaiLocation = await _imageRecognition.FindImageAsync(
+                            Constant.ImagePathGlobalFolder + "menu_phai.png",
+                            searchArea: SearchRegions.TopRight,
+                            threshold: 0.8);
+
+                        if (menuPhaiLocation.HasValue)
+                        {
+                            await _inputSimulator.ClickAsync(menuPhaiLocation.Value);
+                            await Task.Delay(Constant.TimeShort);
+                            menuButtonClicked = true;
+                            LogInfo("Menu button (menu_phai) clicked", context);
+                        }
+                    }
+
+                    if (!menuButtonClicked)
+                    {
+                        menuOpenRetries++;
+                        if (menuOpenRetries < maxMenuOpenRetries)
+                        {
+                            LogInfo($"Menu button not found, retrying ({menuOpenRetries}/{maxMenuOpenRetries})...", context);
+                            await Task.Delay(500);
+                        }
+                    }
+                }
+
+                // Wait for menu to fully open
+                if (menuButtonClicked)
+                {
+                    LogInfo("Waiting for right menu to open...", context);
+                    await Task.Delay(Constant.TimeShort);
+                }
+            }
+            else
+            {
+                LogInfo("Right menu is already open", context);
             }
 
-            await _inputSimulator.ClickAsync(farmButtonLocation.Value);
+            // Step 2: Click farm button with retry logic
+            LogInfo("Searching for farm button...", context);
+            bool farmButtonFound = false;
+            int buttonRetries = 0;
+            const int maxButtonRetries = 10;
+
+            while (!farmButtonFound && buttonRetries < maxButtonRetries)
+            {
+                var farmButtonLocation = await _imageRecognition.FindImageAsync(
+                    Constant.ImagePathTrangVienButton,
+                    searchArea: SearchRegions.RightPanel,  // 6x faster - farm button in right menu
+                    threshold: 0.8);
+
+                if (farmButtonLocation.HasValue)
+                {
+                    await _inputSimulator.ClickAsync(farmButtonLocation.Value);
+                    farmButtonFound = true;
+                    LogInfo("Farm button clicked successfully", context);
+                    break;
+                }
+
+                buttonRetries++;
+                if (buttonRetries < maxButtonRetries)
+                {
+                    LogInfo($"Farm button not found, retrying ({buttonRetries}/{maxButtonRetries})...", context);
+                    
+                    // If we've tried a few times and still no button, try reopening menu
+                    if (buttonRetries == 3 || buttonRetries == 6)
+                    {
+                        LogInfo("Attempting to reopen menu...", context);
+                        var reopenMenuLocation = await _imageRecognition.FindImageAsync(
+                            Constant.ImagePathGlobalFolder + "momenuphai.png",
+                            searchArea: SearchRegions.TopRight,
+                            threshold: 0.8);
+                        
+                        if (reopenMenuLocation.HasValue)
+                        {
+                            await _inputSimulator.ClickAsync(reopenMenuLocation.Value);
+                            await Task.Delay(Constant.TimeShort);
+                        }
+                    }
+                    
+                    await Task.Delay(500);
+                }
+            }
+
+            if (!farmButtonFound)
+            {
+                throw new Exception("Farm button not found after multiple attempts. Please ensure the right menu is open and the farm button is visible.");
+            }
 
             // Wait for flash to load farm information
             LogInfo("Waiting for farm interface to load...", context);

@@ -36,13 +36,31 @@ namespace AutoVPT.Services.Executors
 
                 // Step 2: Open Space-Time Carving panel
                 LogInfo("Opening Space-Time Carving panel...", context);
+                
+                // Ensure quick features list is accessible by closing any dialogs again
+                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
+                await Task.Delay(Constant.TimeShort);
+
                 bool panelOpened = await ExecutorHelpers.OpenFeatureFromQuickListAsync(
                     _imageRecognition, _inputSimulator, "khonggiandieukhac");
 
                 if (!panelOpened)
                 {
-                    LogWarning("Failed to open Space-Time Carving panel", context);
-                    return FeatureResult.Failed("Failed to open panel");
+                    // Verify panel is not already open
+                    var checkLocation = await _imageRecognition.FindImageAsync(
+                        Constant.ImagePathGlobalFolder + "khonggiandieukhac_check.png",
+                        threshold: 0.8);
+
+                    if (!checkLocation.HasValue)
+                    {
+                        LogWarning("Failed to open Space-Time Carving panel. The feature may not be available or the quick features list may not be accessible.", context);
+                        return FeatureResult.Failed("Failed to open Space-Time Carving panel. Please ensure the feature is available in the quick features list.");
+                    }
+                    else
+                    {
+                        LogInfo("Panel appears to be already open", context);
+                        panelOpened = true;
+                    }
                 }
 
                 await Task.Delay(2000); // Wait for panel to fully load
