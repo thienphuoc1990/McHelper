@@ -22,74 +22,27 @@ namespace AutoVPT.Services.Executors
     {
         /// <summary>
         /// Get the appropriate search region for an image group.
-        /// OPTIMIZATION 1: Smart regional search for 2-20x speedup.
+        /// OPTIMIZATION 1: DISABLED - Regional search causing false negatives.
+        /// Using full screen search for reliability (same as legacy code).
         /// </summary>
         private static Rectangle? GetSearchRegionForGroup(string group)
         {
-            switch (group)
-            {
-                case "global":
-                    return null; // Global elements can be anywhere, search full screen
-
-                case "nvhn":
-                case "quickFeatureList":
-                    return SearchRegions.RightPanel; // Quick features on right side (6x faster)
-
-                case "mat_bao":
-                case "tri_an":
-                case "phu_ban":
-                case "tru_ma":
-                case "stmt":
-                    return SearchRegions.DialogArea; // Feature dialogs in center (3x faster)
-
-                case "in_map":
-                case "maps":
-                    return SearchRegions.TopRight; // Minimap on top-right (16x faster)
-
-                case "bat_pet":
-                    return SearchRegions.BottomRight; // Pet panel on bottom-right (12x faster)
-
-                case "event":
-                    return SearchRegions.Center; // Event dialogs in center (4x faster)
-
-                default:
-                    return null; // Unknown group, search full screen
-            }
+            // DISABLED: Regional search optimization causing too many false negatives
+            // Search regions too small for many UI elements
+            // Revert to full screen search like legacy code
+            return null;
         }
 
         /// <summary>
         /// Get search region for common UI elements by name pattern.
+        /// DISABLED - Regional search causing false negatives.
         /// </summary>
         private static Rectangle? GetSearchRegionForImageName(string imageName)
         {
-            string lower = imageName?.ToLower() ?? "";
-
-            // Menu and system buttons (top-right)
-            if (lower.Contains("menu") || lower.Contains("vip") || lower.Contains("setting"))
-                return SearchRegions.TopRight; // 16x faster
-
-            // Dialog buttons (center)
-            if (lower.Contains("confirm") || lower.Contains("cancel") || lower.Contains("close") ||
-                lower.Contains("xong") || lower.Contains("huy") || lower.Contains("dong"))
-                return SearchRegions.DialogArea; // 3x faster
-
-            // Quick feature list (right panel)
-            if (lower.Contains("quickfeature") || lower.Contains("arrow"))
-                return SearchRegions.RightPanel; // 6x faster
-
-            // Character/quest indicators (top-left)
-            if (lower.Contains("quest") || lower.Contains("nhiemvu") || lower.Contains("portrait"))
-                return SearchRegions.TopLeft; // 16x faster
-
-            // Skills and inventory (bottom)
-            if (lower.Contains("skill") || lower.Contains("inventory") || lower.Contains("bag"))
-                return SearchRegions.BottomBar; // 12x faster
-
-            // Minimap (top-right)
-            if (lower.Contains("map") || lower.Contains("minimap"))
-                return SearchRegions.TopRight; // 16x faster
-
-            return null; // Unknown, search full screen
+            // DISABLED: Regional search optimization causing too many false negatives
+            // Example: nhiemvuhangngay_check.png (195x28) doesn't fit in TopLeft (200x150)
+            // Revert to full screen search like legacy code
+            return null;
         }
 
         /// <summary>

@@ -155,7 +155,13 @@ namespace AutoVPT.DependencyInjection
 
             if (type == typeof(IImageRecognition))
             {
-                instance = new EmguCvImageRecognition(_windowHandle);
+                // Determine resource path based on character's IsChinese flag
+                string resourcePath = (_character.IsChinese == 1)
+                    ? Libs.Constant.ChineseResourcePath
+                    : Libs.Constant.ResourcePath;
+
+                // Disable compression - it may affect image matching accuracy
+                instance = new EmguCvImageRecognition(_windowHandle, enableCompression: false, resourcePath: resourcePath);
             }
             else if (type == typeof(IInputSimulator))
             {

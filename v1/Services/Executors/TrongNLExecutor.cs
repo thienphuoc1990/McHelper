@@ -30,6 +30,10 @@ namespace AutoVPT.Services.Executors
             {
                 LogInfo("Starting TrongNL (Planting Materials) feature", context);
 
+                // Clear image cache to ensure fresh, uncompressed images
+                _imageRecognition.ClearCache();
+                LogInfo("Cleared image recognition cache", context);
+
                 // Get material type from configuration
                 string materialType = context.Config.GetParameter("Loai", Constant.NameNguyenLieuKimLoai);
                 LogInfo($"Material type: {materialType}", context);
@@ -103,12 +107,15 @@ namespace AutoVPT.Services.Executors
             LogInfo("Closing all dialogs...", context);
             await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
+            // Wait after closing dialogs for UI to settle
+            await Task.Delay(1000);
+
             // Step 1: Check if menu is already open by looking for farm button
             LogInfo("Checking if right menu is already open...", context);
             var farmButtonCheck = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTrangVienButton,
-                searchArea: SearchRegions.RightPanel,
-                threshold: 0.8);
+                searchArea: SearchRegions.FullScreen,  // Search full screen - menu position varies
+                threshold: 0.95);  // Use same threshold as legacy code
 
             if (!farmButtonCheck.HasValue)
             {
@@ -122,11 +129,11 @@ namespace AutoVPT.Services.Executors
 
                 while (!menuButtonClicked && menuOpenRetries < maxMenuOpenRetries)
                 {
-                    // Look for menu open button
+                    // Look for menu open button - search full screen like legacy code
                     var menuOpenLocation = await _imageRecognition.FindImageAsync(
                         Constant.ImagePathGlobalFolder + "momenuphai.png",
-                        searchArea: SearchRegions.TopRight,
-                        threshold: 0.8);
+                        searchArea: SearchRegions.FullScreen,  // Search full screen - button position varies
+                        threshold: 0.95);  // Use same threshold as legacy (0.95)
 
                     if (menuOpenLocation.HasValue)
                     {
@@ -140,8 +147,8 @@ namespace AutoVPT.Services.Executors
                         // Also try menu_phai.png (alternative button name)
                         var menuPhaiLocation = await _imageRecognition.FindImageAsync(
                             Constant.ImagePathGlobalFolder + "menu_phai.png",
-                            searchArea: SearchRegions.TopRight,
-                            threshold: 0.8);
+                            searchArea: SearchRegions.FullScreen,  // Search full screen
+                            threshold: 0.95);
 
                         if (menuPhaiLocation.HasValue)
                         {
@@ -167,7 +174,11 @@ namespace AutoVPT.Services.Executors
                 if (menuButtonClicked)
                 {
                     LogInfo("Waiting for right menu to open...", context);
-                    await Task.Delay(Constant.TimeShort);
+                    await Task.Delay(Constant.TimeMedium); // Use longer delay - menu needs time to animate
+                }
+                else
+                {
+                    LogWarning("Failed to find and click menu button", context);
                 }
             }
             else
@@ -176,7 +187,7 @@ namespace AutoVPT.Services.Executors
             }
 
             // Step 2: Click farm button with retry logic
-            LogInfo("Searching for farm button...", context);
+            LogInfo($"Searching for farm button: {Constant.ImagePathTrangVienButton}", context);
             bool farmButtonFound = false;
             int buttonRetries = 0;
             const int maxButtonRetries = 10;
@@ -185,8 +196,8 @@ namespace AutoVPT.Services.Executors
             {
                 var farmButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathTrangVienButton,
-                    searchArea: SearchRegions.RightPanel,  // 6x faster - farm button in right menu
-                    threshold: 0.8);
+                    searchArea: SearchRegions.FullScreen,  // Search full screen - menu position varies
+                    threshold: 0.95);  // Use same threshold as legacy code
 
                 if (farmButtonLocation.HasValue)
                 {
@@ -200,23 +211,38 @@ namespace AutoVPT.Services.Executors
                 if (buttonRetries < maxButtonRetries)
                 {
                     LogInfo($"Farm button not found, retrying ({buttonRetries}/{maxButtonRetries})...", context);
-                    
-                    // If we've tried a few times and still no button, try reopening menu
+
+                    // If we've tried a few times and still no button, try closing and reopening menu
                     if (buttonRetries == 3 || buttonRetries == 6)
                     {
-                        LogInfo("Attempting to reopen menu...", context);
+                        LogInfo("Attempting to close and reopen menu...", context);
+
+                        // Close all dialogs first (in case menu is already open)
+                        await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
+                        await Task.Delay(500);
+
+                        // Try to reopen menu
                         var reopenMenuLocation = await _imageRecognition.FindImageAsync(
                             Constant.ImagePathGlobalFolder + "momenuphai.png",
-                            searchArea: SearchRegions.TopRight,
-                            threshold: 0.8);
-                        
+                            searchArea: SearchRegions.FullScreen,  // Search full screen - button position varies
+                            threshold: 0.95);  // Use same threshold as legacy
+
+                        if (!reopenMenuLocation.HasValue)
+                        {
+                            // Try alternative button name
+                            reopenMenuLocation = await _imageRecognition.FindImageAsync(
+                                Constant.ImagePathGlobalFolder + "menu_phai.png",
+                                searchArea: SearchRegions.FullScreen,
+                                threshold: 0.95);
+                        }
+
                         if (reopenMenuLocation.HasValue)
                         {
                             await _inputSimulator.ClickAsync(reopenMenuLocation.Value);
                             await Task.Delay(Constant.TimeShort);
                         }
                     }
-                    
+
                     await Task.Delay(500);
                 }
             }
@@ -238,8 +264,8 @@ namespace AutoVPT.Services.Executors
         {
             var farmButtonLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTrangVienButton,
-                searchArea: SearchRegions.RightPanel,  // 6x faster - farm button in right menu
-                threshold: 0.8);
+                searchArea: SearchRegions.FullScreen,  // Search full screen - menu position varies
+                threshold: 0.95);  // Use same threshold as legacy code
 
             if (farmButtonLocation.HasValue)
             {

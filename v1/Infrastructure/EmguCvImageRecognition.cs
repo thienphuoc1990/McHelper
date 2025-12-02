@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AutoVPT.Infrastructure
 {
@@ -28,35 +29,37 @@ namespace AutoVPT.Infrastructure
         private readonly LruCache<string, Bitmap> _imageCache;
         private readonly bool _enableCompression;
         private readonly int _compressionQuality;
+        private readonly string _resourcePath;
         private bool _disposed = false;
 
         // Configuration constants
         private const int DEFAULT_CACHE_SIZE = 100; // LRU cache capacity
         private const int DEFAULT_COMPRESSION_QUALITY = 85; // JPEG quality (0-100)
 
-        public EmguCvImageRecognition(IntPtr windowHandle, bool enableCompression = true, int cacheSize = DEFAULT_CACHE_SIZE)
+        public EmguCvImageRecognition(IntPtr windowHandle, bool enableCompression = true, int cacheSize = DEFAULT_CACHE_SIZE, string resourcePath = null)
         {
             _windowHandle = windowHandle;
             _imageCache = new LruCache<string, Bitmap>(cacheSize);
             _enableCompression = enableCompression;
             _compressionQuality = DEFAULT_COMPRESSION_QUALITY;
+            _resourcePath = resourcePath ?? Libs.Constant.ResourcePath; // Default to "resources"
         }
 
         public async Task<Point?> FindImageAsync(string imagePath, Rectangle? searchArea = null, double threshold = 0.8)
         {
             return await Task.Run(() =>
             {
-                if (!File.Exists(imagePath))
-                {
-                    return null;
-                }
+                // Add resource path prefix if path is relative (starts with /)
+                string fullPath = GetFullImagePath(imagePath);
+
+                // Skip File.Exists check - let ImageScanOpenCV.GetImage handle it (like legacy code)
 
                 using (var screen = CaptureScreen(searchArea))
                 {
                     if (screen == null)
                         return null;
 
-                    var template = GetCachedImage(imagePath);
+                    var template = GetCachedImage(fullPath);
                     if (template == null)
                         return null;
 
@@ -70,17 +73,17 @@ namespace AutoVPT.Infrastructure
         {
             return await Task.Run(() =>
             {
-                if (!File.Exists(imagePath))
-                {
-                    return new List<Point>();
-                }
+                // Add resource path prefix if path is relative (starts with /)
+                string fullPath = GetFullImagePath(imagePath);
+
+                // Skip File.Exists check - let ImageScanOpenCV.GetImage handle it (like legacy code)
 
                 using (var screen = CaptureScreen(searchArea))
                 {
                     if (screen == null)
                         return new List<Point>();
 
-                    var template = GetCachedImage(imagePath);
+                    var template = GetCachedImage(fullPath);
                     if (template == null)
                         return new List<Point>();
 
@@ -140,6 +143,21 @@ namespace AutoVPT.Infrastructure
         public void ClearCache()
         {
             _imageCache.Clear();
+        }
+
+        /// <summary>
+        /// Convert relative image path to full path by adding resource folder prefix
+        /// </summary>
+        private string GetFullImagePath(string imagePath)
+        {
+            // If path starts with /, it's a relative path that needs the resource prefix
+            if (imagePath.StartsWith("/"))
+            {
+                // Simply concatenate like legacy code does (ImageScanOpenCV expects forward slashes)
+                return _resourcePath + imagePath;
+            }
+            // Otherwise, assume it's already a full path
+            return imagePath;
         }
 
         /// <summary>
@@ -220,6 +238,7 @@ namespace AutoVPT.Infrastructure
             // Load from disk
             try
             {
+                // Let ImageScanOpenCV.GetImage handle the file loading (like legacy code)
                 var image = ImageScanOpenCV.GetImage(imagePath);
                 if (image == null)
                     return null;

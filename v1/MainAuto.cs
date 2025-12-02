@@ -379,160 +379,180 @@ namespace AutoVPT.Libs
                 startGameIfNotExists(true);
 
                 while (mCharacter.Running == 1)
-            {
-                var i = 0;
-
-                // "Nhận thưởng hành lang" - Using new executor pattern
-                if (mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
                 {
-                    i++;
-                    ExecuteFeature<NhanThuongHLVTExecutor>(FeatureType.NhanThuongHLVT);
-                    mCharacter.StatusNhanThuongHLVT = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
+                    var i = 0;
 
-                // Check to run "Nhận và Auto Phụ Bản" - Using new executor pattern
-                if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
-                {
-                    i++;
-                    ExecuteFeature<AutoPhuBanExecutor>(FeatureType.AutoPhuBan);
-                    mCharacter.StatusAutoPhuBan = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
+                    // "Nhận thưởng hành lang" - Using new executor pattern
+                    if (mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
+                    {
+                        i++;
+                        ExecuteFeature<NhanThuongHLVTExecutor>(FeatureType.NhanThuongHLVT);
+                        mCharacter.StatusNhanThuongHLVT = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
 
-                // Check to run "Tu Hành" - Using new executor pattern
-                if (mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
-                {
-                    i++;
-                    ExecuteFeature<TuHanhExecutor>(FeatureType.TuHanh);
-                    mCharacter.StatusTuHanh = 1;
-                    Helper.saveSettingsToXML(mCharacter);
+                    // Check to run "Nhận và Auto Phụ Bản" - Using new executor pattern
+                    if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
+                    {
+                        i++;
+                        ExecuteFeature<AutoPhuBanExecutor>(FeatureType.AutoPhuBan);
+                        mCharacter.StatusAutoPhuBan = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
 
-                    //if (mCharacter.RunToLast == 1)
+                    // Check to run "Tu Hành" - Using new executor pattern
+                    if (mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
+                    {
+                        i++;
+                        ExecuteFeature<TuHanhExecutor>(FeatureType.TuHanh);
+                        mCharacter.StatusTuHanh = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+
+                        //if (mCharacter.RunToLast == 1)
+                        //{
+                        //    // Ngủ 30p sau khi auto tu hành
+                        //    Thread.Sleep(60 * 30 * 1000);
+
+                        //    startGameIfNotExists();
+
+                        //    mGeneralFunctions.prepareScreen();
+                        //}
+                        //else
+                        //{
+                        //    Thread.CurrentThread.Abort();
+                        //}
+                    }
+
+                    // Trồng nguyên liệu - Using legacy implementation (works reliably)
+                    if (mCharacter.TrongNL == 1)
+                    {
+                        i++;
+                        mGeneralFunctions.trongNL();
+                        // Note: TrongNL doesn't update status, it can run multiple times per day
+                    }
+
+                    // "Nhận VIP" - Using new executor pattern
+                    if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
+                    {
+                        i++;
+                        ExecuteFeature<VipPromotionExecutor>(FeatureType.VipPromotion);
+                        mCharacter.StatusVipPromotion = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
+
+                    // "Rút bộ" - Using new executor pattern
+                    if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
+                    {
+                        i++;
+                        ExecuteFeature<RutBoExecutor>(FeatureType.RutBo);
+                        mCharacter.StatusRutBo = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
+
+                    // "Đổi thưởng Không Gian Điêu Khắc" - Using new executor pattern
+                    if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
+                    {
+                        i++;
+                        ExecuteFeature<DoiKGDKExecutor>(FeatureType.DoiKGDK);
+                        mCharacter.StatusDoiKGDK = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
+
+                    // "Nhận hồi phục" - Using new executor pattern
+                    if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
+                    {
+                        i++;
+                        ExecuteFeature<NhanHoiPhucExecutor>(FeatureType.NhanHoiPhuc);
+                        mCharacter.StatusNhanHoiPhuc = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
+
+                    // Check to run "Rung cây"
+                    //if (mCharacter.UocNguyen == 1 && mCharacter.StatusUocNguyen == 0)
                     //{
-                    //    // Ngủ 30p sau khi auto tu hành
-                    //    Thread.Sleep(60 * 30 * 1000);
-
-                    //    startGameIfNotExists();
-
-                    //    mGeneralFunctions.prepareScreen();
+                    //    i++;
+                    //    mGeneralFunctions.rungCay();
+                    //    mCharacter.StatusUocNguyen = 1;
+                    //    Helper.saveSettingsToXML(mCharacter);
                     //}
-                    //else
-                    //{
-                    //    Thread.CurrentThread.Abort();
-                    //}
+
+                    // Check to run "Chế mật bảo" - Using new executor pattern
+                    if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
+                    {
+                        i++;
+                        ExecuteFeature<CheMatBaoExecutor>(FeatureType.CheMatBao);
+                        mCharacter.StatusCheMatBao = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
+
+                    // Check to run "Auto Thần tu" - Using new executor pattern
+                    if (mCharacter.AutoThanTu == 1 && mCharacter.StatusAutoThanTu == 0)
+                    {
+                        i++;
+                        ExecuteFeature<AutoThanTuExecutor>(FeatureType.AutoThanTu);
+                        mCharacter.StatusAutoThanTu = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+
+                        //if (mCharacter.RunToLast == 1)
+                        //{
+                        //    // Ngủ 30p sau khi auto tu hành
+                        //    Thread.Sleep(60 * 15 * 1000);
+
+                        //    startGameIfNotExists();
+
+                        //    mGeneralFunctions.prepareScreen();
+                        //}
+                        //else
+                        //{
+                        //    Thread.CurrentThread.Abort();
+                        //}
+                    }
+
+                    // Check to run "Chạy Trị An" - Using new executor pattern
+                    if (mCharacter.TriAn == 1 && mCharacter.StatusTriAn == 0)
+                    {
+                        i++;
+                        ExecuteFeature<TriAnExecutor>(FeatureType.TriAn);
+                        mCharacter.StatusTriAn = 1;
+                        Helper.saveSettingsToXML(mCharacter);
+                    }
+
+                    // Check to run "Đổi năng nổ" - Using new executor pattern
+                    if (mCharacter.DoiNangNo == 1 && mCharacter.RunToLast == 1)
+                    {
+                        mGeneralFunctions.nhanThuongAutoPhuBan();
+                        ExecuteFeature<DoiNangNoExecutor>(FeatureType.DoiNangNo);
+                    }
+
+                    if (i == 0 || mCharacter.RunToLast != 1)
+                    {
+                        mCharacter.Running = 0;
+                        Helper.saveSettingsToXML(mCharacter);
+                        Thread.CurrentThread.Abort();
+                        break;
+                    }
+
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 30 phút cho thần tu hoặc tu hành");
+                    try
+                    {
+                        Thread.Sleep(60 * 31 * 1000);
+                    }
+                    catch (ThreadInterruptedException)
+                    {
+                        // Thread was interrupted by Stop All - exit gracefully
+                        Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã dừng automation");
+                        mCharacter.Running = 0;
+                        Helper.saveSettingsToXML(mCharacter);
+                        return;
+                    }
                 }
-
-                // Trồng nguyên liệu - Using new executor pattern
-                if (mCharacter.TrongNL == 1)
-                {
-                    ExecuteFeature<TrongNLExecutor>(FeatureType.TrongNL);
-                }
-
-                // "Nhận VIP" - Using new executor pattern
-                if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
-                {
-                    i++;
-                    ExecuteFeature<VipPromotionExecutor>(FeatureType.VipPromotion);
-                    mCharacter.StatusVipPromotion = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // "Rút bộ" - Using new executor pattern
-                if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
-                {
-                    i++;
-                    ExecuteFeature<RutBoExecutor>(FeatureType.RutBo);
-                    mCharacter.StatusRutBo = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // "Đổi thưởng Không Gian Điêu Khắc" - Using new executor pattern
-                if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
-                {
-                    i++;
-                    ExecuteFeature<DoiKGDKExecutor>(FeatureType.DoiKGDK);
-                    mCharacter.StatusDoiKGDK = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // "Nhận hồi phục" - Using new executor pattern
-                if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
-                {
-                    i++;
-                    ExecuteFeature<NhanHoiPhucExecutor>(FeatureType.NhanHoiPhuc);
-                    mCharacter.StatusNhanHoiPhuc = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // Check to run "Rung cây"
-                //if (mCharacter.UocNguyen == 1 && mCharacter.StatusUocNguyen == 0)
-                //{
-                //    i++;
-                //    mGeneralFunctions.rungCay();
-                //    mCharacter.StatusUocNguyen = 1;
-                //    Helper.saveSettingsToXML(mCharacter);
-                //}
-
-                // Check to run "Chế mật bảo" - Using new executor pattern
-                if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
-                {
-                    i++;
-                    ExecuteFeature<CheMatBaoExecutor>(FeatureType.CheMatBao);
-                    mCharacter.StatusCheMatBao = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // Check to run "Auto Thần tu" - Using new executor pattern
-                if (mCharacter.AutoThanTu == 1 && mCharacter.StatusAutoThanTu == 0)
-                {
-                    i++;
-                    ExecuteFeature<AutoThanTuExecutor>(FeatureType.AutoThanTu);
-                    mCharacter.StatusAutoThanTu = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-
-                    //if (mCharacter.RunToLast == 1)
-                    //{
-                    //    // Ngủ 30p sau khi auto tu hành
-                    //    Thread.Sleep(60 * 15 * 1000);
-
-                    //    startGameIfNotExists();
-
-                    //    mGeneralFunctions.prepareScreen();
-                    //}
-                    //else
-                    //{
-                    //    Thread.CurrentThread.Abort();
-                    //}
-                }
-
-                // Check to run "Chạy Trị An" - Using new executor pattern
-                if (mCharacter.TriAn == 1 && mCharacter.StatusTriAn == 0)
-                {
-                    i++;
-                    ExecuteFeature<TriAnExecutor>(FeatureType.TriAn);
-                    mCharacter.StatusTriAn = 1;
-                    Helper.saveSettingsToXML(mCharacter);
-                }
-
-                // Check to run "Đổi năng nổ" - Using new executor pattern
-                if (mCharacter.DoiNangNo == 1 && mCharacter.RunToLast == 1)
-                {
-                    mGeneralFunctions.nhanThuongAutoPhuBan();
-                    ExecuteFeature<DoiNangNoExecutor>(FeatureType.DoiNangNo);
-                }
-
-                if (i == 0 || mCharacter.RunToLast != 1)
-                {
-                    mCharacter.Running = 0;
-                    Helper.saveSettingsToXML(mCharacter);
-                    Thread.CurrentThread.Abort();
-                    break;
-                }
-
-                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 30 phút cho thần tu hoặc tu hành");
-                Thread.Sleep(60 * 31 * 1000);
             }
+            catch (ThreadInterruptedException)
+            {
+                // Thread was interrupted during automation - this is expected when Stop All is pressed
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã dừng automation (interrupted)");
+                mCharacter.Running = 0;
+                Helper.saveSettingsToXML(mCharacter);
             }
             finally
             {
@@ -544,25 +564,36 @@ namespace AutoVPT.Libs
         private void startGameIfNotExists(bool isForcePrepareScreen = false)
         {
             bool isStarting = false;
-            // Lập lại việc check và mở windows
-            while (!mGeneralFunctions.checkWindowOpen())
+            try
             {
-                isStarting = true;
-                mGeneralFunctions.openWindow();
-                Thread.Sleep(5000);
-            }
+                // Lập lại việc check và mở windows
+                while (!mGeneralFunctions.checkWindowOpen())
+                {
+                    isStarting = true;
+                    mGeneralFunctions.openWindow();
+                    Thread.Sleep(5000);
+                }
 
-            // Login vào game
-            while (!mGeneralFunctions.isInGame())
-            {
-                mGeneralFunctions.login();
-                Thread.Sleep(5000);
-            }
+                // Login vào game
+                while (!mGeneralFunctions.isInGame())
+                {
+                    mGeneralFunctions.login();
+                    Thread.Sleep(5000);
+                }
 
-            Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã vào game");
-            if (isStarting || isForcePrepareScreen)
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã vào game");
+                if (isStarting || isForcePrepareScreen)
+                {
+                    mGeneralFunctions.prepareScreen();
+                }
+            }
+            catch (ThreadInterruptedException)
             {
-                mGeneralFunctions.prepareScreen();
+                // Thread was interrupted during game startup - exit gracefully
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã dừng (interrupted during startup)");
+                mCharacter.Running = 0;
+                Helper.saveSettingsToXML(mCharacter);
+                throw; // Re-throw to propagate to caller
             }
         }
 
@@ -679,6 +710,7 @@ namespace AutoVPT.Libs
 
         public void trongNL()
         {
+            // Using legacy implementation until new executor is fixed
             runAction("trongNL", () => mGeneralFunctions.trongNL());
         }
 
@@ -710,6 +742,11 @@ namespace AutoVPT.Libs
                 startGameIfNotExists();
                 action();
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Hoàn thành {actionName}");
+            }
+            catch (ThreadInterruptedException)
+            {
+                // Thread was interrupted - expected when Stop All is pressed
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã dừng {actionName} (interrupted)");
             }
             catch (OperationCanceledException)
             {
