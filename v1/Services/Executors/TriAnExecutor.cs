@@ -123,9 +123,10 @@ namespace AutoVPT.Services.Executors
                 await TalkToNPCAsync(context, "truongcanvedonghuyenthanh");
             }
 
-            // Click on quest
+            // Click on quest (in dialog area - 3x faster)
             var questLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTriAnNDPT,
+                searchArea: SearchRegions.DialogArea,
                 threshold: 0.8);
 
             if (questLocation.HasValue)
@@ -228,9 +229,10 @@ namespace AutoVPT.Services.Executors
                 await TalkToNPCAsync(context, "truongcanvedonghuyenthanh");
             }
 
-            // Click on quest
+            // Click on quest (in dialog area - 3x faster)
             var questLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTriAnNDPT,
+                searchArea: SearchRegions.DialogArea,
                 threshold: 0.8);
 
             if (questLocation.HasValue)
@@ -271,9 +273,10 @@ namespace AutoVPT.Services.Executors
                 await LandAsync(context);
             }
 
-            // Open guide
+            // Open guide (quest indicator in top-left - 8x faster)
             var guideLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalCachChoi,
+                searchArea: SearchRegions.TopLeft,
                 threshold: 0.8);
 
             if (guideLocation.HasValue)
@@ -303,6 +306,7 @@ namespace AutoVPT.Services.Executors
 
             var questBagLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalTui,
+                searchArea: SearchRegions.TopLeft,  // Bag icon in top-left UI (8x faster)
                 threshold: 0.8);
 
             if (questBagLocation.HasValue)
@@ -314,9 +318,10 @@ namespace AutoVPT.Services.Executors
             // Click quest tab
             await ClickImageByGroupAsync(context, "global", "tui_tab_nhiemvu");
 
-            // Double-click quest map
+            // Double-click quest map (in inventory/dialog - 3x faster)
             var questMapLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTriAnBanDoNhiemVu,
+                searchArea: SearchRegions.DialogArea,
                 threshold: 0.8);
 
             if (questMapLocation.HasValue)
@@ -343,9 +348,10 @@ namespace AutoVPT.Services.Executors
         /// </summary>
         private async Task FindAndAttackMonsterAsync(ExecutionContext context)
         {
-            // Look for attack dialog first
+            // Look for attack dialog first (in dialog area - 3x faster)
             var attackDialogLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathDoiThoai + "trian.png",
+                searchArea: SearchRegions.DialogArea,
                 threshold: 0.8);
 
             if (attackDialogLocation.HasValue)
@@ -359,6 +365,7 @@ namespace AutoVPT.Services.Executors
             {
                 var monsterLocation = await _imageRecognition.FindImageAsync(
                     monster.ImagePath,
+                    searchArea: SearchRegions.GameplayArea,  // Monsters in gameplay area (2x faster)
                     threshold: 0.8);
 
                 if (monsterLocation.HasValue)
@@ -495,6 +502,7 @@ namespace AutoVPT.Services.Executors
         {
             var menuLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalFolder + "menu_phai.png",
+                searchArea: SearchRegions.RightPanel,  // Menu button on right (6x faster)
                 threshold: 0.8);
 
             if (menuLocation.HasValue)
@@ -508,6 +516,7 @@ namespace AutoVPT.Services.Executors
         {
             var flightLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalBay,
+                searchArea: SearchRegions.BottomBar,  // Flight button in bottom bar (6x faster)
                 threshold: 0.8);
 
             if (flightLocation.HasValue)
@@ -521,6 +530,7 @@ namespace AutoVPT.Services.Executors
         {
             var landLocation = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathGlobalXuong,
+                searchArea: SearchRegions.BottomBar,  // Land button in bottom bar (6x faster)
                 threshold: 0.8);
 
             if (landLocation.HasValue)
@@ -541,6 +551,7 @@ namespace AutoVPT.Services.Executors
         {
             var coord1Location = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTriAnToaDo,
+                searchArea: SearchRegions.DialogArea,  // Coordinates in dialog/map (3x faster)
                 threshold: 0.8);
 
             if (coord1Location.HasValue)
@@ -552,6 +563,7 @@ namespace AutoVPT.Services.Executors
 
             var coord2Location = await _imageRecognition.FindImageAsync(
                 Constant.ImagePathTriAnToaDo2,
+                searchArea: SearchRegions.DialogArea,  // Coordinates in dialog/map (3x faster)
                 threshold: 0.8);
 
             if (coord2Location.HasValue)

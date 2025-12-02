@@ -38,6 +38,7 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Opening quick features list...", context);
                 var quickFeatureButton = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "quickFeatureButton.png",
+                    searchArea: SearchRegions.RightPanel,  // Quick features button on right (6x faster)
                     threshold: 0.8);
 
                 if (quickFeatureButton.HasValue)
@@ -61,6 +62,7 @@ namespace AutoVPT.Services.Executors
                     // Verify panel is not already open
                     var checkLocation = await _imageRecognition.FindImageAsync(
                         Constant.ImagePathGlobalFolder + "khonggiandieukhac_check.png",
+                        searchArea: SearchRegions.DialogArea,  // Panel check in dialog area (3x faster)
                         threshold: 0.8);
 
                     if (!checkLocation.HasValue)
