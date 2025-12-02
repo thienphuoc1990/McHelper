@@ -47,6 +47,14 @@ namespace AutoVPT.Libs
         {
             try
             {
+                // Check GLOBAL stop flag first (takes precedence over individual character state)
+                // This prevents any features from starting after Stop All is pressed
+                if (Helper.IsStoppingAll())
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã dừng tất cả - bỏ qua {featureType}");
+                    return false;
+                }
+
                 // Check if we should stop before executing
                 if (mCharacter.Running != 1)
                 {
@@ -429,6 +437,14 @@ namespace AutoVPT.Libs
 
                 while (mCharacter.Running == 1)
                 {
+                    // Check GLOBAL stop flag first (takes priority over individual character state)
+                    // This ensures ALL characters stop immediately when Stop All is pressed
+                    if (Helper.IsStoppingAll())
+                    {
+                        Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã dừng tất cả automation");
+                        break;
+                    }
+
                     // Check if we should stop before each iteration
                     // The Running flag is checked here and before each feature execution
                     // to ensure we stop immediately when StopAllRunningCharacters is called
@@ -448,8 +464,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -463,8 +479,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -492,8 +508,8 @@ namespace AutoVPT.Libs
                         //}
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -506,8 +522,8 @@ namespace AutoVPT.Libs
                         // Note: TrongNL doesn't update status, it can run multiple times per day
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -521,8 +537,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -536,8 +552,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -551,8 +567,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -575,8 +591,8 @@ namespace AutoVPT.Libs
                     //    Helper.saveSettingsToXML(mCharacter);
                     //}
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -590,8 +606,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -619,8 +635,8 @@ namespace AutoVPT.Libs
                         //}
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }
@@ -634,8 +650,8 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
-                    // Check if we should stop before next feature
-                    if (mCharacter.Running != 1)
+                    // Check if we should stop before next feature (check global flag first)
+                    if (Helper.IsStoppingAll() || mCharacter.Running != 1)
                     {
                         break;
                     }

@@ -119,6 +119,14 @@ namespace AutoVPT.Libs
             }
         }
 
+        public static bool IsStoppingAll()
+        {
+            lock (_stopLock)
+            {
+                return _isStoppingAll;
+            }
+        }
+
         public static void AbortAllThreads()
         {
             // Make a copy of the thread list to avoid modification during iteration
