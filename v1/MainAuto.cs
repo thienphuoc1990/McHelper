@@ -47,6 +47,13 @@ namespace AutoVPT.Libs
         {
             try
             {
+                // Check if we should stop before executing
+                if (mCharacter.Running != 1)
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã dừng trước khi thực hiện {featureType}");
+                    return false;
+                }
+
                 // Ensure ServiceContainer is initialized (idempotent operation)
                 ServiceContainer.Initialize(mTextBoxStatus);
 
@@ -59,39 +66,81 @@ namespace AutoVPT.Libs
                 // Create the executor
                 var executor = windowServices.CreateExecutor<TExecutor>(mCharacter.VipLevel) as IFeatureExecutor;
 
+                // Get or create cancellation token for this feature
+                string tokenKey = mCharacter.ID + featureType.ToString();
+                var cancellationToken = Helper.GetCancellationToken(tokenKey);
+
+                // Check if cancellation was already requested
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã hủy {featureType} (cancellation requested)");
+                    Helper.RemoveToken(tokenKey);
+                    windowServices.Dispose();
+                    return false;
+                }
+
                 // Create execution context
                 var context = new Services.ExecutionContext
                 {
                     Character = characterAggregate,
                     WindowHandle = mHWnd,
                     Config = CreateFeatureConfig(featureType, parameters),
-                    CancellationToken = Helper.GetCancellationToken(mCharacter.ID + featureType.ToString()),
+                    CancellationToken = cancellationToken,
                     StatusTextBox = mTextBoxStatus
                 };
 
-                // Execute synchronously (blocking call from async)
-                var result = Task.Run(() => executor.ExecuteAsync(context)).GetAwaiter().GetResult();
-
-                // Log result
-                if (result.Success)
+                // Execute with cancellation support
+                // Execute the async method and wait for it synchronously
+                // The executor's ExecuteAsync method already handles cancellation properly
+                FeatureResult result;
+                try
                 {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"✓ {featureType}: {result.Message}");
-                }
-                else
-                {
-                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"✗ {featureType}: {result.Message}");
-                }
+                    result = executor.ExecuteAsync(context).GetAwaiter().GetResult();
 
-                // Clean up
+                    // Log result
+                    if (result.Success)
+                    {
+                        Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"✓ {featureType}: {result.Message}");
+                    }
+                    else
+                    {
+                        Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"✗ {featureType}: {result.Message}");
+                    }
+
+                    // Clean up
+                    Helper.RemoveToken(tokenKey);
+                    windowServices.Dispose();
+
+                    return result.Success;
+                }
+                catch (OperationCanceledException)
+                {
+                    // Task was cancelled
+                    Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã hủy {featureType} (task cancelled)");
+                    Helper.RemoveToken(tokenKey);
+                    windowServices.Dispose();
+                    return false;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Feature was cancelled - this is expected when Stop All is pressed
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã hủy {featureType}");
                 Helper.RemoveToken(mCharacter.ID + featureType.ToString());
-                windowServices.Dispose();
-
-                return result.Success;
+                return false;
+            }
+            catch (ThreadInterruptedException)
+            {
+                // Thread was interrupted - this is expected when Stop All is pressed
+                Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Đã dừng {featureType} (interrupted)");
+                Helper.RemoveToken(mCharacter.ID + featureType.ToString());
+                return false;
             }
             catch (Exception ex)
             {
                 Helper.writeStatus(mTextBoxStatus, mCharacter.ID, $"Error in {featureType}: {ex.Message}");
                 Logger.LogError(mCharacter.ID, $"ExecuteFeature<{typeof(TExecutor).Name}>", ex);
+                Helper.RemoveToken(mCharacter.ID + featureType.ToString());
                 return false;
             }
         }
@@ -380,10 +429,18 @@ namespace AutoVPT.Libs
 
                 while (mCharacter.Running == 1)
                 {
+                    // Check if we should stop before each iteration
+                    // The Running flag is checked here and before each feature execution
+                    // to ensure we stop immediately when StopAllRunningCharacters is called
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     var i = 0;
 
                     // "Nhận thưởng hành lang" - Using new executor pattern
-                    if (mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
+                    if (mCharacter.Running == 1 && mCharacter.NhanThuongHLVT == 1 && mCharacter.StatusNhanThuongHLVT == 0)
                     {
                         i++;
                         ExecuteFeature<NhanThuongHLVTExecutor>(FeatureType.NhanThuongHLVT);
@@ -391,8 +448,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Check to run "Nhận và Auto Phụ Bản" - Using new executor pattern
-                    if (mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
+                    if (mCharacter.Running == 1 && mCharacter.AutoPhuBan == 1 && mCharacter.StatusAutoPhuBan == 0)
                     {
                         i++;
                         ExecuteFeature<AutoPhuBanExecutor>(FeatureType.AutoPhuBan);
@@ -400,8 +463,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Check to run "Tu Hành" - Using new executor pattern
-                    if (mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
+                    if (mCharacter.Running == 1 && mCharacter.TuHanh == 1 && mCharacter.StatusTuHanh == 0)
                     {
                         i++;
                         ExecuteFeature<TuHanhExecutor>(FeatureType.TuHanh);
@@ -423,16 +492,28 @@ namespace AutoVPT.Libs
                         //}
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Trồng nguyên liệu - Using legacy implementation (works reliably)
-                    if (mCharacter.TrongNL == 1)
+                    if (mCharacter.Running == 1 && mCharacter.TrongNL == 1)
                     {
                         i++;
                         mGeneralFunctions.trongNL();
                         // Note: TrongNL doesn't update status, it can run multiple times per day
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // "Nhận VIP" - Using new executor pattern
-                    if (mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
+                    if (mCharacter.Running == 1 && mCharacter.VipPromotion == 1 && mCharacter.StatusVipPromotion == 0)
                     {
                         i++;
                         ExecuteFeature<VipPromotionExecutor>(FeatureType.VipPromotion);
@@ -440,8 +521,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // "Rút bộ" - Using new executor pattern
-                    if (mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
+                    if (mCharacter.Running == 1 && mCharacter.RutBo == 1 && mCharacter.StatusRutBo == 0)
                     {
                         i++;
                         ExecuteFeature<RutBoExecutor>(FeatureType.RutBo);
@@ -449,8 +536,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // "Đổi thưởng Không Gian Điêu Khắc" - Using new executor pattern
-                    if (mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
+                    if (mCharacter.Running == 1 && mCharacter.DoiKGDK == 1 && mCharacter.StatusDoiKGDK == 0)
                     {
                         i++;
                         ExecuteFeature<DoiKGDKExecutor>(FeatureType.DoiKGDK);
@@ -458,8 +551,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // "Nhận hồi phục" - Using new executor pattern
-                    if (mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
+                    if (mCharacter.Running == 1 && mCharacter.NhanHoiPhuc == 1 && mCharacter.StatusNhanHoiPhuc == 0)
                     {
                         i++;
                         ExecuteFeature<NhanHoiPhucExecutor>(FeatureType.NhanHoiPhuc);
@@ -476,8 +575,14 @@ namespace AutoVPT.Libs
                     //    Helper.saveSettingsToXML(mCharacter);
                     //}
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Check to run "Chế mật bảo" - Using new executor pattern
-                    if (mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
+                    if (mCharacter.Running == 1 && mCharacter.CheMatBao == 1 && mCharacter.StatusCheMatBao == 0)
                     {
                         i++;
                         ExecuteFeature<CheMatBaoExecutor>(FeatureType.CheMatBao);
@@ -485,8 +590,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Check to run "Auto Thần tu" - Using new executor pattern
-                    if (mCharacter.AutoThanTu == 1 && mCharacter.StatusAutoThanTu == 0)
+                    if (mCharacter.Running == 1 && mCharacter.AutoThanTu == 1 && mCharacter.StatusAutoThanTu == 0)
                     {
                         i++;
                         ExecuteFeature<AutoThanTuExecutor>(FeatureType.AutoThanTu);
@@ -508,8 +619,14 @@ namespace AutoVPT.Libs
                         //}
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Check to run "Chạy Trị An" - Using new executor pattern
-                    if (mCharacter.TriAn == 1 && mCharacter.StatusTriAn == 0)
+                    if (mCharacter.Running == 1 && mCharacter.TriAn == 1 && mCharacter.StatusTriAn == 0)
                     {
                         i++;
                         ExecuteFeature<TriAnExecutor>(FeatureType.TriAn);
@@ -517,8 +634,14 @@ namespace AutoVPT.Libs
                         Helper.saveSettingsToXML(mCharacter);
                     }
 
+                    // Check if we should stop before next feature
+                    if (mCharacter.Running != 1)
+                    {
+                        break;
+                    }
+
                     // Check to run "Đổi năng nổ" - Using new executor pattern
-                    if (mCharacter.DoiNangNo == 1 && mCharacter.RunToLast == 1)
+                    if (mCharacter.Running == 1 && mCharacter.DoiNangNo == 1 && mCharacter.RunToLast == 1)
                     {
                         mGeneralFunctions.nhanThuongAutoPhuBan();
                         ExecuteFeature<DoiNangNoExecutor>(FeatureType.DoiNangNo);

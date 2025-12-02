@@ -37,7 +37,8 @@ namespace AutoVPT.Services
         }
 
         /// <summary>
-        /// Log message with feature context
+        /// Log informational message (shown in UI if level >= Info)
+        /// Use for important status updates
         /// </summary>
         protected void LogInfo(string message, ExecutionContext context)
         {
@@ -45,7 +46,16 @@ namespace AutoVPT.Services
         }
 
         /// <summary>
-        /// Log error with feature context
+        /// Log debug message (only in log file, not in UI)
+        /// Use for verbose details like retry attempts, image searches, etc.
+        /// </summary>
+        protected void LogDebug(string message, ExecutionContext context)
+        {
+            _logger.LogDebug($"[{Type}] {message}", context.Character.Id);
+        }
+
+        /// <summary>
+        /// Log error with feature context (always shown in UI)
         /// </summary>
         protected void LogError(string message, Exception ex, ExecutionContext context)
         {
@@ -53,7 +63,7 @@ namespace AutoVPT.Services
         }
 
         /// <summary>
-        /// Log warning with feature context
+        /// Log warning with feature context (always shown in UI)
         /// </summary>
         protected void LogWarning(string message, ExecutionContext context)
         {

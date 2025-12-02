@@ -13,12 +13,37 @@ namespace AutoVPT.Infrastructure
         private readonly TextBox _textBox;
         private readonly LogLevel _minimumLevel;
         private readonly int _maxLines;
+        private string _filterCharacterId = null; // null = show all
 
         public UiLogger(TextBox textBox, LogLevel minimumLevel = LogLevel.Info, int maxLines = 1000)
         {
             _textBox = textBox ?? throw new ArgumentNullException(nameof(textBox));
             _minimumLevel = minimumLevel;
             _maxLines = maxLines;
+        }
+
+        /// <summary>
+        /// Set character ID filter. null = show all characters, otherwise only show logs for specified character.
+        /// </summary>
+        public void SetCharacterFilter(string characterId)
+        {
+            _filterCharacterId = characterId;
+        }
+
+        /// <summary>
+        /// Clear the character filter (show all characters)
+        /// </summary>
+        public void ClearCharacterFilter()
+        {
+            _filterCharacterId = null;
+        }
+
+        /// <summary>
+        /// Get current filter character ID
+        /// </summary>
+        public string GetCharacterFilter()
+        {
+            return _filterCharacterId;
         }
 
         public void LogInfo(string message, string context = null)
@@ -60,6 +85,16 @@ namespace AutoVPT.Infrastructure
         {
             if (_textBox.IsDisposed)
                 return;
+
+            // Apply character filter if set
+            if (_filterCharacterId != null && !string.IsNullOrEmpty(context))
+            {
+                if (!context.Equals(_filterCharacterId, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Filter out - this log is not for the selected character
+                    return;
+                }
+            }
 
             var timestamp = DateTime.Now.ToString("HH:mm:ss");
             var levelTag = GetLevelTag(level);

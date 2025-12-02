@@ -34,13 +34,25 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Closing all dialogs...", context);
                 await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 
-                // Step 2: Open Space-Time Carving panel
-                LogInfo("Opening Space-Time Carving panel...", context);
-                
-                // Ensure quick features list is accessible by closing any dialogs again
-                await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
-                await Task.Delay(Constant.TimeShort);
+                // Step 2: Open quick features list first
+                LogInfo("Opening quick features list...", context);
+                var quickFeatureButton = await _imageRecognition.FindImageAsync(
+                    Constant.ImagePathGlobalFolder + "quickFeatureButton.png",
+                    threshold: 0.8);
 
+                if (quickFeatureButton.HasValue)
+                {
+                    await _inputSimulator.ClickAsync(quickFeatureButton.Value);
+                    await Task.Delay(Constant.TimeShort);
+                }
+                else
+                {
+                    // Quick features list might already be open, continue
+                    LogInfo("Quick features button not found, assuming list is already open", context);
+                }
+
+                // Step 3: Open Space-Time Carving panel from quick features list
+                LogInfo("Opening Space-Time Carving panel...", context);
                 bool panelOpened = await ExecutorHelpers.OpenFeatureFromQuickListAsync(
                     _imageRecognition, _inputSimulator, "khonggiandieukhac");
 
@@ -65,7 +77,7 @@ namespace AutoVPT.Services.Executors
 
                 await Task.Delay(2000); // Wait for panel to fully load
 
-                // Step 3: Click exchange button
+                // Step 4: Click exchange button
                 LogInfo("Clicking exchange button...", context);
                 var exchangeButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "khonggiandieukhacdoi.png",
@@ -81,7 +93,7 @@ namespace AutoVPT.Services.Executors
                 await _inputSimulator.ClickAsync(exchangeButtonLocation.Value);
                 await Task.Delay(Constant.TimeShort);
 
-                // Step 4: Click confirm button
+                // Step 5: Click confirm button
                 LogInfo("Confirming exchange...", context);
                 var confirmButtonLocation = await _imageRecognition.FindImageAsync(
                     Constant.ImagePathGlobalFolder + "luachonco.png",
@@ -94,7 +106,7 @@ namespace AutoVPT.Services.Executors
                     await Task.Delay(Constant.TimeShort);
                 }
 
-                // Step 5: Close panel
+                // Step 6: Close panel
                 LogInfo("Closing panel...", context);
                 await ExecutorHelpers.CloseAllDialogsAsync(_inputSimulator);
 

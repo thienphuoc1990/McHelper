@@ -19,7 +19,9 @@
       "Bash(numfmt:*)",
       "Bash(find:*)",
       "Bash(identify:*)",
-      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" /mnt/c/Users/ADMIN/source/repos/McHelper/v1/AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)"
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" /mnt/c/Users/ADMIN/source/repos/McHelper/v1/AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" /version)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,5 +1,6 @@
 ﻿using AutoVPT.Libs;
 using AutoVPT.Objects;
+using AutoVPT.Interfaces;
 using KAutoHelper;
 using System;
 using System.Collections;
@@ -10,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Emgu.CV.Tracking;
@@ -538,6 +540,7 @@ namespace AutoVPT
         {
             // Step 1: Stop all running characters by setting their Running flag to 0
             // This updates the actual Character objects being used by the threads
+            // This also sets the _isStoppingAll flag to prevent new features from starting
             Helper.StopAllRunningCharacters();
 
             // Step 2: Cancel all cancellation tokens
@@ -553,7 +556,56 @@ namespace AutoVPT
             // Step 4: Clear any remaining registered characters
             Helper.runningCharacters.Clear();
 
+            // Step 5: Reset the stopping flag after a short delay to allow threads to stop
+            // This prevents new features from starting immediately after stop
+            Task.Run(async () =>
+            {
+                await Task.Delay(2000); // Wait 2 seconds for threads to stop
+                Helper.ResetStopAllFlag();
+            });
+
             Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng tất cả auto");
+        }
+
+        private void checkBoxFilterSelectedChar_CheckedChanged(object sender, EventArgs e)
+        {
+            var logger = DependencyInjection.ServiceContainer.GetService<ILogger>();
+            if (logger is Infrastructure.CompositeLogger compositeLogger)
+            {
+                // Find the UI logger
+                var uiLogger = compositeLogger.GetLoggers()
+                    .OfType<Infrastructure.UiLogger>()
+                    .FirstOrDefault();
+
+                if (uiLogger != null)
+                {
+                    if (checkBoxFilterSelectedChar.Checked)
+                    {
+                        // Filter by selected character
+                        if (character != null && !string.IsNullOrEmpty(character.ID))
+                        {
+                            uiLogger.SetCharacterFilter(character.ID);
+                            Helper.writeStatus(textBoxStatus, character.ID, $"Filtering logs for character: {character.ID}");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please select a character first.");
+                            checkBoxFilterSelectedChar.Checked = false;
+                        }
+                    }
+                    else
+                    {
+                        // Clear filter (show all)
+                        uiLogger.ClearCharacterFilter();
+                        Helper.writeStatus(textBoxStatus, "ALL", "Showing logs for all characters");
+                    }
+                }
+            }
+        }
+
+        private void buttonClearLog_Click(object sender, EventArgs e)
+        {
+            textBoxStatus.Clear();
         }
 
         private void dataGridViewCharacters_CellClick(object sender, DataGridViewCellEventArgs e)

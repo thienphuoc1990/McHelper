@@ -42,6 +42,8 @@
             this.buttonLoginToGame = new System.Windows.Forms.Button();
             this.buttonOpenTestForm = new System.Windows.Forms.Button();
             this.textBoxStatus = new System.Windows.Forms.TextBox();
+            this.checkBoxFilterSelectedChar = new System.Windows.Forms.CheckBox();
+            this.buttonClearLog = new System.Windows.Forms.Button();
             this.tabControlAuto = new System.Windows.Forms.TabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.checkBoxStatusNhanHoiPhuc = new System.Windows.Forms.CheckBox();
@@ -279,15 +281,36 @@
             this.buttonOpenTestForm.TabIndex = 15;
             this.buttonOpenTestForm.UseVisualStyleBackColor = true;
             this.buttonOpenTestForm.Click += new System.EventHandler(this.buttonOpenTestForm_Click);
-            // 
+            //
             // textBoxStatus
-            // 
-            this.textBoxStatus.Location = new System.Drawing.Point(306, 503);
+            //
+            this.textBoxStatus.Location = new System.Drawing.Point(306, 533);
             this.textBoxStatus.Multiline = true;
             this.textBoxStatus.Name = "textBoxStatus";
             this.textBoxStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxStatus.Size = new System.Drawing.Size(538, 110);
+            this.textBoxStatus.Size = new System.Drawing.Size(538, 80);
             this.textBoxStatus.TabIndex = 65;
+            //
+            // checkBoxFilterSelectedChar
+            //
+            this.checkBoxFilterSelectedChar.AutoSize = true;
+            this.checkBoxFilterSelectedChar.Location = new System.Drawing.Point(306, 507);
+            this.checkBoxFilterSelectedChar.Name = "checkBoxFilterSelectedChar";
+            this.checkBoxFilterSelectedChar.Size = new System.Drawing.Size(183, 17);
+            this.checkBoxFilterSelectedChar.TabIndex = 67;
+            this.checkBoxFilterSelectedChar.Text = "Show only selected character";
+            this.checkBoxFilterSelectedChar.UseVisualStyleBackColor = true;
+            this.checkBoxFilterSelectedChar.CheckedChanged += new System.EventHandler(this.checkBoxFilterSelectedChar_CheckedChanged);
+            //
+            // buttonClearLog
+            //
+            this.buttonClearLog.Location = new System.Drawing.Point(495, 503);
+            this.buttonClearLog.Name = "buttonClearLog";
+            this.buttonClearLog.Size = new System.Drawing.Size(75, 23);
+            this.buttonClearLog.TabIndex = 68;
+            this.buttonClearLog.Text = "Clear Log";
+            this.buttonClearLog.UseVisualStyleBackColor = true;
+            this.buttonClearLog.Click += new System.EventHandler(this.buttonClearLog_Click);
             // 
             // tabControlAuto
             // 
@@ -1507,6 +1530,8 @@
             this.Controls.Add(this.buttonChayXuQue);
             this.Controls.Add(this.buttonResetStatus);
             this.Controls.Add(this.tabControlAuto);
+            this.Controls.Add(this.buttonClearLog);
+            this.Controls.Add(this.checkBoxFilterSelectedChar);
             this.Controls.Add(this.textBoxStatus);
             this.Controls.Add(this.buttonStopAllAuto);
             this.Controls.Add(this.labelAuthorVersion);
@@ -1660,6 +1685,8 @@
         private System.Windows.Forms.Button buttonCheMbAll;
         private System.Windows.Forms.Button buttonTrongNLAll;
         private System.Windows.Forms.Button buttonTruMa;
+        private System.Windows.Forms.CheckBox checkBoxFilterSelectedChar;
+        private System.Windows.Forms.Button buttonClearLog;
     }
 }
 

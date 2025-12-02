@@ -1,4 +1,7 @@
 ﻿using AutoVPT.Objects;
+using AutoVPT.DependencyInjection;
+using AutoVPT.Interfaces;
+using AutoVPT.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,14 +20,24 @@ namespace AutoVPT.Libs
         public static List<Thread> threadList = new List<Thread>();
         public static Dictionary<string, CancellationTokenSource> cancellationTokens = new Dictionary<string, CancellationTokenSource>();
         public static Dictionary<string, Character> runningCharacters = new Dictionary<string, Character>();
+        private static bool _isStoppingAll = false;
         private static object _tokenLock = new object();
         private static object _charLock = new object();
         private static object _threadLock = new object();
+        private static object _stopLock = new object();
 
         public static CancellationToken GetCancellationToken(string key)
         {
             lock (_tokenLock)
             {
+                // If we're stopping all, create a cancelled token
+                if (_isStoppingAll)
+                {
+                    var cancelledSource = new CancellationTokenSource();
+                    cancelledSource.Cancel();
+                    return cancelledSource.Token;
+                }
+
                 if (!cancellationTokens.ContainsKey(key))
                 {
                     cancellationTokens[key] = new CancellationTokenSource();
@@ -82,6 +95,12 @@ namespace AutoVPT.Libs
 
         public static void StopAllRunningCharacters()
         {
+            // Set the stopping flag first to prevent new features from starting
+            lock (_stopLock)
+            {
+                _isStoppingAll = true;
+            }
+
             lock (_charLock)
             {
                 foreach (var character in runningCharacters.Values)
@@ -89,6 +108,14 @@ namespace AutoVPT.Libs
                     character.Running = 0;
                     saveSettingsToXML(character);
                 }
+            }
+        }
+
+        public static void ResetStopAllFlag()
+        {
+            lock (_stopLock)
+            {
+                _isStoppingAll = false;
             }
         }
 
@@ -132,7 +159,38 @@ namespace AutoVPT.Libs
         {
             try
             {
-                textBox.BeginInvoke(new Action(() => textBox.AppendText(id + ": " + statusText + Environment.NewLine)));
+                // Check if character filter is active
+                bool shouldDisplay = true;
+                try
+                {
+                    var logger = ServiceContainer.GetService<ILogger>();
+                    if (logger is CompositeLogger compositeLogger)
+                    {
+                        var uiLogger = compositeLogger.GetLoggers()
+                            .OfType<UiLogger>()
+                            .FirstOrDefault();
+
+                        if (uiLogger != null)
+                        {
+                            var filterCharacterId = uiLogger.GetCharacterFilter();
+                            if (filterCharacterId != null)
+                            {
+                                // Filter is active - only show if ID matches
+                                shouldDisplay = string.Equals(id, filterCharacterId, StringComparison.OrdinalIgnoreCase);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    // If we can't access the filter, default to showing the message
+                    shouldDisplay = true;
+                }
+
+                if (shouldDisplay)
+                {
+                    textBox.BeginInvoke(new Action(() => textBox.AppendText(id + ": " + statusText + Environment.NewLine)));
+                }
             }
             catch (Exception ex)
             {

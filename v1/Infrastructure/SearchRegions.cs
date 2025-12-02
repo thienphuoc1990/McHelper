@@ -21,10 +21,11 @@ namespace AutoVPT.Infrastructure
         public static Rectangle FullScreen => new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
         /// <summary>
-        /// Top-left corner (character portrait, buffs, quest indicators)
-        /// ~6% of screen area = 16x faster
+        /// Top-left area (character portrait, buffs, quest indicators)
+        /// Expanded to 300x200 to fit wide UI elements like nhiemvuhangngay_check.png (195x28)
+        /// ~12.5% of screen area = 8x faster
         /// </summary>
-        public static Rectangle TopLeft => new Rectangle(0, 0, 200, 150);
+        public static Rectangle TopLeft => new Rectangle(0, 0, 300, 200);
 
         /// <summary>
         /// Top-right corner (minimap, menu buttons, settings)
@@ -58,9 +59,10 @@ namespace AutoVPT.Infrastructure
 
         /// <summary>
         /// Bottom bar (action bar, skills)
-        /// ~8% of screen area = 12x faster
+        /// Expanded to 100px height for skill buttons
+        /// ~16% of screen area = 6x faster
         /// </summary>
-        public static Rectangle BottomBar => new Rectangle(0, 520, 800, 80);
+        public static Rectangle BottomBar => new Rectangle(0, 500, 800, 100);
 
         /// <summary>
         /// Left panel (character stats, quests)

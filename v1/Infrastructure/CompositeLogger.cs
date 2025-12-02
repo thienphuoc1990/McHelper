@@ -32,6 +32,17 @@ namespace AutoVPT.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Get all registered loggers (for accessing specific logger implementations)
+        /// </summary>
+        public IEnumerable<ILogger> GetLoggers()
+        {
+            lock (_lock)
+            {
+                return new List<ILogger>(_loggers);
+            }
+        }
+
         public void LogInfo(string message, string context = null)
         {
             lock (_lock)

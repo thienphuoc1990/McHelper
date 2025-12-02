@@ -29,12 +29,20 @@ namespace AutoVPT.Services.Executors
         {
             try
             {
+                // Check cancellation before starting
+                context.CancellationToken.ThrowIfCancellationRequested();
+
                 LogInfo("Starting NhanThuongHLVT (Corridor Rewards) feature", context);
 
                 // For complex navigation features, we still need legacy AutoFeatures
                 // This is a hybrid approach until navigation is fully refactored
+                // Note: We don't pass cancellation token to Task.Run because we check it manually
+                // This allows the exception to be properly caught by the outer try-catch
                 await Task.Run(() =>
                 {
+                    // Check cancellation before starting
+                    context.CancellationToken.ThrowIfCancellationRequested();
+
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
                     var autoFeatures = new AutoFeatures(
                         context.WindowHandle,
@@ -45,10 +53,12 @@ namespace AutoVPT.Services.Executors
 
                     // Step 1: Close all dialogs
                     LogInfo("Closing all dialogs...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     autoFeatures.closeAllDialog();
 
                     // Step 2: Navigate to Quyền Cô Thành
                     LogInfo("Navigating to Quyền Cô Thành...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     if (!autoFeatures.moveToMap("quyencothanh", 5))
                     {
                         throw new Exception("Failed to navigate to Quyền Cô Thành");
@@ -56,10 +66,12 @@ namespace AutoVPT.Services.Executors
 
                     // Step 3: Fly up
                     LogInfo("Flying up...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     autoFeatures.bay();
 
                     // Step 4: Move to NPC
                     LogInfo("Moving to corridor NPC...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     if (!autoFeatures.moveToNPC("conghanhlang", "nhanquahanhlang"))
                     {
                         throw new Exception("Failed to reach corridor NPC");
@@ -67,10 +79,12 @@ namespace AutoVPT.Services.Executors
 
                     // Step 5: Fly down
                     LogInfo("Flying down...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     autoFeatures.bayXuong();
 
                     // Step 6: Talk to NPC
                     LogInfo("Talking to NPC...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     if (!autoFeatures.talkToNPC("conghanhlang", 0, 0, -40))
                     {
                         throw new Exception("Failed to talk to NPC");
@@ -78,16 +92,23 @@ namespace AutoVPT.Services.Executors
 
                     // Step 7: Scroll down in dialog
                     LogInfo("Scrolling down...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     autoFeatures.clickImageByGroup("global", "keoxuong", false, true, 3);
 
                     // Step 8: Click receive rewards button
                     LogInfo("Collecting corridor rewards...", context);
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     autoFeatures.clickImageByGroup("global", "nhanthuonghanhlang", false, true);
-
-                }, context.CancellationToken);
+                });
 
                 LogInfo("NhanThuongHLVT completed successfully", context);
                 return FeatureResult.Successful("Corridor rewards collected");
+            }
+            catch (OperationCanceledException)
+            {
+                // Feature was cancelled - this is expected when Stop All is pressed
+                LogInfo("NhanThuongHLVT was cancelled", context);
+                return FeatureResult.Failed("Cancelled");
             }
             catch (Exception ex)
             {

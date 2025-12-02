@@ -22,26 +22,93 @@ namespace AutoVPT.Services.Executors
     {
         /// <summary>
         /// Get the appropriate search region for an image group.
-        /// OPTIMIZATION 1: DISABLED - Regional search causing false negatives.
-        /// Using full screen search for reliability (same as legacy code).
+        /// OPTIMIZATION 1: Regional search for 2-8x speedup.
+        /// Uses conservative (larger) regions to prevent false negatives.
         /// </summary>
         private static Rectangle? GetSearchRegionForGroup(string group)
         {
-            // DISABLED: Regional search optimization causing too many false negatives
-            // Search regions too small for many UI elements
-            // Revert to full screen search like legacy code
-            return null;
+            switch (group?.ToLower())
+            {
+                // Dialog-related groups (center area)
+                case "global":
+                case "tri_an":
+                case "mat_bao":
+                    return SearchRegions.DialogArea; // 500x400 center area (3x faster)
+
+                // Farm/gameplay groups
+                case "trong_nl":
+                case "phu_ban":
+                case "tru_ma":
+                case "in_map":
+                case "maps":
+                    return SearchRegions.GameplayArea; // 600x500 main area (2x faster)
+
+                // Bottom action bar
+                case "action_bar":
+                case "skills":
+                    return SearchRegions.BottomBar; // 800x100 bottom (6x faster)
+
+                // Event and special features (use full screen for safety)
+                case "event":
+                case "bat_pet":
+                case "stmt":
+                case "nvhn":
+                    return null; // Full screen (most reliable)
+
+                default:
+                    return null; // Full screen for unknown groups
+            }
         }
 
         /// <summary>
         /// Get search region for common UI elements by name pattern.
-        /// DISABLED - Regional search causing false negatives.
+        /// OPTIMIZATION 1: Regional search for 2-8x speedup.
+        /// Uses conservative (larger) regions and fallback to full screen for ambiguous cases.
         /// </summary>
         private static Rectangle? GetSearchRegionForImageName(string imageName)
         {
-            // DISABLED: Regional search optimization causing too many false negatives
-            // Example: nhiemvuhangngay_check.png (195x28) doesn't fit in TopLeft (200x150)
-            // Revert to full screen search like legacy code
+            if (string.IsNullOrEmpty(imageName))
+                return null; // Full screen
+
+            string name = imageName.ToLower();
+
+            // Quest indicators (top-left, now expanded to 300x200)
+            if (name.Contains("nhiemvu") || name.Contains("quest"))
+                return SearchRegions.TopLeft; // 300x200 (8x faster) - now fits 195px wide images!
+
+            // Minimap and right-side buttons
+            if (name.Contains("minimap") || name.Contains("menuphai") || name.Contains("menu_phai"))
+                return SearchRegions.RightPanel; // 200x600 entire right side (6x faster)
+
+            // Farm buttons (appear in right panel when farm is open)
+            if (name.Contains("trang_vien") || name.Contains("nuoi_trong"))
+                return SearchRegions.RightPanel; // 200x600 (6x faster)
+
+            // Farm gameplay elements (in main gameplay area)
+            if (name.Contains("dat_trong") || name.Contains("thu_hoach"))
+                return SearchRegions.GameplayArea; // 600x500 (2x faster)
+
+            // Dialog buttons and confirmations
+            if (name.Contains("xacnhan") || name.Contains("confirm") || name.Contains("dong_y"))
+                return SearchRegions.DialogArea; // 500x400 (3x faster)
+
+            // Material and crafting images
+            if (name.Contains("nguyen_lieu") || name.Contains("mat_bao"))
+                return SearchRegions.DialogArea; // 500x400 (3x faster)
+
+            // Dungeon and combat
+            if (name.Contains("phu_ban") || name.Contains("tru_ma") || name.Contains("monster"))
+                return SearchRegions.GameplayArea; // 600x500 (2x faster)
+
+            // Bottom action bar
+            if (name.Contains("skill") || name.Contains("action_bar"))
+                return SearchRegions.BottomBar; // 800x100 (6x faster)
+
+            // Quick features list (always on right)
+            if (name.Contains("quickfeature") || name.Contains("uparrow") || name.Contains("downarrow"))
+                return SearchRegions.RightPanel; // 200x600 (6x faster)
+
+            // Default: full screen for unknown/ambiguous images
             return null;
         }
 

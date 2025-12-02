@@ -44,14 +44,18 @@ namespace AutoVPT.DependencyInjection
                     var composite = new CompositeLogger();
                     var config = sp.GetService<ConfigurationManager>();
 
-                    composite.AddLogger(new FileLogger(config.Paths.LogPath + "/automation.log"));
+                    // File logger: Log everything (Debug, Info, Warning, Error) for troubleshooting
+                    composite.AddLogger(new FileLogger(config.Paths.LogPath + "/automation.log", LogLevel.Debug));
 
+                    // UI logger: Only show important messages (Warning, Error) to keep UI clean
+                    // Users can check the log file for detailed debug information
                     if (statusTextBox != null)
                     {
-                        composite.AddLogger(new UiLogger(statusTextBox));
+                        composite.AddLogger(new UiLogger(statusTextBox, minimumLevel: LogLevel.Warning));
                     }
 
                     #if DEBUG
+                    // Debug logger: Log everything in debug builds
                     composite.AddLogger(new DebugLogger());
                     #endif
 
