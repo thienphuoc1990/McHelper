@@ -663,12 +663,15 @@ namespace AutoVPT.Libs
                         ExecuteFeature<DoiNangNoExecutor>(FeatureType.DoiNangNo);
                     }
 
+                    // After all daily features complete, check if we should continue or exit
                     if (i == 0 || mCharacter.RunToLast != 1)
                     {
+                        // No features ran OR Auto All mode (run once then exit)
+                        // Exit gracefully - no need for Thread.Abort()
+                        Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Đã hoàn thành tất cả tính năng hàng ngày");
                         mCharacter.Running = 0;
                         Helper.saveSettingsToXML(mCharacter);
-                        Thread.CurrentThread.Abort();
-                        break;
+                        break;  // Graceful exit from while loop
                     }
 
                     Helper.writeStatus(mTextBoxStatus, mCharacter.ID, "Ngừng 30 phút cho thần tu hoặc tu hành");
