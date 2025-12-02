@@ -1076,6 +1076,9 @@ namespace AutoVPT
 
                         if (character.ID != null && character.ID != "")
                         {
+                            // Reset status flags if new day (same as single character automation)
+                            autoRenewConfigIfNeeded();
+
                             IntPtr hWnd = getHandledWindow();
                             if (hWnd == IntPtr.Zero)
                             {
