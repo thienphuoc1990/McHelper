@@ -478,6 +478,9 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
+            // Reset Stop All flag when starting new automation
+            Helper.ResetStopAllFlag();
+
             // Automatically check and renew configuration if needed
             autoRenewConfigIfNeeded();
 
@@ -556,13 +559,8 @@ namespace AutoVPT
             // Step 4: Clear any remaining registered characters
             Helper.runningCharacters.Clear();
 
-            // Step 5: Reset the stopping flag after a short delay to allow threads to stop
-            // This prevents new features from starting immediately after stop
-            Task.Run(async () =>
-            {
-                await Task.Delay(2000); // Wait 2 seconds for threads to stop
-                Helper.ResetStopAllFlag();
-            });
+            // Note: We do NOT auto-reset the IsStoppingAll flag anymore
+            // It will be reset when user starts a new automation (ensures all tasks fully stop)
 
             Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng tất cả auto");
         }
@@ -1038,6 +1036,9 @@ namespace AutoVPT
 
         private void buttonChayAutoAllAcc_Click(object sender, EventArgs e)
         {
+            // Reset Stop All flag when starting new automation
+            Helper.ResetStopAllFlag();
+
             Helper.threadList.Add(new Thread(runAllAcc));
             int index = Helper.threadList.Count() - 1;
             Helper.threadList[index].Name = "runAllAcc";
