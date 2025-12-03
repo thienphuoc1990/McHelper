@@ -34,6 +34,10 @@ namespace AutoVPT.Services.Executors
                 // Hybrid approach: Uses AutoFeatures for NVHN navigation
                 await Task.Run(() =>
                 {
+                    // Check global stop flag before starting
+                    if (Libs.Helper.IsStoppingAll())
+                        return;
+
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
                     var autoFeatures = new AutoFeatures(
                         context.WindowHandle,
@@ -44,27 +48,42 @@ namespace AutoVPT.Services.Executors
 
                     // Step 1: Close all dialogs
                     LogInfo("Closing all dialogs...", context);
+                    if (Libs.Helper.IsStoppingAll()) return;
                     autoFeatures.closeAllDialog();
 
                     // Step 2: Fly up
                     LogInfo("Flying up...", context);
+                    if (Libs.Helper.IsStoppingAll()) return;
                     autoFeatures.bay();
 
                     // Step 3: Use NVHN quest helper to navigate to cultivation NPC
                     LogInfo("Using NVHN quest helper to navigate...", context);
                     while (!autoFeatures.isTalkWithNPC("truonglaovouutoc"))
                     {
+                        // Check for stop request in loop
+                        if (Libs.Helper.IsStoppingAll())
+                        {
+                            LogInfo("TuHanh cancelled during navigation", context);
+                            return;
+                        }
                         autoFeatures.openQuestByNVHN("tuhanh");
                     }
 
                     // Step 4: Start auto cultivation
                     LogInfo("Starting auto cultivation...", context);
-                    StartAutoCultivation(autoFeatures);
+                    if (Libs.Helper.IsStoppingAll()) return;
+                    StartAutoCultivation(autoFeatures, context);
 
                 }, context.CancellationToken);
 
                 LogInfo("TuHanh completed successfully", context);
                 return FeatureResult.Successful("Cultivation quest completed");
+            }
+            catch (OperationCanceledException)
+            {
+                // Feature was cancelled - this is expected when Stop All is pressed
+                LogInfo("TuHanh was cancelled", context);
+                return FeatureResult.Failed("Cancelled");
             }
             catch (Exception ex)
             {
@@ -76,10 +95,17 @@ namespace AutoVPT.Services.Executors
         /// <summary>
         /// Start auto cultivation by clicking the necessary buttons
         /// </summary>
-        private void StartAutoCultivation(AutoFeatures autoFeatures)
+        private void StartAutoCultivation(AutoFeatures autoFeatures, ExecutionContext context)
         {
             while (!autoFeatures.findImageByGroup("global", "autotuhanh_check", false, false))
             {
+                // Check for stop request in loop
+                if (Libs.Helper.IsStoppingAll())
+                {
+                    LogInfo("TuHanh cancelled during cultivation start", context);
+                    return;
+                }
+
                 autoFeatures.clickImageByGroup("global", "autotuhanh", false, true);
                 autoFeatures.clickImageByGroup("global", "batdauautotuhanh", false, false);
                 autoFeatures.clickImageByGroup("global", "luachonco", false, true);

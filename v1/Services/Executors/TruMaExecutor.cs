@@ -46,6 +46,10 @@ namespace AutoVPT.Services.Executors
 
                 await Task.Run(() =>
                 {
+                    // Check global stop flag before starting
+                    if (Libs.Helper.IsStoppingAll())
+                        return;
+
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
                     var autoFeatures = new AutoFeatures(
                         context.WindowHandle,
@@ -58,6 +62,13 @@ namespace AutoVPT.Services.Executors
                     int loopCount = 0;
                     do
                     {
+                        // Check for stop request in loop
+                        if (Libs.Helper.IsStoppingAll())
+                        {
+                            LogInfo("TruMa cancelled during quest loop", context);
+                            return;
+                        }
+
                         // Step 1: Accept quest if not already active
                         if (!IsQuestActive(autoFeatures))
                         {
@@ -105,6 +116,12 @@ namespace AutoVPT.Services.Executors
                     return FeatureResult.Failed("No quests completed");
                 }
             }
+            catch (OperationCanceledException)
+            {
+                // Feature was cancelled - this is expected when Stop All is pressed
+                LogInfo("TruMa was cancelled", context);
+                return FeatureResult.Failed("Cancelled");
+            }
             catch (Exception ex)
             {
                 LogError($"TruMa feature failed: {ex.Message}", ex, context);
@@ -149,6 +166,9 @@ namespace AutoVPT.Services.Executors
             // Open quest panel
             while (!autoFeatures.findImageByGroup("global", "nhiemvu_check"))
             {
+                // Check for stop request
+                if (Libs.Helper.IsStoppingAll())
+                    return false;
                 autoFeatures.clickImageByGroup("global", "nhiemvu");
             }
 
@@ -156,6 +176,9 @@ namespace AutoVPT.Services.Executors
             while (!autoFeatures.findImageByGroup("tru_ma", "bangnhiemvu_nvvongopened", true) &&
                    autoFeatures.findImageByGroup("tru_ma", "bangnhiemvu_nvvong", true))
             {
+                // Check for stop request
+                if (Libs.Helper.IsStoppingAll())
+                    return false;
                 autoFeatures.clickImageByGroup("tru_ma", "bangnhiemvu_nvvong", true);
             }
 
@@ -171,6 +194,9 @@ namespace AutoVPT.Services.Executors
             // Ensure quest is visible
             while (!autoFeatures.findImageByGroup("tru_ma", "nhiemvutruma", true, true))
             {
+                // Check for stop request
+                if (Libs.Helper.IsStoppingAll())
+                    return false;
                 IsQuestActive(autoFeatures);
             }
 
@@ -188,6 +214,9 @@ namespace AutoVPT.Services.Executors
             // Open daily quest panel
             while (!autoFeatures.findImageByGroup("nvhn", "bang_check"))
             {
+                // Check for stop request
+                if (Libs.Helper.IsStoppingAll())
+                    return "cuma"; // Default fallback
                 autoFeatures.writeStatus("Opening daily quest panel");
                 autoFeatures.clickImageByGroup("nvhn", "bang");
                 Thread.Sleep(Constant.TimeShort);
@@ -196,12 +225,18 @@ namespace AutoVPT.Services.Executors
             // Open quest list
             while (!autoFeatures.findImageByGroup("global", "nhiemvu_check"))
             {
+                // Check for stop request
+                if (Libs.Helper.IsStoppingAll())
+                    return "cuma"; // Default fallback
                 autoFeatures.clickImageByGroup("global", "nhiemvu");
             }
 
             // Expand daily quest section
             while (!autoFeatures.findImageByGroup("tru_ma", "bangnhiemvu_nvvongopened", true))
             {
+                // Check for stop request
+                if (Libs.Helper.IsStoppingAll())
+                    return "cuma"; // Default fallback
                 autoFeatures.clickImageByGroup("tru_ma", "bangnhiemvu_nvvong", true);
             }
 
