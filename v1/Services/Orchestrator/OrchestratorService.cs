@@ -92,28 +92,60 @@ namespace AutoVPT.Services.Orchestrator
 
             _logger.LogInfo("Stopping orchestration", "Orchestrator");
 
-            // Cancel orchestration loop
+            // Cancel orchestration loop first
             _orchestrationCts?.Cancel();
 
             // Stop all active executions
-            var characterIds = _registeredCharacters.ToList();
-            foreach (var characterId in characterIds)
+            var characterIds = new List<string>();
+            lock (_lock)
             {
-                await _executionManager.CancelExecutionAsync(characterId);
+                characterIds.AddRange(_registeredCharacters);
             }
 
-            // Wait for orchestration task to complete
+            var stopTasks = new List<Task>();
+            foreach (var characterId in characterIds)
+            {
+                stopTasks.Add(_executionManager.CancelExecutionAsync(characterId));
+            }
+
+            // Wait for all stop operations to complete (with timeout)
+            try
+            {
+                var allStopped = Task.WhenAll(stopTasks);
+                if (!allStopped.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    _logger.LogWarning("Timeout waiting for all executions to stop", "Orchestrator");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error stopping executions", ex, "Orchestrator");
+            }
+
+            // Wait for orchestration task to complete (with timeout)
             if (_orchestrationTask != null)
             {
                 try
                 {
-                    await _orchestrationTask;
+                    if (!_orchestrationTask.Wait(TimeSpan.FromSeconds(5)))
+                    {
+                        _logger.LogWarning("Timeout waiting for orchestration loop to stop", "Orchestrator");
+                    }
                 }
                 catch (OperationCanceledException)
                 {
                     // Expected when stopping
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error waiting for orchestration task", ex, "Orchestrator");
+                }
             }
+
+            // Dispose cancellation token source
+            _orchestrationCts?.Dispose();
+            _orchestrationCts = null;
+            _orchestrationTask = null;
 
             _logger.LogInfo("Orchestration stopped", "Orchestrator");
         }
@@ -244,6 +276,10 @@ namespace AutoVPT.Services.Orchestrator
         /// </summary>
         private async Task ProcessCharacterAsync(string characterId, CancellationToken ct)
         {
+            // Check cancellation before processing
+            if (ct.IsCancellationRequested)
+                return;
+
             try
             {
                 // Check if can execute
@@ -252,22 +288,41 @@ namespace AutoVPT.Services.Orchestrator
                     return; // Already running or at limit
                 }
 
+                // Check cancellation again before getting next action
+                if (ct.IsCancellationRequested)
+                    return;
+
                 // Get next action
                 var nextAction = await GetNextActionAsync(characterId);
+
+                // Check cancellation before executing
+                if (ct.IsCancellationRequested)
+                    return;
 
                 if (nextAction.ActionType == Models.ActionType.ExecuteFeature && nextAction.Feature.HasValue)
                 {
                     // Execute the action
                     var result = await _executionManager.ExecuteActionAsync(characterId, nextAction, ct);
 
-                    // Update status
-                    UpdateCharacterStatus(characterId, nextAction.Feature.Value, result);
+                    // Only update status if not cancelled
+                    if (!ct.IsCancellationRequested)
+                    {
+                        UpdateCharacterStatus(characterId, nextAction.Feature.Value, result);
+                    }
                 }
                 else if (nextAction.ActionType == Models.ActionType.Complete)
                 {
                     // Character is done
-                    UpdateCharacterStatus(characterId, null, null);
+                    if (!ct.IsCancellationRequested)
+                    {
+                        UpdateCharacterStatus(characterId, null, null);
+                    }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected when stopping - don't log as error
+                _logger.LogInfo($"Processing cancelled for {characterId}", characterId);
             }
             catch (Exception ex)
             {

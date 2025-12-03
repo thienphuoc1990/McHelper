@@ -137,10 +137,32 @@ namespace AutoVPT.Services.Orchestrator
         {
             if (_activeExecutions.TryRemove(characterId, out var cts))
             {
-                cts.Cancel();
-                await _automationService.StopAsync(characterId);
-                _logger.LogInfo($"Cancelled execution for {characterId}", characterId);
+                try
+                {
+                    // Cancel the cancellation token
+                    cts.Cancel();
+                    cts.Dispose();
+                    
+                    // Stop the automation service
+                    await _automationService.StopAsync(characterId);
+                    
+                    _logger.LogInfo($"Cancelled execution for {characterId}", characterId);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error cancelling execution for {characterId}", ex, characterId);
+                }
             }
+        }
+
+        /// <summary>
+        /// Cancel all active executions
+        /// </summary>
+        public async Task CancelAllExecutionsAsync()
+        {
+            var characterIds = _activeExecutions.Keys.ToList();
+            var cancelTasks = characterIds.Select(id => CancelExecutionAsync(id));
+            await Task.WhenAll(cancelTasks);
         }
     }
 }
