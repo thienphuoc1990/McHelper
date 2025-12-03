@@ -568,8 +568,36 @@ namespace AutoVPT.Libs
                 return;
             }
 
-            mTextBoxStatus.BeginInvoke(new Action(() => mTextBoxStatus.AppendText(mCharacter.ID + ": " + statusText + Environment.NewLine)));
-            //mTextBoxStatus.AppendText(statusText + Environment.NewLine);
+            // Handle null TextBox gracefully
+            if (mTextBoxStatus == null || mTextBoxStatus.IsDisposed)
+            {
+                // TextBox not available - log to console or skip
+                System.Diagnostics.Debug.WriteLine($"{mCharacter.ID}: {statusText}");
+                return;
+            }
+
+            try
+            {
+                if (mTextBoxStatus.InvokeRequired)
+                {
+                    mTextBoxStatus.BeginInvoke(new Action(() => 
+                    {
+                        if (mTextBoxStatus != null && !mTextBoxStatus.IsDisposed)
+                        {
+                            mTextBoxStatus.AppendText(mCharacter.ID + ": " + statusText + Environment.NewLine);
+                        }
+                    }));
+                }
+                else
+                {
+                    mTextBoxStatus.AppendText(mCharacter.ID + ": " + statusText + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Silently handle errors - don't break execution
+                System.Diagnostics.Debug.WriteLine($"Error writing status: {ex.Message}");
+            }
         }
 
         public void increaseFPS(int numberIncrease)

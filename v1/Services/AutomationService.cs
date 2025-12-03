@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -237,12 +238,39 @@ namespace AutoVPT.Services
 
             var config = character.FeatureConfig.GetConfig(feature);
 
+            // Get StatusTextBox from logger if available
+            System.Windows.Forms.TextBox statusTextBox = null;
+            try
+            {
+                if (_logger is AutoVPT.Infrastructure.CompositeLogger compositeLogger)
+                {
+                    var uiLogger = compositeLogger.GetLoggers()
+                        .OfType<AutoVPT.Infrastructure.UiLogger>()
+                        .FirstOrDefault();
+                    if (uiLogger != null)
+                    {
+                        // Use reflection to get the TextBox from UiLogger
+                        var textBoxField = typeof(AutoVPT.Infrastructure.UiLogger)
+                            .GetField("_textBox", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        if (textBoxField != null)
+                        {
+                            statusTextBox = textBoxField.GetValue(uiLogger) as System.Windows.Forms.TextBox;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // If we can't get the TextBox, continue without it
+            }
+
             var context = new ExecutionContext
             {
                 Character = character,
                 WindowHandle = windowHandle,
                 Config = config,
-                CancellationToken = ct
+                CancellationToken = ct,
+                StatusTextBox = statusTextBox
             };
 
             if (!executor.CanExecute(context))
