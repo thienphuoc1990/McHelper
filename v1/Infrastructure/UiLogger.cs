@@ -46,6 +46,14 @@ namespace AutoVPT.Infrastructure
             return _filterCharacterId;
         }
 
+        /// <summary>
+        /// Get the TextBox control (for legacy code compatibility)
+        /// </summary>
+        public TextBox GetTextBox()
+        {
+            return _textBox;
+        }
+
         public void LogInfo(string message, string context = null)
         {
             if (_minimumLevel <= LogLevel.Info)

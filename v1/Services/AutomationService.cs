@@ -249,13 +249,7 @@ namespace AutoVPT.Services
                         .FirstOrDefault();
                     if (uiLogger != null)
                     {
-                        // Use reflection to get the TextBox from UiLogger
-                        var textBoxField = typeof(AutoVPT.Infrastructure.UiLogger)
-                            .GetField("_textBox", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                        if (textBoxField != null)
-                        {
-                            statusTextBox = textBoxField.GetValue(uiLogger) as System.Windows.Forms.TextBox;
-                        }
+                        statusTextBox = uiLogger.GetTextBox();
                     }
                 }
             }
