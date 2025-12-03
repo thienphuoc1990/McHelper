@@ -59,6 +59,12 @@ namespace AutoVPT.Services.Executors
                 // Execute dungeon automation
                 await Task.Run(() =>
                 {
+                    // Check cancellation before starting
+                    if (context.CancellationToken.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException("AutoPhuBan cancelled before starting");
+                    }
+
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
                     var autoFeatures = new AutoFeatures(
                         context.WindowHandle,
@@ -77,15 +83,35 @@ namespace AutoVPT.Services.Executors
                     // Set dungeon codes for legacy methods (must be done before receiving quests)
                     autoPhuBan.setPhuBan(dungeons);
 
+                    // Check cancellation after setup
+                    if (context.CancellationToken.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException("AutoPhuBan cancelled after setup");
+                    }
+
                     // Step 1: Receive quests at TLT (Tiên Lập Thành) using legacy method
                     // This matches the working flow in runNhanAutoPB
                     LogInfo("Receiving quests at TLT (Tiên Lập Thành)...", context);
                     autoPhuBan.nhanPhuBanTLTByNVHN();
+                    
+                    // Check cancellation after receiving quests
+                    if (context.CancellationToken.IsCancellationRequested)
+                    {
+                        LogInfo("AutoPhuBan cancelled after receiving quests", context);
+                        throw new OperationCanceledException("AutoPhuBan cancelled");
+                    }
+                    
                     LogInfo("Completed receiving quests at TLT", context);
 
                     // Step 2: Receive quest at Cổ Đạo if "Thám Hiểm" is configured
                     if (dungeonList.Contains("Thám Hiểm"))
                     {
+                        // Check cancellation before Cổ Đạo
+                        if (context.CancellationToken.IsCancellationRequested)
+                        {
+                            throw new OperationCanceledException("AutoPhuBan cancelled before Cổ Đạo");
+                        }
+                        
                         LogInfo("Receiving Thám Hiểm quest at Cổ Đạo...", context);
                         if (autoPhuBan.diChuyenDenNhanPhuBan("codao"))
                         {
@@ -98,8 +124,17 @@ namespace AutoVPT.Services.Executors
                         }
                     }
 
+                    // Check cancellation before running dungeons
+                    if (context.CancellationToken.IsCancellationRequested)
+                    {
+                        LogInfo("AutoPhuBan cancelled before running dungeons", context);
+                        throw new OperationCanceledException("AutoPhuBan cancelled");
+                    }
+
                     // Step 3: Run dungeon automation using legacy method
                     // Note: auto() internally collects rewards first, then runs dungeons
+                    // WARNING: auto() doesn't check cancellation tokens, so it may continue running
+                    // even after cancellation is requested. This is a limitation of legacy code.
                     LogInfo("Starting dungeon run automation...", context);
                     autoPhuBan.auto();
 

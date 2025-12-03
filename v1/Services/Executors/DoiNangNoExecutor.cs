@@ -50,7 +50,7 @@ namespace AutoVPT.Services.Executors
 
                 // For complex navigation features, we still need legacy AutoFeatures
                 // This is a hybrid approach until navigation is fully refactored
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
                     var autoFeatures = new AutoFeatures(
@@ -60,6 +60,9 @@ namespace AutoVPT.Services.Executors
                         legacyCharacter
                     );
 
+                    // Check cancellation before starting
+                    context.CancellationToken.ThrowIfCancellationRequested();
+
                     // Step 1: Navigate to exchange location
                     LogInfo($"Navigating to level {level} exchange location...", context);
                     if (!NavigateToExchangeLocation(autoFeatures, level))
@@ -67,15 +70,23 @@ namespace AutoVPT.Services.Executors
                         throw new Exception($"Failed to navigate to level {level} exchange location");
                     }
 
+                    // Check cancellation after navigation
+                    context.CancellationToken.ThrowIfCancellationRequested();
+
                     // Step 2: Perform exchanges in a loop
                     LogInfo("Starting exchange loop...", context);
                     while (legacyCharacter.Running != 0)
                     {
+                        // Check cancellation before each exchange
+                        context.CancellationToken.ThrowIfCancellationRequested();
+
                         if (PerformExchange(autoFeatures, level, resourceCode))
                         {
                             exchangeCount++;
                             LogInfo($"Exchange #{exchangeCount} successful, waiting 1s before next exchange...", context);
-                            Thread.Sleep(1000);
+                            
+                            // Use Task.Delay instead of Thread.Sleep to respect cancellation
+                            await Task.Delay(1000, context.CancellationToken);
                         }
                         else
                         {
