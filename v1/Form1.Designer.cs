@@ -297,7 +297,7 @@
             // 
             // buttonRunOrchestrator
             // 
-            this.buttonRunOrchestrator.Location = new System.Drawing.Point(310, 320);
+            this.buttonRunOrchestrator.Location = new System.Drawing.Point(477, 619);
             this.buttonRunOrchestrator.Name = "buttonRunOrchestrator";
             this.buttonRunOrchestrator.Size = new System.Drawing.Size(120, 23);
             this.buttonRunOrchestrator.TabIndex = 16;
@@ -307,7 +307,7 @@
             // 
             // buttonStopOrchestrator
             // 
-            this.buttonStopOrchestrator.Location = new System.Drawing.Point(310, 347);
+            this.buttonStopOrchestrator.Location = new System.Drawing.Point(477, 646);
             this.buttonStopOrchestrator.Name = "buttonStopOrchestrator";
             this.buttonStopOrchestrator.Size = new System.Drawing.Size(120, 23);
             this.buttonStopOrchestrator.TabIndex = 17;
@@ -351,7 +351,7 @@
             this.tabControlAuto.Controls.Add(this.tabPageGeneral);
             this.tabControlAuto.Controls.Add(this.tabPagePhuBan);
             this.tabControlAuto.Controls.Add(this.tabPageSTMT);
-            this.tabControlAuto.Location = new System.Drawing.Point(306, 207);
+            this.tabControlAuto.Location = new System.Drawing.Point(306, 210);
             this.tabControlAuto.Name = "tabControlAuto";
             this.tabControlAuto.SelectedIndex = 0;
             this.tabControlAuto.Size = new System.Drawing.Size(542, 294);
@@ -1522,7 +1522,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(868, 719);
+            this.ClientSize = new System.Drawing.Size(859, 729);
             this.Controls.Add(this.buttonTruMa);
             this.Controls.Add(this.buttonTrongNLAll);
             this.Controls.Add(this.buttonCheMbAll);
