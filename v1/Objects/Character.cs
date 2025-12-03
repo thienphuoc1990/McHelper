@@ -1,16 +1,8 @@
-﻿using AutoVPT.DML;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoVPT.Objects
 {
@@ -428,53 +420,50 @@ namespace AutoVPT.Objects
     {
         public static Character GetCharacterByRowIndex(int index)
         {
-            DataRow iDr = null;
-            iDr = XMLCharacter.SelectByRowIndex(index);
-            Character character = null;
-            if (iDr != null)
+            var characters = AutoVPT.Database.DatabaseHelper.LoadAllCharacters();
+            if (index >= 0 && index < characters.Count)
             {
-                character = new Character();
-                character.ID = iDr[0] != DBNull.Value ? iDr[0].ToString() : string.Empty;
-                character.Link = iDr[1] != DBNull.Value ? iDr[1].ToString() : string.Empty;
-                character.Group = iDr[2] != DBNull.Value ? iDr[2].ToString() : string.Empty;
+                return characters[index];
             }
-            return character;
+            return null;
         }
 
         public static Character GetCharacter(string id)
         {
-            DataRow iDr = null;
-            iDr = XMLCharacter.Select(id);
-            Character character = null;
-            if (iDr != null)
-            {
-                character = new Character();
-                character.ID = iDr[0] != DBNull.Value ? iDr[0].ToString() : string.Empty;
-                character.Link = iDr[1] != DBNull.Value ? iDr[1].ToString() : string.Empty;
-                character.Group = iDr[2] != DBNull.Value ? iDr[2].ToString() : string.Empty;
-            }
-            return character;
+            return AutoVPT.Database.DatabaseHelper.LoadCharacter(id);
         }
+
         public static IList GetCharacterList()
         {
+            var characters = AutoVPT.Database.DatabaseHelper.LoadAllCharacters();
 
-            return XMLCharacter.SelectAll();
+            // Convert to DataTable for backward compatibility with DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID");
+            dt.Columns.Add("Link");
+            dt.Columns.Add("Group");
 
+            foreach (var c in characters)
+            {
+                dt.Rows.Add(c.ID, c.Link, c.Group);
+            }
+
+            return dt.DefaultView;
         }
 
         public static void UpdateCharacter(Character character)
         {
-            XMLCharacter.Update(character.ID, character.Link, character.Group);
+            AutoVPT.Database.DatabaseHelper.SaveCharacter(character);
         }
 
         public static void InsertCharacter(Character character)
         {
-            XMLCharacter.Insert(character.ID, character.Link, character.Group);
+            AutoVPT.Database.DatabaseHelper.SaveCharacter(character);
         }
 
         public static void DeleteCharacter(string characterID)
         {
-            XMLCharacter.Delete(characterID);
+            AutoVPT.Database.DatabaseHelper.DeleteCharacter(characterID);
         }
     }
 }

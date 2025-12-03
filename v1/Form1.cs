@@ -1,5 +1,6 @@
 ﻿using AutoVPT.Libs;
 using AutoVPT.Objects;
+using AutoVPT.Interfaces;
 using KAutoHelper;
 using System;
 using System.Collections;
@@ -10,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Emgu.CV.Tracking;
@@ -42,6 +44,59 @@ namespace AutoVPT
         private void MainForm_Load(object sender, EventArgs e)
         {
             labelAuthorVersion.Text = Constant.Version;
+
+            // Initialize ServiceContainer for dependency injection
+            AutoVPT.DependencyInjection.ServiceContainer.Initialize(textBoxStatus);
+
+            // Initialize SQLite database (must be called before loading characters)
+            try
+            {
+                AutoVPT.Database.DatabaseHelper.Initialize();
+
+                // Check if database is empty and XML files exist - auto migrate
+                var existingCharacters = AutoVPT.Database.DatabaseHelper.LoadAllCharacters();
+                if (existingCharacters.Count == 0)
+                {
+                    // Check if XML files exist
+                    var dbPath = System.IO.Path.Combine(Application.StartupPath, "database");
+                    var xmlFiles = System.IO.Directory.GetFiles(dbPath, "*.xml")
+                        .Where(f => !f.EndsWith("data.xml", StringComparison.OrdinalIgnoreCase))
+                        .ToArray();
+
+                    if (xmlFiles.Length > 0)
+                    {
+                        // Auto-migrate from XML to SQLite
+                        var result = MessageBox.Show(
+                            $"Found {xmlFiles.Length} character XML file(s).\n\n" +
+                            "Would you like to migrate them to the new SQLite database?\n\n" +
+                            "Your XML files will be backed up automatically.",
+                            "Migrate Characters to SQLite",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            var migrationResult = AutoVPT.Database.MigrationUtility.MigrateXmlToSqlite(backupXmlFiles: true);
+
+                            MessageBox.Show(
+                                $"Migration completed!\n\n" +
+                                $"Characters migrated: {migrationResult.CharactersMigrated}\n" +
+                                $"Errors: {migrationResult.Errors.Count}\n\n" +
+                                $"XML backups saved to: database_backup_{DateTime.Now:yyyyMMdd_HHmmss}",
+                                "Migration Complete",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database initialization error: {ex.Message}\n\nPlease ensure SQLite.Interop.dll is present.",
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             populate();
             initConfigs();
         }
@@ -51,7 +106,37 @@ namespace AutoVPT
             if (!checkSelectCharacter()) { return; }
             if (current_selected != null)
             {
-                CharacterList.DeleteCharacter(current_selected);
+                // Confirm deletion
+                var result = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa nhân vật '{current_selected}'?",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        CharacterList.DeleteCharacter(current_selected);
+
+                        // Refresh the character list to show changes
+                        populate();
+
+                        MessageBox.Show($"Đã xóa nhân vật '{current_selected}' thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+
+                        current_selected = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Lỗi khi xóa nhân vật: {ex.Message}",
+                            "Lỗi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
@@ -63,6 +148,9 @@ namespace AutoVPT
         {
             FormAddCharacter formAddCharacter = new FormAddCharacter();
 
+            // Refresh list after form closes
+            formAddCharacter.FormClosed += (s, args) => populate();
+
             formAddCharacter.Show();
         }
 
@@ -73,7 +161,131 @@ namespace AutoVPT
             formAddCharacter.item = current_selected;
             formAddCharacter.loadData();
 
+            // Refresh list after form closes
+            formAddCharacter.FormClosed += (s, args) => populate();
+
             formAddCharacter.Show();
+        }
+
+        private void buttonMigrateXmlToSqlite_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dbPath = System.IO.Path.Combine(Application.StartupPath, "database");
+
+                // Check if XML files exist
+                if (!System.IO.Directory.Exists(dbPath))
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy thư mục database.",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
+                var xmlFiles = System.IO.Directory.GetFiles(dbPath, "*.xml");
+                if (xmlFiles.Length == 0)
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy file XML để migrate.",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Count character XML files (exclude data.xml)
+                int characterXmlCount = 0;
+                foreach (var xmlFile in xmlFiles)
+                {
+                    var fileName = System.IO.Path.GetFileNameWithoutExtension(xmlFile);
+                    if (!fileName.Equals("data", StringComparison.OrdinalIgnoreCase))
+                    {
+                        characterXmlCount++;
+                    }
+                }
+
+                // Confirm migration
+                var confirmResult = MessageBox.Show(
+                    $"Tìm thấy {characterXmlCount} file XML nhân vật.\n\n" +
+                    $"Bạn có muốn migrate từ XML sang SQLite?\n\n" +
+                    $"Lưu ý:\n" +
+                    $"- Dữ liệu XML sẽ được backup tự động\n" +
+                    $"- Dữ liệu SQLite hiện tại sẽ bị ghi đè\n" +
+                    $"- Quá trình không thể hoàn tác",
+                    "Xác nhận migrate",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                // Show progress message
+                this.Cursor = Cursors.WaitCursor;
+                this.Enabled = false;
+
+                // Run migration
+                var migrationResult = AutoVPT.Database.MigrationUtility.MigrateXmlToSqlite(backupXmlFiles: true);
+
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
+
+                // Show results
+                if (migrationResult.Success)
+                {
+                    MessageBox.Show(
+                        $"✓ Migration thành công!\n\n" +
+                        $"Nhân vật đã migrate: {migrationResult.CharactersMigrated}\n" +
+                        $"Lỗi: {migrationResult.Errors.Count}\n\n" +
+                        $"Backup XML đã được lưu vào:\n" +
+                        $"database_backup_{DateTime.Now:yyyyMMdd_HHmmss}/",
+                        "Migration thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    // Refresh character list
+                    populate();
+                }
+                else
+                {
+                    var errorMessage = $"✗ Migration thất bại!\n\n" +
+                        $"Lỗi: {migrationResult.ErrorMessage}\n\n";
+
+                    if (migrationResult.Errors.Count > 0)
+                    {
+                        errorMessage += $"Chi tiết lỗi:\n";
+                        for (int i = 0; i < Math.Min(5, migrationResult.Errors.Count); i++)
+                        {
+                            errorMessage += $"- {migrationResult.Errors[i]}\n";
+                        }
+
+                        if (migrationResult.Errors.Count > 5)
+                        {
+                            errorMessage += $"... và {migrationResult.Errors.Count - 5} lỗi khác";
+                        }
+                    }
+
+                    MessageBox.Show(
+                        errorMessage,
+                        "Migration thất bại",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
+
+                MessageBox.Show(
+                    $"Lỗi khi chạy migration:\n\n{ex.Message}\n\n{ex.StackTrace}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         void getCurrentSelectedRow()
@@ -286,6 +498,78 @@ namespace AutoVPT
             }
         }
 
+        /// <summary>
+        /// Automatically check if configuration needs renewal and renew if necessary
+        /// This is called before running automation to ensure status flags are reset daily
+        /// </summary>
+        private void autoRenewConfigIfNeeded()
+        {
+            try
+            {
+                // Check if date is empty or invalid
+                if (string.IsNullOrEmpty(character.Date))
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Ngày không hợp lệ, làm mới cấu hình");
+                    resetAllStatusFlags();
+                    character.Date = DateTime.Today.ToString("dd/MM/yyyy");
+                    Helper.saveSettingsToXML(character);
+                    return;
+                }
+
+                // Parse and compare dates
+                DateTime lastRunDate = DateTime.ParseExact(character.Date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime today = DateTime.Today;
+                int compareDate = DateTime.Compare(lastRunDate, today);
+
+                if (compareDate < 0)
+                {
+                    // Date is old, need to renew
+                    Helper.writeStatus(textBoxStatus, character.ID, "Ngày mới, tự động làm mới trạng thái");
+                    resetAllStatusFlags();
+                    character.Date = today.ToString("dd/MM/yyyy");
+                    Helper.saveSettingsToXML(character);
+                }
+                else
+                {
+                    Helper.writeStatus(textBoxStatus, character.ID, "Trạng thái đã được cập nhật hôm nay");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(character.ID, "autoRenewConfigIfNeeded", ex);
+                Helper.writeStatus(textBoxStatus, character.ID, "Lỗi khi kiểm tra ngày, làm mới cấu hình để an toàn");
+                resetAllStatusFlags();
+                character.Date = DateTime.Today.ToString("dd/MM/yyyy");
+                Helper.saveSettingsToXML(character);
+            }
+        }
+
+        /// <summary>
+        /// Reset all status flags to 0 (not completed)
+        /// </summary>
+        private void resetAllStatusFlags()
+        {
+            character.StatusVipPromotion = 0;
+            character.StatusDoiNangNo = 0;
+            character.StatusTriAn = 0;
+            character.StatusLatTheBai = 0;
+            character.StatusRutBo = 0;
+            character.StatusDoiKGDK = 0;
+            character.StatusTuHanh = 0;
+            character.StatusTruMa = 0;
+            character.StatusAoMaThap = 0;
+            character.StatusTrongCay = 0;
+            character.StatusCheMatBao = 0;
+            character.StatusAutoPhuBan = 0;
+            character.StatusUocNguyen = 0;
+            character.StatusNhanThuongHLVT = 0;
+            character.StatusNhanHoiPhuc = 0;
+            character.StatusMeTran = 0;
+            character.StatusHaiThuoc = 0;
+            character.StatusCauCa = 0;
+            character.StatusAutoThanTu = 0;
+        }
+
         private void loadCharacterSettings()
         {
             if (!checkSelectCharacter()) { return; }
@@ -400,6 +684,12 @@ namespace AutoVPT
         {
             if (!checkSelectCharacter()) { return; }
 
+            // Reset Stop All flag when starting new automation
+            Helper.ResetStopAllFlag();
+
+            // Automatically check and renew configuration if needed
+            autoRenewConfigIfNeeded();
+
             IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
             {
@@ -457,12 +747,69 @@ namespace AutoVPT
 
         private void buttonStopAllAuto_Click(object sender, EventArgs e)
         {
+            // Step 1: Stop all running characters by setting their Running flag to 0
+            // This updates the actual Character objects being used by the threads
+            // This also sets the _isStoppingAll flag to prevent new features from starting
+            Helper.StopAllRunningCharacters();
+
+            // Step 2: Cancel all cancellation tokens
             var allKeys = Helper.cancellationTokens.Keys.ToList();
             foreach (var key in allKeys)
             {
                 Helper.CancelToken(key);
-                Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng " + key);
             }
+
+            // Step 3: Abort all threads (interrupt sleeping threads and abort if necessary)
+            Helper.AbortAllThreads();
+
+            // Step 4: Clear any remaining registered characters
+            Helper.runningCharacters.Clear();
+
+            // Note: We do NOT auto-reset the IsStoppingAll flag anymore
+            // It will be reset when user starts a new automation (ensures all tasks fully stop)
+
+            Helper.writeStatus(textBoxStatus, "ALL", "Đã ngừng tất cả auto");
+        }
+
+        private void checkBoxFilterSelectedChar_CheckedChanged(object sender, EventArgs e)
+        {
+            var logger = DependencyInjection.ServiceContainer.GetService<ILogger>();
+            if (logger is Infrastructure.CompositeLogger compositeLogger)
+            {
+                // Find the UI logger
+                var uiLogger = compositeLogger.GetLoggers()
+                    .OfType<Infrastructure.UiLogger>()
+                    .FirstOrDefault();
+
+                if (uiLogger != null)
+                {
+                    if (checkBoxFilterSelectedChar.Checked)
+                    {
+                        // Filter by selected character
+                        if (character != null && !string.IsNullOrEmpty(character.ID))
+                        {
+                            uiLogger.SetCharacterFilter(character.ID);
+                            Helper.writeStatus(textBoxStatus, character.ID, $"Filtering logs for character: {character.ID}");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please select a character first.");
+                            checkBoxFilterSelectedChar.Checked = false;
+                        }
+                    }
+                    else
+                    {
+                        // Clear filter (show all)
+                        uiLogger.ClearCharacterFilter();
+                        Helper.writeStatus(textBoxStatus, "ALL", "Showing logs for all characters");
+                    }
+                }
+            }
+        }
+
+        private void buttonClearLog_Click(object sender, EventArgs e)
+        {
+            textBoxStatus.Clear();
         }
 
         private void dataGridViewCharacters_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -608,6 +955,9 @@ namespace AutoVPT
         private void buttonDaPet_Click(object sender, EventArgs e)
         {
             if (!checkSelectCharacter()) { return; }
+
+            // Auto-renew config if needed
+            autoRenewConfigIfNeeded();
 
             IntPtr hWnd = getHandledWindow();
             if (hWnd == IntPtr.Zero)
@@ -765,6 +1115,9 @@ namespace AutoVPT
 
                     if (character.ID != null && character.ID != "" && checkWindowOpen())
                     {
+                        // Auto-renew config if needed (for each character)
+                        autoRenewConfigIfNeeded();
+
                         IntPtr hWnd = getHandledWindow();
                         if (hWnd == IntPtr.Zero)
                         {
@@ -819,10 +1172,15 @@ namespace AutoVPT
 
         private void runTaskInThread(ThreadStart action, String actionName, Character customCharacter = null)
         {
-            Helper.threadList.Add(new Thread(action));
-            int index = Helper.threadList.Count() - 1;
-            Helper.threadList[index].Name = (customCharacter != null ? customCharacter.ID : character.ID) + actionName;
-            Helper.threadList[index].Start();
+            var thread = new Thread(action);
+            thread.Name = (customCharacter != null ? customCharacter.ID : character.ID) + actionName;
+
+            lock (Helper.threadList)
+            {
+                Helper.threadList.Add(thread);
+            }
+
+            thread.Start();
         }
 
         private IntPtr getHandledWindow(Character member = null)
@@ -884,46 +1242,112 @@ namespace AutoVPT
 
         private void buttonChayAutoAllAcc_Click(object sender, EventArgs e)
         {
+            // Reset Stop All flag when starting new automation
+            Helper.ResetStopAllFlag();
+
             Helper.threadList.Add(new Thread(runAllAcc));
             int index = Helper.threadList.Count() - 1;
             Helper.threadList[index].Name = "runAllAcc";
             Helper.threadList[index].Start();
         }
 
+        /// <summary>
+        /// Runs automation for all accounts, respecting the maximum concurrent limit.
+        /// Handles ThreadInterruptedException gracefully when "Stop All" is pressed.
+        /// NOTE: If you see ThreadInterruptedException in the debugger, it's a "first-chance exception"
+        /// which is normal - the exception is caught and handled properly. You can continue execution.
+        /// </summary>
         private void runAllAcc()
         {
             int rowIndex = 0;
             int soLuongChay = int.Parse(textBoxSoLuongAcc.Text);
 
-            while (rowIndex < dataGridViewCharacters.Rows.Count)
+            try
             {
-                DataGridViewRow item = dataGridViewCharacters.Rows[rowIndex];
-                Helper.writeStatus(textBoxStatus, "All acc", "Đang chạy auto " + getRunningThreadsWithNameContaining("mainauto").Count.ToString()  + " acc");
-
-                if (getRunningThreadsWithNameContaining("mainauto").Count < soLuongChay)
+                while (rowIndex < dataGridViewCharacters.Rows.Count)
                 {
-                    character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                    if (character.ID != null && character.ID != "")
+                    // Check if thread should continue (for graceful shutdown)
+                    Thread currentThread = Thread.CurrentThread;
+                    if (currentThread == null || !currentThread.IsAlive)
                     {
-                        IntPtr hWnd = getHandledWindow();
-                        if (hWnd == IntPtr.Zero)
-                        {
-                            MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                            return;
-                        }
-
-                        MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                        runTaskInThread(mMainAuto.run, "mainauto", character);
-                        Thread.Sleep(Constant.VeryTimeShort);
+                        break;
                     }
 
-                    rowIndex++;
+                    DataGridViewRow item = dataGridViewCharacters.Rows[rowIndex];
+                    int runningCount = getRunningThreadsWithNameContaining("mainauto").Count;
+                    Helper.writeStatus(textBoxStatus, "All acc", "Đang chạy auto " + runningCount.ToString() + " acc");
+
+                    if (runningCount < soLuongChay)
+                    {
+                        character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                        if (character.ID != null && character.ID != "")
+                        {
+                            // Reset status flags if new day (same as single character automation)
+                            autoRenewConfigIfNeeded();
+
+                            IntPtr hWnd = getHandledWindow();
+                            if (hWnd == IntPtr.Zero)
+                            {
+                                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                                return;
+                            }
+
+                            MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                            runTaskInThread(mMainAuto.run, "mainauto", character);
+                            
+                            try
+                            {
+                                Thread.Sleep(Constant.VeryTimeShort);
+                            }
+                            catch (ThreadInterruptedException)
+                            {
+                                // Thread was interrupted, exit gracefully
+                                Helper.writeStatus(textBoxStatus, "All acc", "Đã dừng chạy auto all");
+                                return;
+                            }
+                        }
+
+                        rowIndex++;
+                    }
+                    else
+                    {
+                        // Wait for a slot to become available, but check more frequently for cancellation
+                        // Sleep in smaller increments to be more responsive to thread interruption
+                        int waitTimeMs = 0;
+                        const int checkIntervalMs = 5000; // Check every 5 seconds
+                        const int maxWaitMs = 60 * 1000; // Maximum 60 seconds total
+
+                        while (waitTimeMs < maxWaitMs && getRunningThreadsWithNameContaining("mainauto").Count >= soLuongChay)
+                        {
+                            try
+                            {
+                                Thread.Sleep(checkIntervalMs);
+                                waitTimeMs += checkIntervalMs;
+                            }
+                            catch (ThreadInterruptedException)
+                            {
+                                // Thread was interrupted (e.g., by Stop All), exit gracefully
+                                Helper.writeStatus(textBoxStatus, "All acc", "Đã dừng chạy auto all");
+                                return;
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    Thread.Sleep(60 * 1000);
-                }
+            }
+            catch (ThreadInterruptedException)
+            {
+                // Thread was interrupted - this is expected and normal when Stop All is pressed
+                // Catching this exception clears the interrupted status automatically
+                Helper.writeStatus(textBoxStatus, "All acc", "Đã dừng chạy auto all");
+                // Exit gracefully - exception is handled, no need to rethrow
+            }
+            catch (Exception ex)
+            {
+                // Only log non-interruption exceptions
+                // ThreadInterruptedException is already handled above and should not reach here
+                Helper.writeStatus(textBoxStatus, "All acc", $"Lỗi khi chạy auto all: {ex.Message}");
+                Logger.LogError("All acc", "runAllAcc", ex);
             }
         }
 

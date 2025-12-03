@@ -1,7 +1,27 @@
 {
   "permissions": {
     "allow": [
-      "Bash(msbuild:*)"
+      "Bash(msbuild:*)",
+      "Bash(mkdir:*)",
+      "Bash(test:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" -restore AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" -t:restore AutoVPT.sln)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)",
+      "Bash(awk:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xargs:*)",
+      "Bash(while read dir)",
+      "Bash(do du -b \"$dir\")",
+      "Bash(done)",
+      "Bash(numfmt:*)",
+      "Bash(find:*)",
+      "Bash(identify:*)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" /mnt/c/Users/ADMIN/source/repos/McHelper/v1/AutoVPT.sln /p:Configuration=Debug /p:Platform=x86 /t:Build /v:minimal)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" /version)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

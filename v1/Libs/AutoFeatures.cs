@@ -153,7 +153,7 @@ namespace AutoVPT.Libs
                     Thread.Sleep(2000);
                 }
                 loop++;
-            } while (!findNPC(npc) && loop <= Constant.MaxLoop && mCharacter.Running == 1);
+            } while (!findNPC(npc) && loop <= Constant.MaxLoop && mCharacter.Running == 1 && !Helper.IsStoppingAll());
 
             if (loop >= Constant.MaxLoop)
             {
@@ -217,7 +217,7 @@ namespace AutoVPT.Libs
             string mapCheckPath = Constant.ImagePathMapsFolder + mapName + "_check.png";
             int loop = 1;
 
-            while (!findImage(mapCheckPath) && loop <= Constant.MaxLoop && mCharacter.Running != 0)
+            while (!findImage(mapCheckPath) && loop <= Constant.MaxLoop && mCharacter.Running != 0 && !Helper.IsStoppingAll())
             {
                 closeAllDialog();
 
@@ -270,7 +270,7 @@ namespace AutoVPT.Libs
             }
 
             int loop = 0;
-            while(!findImageByGroup("maps", mapName + "_check") && loop < Constant.MaxLoopShort && mCharacter.Running != 0)
+            while(!findImageByGroup("maps", mapName + "_check") && loop < Constant.MaxLoopShort && mCharacter.Running != 0 && !Helper.IsStoppingAll())
             {
                 closeAllDialog();
 
@@ -1050,7 +1050,7 @@ namespace AutoVPT.Libs
 
             int i = 0;
             bool moving = true;
-            while (moving && i < Constant.MaxLoop && mCharacter.Running != 0)
+            while (moving && i < Constant.MaxLoop && mCharacter.Running != 0 && !Helper.IsStoppingAll())
             {
                 // Chụp màn hình
                 var screen_first = CaptureHelper.CaptureWindow(mHWnd);

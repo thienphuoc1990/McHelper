@@ -127,6 +127,9 @@
     <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <HintPath>packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Libs\AutoTruMa.cs" />
@@ -159,6 +162,70 @@
     <Compile Include="Libs\Helper.cs" />
     <Compile Include="Libs\Logger.cs" />
     <Compile Include="Libs\RateLimiter.cs" />
+    <Compile Include="Interfaces\IImageRecognition.cs" />
+    <Compile Include="Interfaces\IInputSimulator.cs" />
+    <Compile Include="Interfaces\IWindowManager.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\ICharacterRepository.cs" />
+    <Compile Include="Infrastructure\EmguCvImageRecognition.cs" />
+    <Compile Include="Infrastructure\Win32InputSimulator.cs" />
+    <Compile Include="Infrastructure\Win32WindowManager.cs" />
+    <Compile Include="Infrastructure\CompositeLogger.cs" />
+    <Compile Include="Infrastructure\FileLogger.cs" />
+    <Compile Include="Infrastructure\UiLogger.cs" />
+    <Compile Include="Infrastructure\DebugLogger.cs" />
+    <Compile Include="Infrastructure\LruCache.cs" />
+    <Compile Include="Infrastructure\SearchRegions.cs" />
+    <Compile Include="Infrastructure\FlashGameReader.cs" />
+    <Compile Include="FlashExplorerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\AppConfiguration.cs" />
+    <Compile Include="Configuration\XmlConfigurationStore.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Repositories\XmlCharacterRepository.cs" />
+    <Compile Include="Tests\Phase1Tests.cs" />
+    <Compile Include="Domain\CharacterIdentity.cs" />
+    <Compile Include="Domain\FeatureType.cs" />
+    <Compile Include="Domain\FeatureConfig.cs" />
+    <Compile Include="Domain\FeatureStatus.cs" />
+    <Compile Include="Domain\CharacterRuntimeState.cs" />
+    <Compile Include="Domain\CharacterAggregate.cs" />
+    <Compile Include="Domain\CharacterAdapter.cs" />
+    <Compile Include="Services\IAutomationService.cs" />
+    <Compile Include="Services\IFeatureExecutor.cs" />
+    <Compile Include="Services\AutomationService.cs" />
+    <Compile Include="Services\BaseFeatureExecutor.cs" />
+    <Compile Include="Services\FeatureExecutorFactory.cs" />
+    <Compile Include="Services\Executors\DoiNangNoExecutor.cs" />
+    <Compile Include="Services\Executors\TrongNLExecutor.cs" />
+    <Compile Include="Services\Executors\TriAnExecutor.cs" />
+    <Compile Include="Services\Executors\CheMatBaoExecutor.cs" />
+    <Compile Include="Services\Executors\AutoPhuBanExecutor.cs" />
+    <Compile Include="Services\Executors\TruMaExecutor.cs" />
+    <Compile Include="Services\Executors\VipPromotionExecutor.cs" />
+    <Compile Include="Services\Executors\NhanThuongHLVTExecutor.cs" />
+    <Compile Include="Services\Executors\RutBoExecutor.cs" />
+    <Compile Include="Services\Executors\DoiKGDKExecutor.cs" />
+    <Compile Include="Services\Executors\NhanHoiPhucExecutor.cs" />
+    <Compile Include="Services\Executors\TuHanhExecutor.cs" />
+    <Compile Include="Services\Executors\AutoThanTuExecutor.cs" />
+    <Compile Include="Services\Executors\ExecutorHelpers.cs" />
+    <Compile Include="DependencyInjection\SimpleServiceProvider.cs" />
+    <Compile Include="DependencyInjection\ServiceContainer.cs" />
+    <Compile Include="Database\DatabaseHelper.cs" />
+    <Compile Include="Database\HistoryTracker.cs" />
+    <Compile Include="Database\MigrationUtility.cs" />
+    <Compile Include="Database\TestMigration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ReportingDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\StatisticsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Objects\Character.cs" />
     <Compile Include="Objects\Map.cs" />
     <Compile Include="Objects\Monster.cs" />
@@ -189,6 +256,12 @@
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Database\schema.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Database\schema_history.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1616,8 +1689,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="database\data.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="database\dy.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -3456,4 +3529,5 @@
     <Folder Include="tracking\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
 </Project>
