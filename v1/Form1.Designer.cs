@@ -33,6 +33,7 @@
             this.dataGridViewCharacters = new System.Windows.Forms.DataGridView();
             this.buttonXoaNhanVat = new System.Windows.Forms.Button();
             this.buttonSuaNhanVat = new System.Windows.Forms.Button();
+            this.buttonMigrateXmlToSqlite = new System.Windows.Forms.Button();
             this.buttonOpenGame = new System.Windows.Forms.Button();
             this.labelAuthorVersion = new System.Windows.Forms.Label();
             this.buttonRunAuto = new System.Windows.Forms.Button();
@@ -204,6 +205,16 @@
             this.buttonSuaNhanVat.UseVisualStyleBackColor = true;
             this.buttonSuaNhanVat.Click += new System.EventHandler(this.buttonSuaNhanVat_Click);
             // 
+            // buttonMigrateXmlToSqlite
+            // 
+            this.buttonMigrateXmlToSqlite.Location = new System.Drawing.Point(15, 347);
+            this.buttonMigrateXmlToSqlite.Name = "buttonMigrateXmlToSqlite";
+            this.buttonMigrateXmlToSqlite.Size = new System.Drawing.Size(87, 23);
+            this.buttonMigrateXmlToSqlite.TabIndex = 9;
+            this.buttonMigrateXmlToSqlite.Text = "Migrate XML";
+            this.buttonMigrateXmlToSqlite.UseVisualStyleBackColor = true;
+            this.buttonMigrateXmlToSqlite.Click += new System.EventHandler(this.buttonMigrateXmlToSqlite_Click);
+            // 
             // buttonOpenGame
             // 
             this.buttonOpenGame.Location = new System.Drawing.Point(209, 262);
@@ -219,7 +230,7 @@
             this.labelAuthorVersion.AutoSize = true;
             this.labelAuthorVersion.Location = new System.Drawing.Point(16, 708);
             this.labelAuthorVersion.Name = "labelAuthorVersion";
-            this.labelAuthorVersion.Size = new System.Drawing.Size(41, 15);
+            this.labelAuthorVersion.Size = new System.Drawing.Size(35, 13);
             this.labelAuthorVersion.TabIndex = 10;
             this.labelAuthorVersion.Text = "label1";
             // 
@@ -275,35 +286,35 @@
             // 
             // buttonOpenTestForm
             // 
-            this.buttonOpenTestForm.Location = new System.Drawing.Point(890, 437);
+            this.buttonOpenTestForm.Location = new System.Drawing.Point(803, 637);
             this.buttonOpenTestForm.Name = "buttonOpenTestForm";
             this.buttonOpenTestForm.Size = new System.Drawing.Size(28, 23);
             this.buttonOpenTestForm.TabIndex = 15;
             this.buttonOpenTestForm.UseVisualStyleBackColor = true;
             this.buttonOpenTestForm.Click += new System.EventHandler(this.buttonOpenTestForm_Click);
-            //
+            // 
             // textBoxStatus
-            //
+            // 
             this.textBoxStatus.Location = new System.Drawing.Point(306, 533);
             this.textBoxStatus.Multiline = true;
             this.textBoxStatus.Name = "textBoxStatus";
             this.textBoxStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxStatus.Size = new System.Drawing.Size(538, 80);
             this.textBoxStatus.TabIndex = 65;
-            //
+            // 
             // checkBoxFilterSelectedChar
-            //
+            // 
             this.checkBoxFilterSelectedChar.AutoSize = true;
             this.checkBoxFilterSelectedChar.Location = new System.Drawing.Point(306, 507);
             this.checkBoxFilterSelectedChar.Name = "checkBoxFilterSelectedChar";
-            this.checkBoxFilterSelectedChar.Size = new System.Drawing.Size(183, 17);
+            this.checkBoxFilterSelectedChar.Size = new System.Drawing.Size(166, 17);
             this.checkBoxFilterSelectedChar.TabIndex = 67;
             this.checkBoxFilterSelectedChar.Text = "Show only selected character";
             this.checkBoxFilterSelectedChar.UseVisualStyleBackColor = true;
             this.checkBoxFilterSelectedChar.CheckedChanged += new System.EventHandler(this.checkBoxFilterSelectedChar_CheckedChanged);
-            //
+            // 
             // buttonClearLog
-            //
+            // 
             this.buttonClearLog.Location = new System.Drawing.Point(495, 503);
             this.buttonClearLog.Name = "buttonClearLog";
             this.buttonClearLog.Size = new System.Drawing.Size(75, 23);
@@ -371,7 +382,7 @@
             this.checkBoxStatusNhanHoiPhuc.AutoSize = true;
             this.checkBoxStatusNhanHoiPhuc.Location = new System.Drawing.Point(436, 125);
             this.checkBoxStatusNhanHoiPhuc.Name = "checkBoxStatusNhanHoiPhuc";
-            this.checkBoxStatusNhanHoiPhuc.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusNhanHoiPhuc.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusNhanHoiPhuc.TabIndex = 76;
             this.checkBoxStatusNhanHoiPhuc.Text = "Đã xong";
             this.checkBoxStatusNhanHoiPhuc.UseVisualStyleBackColor = true;
@@ -381,7 +392,7 @@
             this.checkBoxStatusVipPromotion.AutoSize = true;
             this.checkBoxStatusVipPromotion.Location = new System.Drawing.Point(180, 242);
             this.checkBoxStatusVipPromotion.Name = "checkBoxStatusVipPromotion";
-            this.checkBoxStatusVipPromotion.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusVipPromotion.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusVipPromotion.TabIndex = 75;
             this.checkBoxStatusVipPromotion.Text = "Đã xong";
             this.checkBoxStatusVipPromotion.UseVisualStyleBackColor = true;
@@ -391,7 +402,7 @@
             this.checkBoxStatusAutoThanTu.AutoSize = true;
             this.checkBoxStatusAutoThanTu.Location = new System.Drawing.Point(436, 148);
             this.checkBoxStatusAutoThanTu.Name = "checkBoxStatusAutoThanTu";
-            this.checkBoxStatusAutoThanTu.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusAutoThanTu.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusAutoThanTu.TabIndex = 74;
             this.checkBoxStatusAutoThanTu.Text = "Đã xong";
             this.checkBoxStatusAutoThanTu.UseVisualStyleBackColor = true;
@@ -403,7 +414,7 @@
             this.checkBoxDoiNN.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDoiNN.Location = new System.Drawing.Point(12, 12);
             this.checkBoxDoiNN.Name = "checkBoxDoiNN";
-            this.checkBoxDoiNN.Size = new System.Drawing.Size(183, 19);
+            this.checkBoxDoiNN.Size = new System.Drawing.Size(158, 17);
             this.checkBoxDoiNN.TabIndex = 45;
             this.checkBoxDoiNN.Text = "Đổi năng nổ (Only NL Hiếm)";
             this.checkBoxDoiNN.UseVisualStyleBackColor = true;
@@ -415,7 +426,7 @@
             this.checkBoxTuHanh.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxTuHanh.Location = new System.Drawing.Point(12, 150);
             this.checkBoxTuHanh.Name = "checkBoxTuHanh";
-            this.checkBoxTuHanh.Size = new System.Drawing.Size(74, 19);
+            this.checkBoxTuHanh.Size = new System.Drawing.Size(66, 17);
             this.checkBoxTuHanh.TabIndex = 56;
             this.checkBoxTuHanh.Text = "Tu hành";
             this.checkBoxTuHanh.UseVisualStyleBackColor = true;
@@ -425,7 +436,7 @@
             this.checkBoxStatusNhanThuongHL.AutoSize = true;
             this.checkBoxStatusNhanThuongHL.Location = new System.Drawing.Point(436, 104);
             this.checkBoxStatusNhanThuongHL.Name = "checkBoxStatusNhanThuongHL";
-            this.checkBoxStatusNhanThuongHL.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusNhanThuongHL.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusNhanThuongHL.TabIndex = 73;
             this.checkBoxStatusNhanThuongHL.Text = "Đã xong";
             this.checkBoxStatusNhanThuongHL.UseVisualStyleBackColor = true;
@@ -435,7 +446,7 @@
             this.checkBoxTruMa.AutoSize = true;
             this.checkBoxTruMa.Location = new System.Drawing.Point(12, 173);
             this.checkBoxTruMa.Name = "checkBoxTruMa";
-            this.checkBoxTruMa.Size = new System.Drawing.Size(164, 19);
+            this.checkBoxTruMa.Size = new System.Drawing.Size(144, 17);
             this.checkBoxTruMa.TabIndex = 58;
             this.checkBoxTruMa.Text = "Trừ ma (chưa hoạt động)";
             this.checkBoxTruMa.UseVisualStyleBackColor = true;
@@ -447,7 +458,7 @@
             this.checkBoxDoiKGDK.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDoiKGDK.Location = new System.Drawing.Point(12, 129);
             this.checkBoxDoiKGDK.Name = "checkBoxDoiKGDK";
-            this.checkBoxDoiKGDK.Size = new System.Drawing.Size(168, 19);
+            this.checkBoxDoiKGDK.Size = new System.Drawing.Size(149, 17);
             this.checkBoxDoiKGDK.TabIndex = 54;
             this.checkBoxDoiKGDK.Text = "Đổi không gian điêu khắc";
             this.checkBoxDoiKGDK.UseVisualStyleBackColor = true;
@@ -459,7 +470,7 @@
             this.checkBoxNhanVIP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxNhanVIP.Location = new System.Drawing.Point(12, 242);
             this.checkBoxNhanVIP.Name = "checkBoxNhanVIP";
-            this.checkBoxNhanVIP.Size = new System.Drawing.Size(126, 19);
+            this.checkBoxNhanVIP.Size = new System.Drawing.Size(112, 17);
             this.checkBoxNhanVIP.TabIndex = 30;
             this.checkBoxNhanVIP.Text = "Nhận phúc lợi VIP";
             this.checkBoxNhanVIP.UseVisualStyleBackColor = true;
@@ -469,7 +480,7 @@
             this.checkBoxStatusRungCay.AutoSize = true;
             this.checkBoxStatusRungCay.Location = new System.Drawing.Point(436, 58);
             this.checkBoxStatusRungCay.Name = "checkBoxStatusRungCay";
-            this.checkBoxStatusRungCay.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusRungCay.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusRungCay.TabIndex = 72;
             this.checkBoxStatusRungCay.Text = "Đã xong";
             this.checkBoxStatusRungCay.UseVisualStyleBackColor = true;
@@ -479,7 +490,7 @@
             this.checkBoxAoMaThap.AutoSize = true;
             this.checkBoxAoMaThap.Location = new System.Drawing.Point(12, 196);
             this.checkBoxAoMaThap.Name = "checkBoxAoMaThap";
-            this.checkBoxAoMaThap.Size = new System.Drawing.Size(187, 19);
+            this.checkBoxAoMaThap.Size = new System.Drawing.Size(165, 17);
             this.checkBoxAoMaThap.TabIndex = 60;
             this.checkBoxAoMaThap.Text = "Ảo ma tháp (chưa hoạt động)";
             this.checkBoxAoMaThap.UseVisualStyleBackColor = true;
@@ -491,7 +502,7 @@
             this.checkBoxRutBo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxRutBo.Location = new System.Drawing.Point(11, 106);
             this.checkBoxRutBo.Name = "checkBoxRutBo";
-            this.checkBoxRutBo.Size = new System.Drawing.Size(65, 19);
+            this.checkBoxRutBo.Size = new System.Drawing.Size(58, 17);
             this.checkBoxRutBo.TabIndex = 52;
             this.checkBoxRutBo.Text = "Rút bộ";
             this.checkBoxRutBo.UseVisualStyleBackColor = true;
@@ -501,7 +512,7 @@
             this.checkBoxStatusNhanVaAutoPB.AutoSize = true;
             this.checkBoxStatusNhanVaAutoPB.Location = new System.Drawing.Point(436, 35);
             this.checkBoxStatusNhanVaAutoPB.Name = "checkBoxStatusNhanVaAutoPB";
-            this.checkBoxStatusNhanVaAutoPB.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusNhanVaAutoPB.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusNhanVaAutoPB.TabIndex = 71;
             this.checkBoxStatusNhanVaAutoPB.Text = "Đã xong";
             this.checkBoxStatusNhanVaAutoPB.UseVisualStyleBackColor = true;
@@ -511,7 +522,7 @@
             this.checkBoxTrongCay.AutoSize = true;
             this.checkBoxTrongCay.Location = new System.Drawing.Point(12, 219);
             this.checkBoxTrongCay.Name = "checkBoxTrongCay";
-            this.checkBoxTrongCay.Size = new System.Drawing.Size(178, 19);
+            this.checkBoxTrongCay.Size = new System.Drawing.Size(159, 17);
             this.checkBoxTrongCay.TabIndex = 62;
             this.checkBoxTrongCay.Text = "Trồng cây (chưa hoạt động)";
             this.checkBoxTrongCay.UseVisualStyleBackColor = true;
@@ -521,7 +532,7 @@
             this.checkBoxLatTheBai.AutoSize = true;
             this.checkBoxLatTheBai.Location = new System.Drawing.Point(12, 83);
             this.checkBoxLatTheBai.Name = "checkBoxLatTheBai";
-            this.checkBoxLatTheBai.Size = new System.Drawing.Size(182, 19);
+            this.checkBoxLatTheBai.Size = new System.Drawing.Size(161, 17);
             this.checkBoxLatTheBai.TabIndex = 50;
             this.checkBoxLatTheBai.Text = "Lật thẻ bài (chưa hoạt động)";
             this.checkBoxLatTheBai.UseVisualStyleBackColor = true;
@@ -531,7 +542,7 @@
             this.checkBoxStatusCheMB.AutoSize = true;
             this.checkBoxStatusCheMB.Location = new System.Drawing.Point(436, 12);
             this.checkBoxStatusCheMB.Name = "checkBoxStatusCheMB";
-            this.checkBoxStatusCheMB.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusCheMB.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusCheMB.TabIndex = 70;
             this.checkBoxStatusCheMB.Text = "Đã xong";
             this.checkBoxStatusCheMB.UseVisualStyleBackColor = true;
@@ -541,7 +552,7 @@
             this.checkBoxStatusTriAn.AutoSize = true;
             this.checkBoxStatusTriAn.Location = new System.Drawing.Point(180, 60);
             this.checkBoxStatusTriAn.Name = "checkBoxStatusTriAn";
-            this.checkBoxStatusTriAn.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusTriAn.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusTriAn.TabIndex = 65;
             this.checkBoxStatusTriAn.Text = "Đã xong";
             this.checkBoxStatusTriAn.UseVisualStyleBackColor = true;
@@ -551,7 +562,7 @@
             this.checkBoxStatusTuHanh.AutoSize = true;
             this.checkBoxStatusTuHanh.Location = new System.Drawing.Point(180, 152);
             this.checkBoxStatusTuHanh.Name = "checkBoxStatusTuHanh";
-            this.checkBoxStatusTuHanh.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusTuHanh.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusTuHanh.TabIndex = 69;
             this.checkBoxStatusTuHanh.Text = "Đã xong";
             this.checkBoxStatusTuHanh.UseVisualStyleBackColor = true;
@@ -563,7 +574,7 @@
             this.checkBoxCheMatBao.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxCheMatBao.Location = new System.Drawing.Point(271, 12);
             this.checkBoxCheMatBao.Name = "checkBoxCheMatBao";
-            this.checkBoxCheMatBao.Size = new System.Drawing.Size(100, 19);
+            this.checkBoxCheMatBao.Size = new System.Drawing.Size(88, 17);
             this.checkBoxCheMatBao.TabIndex = 49;
             this.checkBoxCheMatBao.Text = "Chế Mật Bảo";
             this.checkBoxCheMatBao.UseVisualStyleBackColor = true;
@@ -573,7 +584,7 @@
             this.checkBoxAutoThanTu.AutoSize = true;
             this.checkBoxAutoThanTu.Location = new System.Drawing.Point(271, 148);
             this.checkBoxAutoThanTu.Name = "checkBoxAutoThanTu";
-            this.checkBoxAutoThanTu.Size = new System.Drawing.Size(126, 19);
+            this.checkBoxAutoThanTu.Size = new System.Drawing.Size(114, 17);
             this.checkBoxAutoThanTu.TabIndex = 64;
             this.checkBoxAutoThanTu.Text = "Auto Thần tu (VIP)";
             this.checkBoxAutoThanTu.UseVisualStyleBackColor = true;
@@ -583,7 +594,7 @@
             this.checkBoxTriAn.AutoSize = true;
             this.checkBoxTriAn.Location = new System.Drawing.Point(12, 60);
             this.checkBoxTriAn.Name = "checkBoxTriAn";
-            this.checkBoxTriAn.Size = new System.Drawing.Size(133, 19);
+            this.checkBoxTriAn.Size = new System.Drawing.Size(119, 17);
             this.checkBoxTriAn.TabIndex = 44;
             this.checkBoxTriAn.Text = "Trị An (Phải có VIP)";
             this.checkBoxTriAn.UseVisualStyleBackColor = true;
@@ -595,7 +606,7 @@
             this.checkBoxAutoPhuBan.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAutoPhuBan.Location = new System.Drawing.Point(271, 35);
             this.checkBoxAutoPhuBan.Name = "checkBoxAutoPhuBan";
-            this.checkBoxAutoPhuBan.Size = new System.Drawing.Size(151, 19);
+            this.checkBoxAutoPhuBan.Size = new System.Drawing.Size(136, 17);
             this.checkBoxAutoPhuBan.TabIndex = 48;
             this.checkBoxAutoPhuBan.Text = "Nhận và Auto Phụ Bản";
             this.checkBoxAutoPhuBan.UseVisualStyleBackColor = true;
@@ -605,7 +616,7 @@
             this.checkBoxStatusRutBo.AutoSize = true;
             this.checkBoxStatusRutBo.Location = new System.Drawing.Point(180, 106);
             this.checkBoxStatusRutBo.Name = "checkBoxStatusRutBo";
-            this.checkBoxStatusRutBo.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusRutBo.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusRutBo.TabIndex = 67;
             this.checkBoxStatusRutBo.Text = "Đã xong";
             this.checkBoxStatusRutBo.UseVisualStyleBackColor = true;
@@ -615,7 +626,7 @@
             this.checkBoxCauCa.AutoSize = true;
             this.checkBoxCauCa.Location = new System.Drawing.Point(271, 219);
             this.checkBoxCauCa.Name = "checkBoxCauCa";
-            this.checkBoxCauCa.Size = new System.Drawing.Size(163, 19);
+            this.checkBoxCauCa.Size = new System.Drawing.Size(145, 17);
             this.checkBoxCauCa.TabIndex = 63;
             this.checkBoxCauCa.Text = "Câu cá (chưa hoạt động)";
             this.checkBoxCauCa.UseVisualStyleBackColor = true;
@@ -625,7 +636,7 @@
             this.checkBoxStatusDoiKGDK.AutoSize = true;
             this.checkBoxStatusDoiKGDK.Location = new System.Drawing.Point(180, 129);
             this.checkBoxStatusDoiKGDK.Name = "checkBoxStatusDoiKGDK";
-            this.checkBoxStatusDoiKGDK.Size = new System.Drawing.Size(75, 19);
+            this.checkBoxStatusDoiKGDK.Size = new System.Drawing.Size(66, 17);
             this.checkBoxStatusDoiKGDK.TabIndex = 68;
             this.checkBoxStatusDoiKGDK.Text = "Đã xong";
             this.checkBoxStatusDoiKGDK.UseVisualStyleBackColor = true;
@@ -637,7 +648,7 @@
             this.checkBoxRungCay.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxRungCay.Location = new System.Drawing.Point(271, 58);
             this.checkBoxRungCay.Name = "checkBoxRungCay";
-            this.checkBoxRungCay.Size = new System.Drawing.Size(80, 19);
+            this.checkBoxRungCay.Size = new System.Drawing.Size(72, 17);
             this.checkBoxRungCay.TabIndex = 51;
             this.checkBoxRungCay.Text = "Rung cây";
             this.checkBoxRungCay.UseVisualStyleBackColor = true;
@@ -649,7 +660,7 @@
             this.checkBoxTrongNL.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxTrongNL.Location = new System.Drawing.Point(12, 37);
             this.checkBoxTrongNL.Name = "checkBoxTrongNL";
-            this.checkBoxTrongNL.Size = new System.Drawing.Size(80, 19);
+            this.checkBoxTrongNL.Size = new System.Drawing.Size(71, 17);
             this.checkBoxTrongNL.TabIndex = 42;
             this.checkBoxTrongNL.Text = "Trồng NL";
             this.checkBoxTrongNL.UseVisualStyleBackColor = true;
@@ -659,7 +670,7 @@
             this.checkBoxHaiThuoc.AutoSize = true;
             this.checkBoxHaiThuoc.Location = new System.Drawing.Point(271, 197);
             this.checkBoxHaiThuoc.Name = "checkBoxHaiThuoc";
-            this.checkBoxHaiThuoc.Size = new System.Drawing.Size(177, 19);
+            this.checkBoxHaiThuoc.Size = new System.Drawing.Size(157, 17);
             this.checkBoxHaiThuoc.TabIndex = 61;
             this.checkBoxHaiThuoc.Text = "Hái thuốc (chưa hoạt động)";
             this.checkBoxHaiThuoc.UseVisualStyleBackColor = true;
@@ -678,7 +689,7 @@
             this.checkBoxDauPet.AutoSize = true;
             this.checkBoxDauPet.Location = new System.Drawing.Point(271, 81);
             this.checkBoxDauPet.Name = "checkBoxDauPet";
-            this.checkBoxDauPet.Size = new System.Drawing.Size(73, 19);
+            this.checkBoxDauPet.Size = new System.Drawing.Size(65, 17);
             this.checkBoxDauPet.TabIndex = 53;
             this.checkBoxDauPet.Text = "Đấu Pet";
             this.checkBoxDauPet.UseVisualStyleBackColor = true;
@@ -690,7 +701,7 @@
             this.checkBoxNhanHoiPhuc.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxNhanHoiPhuc.Location = new System.Drawing.Point(271, 125);
             this.checkBoxNhanHoiPhuc.Name = "checkBoxNhanHoiPhuc";
-            this.checkBoxNhanHoiPhuc.Size = new System.Drawing.Size(169, 19);
+            this.checkBoxNhanHoiPhuc.Size = new System.Drawing.Size(149, 17);
             this.checkBoxNhanHoiPhuc.TabIndex = 57;
             this.checkBoxNhanHoiPhuc.Text = "Nhận hồi phục hàng ngày";
             this.checkBoxNhanHoiPhuc.UseVisualStyleBackColor = true;
@@ -700,7 +711,7 @@
             this.checkBoxMeTran.AutoSize = true;
             this.checkBoxMeTran.Location = new System.Drawing.Point(271, 173);
             this.checkBoxMeTran.Name = "checkBoxMeTran";
-            this.checkBoxMeTran.Size = new System.Drawing.Size(167, 19);
+            this.checkBoxMeTran.Size = new System.Drawing.Size(147, 17);
             this.checkBoxMeTran.TabIndex = 59;
             this.checkBoxMeTran.Text = "Mê trận (chưa hoạt động)";
             this.checkBoxMeTran.UseVisualStyleBackColor = true;
@@ -712,7 +723,7 @@
             this.checkBoxNhanThuongHanhLang.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxNhanThuongHanhLang.Location = new System.Drawing.Point(271, 104);
             this.checkBoxNhanThuongHanhLang.Name = "checkBoxNhanThuongHanhLang";
-            this.checkBoxNhanThuongHanhLang.Size = new System.Drawing.Size(158, 19);
+            this.checkBoxNhanThuongHanhLang.Size = new System.Drawing.Size(138, 17);
             this.checkBoxNhanThuongHanhLang.TabIndex = 55;
             this.checkBoxNhanThuongHanhLang.Text = "Nhận thưởng hành lang";
             this.checkBoxNhanThuongHanhLang.UseVisualStyleBackColor = true;
@@ -752,7 +763,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(372, 13);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 15);
+            this.label5.Size = new System.Drawing.Size(51, 13);
             this.label5.TabIndex = 52;
             this.label5.Text = "Chinese?";
             // 
@@ -761,7 +772,7 @@
             this.checkBoxIsChinese.AutoSize = true;
             this.checkBoxIsChinese.Location = new System.Drawing.Point(504, 13);
             this.checkBoxIsChinese.Name = "checkBoxIsChinese";
-            this.checkBoxIsChinese.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxIsChinese.Size = new System.Drawing.Size(15, 14);
             this.checkBoxIsChinese.TabIndex = 51;
             this.checkBoxIsChinese.UseVisualStyleBackColor = true;
             // 
@@ -770,7 +781,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(6, 211);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(128, 15);
+            this.label9.Size = new System.Drawing.Size(116, 13);
             this.label9.TabIndex = 50;
             this.label9.Text = "Chạy auto cho đến hết";
             // 
@@ -779,7 +790,7 @@
             this.checkBoxRunAutoToLast.AutoSize = true;
             this.checkBoxRunAutoToLast.Location = new System.Drawing.Point(138, 211);
             this.checkBoxRunAutoToLast.Name = "checkBoxRunAutoToLast";
-            this.checkBoxRunAutoToLast.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxRunAutoToLast.Size = new System.Drawing.Size(15, 14);
             this.checkBoxRunAutoToLast.TabIndex = 49;
             this.checkBoxRunAutoToLast.UseVisualStyleBackColor = true;
             // 
@@ -810,7 +821,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 37);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(82, 15);
+            this.label8.Size = new System.Drawing.Size(77, 13);
             this.label8.TabIndex = 47;
             this.label8.Text = "Vị trí nhân vật:";
             // 
@@ -850,7 +861,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(6, 187);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(83, 15);
+            this.label11.Size = new System.Drawing.Size(73, 13);
             this.label11.TabIndex = 39;
             this.label11.Text = "Loại Mật Bảo:";
             // 
@@ -859,7 +870,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(6, 165);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(81, 15);
+            this.label10.Size = new System.Drawing.Size(72, 13);
             this.label10.TabIndex = 38;
             this.label10.Text = "Cấp Mật Bảo:";
             // 
@@ -868,7 +879,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 141);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 15);
+            this.label6.Size = new System.Drawing.Size(71, 13);
             this.label6.TabIndex = 37;
             this.label6.Text = "Đổi NL Cấp 4";
             // 
@@ -879,7 +890,7 @@
             this.checkBoxDoiNLCap4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDoiNLCap4.Location = new System.Drawing.Point(138, 140);
             this.checkBoxDoiNLCap4.Name = "checkBoxDoiNLCap4";
-            this.checkBoxDoiNLCap4.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxDoiNLCap4.Size = new System.Drawing.Size(15, 14);
             this.checkBoxDoiNLCap4.TabIndex = 36;
             this.checkBoxDoiNLCap4.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.checkBoxDoiNLCap4.UseVisualStyleBackColor = true;
@@ -889,7 +900,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 89);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(108, 15);
+            this.label4.Size = new System.Drawing.Size(95, 13);
             this.label4.TabIndex = 34;
             this.label4.Text = "Trồng nguyên liệu:";
             // 
@@ -898,7 +909,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 113);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(143, 15);
+            this.label1.Size = new System.Drawing.Size(126, 13);
             this.label1.TabIndex = 33;
             this.label1.Text = "Nguyên liệu đổi năng nổ:";
             // 
@@ -932,7 +943,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 63);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 15);
+            this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 28;
             this.label3.Text = "+FPS:";
             // 
@@ -941,7 +952,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 15);
+            this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 26;
             this.label2.Text = "Cấp VIP:";
             // 
@@ -980,7 +991,7 @@
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(6, 7);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.Size = new System.Drawing.Size(54, 13);
             this.label7.TabIndex = 6;
             this.label7.Text = "Phụ bản";
             // 
@@ -1103,7 +1114,7 @@
             // 
             // buttonResetStatus
             // 
-            this.buttonResetStatus.Location = new System.Drawing.Point(15, 346);
+            this.buttonResetStatus.Location = new System.Drawing.Point(384, 637);
             this.buttonResetStatus.Name = "buttonResetStatus";
             this.buttonResetStatus.Size = new System.Drawing.Size(87, 23);
             this.buttonResetStatus.TabIndex = 67;
@@ -1256,7 +1267,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(19, 210);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(93, 15);
+            this.label12.Size = new System.Drawing.Size(83, 13);
             this.label12.TabIndex = 53;
             this.label12.Text = "VPN Chinese IP";
             // 
@@ -1351,7 +1362,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(19, 239);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(78, 15);
+            this.label13.Size = new System.Drawing.Size(70, 13);
             this.label13.TabIndex = 90;
             this.label13.Text = "So luong acc";
             // 
@@ -1489,7 +1500,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 733);
+            this.ClientSize = new System.Drawing.Size(868, 719);
             this.Controls.Add(this.buttonTruMa);
             this.Controls.Add(this.buttonTrongNLAll);
             this.Controls.Add(this.buttonCheMbAll);
@@ -1542,6 +1553,7 @@
             this.Controls.Add(this.buttonOpenTestForm);
             this.Controls.Add(this.buttonSuaNhanVat);
             this.Controls.Add(this.buttonXoaNhanVat);
+            this.Controls.Add(this.buttonMigrateXmlToSqlite);
             this.Controls.Add(this.buttonStopAuto);
             this.Controls.Add(this.buttonRunAuto);
             this.Controls.Add(this.buttonSaveConfigAuto);
@@ -1575,6 +1587,7 @@
         private System.Windows.Forms.Button buttonThemNhanVat;
         private System.Windows.Forms.Button buttonXoaNhanVat;
         private System.Windows.Forms.Button buttonSuaNhanVat;
+        private System.Windows.Forms.Button buttonMigrateXmlToSqlite;
         private System.Windows.Forms.Button buttonOpenGame;
         private System.Windows.Forms.Label labelAuthorVersion;
         private System.Windows.Forms.Button buttonRunAuto;

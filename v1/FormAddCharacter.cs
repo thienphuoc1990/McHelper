@@ -9,6 +9,8 @@ namespace AutoVPT
     {
         Character character;
         public string item;
+        private string originalCharacterId = null; // Track original ID for edit mode
+
         public FormAddCharacter()
         {
             InitializeComponent();
@@ -33,35 +35,54 @@ namespace AutoVPT
 
         public void SaveOrUpdateAction()
         {
-            if(IsNotExist())
+            // Edit mode: originalCharacterId is set
+            // Add mode: originalCharacterId is null
+            if(originalCharacterId == null)
             {
-                character = new Character();
-                character.ID = this.textBoxID.Text;
-                character.Link = this.textBoxLink.Text;
-                character.Group = this.textBoxGroup.Text;
-                try
+                // Add new character
+                if(IsNotExist())
                 {
-                    CharacterList.InsertCharacter(character);
-                    this.Close();
+                    character = new Character();
+                    character.ID = this.textBoxID.Text;
+                    character.Link = this.textBoxLink.Text;
+                    character.Group = this.textBoxGroup.Text;
+                    try
+                    {
+                        CharacterList.InsertCharacter(character);
+                        this.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Thêm mới character " + character.ID + " không thành công.");
+                    }
                 }
-                catch
+                else
                 {
-                    MessageBox.Show("Thêm mới character " + character.ID + " không thành công.");
+                    MessageBox.Show("Character ID '" + this.textBoxID.Text + "' đã tồn tại. Vui lòng chọn ID khác.");
                 }
             }
             else
             {
-                character.Link = this.textBoxLink.Text;
-                character.Group = this.textBoxGroup.Text;
-                try
+                // Edit existing character - use original ID
+                character = CharacterList.GetCharacter(originalCharacterId);
+                if (character != null)
                 {
-                    CharacterList.UpdateCharacter(character);
-                    Helper.saveSettingsToXML(character);
-                    this.Close();
+                    character.Link = this.textBoxLink.Text;
+                    character.Group = this.textBoxGroup.Text;
+                    try
+                    {
+                        CharacterList.UpdateCharacter(character);
+                        Helper.saveSettingsToXML(character);
+                        this.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cập nhật character " + character.ID + " không thành công.");
+                    }
                 }
-                catch
-                { 
-                    MessageBox.Show("Cập nhật character " + character.ID + " không thành công.");
+                else
+                {
+                    MessageBox.Show("Không tìm thấy character để cập nhật.");
                 }
             }
         }
@@ -91,8 +112,13 @@ namespace AutoVPT
             character = CharacterList.GetCharacter(item);
             if (character != null)
             {
+                // Set edit mode
+                originalCharacterId = character.ID;
+
+                // Populate form
                 this.buttonAddNewCharacter.Text = "Cập nhật";
                 this.textBoxID.Text = character.ID;
+                this.textBoxID.Enabled = false; // Disable ID field during edit - ID is immutable
                 this.textBoxLink.Text = character.Link;
                 this.textBoxGroup.Text = character.Group;
             }
