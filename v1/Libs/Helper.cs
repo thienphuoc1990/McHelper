@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace AutoVPT.Libs
 {
@@ -211,52 +210,68 @@ namespace AutoVPT.Libs
             MessageBox.Show(id + ": " + message);
         }
 
+        /// <summary>
+        /// Save character settings to database
+        /// Note: Method name kept as 'saveSettingsToXML' for backward compatibility
+        /// Now uses SQLite instead of XML files
+        /// </summary>
         public static void saveSettingsToXML(Character character)
         {
-            StreamWriter myWriter = null;
             try
             {
-                var dbPath = Path.Combine(Application.StartupPath, "database");
-                Directory.CreateDirectory(dbPath);
-
-                XmlSerializer mySerializer = new XmlSerializer(typeof(Character));
-                myWriter = new StreamWriter(Path.Combine(dbPath, character.ID + ".xml"));
-                mySerializer.Serialize(myWriter, character);
+                AutoVPT.Database.DatabaseHelper.SaveCharacter(character);
             }
             catch (Exception ex)
             {
                 Logger.LogError(character.ID, "saveSettingsToXML", ex);
-                throw; // Re-throw to maintain existing behavior
-            }
-            finally
-            {
-                myWriter?.Close();
+                throw;
             }
         }
 
+        /// <summary>
+        /// Load character settings from database
+        /// Note: Method name kept as 'loadSettingsFromXML' for backward compatibility
+        /// Now uses SQLite instead of XML files
+        /// </summary>
         public static Character loadSettingsFromXML(string id)
         {
-            FileStream myFileStream = null;
+            try
+            {
+                return AutoVPT.Database.DatabaseHelper.LoadCharacter(id);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(id, "loadSettingsFromXML", ex);
+                return new Character { ID = id };
+            }
+        }
+
+        /// <summary>
+        /// Load character directly from XML file (used for migration)
+        /// </summary>
+        public static Character LoadFromXmlFile(string id)
+        {
+            System.IO.FileStream myFileStream = null;
             try
             {
                 Character character = new Character();
-                XmlSerializer mySerializer = new XmlSerializer(typeof(Character));
-                var filePath = Path.Combine(Application.StartupPath, "database", id + ".xml");
+                System.Xml.Serialization.XmlSerializer mySerializer = new System.Xml.Serialization.XmlSerializer(typeof(Character));
+                var filePath = System.IO.Path.Combine(Application.StartupPath, "database", id + ".xml");
 
-                if (!File.Exists(filePath))
+                if (!System.IO.File.Exists(filePath))
                 {
-                    Logger.LogWarning(id, "loadSettingsFromXML", $"Character file not found: {filePath}");
+                    Logger.LogWarning(id, "LoadFromXmlFile", $"Character file not found: {filePath}");
                     return character;
                 }
 
-                myFileStream = new FileStream(filePath, FileMode.Open);
+                myFileStream = new System.IO.FileStream(filePath, System.IO.FileMode.Open);
                 character = (Character)mySerializer.Deserialize(myFileStream);
 
                 return character;
             }
             catch (Exception ex)
             {
-                Logger.LogError(id, "loadSettingsFromXML", ex);
+                Logger.LogError(id, "LoadFromXmlFile", ex);
                 return new Character(); // Return empty character on error
             }
             finally

@@ -48,6 +48,55 @@ namespace AutoVPT
             // Initialize ServiceContainer for dependency injection
             AutoVPT.DependencyInjection.ServiceContainer.Initialize(textBoxStatus);
 
+            // Initialize SQLite database (must be called before loading characters)
+            try
+            {
+                AutoVPT.Database.DatabaseHelper.Initialize();
+
+                // Check if database is empty and XML files exist - auto migrate
+                var existingCharacters = AutoVPT.Database.DatabaseHelper.LoadAllCharacters();
+                if (existingCharacters.Count == 0)
+                {
+                    // Check if XML files exist
+                    var dbPath = System.IO.Path.Combine(Application.StartupPath, "database");
+                    var xmlFiles = System.IO.Directory.GetFiles(dbPath, "*.xml")
+                        .Where(f => !f.EndsWith("data.xml", StringComparison.OrdinalIgnoreCase))
+                        .ToArray();
+
+                    if (xmlFiles.Length > 0)
+                    {
+                        // Auto-migrate from XML to SQLite
+                        var result = MessageBox.Show(
+                            $"Found {xmlFiles.Length} character XML file(s).\n\n" +
+                            "Would you like to migrate them to the new SQLite database?\n\n" +
+                            "Your XML files will be backed up automatically.",
+                            "Migrate Characters to SQLite",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            var migrationResult = AutoVPT.Database.MigrationUtility.MigrateXmlToSqlite(backupXmlFiles: true);
+
+                            MessageBox.Show(
+                                $"Migration completed!\n\n" +
+                                $"Characters migrated: {migrationResult.CharactersMigrated}\n" +
+                                $"Errors: {migrationResult.Errors.Count}\n\n" +
+                                $"XML backups saved to: database_backup_{DateTime.Now:yyyyMMdd_HHmmss}",
+                                "Migration Complete",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database initialization error: {ex.Message}\n\nPlease ensure SQLite.Interop.dll is present.",
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             populate();
             initConfigs();
         }
@@ -57,7 +106,37 @@ namespace AutoVPT
             if (!checkSelectCharacter()) { return; }
             if (current_selected != null)
             {
-                CharacterList.DeleteCharacter(current_selected);
+                // Confirm deletion
+                var result = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa nhân vật '{current_selected}'?",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        CharacterList.DeleteCharacter(current_selected);
+
+                        // Refresh the character list to show changes
+                        populate();
+
+                        MessageBox.Show($"Đã xóa nhân vật '{current_selected}' thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+
+                        current_selected = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Lỗi khi xóa nhân vật: {ex.Message}",
+                            "Lỗi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
@@ -69,6 +148,9 @@ namespace AutoVPT
         {
             FormAddCharacter formAddCharacter = new FormAddCharacter();
 
+            // Refresh list after form closes
+            formAddCharacter.FormClosed += (s, args) => populate();
+
             formAddCharacter.Show();
         }
 
@@ -79,7 +161,131 @@ namespace AutoVPT
             formAddCharacter.item = current_selected;
             formAddCharacter.loadData();
 
+            // Refresh list after form closes
+            formAddCharacter.FormClosed += (s, args) => populate();
+
             formAddCharacter.Show();
+        }
+
+        private void buttonMigrateXmlToSqlite_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dbPath = System.IO.Path.Combine(Application.StartupPath, "database");
+
+                // Check if XML files exist
+                if (!System.IO.Directory.Exists(dbPath))
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy thư mục database.",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
+                var xmlFiles = System.IO.Directory.GetFiles(dbPath, "*.xml");
+                if (xmlFiles.Length == 0)
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy file XML để migrate.",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Count character XML files (exclude data.xml)
+                int characterXmlCount = 0;
+                foreach (var xmlFile in xmlFiles)
+                {
+                    var fileName = System.IO.Path.GetFileNameWithoutExtension(xmlFile);
+                    if (!fileName.Equals("data", StringComparison.OrdinalIgnoreCase))
+                    {
+                        characterXmlCount++;
+                    }
+                }
+
+                // Confirm migration
+                var confirmResult = MessageBox.Show(
+                    $"Tìm thấy {characterXmlCount} file XML nhân vật.\n\n" +
+                    $"Bạn có muốn migrate từ XML sang SQLite?\n\n" +
+                    $"Lưu ý:\n" +
+                    $"- Dữ liệu XML sẽ được backup tự động\n" +
+                    $"- Dữ liệu SQLite hiện tại sẽ bị ghi đè\n" +
+                    $"- Quá trình không thể hoàn tác",
+                    "Xác nhận migrate",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                // Show progress message
+                this.Cursor = Cursors.WaitCursor;
+                this.Enabled = false;
+
+                // Run migration
+                var migrationResult = AutoVPT.Database.MigrationUtility.MigrateXmlToSqlite(backupXmlFiles: true);
+
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
+
+                // Show results
+                if (migrationResult.Success)
+                {
+                    MessageBox.Show(
+                        $"✓ Migration thành công!\n\n" +
+                        $"Nhân vật đã migrate: {migrationResult.CharactersMigrated}\n" +
+                        $"Lỗi: {migrationResult.Errors.Count}\n\n" +
+                        $"Backup XML đã được lưu vào:\n" +
+                        $"database_backup_{DateTime.Now:yyyyMMdd_HHmmss}/",
+                        "Migration thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    // Refresh character list
+                    populate();
+                }
+                else
+                {
+                    var errorMessage = $"✗ Migration thất bại!\n\n" +
+                        $"Lỗi: {migrationResult.ErrorMessage}\n\n";
+
+                    if (migrationResult.Errors.Count > 0)
+                    {
+                        errorMessage += $"Chi tiết lỗi:\n";
+                        for (int i = 0; i < Math.Min(5, migrationResult.Errors.Count); i++)
+                        {
+                            errorMessage += $"- {migrationResult.Errors[i]}\n";
+                        }
+
+                        if (migrationResult.Errors.Count > 5)
+                        {
+                            errorMessage += $"... và {migrationResult.Errors.Count - 5} lỗi khác";
+                        }
+                    }
+
+                    MessageBox.Show(
+                        errorMessage,
+                        "Migration thất bại",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
+
+                MessageBox.Show(
+                    $"Lỗi khi chạy migration:\n\n{ex.Message}\n\n{ex.StackTrace}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         void getCurrentSelectedRow()
