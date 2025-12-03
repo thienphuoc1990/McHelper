@@ -36,7 +36,17 @@ namespace AutoVPT.Services.Orchestrator.Models
         public FeatureExecutionStatus Status { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public TimeSpan? Duration => EndTime.HasValue ? EndTime.Value - StartTime : null;
+        public TimeSpan? Duration
+        {
+            get
+            {
+                if (EndTime.HasValue)
+                {
+                    return EndTime.Value - StartTime;
+                }
+                return null;
+            }
+        }
         public string Message { get; set; }
     }
 }
