@@ -127,6 +127,9 @@
     <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <HintPath>packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Libs\AutoTruMa.cs" />
@@ -211,6 +214,18 @@
     <Compile Include="Services\Executors\ExecutorHelpers.cs" />
     <Compile Include="DependencyInjection\SimpleServiceProvider.cs" />
     <Compile Include="DependencyInjection\ServiceContainer.cs" />
+    <Compile Include="Database\DatabaseHelper.cs" />
+    <Compile Include="Database\HistoryTracker.cs" />
+    <Compile Include="Database\MigrationUtility.cs" />
+    <Compile Include="Database\TestMigration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ReportingDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\StatisticsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Objects\Character.cs" />
     <Compile Include="Objects\Map.cs" />
     <Compile Include="Objects\Monster.cs" />
@@ -241,6 +256,12 @@
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Database\schema.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Database\schema_history.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -3508,4 +3529,5 @@
     <Folder Include="tracking\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
 </Project>
