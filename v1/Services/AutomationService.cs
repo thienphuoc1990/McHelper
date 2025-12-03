@@ -2,6 +2,9 @@ using AutoVPT.Domain;
 using AutoVPT.Interfaces;
 using AutoVPT.Objects;
 using AutoVPT.Repositories;
+using AutoVPT.Services.Executors;
+using AutoVPT.DependencyInjection;
+using AutoVPT.Infrastructure;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -216,12 +219,22 @@ namespace AutoVPT.Services
             IntPtr windowHandle,
             CancellationToken ct)
         {
-            if (!_executors.ContainsKey(feature))
+            // Try to get executor from registered list first
+            IFeatureExecutor executor = null;
+            if (_executors.ContainsKey(feature))
             {
-                return FeatureResult.Failed($"No executor found for {feature}");
+                executor = _executors[feature];
+            }
+            else
+            {
+                // Create executor on-demand using window services
+                executor = CreateExecutorForFeature(feature, windowHandle, character);
+                if (executor == null)
+                {
+                    return FeatureResult.Failed($"No executor found for {feature}");
+                }
             }
 
-            var executor = _executors[feature];
             var config = character.FeatureConfig.GetConfig(feature);
 
             var context = new ExecutionContext
@@ -244,6 +257,66 @@ namespace AutoVPT.Services
             catch (Exception ex)
             {
                 return FeatureResult.Failed($"Exception during {feature} execution", ex);
+            }
+        }
+
+        /// <summary>
+        /// Create executor for a feature on-demand using window services
+        /// </summary>
+        private IFeatureExecutor CreateExecutorForFeature(FeatureType feature, IntPtr windowHandle, CharacterAggregate character)
+        {
+            try
+            {
+                // Get character for window services
+                var legacyChar = _characterRepo.GetById(character.Id);
+                if (legacyChar == null)
+                    return null;
+
+                // Create window services
+                var windowServices = ServiceContainer.CreateWindowServices(windowHandle, legacyChar);
+
+                // Create image recognition and input simulator
+                var imageRecognition = windowServices.GetService<IImageRecognition>();
+                var inputSimulator = windowServices.GetService<IInputSimulator>();
+                var vipLevel = character.Identity.VipLevel;
+
+                // Create executor based on feature type
+                switch (feature)
+                {
+                    case FeatureType.DoiNangNo:
+                        return new DoiNangNoExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.TrongNL:
+                        return new TrongNLExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.TriAn:
+                        return new TriAnExecutor(imageRecognition, inputSimulator, _logger, vipLevel);
+                    case FeatureType.CheMatBao:
+                        return new CheMatBaoExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.AutoPhuBan:
+                        return new AutoPhuBanExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.TruMa:
+                        return new TruMaExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.VipPromotion:
+                        return new VipPromotionExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.NhanThuongHLVT:
+                        return new NhanThuongHLVTExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.RutBo:
+                        return new RutBoExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.DoiKGDK:
+                        return new DoiKGDKExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.NhanHoiPhuc:
+                        return new NhanHoiPhucExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.TuHanh:
+                        return new TuHanhExecutor(imageRecognition, inputSimulator, _logger);
+                    case FeatureType.AutoThanTu:
+                        return new AutoThanTuExecutor(imageRecognition, inputSimulator, _logger);
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error creating executor for {feature}", ex, character.Id);
+                return null;
             }
         }
     }
