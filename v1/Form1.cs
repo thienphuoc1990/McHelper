@@ -1,6 +1,9 @@
 ﻿using AutoVPT.Libs;
 using AutoVPT.Objects;
 using AutoVPT.Interfaces;
+using AutoVPT.Services.Orchestrator;
+using AutoVPT.Services.Orchestrator.Models;
+using AutoVPT.DependencyInjection;
 using KAutoHelper;
 using System;
 using System.Collections;
@@ -24,6 +27,10 @@ namespace AutoVPT
         public bool renewConfig = false;
         public string current_selected;
         private RateLimiter batchRateLimiter = new RateLimiter(3); // Max 3 concurrent batch operations
+        
+        // Orchestrator fields
+        private IOrchestratorService _orchestrator;
+        private CancellationTokenSource _orchestrationCts;
 
         public MainForm()
         {
@@ -99,6 +106,157 @@ namespace AutoVPT
 
             populate();
             initConfigs();
+            
+            // Initialize orchestrator
+            InitializeOrchestrator();
+            
+            // Set initial button state
+            buttonStopOrchestrator.Enabled = false;
+        }
+
+        /// <summary>
+        /// Initialize orchestrator service
+        /// </summary>
+        private void InitializeOrchestrator()
+        {
+            try
+            {
+                var characterRepo = ServiceContainer.GetService<ICharacterRepository>();
+                var automationService = ServiceContainer.GetService<IAutomationService>();
+                var logger = ServiceContainer.GetService<ILogger>();
+
+                var decisionEngine = new DecisionEngine();
+                var statusTracker = new StatusTracker();
+                var executionManager = new ExecutionManager(
+                    automationService,
+                    characterRepo,
+                    logger,
+                    maxConcurrentExecutions: 5
+                );
+
+                _orchestrator = new OrchestratorService(
+                    decisionEngine,
+                    statusTracker,
+                    executionManager,
+                    characterRepo,
+                    logger
+                );
+
+                // Register all running characters
+                RefreshOrchestratorCharacters();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error initializing orchestrator: {ex.Message}", 
+                    "Orchestrator Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Refresh character registration in orchestrator
+        /// </summary>
+        private void RefreshOrchestratorCharacters()
+        {
+            if (_orchestrator == null)
+                return;
+
+            try
+            {
+                var characterRepo = ServiceContainer.GetService<ICharacterRepository>();
+                var allCharacters = characterRepo.GetAll();
+                
+                // Unregister all first
+                var registeredChars = new List<string>();
+                // Note: We don't have a GetRegisteredCharacters method, so we'll just re-register
+                
+                // Register all running characters
+                foreach (var character in allCharacters)
+                {
+                    if (character.Running == 1)
+                    {
+                        _orchestrator.RegisterCharacter(character.ID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't show message box (might be called frequently)
+                System.Diagnostics.Debug.WriteLine($"Error refreshing orchestrator characters: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Button click handler: Start orchestrator
+        /// </summary>
+        private async void buttonRunOrchestrator_Click(object sender, EventArgs e)
+        {
+            if (_orchestrator == null)
+            {
+                InitializeOrchestrator();
+            }
+
+            if (_orchestrator == null)
+            {
+                MessageBox.Show("Không thể khởi tạo orchestrator. Vui lòng kiểm tra lại cấu hình.",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (_orchestrator.IsRunning)
+            {
+                MessageBox.Show("Orchestrator đang chạy!", 
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                _orchestrationCts = new CancellationTokenSource();
+                await _orchestrator.StartOrchestrationAsync(_orchestrationCts.Token);
+                
+                MessageBox.Show("Orchestrator đã bắt đầu chạy!", 
+                    "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Update button state
+                buttonRunOrchestrator.Enabled = false;
+                buttonStopOrchestrator.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi khởi động orchestrator: {ex.Message}", 
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Button click handler: Stop orchestrator
+        /// </summary>
+        private async void buttonStopOrchestrator_Click(object sender, EventArgs e)
+        {
+            if (_orchestrator == null || !_orchestrator.IsRunning)
+            {
+                MessageBox.Show("Orchestrator không đang chạy!", 
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                await _orchestrator.StopOrchestrationAsync();
+                _orchestrationCts?.Cancel();
+                
+                MessageBox.Show("Orchestrator đã dừng!", 
+                    "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Update button state
+                buttonRunOrchestrator.Enabled = true;
+                buttonStopOrchestrator.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi dừng orchestrator: {ex.Message}", 
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonXoaNhanVat_Click(object sender, EventArgs e)

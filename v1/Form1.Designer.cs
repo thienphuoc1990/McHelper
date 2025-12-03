@@ -42,6 +42,8 @@
             this.buttonStopAllAuto = new System.Windows.Forms.Button();
             this.buttonLoginToGame = new System.Windows.Forms.Button();
             this.buttonOpenTestForm = new System.Windows.Forms.Button();
+            this.buttonRunOrchestrator = new System.Windows.Forms.Button();
+            this.buttonStopOrchestrator = new System.Windows.Forms.Button();
             this.textBoxStatus = new System.Windows.Forms.TextBox();
             this.checkBoxFilterSelectedChar = new System.Windows.Forms.CheckBox();
             this.buttonClearLog = new System.Windows.Forms.Button();
@@ -292,6 +294,26 @@
             this.buttonOpenTestForm.TabIndex = 15;
             this.buttonOpenTestForm.UseVisualStyleBackColor = true;
             this.buttonOpenTestForm.Click += new System.EventHandler(this.buttonOpenTestForm_Click);
+            // 
+            // buttonRunOrchestrator
+            // 
+            this.buttonRunOrchestrator.Location = new System.Drawing.Point(310, 320);
+            this.buttonRunOrchestrator.Name = "buttonRunOrchestrator";
+            this.buttonRunOrchestrator.Size = new System.Drawing.Size(120, 23);
+            this.buttonRunOrchestrator.TabIndex = 16;
+            this.buttonRunOrchestrator.Text = "Chạy Orchestrator";
+            this.buttonRunOrchestrator.UseVisualStyleBackColor = true;
+            this.buttonRunOrchestrator.Click += new System.EventHandler(this.buttonRunOrchestrator_Click);
+            // 
+            // buttonStopOrchestrator
+            // 
+            this.buttonStopOrchestrator.Location = new System.Drawing.Point(310, 347);
+            this.buttonStopOrchestrator.Name = "buttonStopOrchestrator";
+            this.buttonStopOrchestrator.Size = new System.Drawing.Size(120, 23);
+            this.buttonStopOrchestrator.TabIndex = 17;
+            this.buttonStopOrchestrator.Text = "Dừng Orchestrator";
+            this.buttonStopOrchestrator.UseVisualStyleBackColor = true;
+            this.buttonStopOrchestrator.Click += new System.EventHandler(this.buttonStopOrchestrator_Click);
             // 
             // textBoxStatus
             // 
@@ -1557,6 +1579,8 @@
             this.Controls.Add(this.buttonStopAuto);
             this.Controls.Add(this.buttonRunAuto);
             this.Controls.Add(this.buttonSaveConfigAuto);
+            this.Controls.Add(this.buttonRunOrchestrator);
+            this.Controls.Add(this.buttonStopOrchestrator);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -1597,6 +1621,8 @@
         private System.Windows.Forms.Button buttonOpenTestForm;
         private System.Windows.Forms.Button buttonLoginToGame;
         private System.Windows.Forms.Button buttonStopAllAuto;
+        private System.Windows.Forms.Button buttonRunOrchestrator;
+        private System.Windows.Forms.Button buttonStopOrchestrator;
         private System.Windows.Forms.TabControl tabControlAuto;
         private System.Windows.Forms.TabPage tabPageMain;
         private System.Windows.Forms.CheckBox checkBoxStatusVipPromotion;
