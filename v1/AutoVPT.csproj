@@ -208,6 +208,9 @@
     <Compile Include="Presentation\ICharacterView.cs" />
     <Compile Include="Presentation\CharacterPresenter.cs" />
     <Compile Include="Services\BaseFeatureExecutor.cs" />
+    <Compile Include="Services\FeatureOrchestrator.cs" />
+    <Compile Include="Services\ConfigurationValidator.cs" />
+    <Compile Include="Services\ExecutorRegistry.cs" />
     <Compile Include="Services\FeatureExecutorFactory.cs" />
     <Compile Include="Services\Executors\DoiNangNoExecutor.cs" />
     <Compile Include="Services\Executors\TrongNLExecutor.cs" />
