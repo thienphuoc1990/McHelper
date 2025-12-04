@@ -202,6 +202,8 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\CombatService.cs" />
     <Compile Include="Services\DailyTaskService.cs" />
+    <Compile Include="Presentation\ICharacterView.cs" />
+    <Compile Include="Presentation\CharacterPresenter.cs" />
     <Compile Include="Services\BaseFeatureExecutor.cs" />
     <Compile Include="Services\FeatureExecutorFactory.cs" />
     <Compile Include="Services\Executors\DoiNangNoExecutor.cs" />
