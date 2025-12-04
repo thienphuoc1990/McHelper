@@ -14,12 +14,15 @@ namespace AutoVPT.Libs
         {
             try
             {
-                Directory.CreateDirectory(_logPath);
+                if (!Directory.Exists(_logPath))
+                {
+                    Directory.CreateDirectory(_logPath);
+                }
             }
-            catch (Exception ex)
+            catch
             {
-                // If we can't create the log directory, log to debug output
-                Debug.WriteLine($"Logger initialization error: {ex.Message}");
+                // If we can't create the log directory, silently continue
+                // Logging will fail but app will still run
             }
         }
 
