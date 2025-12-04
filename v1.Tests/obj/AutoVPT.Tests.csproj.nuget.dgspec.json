@@ -1,0 +1,110 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+        "projectName": "AutoVPT.Tests",
+        "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-arm64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj",
+        "projectName": "AutoVPT",
+        "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "projectStyle": "PackagesConfig",
+        "UsingMicrosoftNETSdk": false,
+        "configFilePaths": [
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low"
+        },
+        "packagesConfigPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\packages.config"
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    }
+  }
+}
