@@ -16,13 +16,43 @@ namespace AutoVPT.Libs
 {
     static class Helper
     {
+        /*
+         * LOCK HIERARCHY - Thread Safety Guidelines
+         * ==========================================
+         * To prevent deadlocks, locks must ALWAYS be acquired in this order:
+         *
+         * 1. _stopLock     - Global stop flag (highest priority)
+         * 2. _charLock     - Character registry operations
+         * 3. _tokenLock    - Cancellation token operations
+         * 4. _threadLock   - Thread list operations (lowest priority)
+         *
+         * IMPORTANT RULES:
+         * - NEVER acquire locks in reverse order
+         * - NEVER hold multiple locks unless absolutely necessary
+         * - Always release locks in reverse order of acquisition
+         * - Keep critical sections as short as possible
+         *
+         * Example of safe nested locking:
+         *   lock(_stopLock) {
+         *       lock(_charLock) {
+         *           // Safe: acquired in correct order
+         *       }
+         *   }
+         *
+         * Example of UNSAFE nested locking:
+         *   lock(_threadLock) {
+         *       lock(_stopLock) {  // DEADLOCK RISK! Wrong order
+         *       }
+         *   }
+         */
+
         public static List<Thread> threadList = new List<Thread>();
         public static Dictionary<string, CancellationTokenSource> cancellationTokens = new Dictionary<string, CancellationTokenSource>();
         public static Dictionary<string, Character> runningCharacters = new Dictionary<string, Character>();
         private static bool _isStoppingAll = false;
         private static object _tokenLock = new object();
         private static object _charLock = new object();
-        private static object _threadLock = new object();
+        internal static object _threadLock = new object(); // Made internal for Form1 access to fix race condition
         private static object _stopLock = new object();
 
         public static CancellationToken GetCancellationToken(string key)

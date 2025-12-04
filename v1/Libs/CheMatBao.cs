@@ -54,30 +54,42 @@ namespace AutoVPT.Libs
 
         public bool moBangCheMB()
         {
-            mAuto.closeAllDialog();
+            const int maxRetries = 3;
 
-            // Mở bảng nhân vật
-            mAuto.clickImageByGroup("global", "nhanvat", false, false);
-
-            // Mở bảng hồn khí
-            mAuto.clickImageByGroup("mat_bao", "honkhi", false, false);
-
-            // Chờ 5s
-            Thread.Sleep(5000);
-
-            // Mở bảng mật bảo
-            mAuto.clickImageByGroup("mat_bao", "matbao", true, true);
-
-            // Mở bảng chế tạo
-            mAuto.clickImageByGroup("mat_bao", "chetao", true, true);
-
-            // Kiểm tra đã mở dc bảng chế tao mật bảo chưa ?
-            if(!mAuto.findImageByGroup("mat_bao", "chetaomatbao", false, true))
+            for (int attempt = 0; attempt < maxRetries; attempt++)
             {
-                moBangCheMB();
+                mAuto.closeAllDialog();
+
+                // Mở bảng nhân vật
+                mAuto.clickImageByGroup("global", "nhanvat", false, false);
+
+                // Mở bảng hồn khí
+                mAuto.clickImageByGroup("mat_bao", "honkhi", false, false);
+
+                // Chờ 5s
+                Thread.Sleep(5000);
+
+                // Mở bảng mật bảo
+                mAuto.clickImageByGroup("mat_bao", "matbao", true, true);
+
+                // Mở bảng chế tạo
+                mAuto.clickImageByGroup("mat_bao", "chetao", true, true);
+
+                // Kiểm tra đã mở dc bảng chế tao mật bảo chưa ?
+                if(mAuto.findImageByGroup("mat_bao", "chetaomatbao", false, true))
+                {
+                    return true; // Success - dialog opened
+                }
+
+                // Failed to open dialog, will retry if not last attempt
+                if (attempt < maxRetries - 1)
+                {
+                    Thread.Sleep(Constant.TimeShort); // Wait before retry
+                }
             }
 
-            return true;
+            // Failed after all retries
+            return false;
         }
 
         public void setLoaiMB(string loaiMB)

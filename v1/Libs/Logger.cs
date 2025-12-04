@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -15,9 +16,10 @@ namespace AutoVPT.Libs
             {
                 Directory.CreateDirectory(_logPath);
             }
-            catch
+            catch (Exception ex)
             {
-                // If we can't create the log directory, we'll fail silently
+                // If we can't create the log directory, log to debug output
+                Debug.WriteLine($"Logger initialization error: {ex.Message}");
             }
         }
 
@@ -32,9 +34,10 @@ namespace AutoVPT.Libs
                     File.AppendAllText(logFile, entry + Environment.NewLine);
                 }
             }
-            catch
+            catch (Exception logEx)
             {
-                // If logging fails, don't crash the application
+                // If logging fails, output to debug console instead
+                Debug.WriteLine($"Logger.LogError failed: {logEx.Message} | Original error: [{characterId}] {context}: {ex.Message}");
             }
         }
 
@@ -49,9 +52,10 @@ namespace AutoVPT.Libs
                     File.AppendAllText(logFile, entry + Environment.NewLine);
                 }
             }
-            catch
+            catch (Exception logEx)
             {
-                // If logging fails, don't crash the application
+                // If logging fails, output to debug console instead
+                Debug.WriteLine($"Logger.LogWarning failed: {logEx.Message} | Original warning: [{characterId}] {context}: {message}");
             }
         }
 
@@ -66,9 +70,10 @@ namespace AutoVPT.Libs
                     File.AppendAllText(logFile, entry + Environment.NewLine);
                 }
             }
-            catch
+            catch (Exception logEx)
             {
-                // If logging fails, don't crash the application
+                // If logging fails, output to debug console instead
+                Debug.WriteLine($"Logger.LogInfo failed: {logEx.Message} | Original info: [{characterId}] {context}: {message}");
             }
         }
 
@@ -89,9 +94,10 @@ namespace AutoVPT.Libs
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // If cleaning fails, don't crash the application
+                // If cleaning fails, output to debug console
+                Debug.WriteLine($"Logger.ClearOldLogs failed: {ex.Message}");
             }
         }
     }

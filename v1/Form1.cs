@@ -1354,14 +1354,18 @@ namespace AutoVPT
         private List<Thread> getRunningThreadsWithNameContaining(string searchText)
         {
             // Lấy danh sách các thread đang chạy và có tên chứa chuỗi tìm kiếm
-            var runningThreads = Helper.threadList
-                .Where(thread =>
-                    thread.IsAlive &&  // Kiểm tra thread có đang chạy không
-                    !string.IsNullOrEmpty(thread.Name) && // Đảm bảo tên thread không rỗng
-                    thread.Name.Contains(searchText))    // Kiểm tra tên thread có chứa chuỗi
-                .ToList(); // Chuyển kết quả thành List
+            // Lock to prevent race condition when other threads modify threadList
+            lock (Helper._threadLock)
+            {
+                var runningThreads = Helper.threadList
+                    .Where(thread =>
+                        thread.IsAlive &&  // Kiểm tra thread có đang chạy không
+                        !string.IsNullOrEmpty(thread.Name) && // Đảm bảo tên thread không rỗng
+                        thread.Name.Contains(searchText))    // Kiểm tra tên thread có chứa chuỗi
+                    .ToList(); // Chuyển kết quả thành List
 
-            return runningThreads;
+                return runningThreads;
+            }
         }
 
         private void buttonAmDpAllToEnd_Click(object sender, EventArgs e)
