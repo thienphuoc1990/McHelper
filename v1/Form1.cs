@@ -910,46 +910,12 @@ namespace AutoVPT
 
         private void buttonVaoAllGame_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null &&  character.ID != "")
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.loginToGame, "logintogame", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.loginToGame(), "logintogame");
         }
 
         private void buttonDaPetAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.daPet, "dapet", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.daPet(), "dapet", requireWindowOpen: true);
         }
 
         private void buttonDaPet_Click(object sender, EventArgs e)
@@ -1017,24 +983,7 @@ namespace AutoVPT
 
         private void buttonAoMaAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.aoMa, "aoma", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.aoMa(), "aoma", requireWindowOpen: true);
         }
 
         private void buttonNhanHoiPhuc_Click(object sender, EventArgs e)
@@ -1054,24 +1003,7 @@ namespace AutoVPT
 
         private void buttonNhanHoiPhucAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.hoiPhuc, "hoiphuc", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.hoiPhuc(), "hoiphuc", requireWindowOpen: true);
         }
 
         private void buttonNhanThuongAutoPB_Click(object sender, EventArgs e)
@@ -1135,24 +1067,7 @@ namespace AutoVPT
 
         private void buttonNhanThuongAutoPBAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.nhanThuongAutoPhuBan, "nhanThuongAutoPhuBan", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.nhanThuongAutoPhuBan(), "nhanThuongAutoPhuBan", requireWindowOpen: true);
         }
 
         private void buttonNhanHL_Click(object sender, EventArgs e)
@@ -1193,6 +1108,49 @@ namespace AutoVPT
 
             IntPtr hWnd = IntPtr.Zero;
             return AutoControl.FindWindowHandle(null, lCharacter.ID);
+        }
+
+        /// <summary>
+        /// Helper method to execute an action on all characters in the grid.
+        /// This eliminates code duplication across 12+ "All" button handlers.
+        /// </summary>
+        /// <param name="action">The action to execute on MainAuto instance</param>
+        /// <param name="actionName">Name of the action for thread naming and logging</param>
+        /// <param name="requireWindowOpen">Whether to check window is open before executing</param>
+        private void ExecuteActionOnAllCharacters(
+            Action<MainAuto> action,
+            string actionName,
+            bool requireWindowOpen = false)
+        {
+            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
+            {
+                try
+                {
+                    character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
+
+                    if (string.IsNullOrEmpty(character.ID))
+                        continue;
+
+                    if (requireWindowOpen && !checkWindowOpen())
+                        continue;
+
+                    IntPtr hWnd = getHandledWindow();
+                    if (hWnd == IntPtr.Zero)
+                    {
+                        Logger.LogWarning(character.ID, actionName, "Window handle not found - skipping character");
+                        continue; // Continue with next character instead of stopping entire batch
+                    }
+
+                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
+                    runTaskInThread(() => action(mMainAuto), actionName, character);
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(character.ID ?? "Unknown", actionName, ex);
+                    // Continue with next character even if one fails
+                }
+            }
         }
 
         private void buttonAutoTuHanh_Click(object sender, EventArgs e)
@@ -1370,24 +1328,7 @@ namespace AutoVPT
 
         private void buttonAmDpAllToEnd_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.aoMaDaPetAllToEnd, "aoMaDaPetAllToEnd", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.aoMaDaPetAllToEnd(), "aoMaDaPetAllToEnd", requireWindowOpen: true);
         }
 
         private void buttonDanhSTMT_Click(object sender, EventArgs e)
@@ -1422,68 +1363,17 @@ namespace AutoVPT
 
         private void buttonNhanKnvuAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.nhanKNVU, "nhanKNVU", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.nhanKNVU(), "nhanKNVU", requireWindowOpen: true);
         }
 
         private void buttonDapetAllToEnd_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.daPetAllToEnd, "daPetAllToEnd", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.daPetAllToEnd(), "daPetAllToEnd", requireWindowOpen: true);
         }
 
         private void buttonAllCanhKyTruong_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.goCanhKyTruong, "goCanhKyTruong", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.goCanhKyTruong(), "goCanhKyTruong", requireWindowOpen: true);
         }
 
         private void buttonTaoNhom_Click(object sender, EventArgs e)
@@ -1600,46 +1490,12 @@ namespace AutoVPT
 
         private void buttonCheMbAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.cheMatBao, "cheMatBao", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.cheMatBao(), "cheMatBao", requireWindowOpen: true);
         }
 
         private void buttonTrongNLAll_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow item in dataGridViewCharacters.Rows)
-            {
-                character = Helper.loadSettingsFromXML(item.Cells[0].Value.ToString());
-
-                if (character.ID != null && character.ID != "" && checkWindowOpen())
-                {
-                    IntPtr hWnd = getHandledWindow();
-                    if (hWnd == IntPtr.Zero)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
-                        return;
-                    }
-
-                    MainAuto mMainAuto = new MainAuto(hWnd, character, textBoxStatus);
-                    runTaskInThread(mMainAuto.trongNL, "trongNL", character);
-                    Thread.Sleep(Constant.VeryTimeShort);
-                }
-            }
+            ExecuteActionOnAllCharacters(m => m.trongNL(), "trongNL", requireWindowOpen: true);
         }
 
         private void buttonTruMa_Click(object sender, EventArgs e)
