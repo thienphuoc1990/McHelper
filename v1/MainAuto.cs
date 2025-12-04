@@ -92,7 +92,7 @@ namespace AutoVPT.Libs
                 {
                     Character = characterAggregate,
                     WindowHandle = mHWnd,
-                    Config = CreateFeatureConfig(featureType, parameters),
+                    Config = characterAggregate.FeatureConfig,
                     CancellationToken = cancellationToken,
                     StatusTextBox = mTextBoxStatus
                 };

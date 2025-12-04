@@ -41,9 +41,9 @@ namespace AutoVPT.Services
         public IntPtr WindowHandle { get; set; }
 
         /// <summary>
-        /// Feature configuration
+        /// Character's complete feature configuration
         /// </summary>
-        public FeatureConfig Config { get; set; }
+        public CharacterFeatureConfig Config { get; set; }
 
         /// <summary>
         /// Cancellation token

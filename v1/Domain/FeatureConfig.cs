@@ -155,5 +155,30 @@ namespace AutoVPT.Domain
         {
             return Features.ContainsKey(feature) ? Features[feature] : new FeatureConfig(feature);
         }
+
+        /// <summary>
+        /// Get a parameter value from a specific feature configuration.
+        /// Convenience method that combines GetConfig and GetParameter.
+        /// </summary>
+        /// <param name="feature">Feature type to get parameter from</param>
+        /// <param name="key">Parameter key</param>
+        /// <param name="defaultValue">Default value if not found</param>
+        public string GetParameter(FeatureType feature, string key, string defaultValue = "")
+        {
+            return GetConfig(feature).GetParameter(key, defaultValue);
+        }
+
+        /// <summary>
+        /// Set a parameter value for a specific feature configuration.
+        /// Convenience method that combines GetConfig and SetParameter.
+        /// </summary>
+        public void SetParameter(FeatureType feature, string key, string value)
+        {
+            if (!Features.ContainsKey(feature))
+            {
+                Features[feature] = new FeatureConfig(feature);
+            }
+            Features[feature].SetParameter(key, value);
+        }
     }
 }

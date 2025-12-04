@@ -32,8 +32,8 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Starting DoiNangNo (Resource Exchange) feature", context);
 
                 // Get configuration
-                var resourceType = context.Config.GetParameter("DoiNangNoLoai", Constant.NameNguyenLieuGamVoc);
-                var useLevel4 = context.Config.GetParameter("DoiNangNoNL4", "0") == "1";
+                var resourceType = context.Config.GetParameter(Type, "DoiNangNoLoai", Constant.NameNguyenLieuGamVoc);
+                var useLevel4 = context.Config.GetParameter(Type, "DoiNangNoNL4", "0") == "1";
                 var level = useLevel4 ? 4 : 5;
 
                 LogInfo($"Exchange settings - Resource: {resourceType}, Level: {level}", context);

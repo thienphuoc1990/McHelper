@@ -36,7 +36,7 @@ namespace AutoVPT.Services.Executors
                 ThrowIfCancelled(context);
 
                 // Get dungeon list from configuration
-                string dungeonList = context.Config.GetParameter("DanhSach", "");
+                string dungeonList = context.Config.GetParameter(Type, "DanhSach", "");
                 if (string.IsNullOrEmpty(dungeonList))
                 {
                     LogWarning("No dungeons configured", context);
@@ -162,7 +162,7 @@ namespace AutoVPT.Services.Executors
                 return false;
 
             // Check if dungeon list is configured
-            string dungeonList = context.Config.GetParameter("DanhSach", "");
+            string dungeonList = context.Config.GetParameter(Type, "DanhSach", "");
             if (string.IsNullOrEmpty(dungeonList))
             {
                 LogWarning("Cannot execute AutoPhuBan: No dungeons configured", context);

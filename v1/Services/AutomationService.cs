@@ -222,13 +222,12 @@ namespace AutoVPT.Services
             }
 
             var executor = _executors[feature];
-            var config = character.FeatureConfig.GetConfig(feature);
 
             var context = new ExecutionContext
             {
                 Character = character,
                 WindowHandle = windowHandle,
-                Config = config,
+                Config = character.FeatureConfig,
                 CancellationToken = ct
             };
 

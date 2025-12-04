@@ -35,7 +35,7 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Cleared image recognition cache", context);
 
                 // Get material type from configuration
-                string materialType = context.Config.GetParameter("Loai", Constant.NameNguyenLieuKimLoai);
+                string materialType = context.Config.GetParameter(Type, "Loai", Constant.NameNguyenLieuKimLoai);
                 LogInfo($"Material type: {materialType}", context);
 
                 // Step 1: Open farm

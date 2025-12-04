@@ -117,7 +117,7 @@ namespace AutoVPT.Services
             };
 
             // Check if dungeon list is configured
-            string dungeonList = character.FeatureConfig.GetParameter("DanhSach", "");
+            string dungeonList = character.FeatureConfig.GetParameter(FeatureType.AutoPhuBan, "DanhSach", "");
             if (string.IsNullOrWhiteSpace(dungeonList))
             {
                 result.Errors.Add("Dungeon list (DanhSach) is empty. Please configure dungeons to run.");
@@ -153,7 +153,7 @@ namespace AutoVPT.Services
             };
 
             // Validate material type if specified
-            string materialType = character.FeatureConfig.GetParameter("LoaiNL", "");
+            string materialType = character.FeatureConfig.GetParameter(FeatureType.TrongNL, "LoaiNL", "");
             if (!string.IsNullOrEmpty(materialType))
             {
                 var parsedType = MaterialTypeExtensions.FromString(materialType);
@@ -175,7 +175,7 @@ namespace AutoVPT.Services
             };
 
             // Validate mat bao type
-            string matBaoType = character.FeatureConfig.GetParameter("LoaiMB", "");
+            string matBaoType = character.FeatureConfig.GetParameter(FeatureType.CheMatBao, "LoaiMB", "");
             if (string.IsNullOrWhiteSpace(matBaoType))
             {
                 result.Warnings.Add("Mat Bao type not specified. Will use default.");
@@ -237,7 +237,7 @@ namespace AutoVPT.Services
             };
 
             // Validate pet battle count if specified
-            string countStr = character.FeatureConfig.GetParameter("SoLan", "");
+            string countStr = character.FeatureConfig.GetParameter(FeatureType.DauPet, "SoLan", "");
             if (!string.IsNullOrEmpty(countStr))
             {
                 if (!int.TryParse(countStr, out int count) || count < 1)
@@ -289,14 +289,9 @@ namespace AutoVPT.Services
                 result.IsValid = false;
             }
 
-            if (string.IsNullOrEmpty(character.Identity.Username))
+            if (string.IsNullOrEmpty(character.Identity.Link))
             {
-                result.Warnings.Add("Username is empty - login may fail");
-            }
-
-            if (string.IsNullOrEmpty(character.Identity.Password))
-            {
-                result.Warnings.Add("Password is empty - login may fail");
+                result.Warnings.Add("Game link is empty - window may not open");
             }
 
             return result;

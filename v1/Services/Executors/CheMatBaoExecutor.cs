@@ -30,8 +30,8 @@ namespace AutoVPT.Services.Executors
                 LogInfo("Starting CheMatBao (Secret Manual Crafting) feature", context);
 
                 // Get configuration parameters
-                string manualType = context.Config.GetParameter("Loai", "Thần Binh");
-                int manualTier = int.Parse(context.Config.GetParameter("Cap", "1"));
+                string manualType = context.Config.GetParameter(Type, "Loai", "Thần Binh");
+                int manualTier = int.Parse(context.Config.GetParameter(Type, "Cap", "1"));
 
                 LogInfo($"Crafting {manualType} manual, Tier {manualTier}", context);
 
