@@ -194,6 +194,8 @@
     <Compile Include="Domain\CharacterRuntimeState.cs" />
     <Compile Include="Domain\CharacterAggregate.cs" />
     <Compile Include="Domain\CharacterAdapter.cs" />
+    <Compile Include="Domain\MaterialType.cs" />
+    <Compile Include="Domain\MatBaoType.cs" />
     <Compile Include="Services\IAutomationService.cs" />
     <Compile Include="Services\IFeatureExecutor.cs" />
     <Compile Include="Services\AutomationService.cs" />

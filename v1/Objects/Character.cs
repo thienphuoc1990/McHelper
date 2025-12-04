@@ -6,6 +6,20 @@ using System.Windows.Forms;
 
 namespace AutoVPT.Objects
 {
+    /// <summary>
+    /// Legacy character class. Use CharacterAggregate from AutoVPT.Domain namespace instead.
+    /// This class is maintained for backward compatibility during migration.
+    /// </summary>
+    /// <remarks>
+    /// Migration guide:
+    /// 1. Use CharacterAdapter.ToAggregate() to convert to new model
+    /// 2. Use CharacterAdapter.ToLegacy() to convert back when needed
+    /// 3. New code should use CharacterAggregate, CharacterIdentity, 
+    ///    CharacterFeatureConfig, and CharacterRuntimeState
+    /// </remarks>
+    [Obsolete("Use CharacterAggregate from AutoVPT.Domain namespace instead. " +
+              "This class will be removed in a future version. " +
+              "See CharacterAdapter for conversion helpers.")]
     public class Character
     {
         private string id;
