@@ -55,6 +55,10 @@
             "MSTest.TestFramework": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
             }
           }
         }

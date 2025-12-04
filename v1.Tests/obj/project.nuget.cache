@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "wS2YDb+Fi64=",
+  "dgSpecHash": "F8GgQ2Ite1g=",
   "success": true,
   "projectFilePath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.net.test.sdk\\17.8.0\\microsoft.net.test.sdk.17.8.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mstest.testadapter\\3.1.1\\mstest.testadapter.3.1.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mstest.testframework\\3.1.1\\mstest.testframework.3.1.1.nupkg.sha512"
   ],
