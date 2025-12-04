@@ -13,7 +13,7 @@ namespace AutoVPT.Services.Executors
     /// Executor for TruMa (Monster Hunting) feature.
     /// Automates the daily monster hunting quest: accept quest, find monsters, complete, turn in.
     /// NOTE: Uses legacy AutoFeatures for complex navigation and combat mechanics.
-    /// TODO: Refactor navigation to native async when navigation service is available.
+    /// Uses async/await with cancellable delays for responsive "Stop All" handling.
     /// </summary>
     public class TruMaExecutor : BaseFeatureExecutor
     {
@@ -41,69 +41,73 @@ namespace AutoVPT.Services.Executors
             {
                 LogInfo("Starting TruMa (Monster Hunting) feature", context);
 
+                // Check for cancellation at start
+                ThrowIfCancelled(context);
+
                 int questCount = 0;
                 string currentMonsterType = "phima";
 
-                await Task.Run(() =>
+                var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
+                var autoFeatures = new AutoFeatures(
+                    context.WindowHandle,
+                    context.Character.Identity.Id,
+                    context.StatusTextBox,
+                    legacyCharacter
+                );
+
+                // Main quest loop
+                int loopCount = 0;
+                do
                 {
-                    // Check global stop flag before starting
-                    if (Libs.Helper.IsStoppingAll())
-                        return;
-
-                    var legacyCharacter = CharacterAdapter.ToLegacy(context.Character);
-                    var autoFeatures = new AutoFeatures(
-                        context.WindowHandle,
-                        context.Character.Identity.Id,
-                        context.StatusTextBox,
-                        legacyCharacter
-                    );
-
-                    // Main quest loop
-                    int loopCount = 0;
-                    do
+                    // Check for cancellation in loop - responds immediately
+                    if (!ShouldContinue(context))
                     {
-                        // Check for stop request in loop
-                        if (Libs.Helper.IsStoppingAll())
-                        {
-                            LogInfo("TruMa cancelled during quest loop", context);
-                            return;
-                        }
+                        LogInfo("TruMa cancelled during quest loop", context);
+                        break;
+                    }
 
-                        // Step 1: Accept quest if not already active
-                        if (!IsQuestActive(autoFeatures))
-                        {
-                            LogInfo("No active quest found, accepting new quest...", context);
-                            AcceptQuest(autoFeatures);
-                        }
+                    // Step 1: Accept quest if not already active
+                    if (!await IsQuestActiveAsync(autoFeatures, context))
+                    {
+                        if (!ShouldContinue(context)) break;
+                        LogInfo("No active quest found, accepting new quest...", context);
+                        await AcceptQuestAsync(autoFeatures, context);
+                    }
 
-                        // Step 2: Check if quest is complete, if not hunt monsters
-                        if (!IsQuestCompleted(autoFeatures))
-                        {
-                            LogInfo("Quest not completed, hunting monsters...", context);
+                    if (!ShouldContinue(context)) break;
 
-                            // Determine which monster type to hunt
-                            currentMonsterType = DetermineMonsterType(autoFeatures);
-                            LogInfo($"Monster type identified: {currentMonsterType}", context);
+                    // Step 2: Check if quest is complete, if not hunt monsters
+                    if (!await IsQuestCompletedAsync(autoFeatures, context))
+                    {
+                        if (!ShouldContinue(context)) break;
+                        LogInfo("Quest not completed, hunting monsters...", context);
 
-                            // Navigate to monster location
-                            NavigateToMonsterMap(autoFeatures, currentMonsterType);
+                        // Determine which monster type to hunt
+                        currentMonsterType = await DetermineMonsterTypeAsync(autoFeatures, context);
+                        if (!ShouldContinue(context)) break;
+                        LogInfo($"Monster type identified: {currentMonsterType}", context);
 
-                            // Hunt monsters
-                            HuntMonsters(autoFeatures, currentMonsterType);
+                        // Navigate to monster location
+                        await NavigateToMonsterMapAsync(autoFeatures, currentMonsterType, context);
+                        if (!ShouldContinue(context)) break;
 
-                            // Return to quest NPC
-                            NavigateToQuestNPC(autoFeatures, currentMonsterType);
-                        }
+                        // Hunt monsters
+                        HuntMonsters(autoFeatures, currentMonsterType);
+                        if (!ShouldContinue(context)) break;
 
-                        // Step 3: Turn in quest
-                        LogInfo("Turning in quest...", context);
-                        TurnInQuest(autoFeatures);
-                        questCount++;
+                        // Return to quest NPC
+                        await NavigateToQuestNPCAsync(autoFeatures, currentMonsterType, context);
+                    }
 
-                        loopCount++;
-                    } while (IsQuestActive(autoFeatures) && loopCount < Constant.MaxLoop);
+                    if (!ShouldContinue(context)) break;
 
-                }, context.CancellationToken);
+                    // Step 3: Turn in quest
+                    LogInfo("Turning in quest...", context);
+                    await TurnInQuestAsync(autoFeatures, context);
+                    questCount++;
+
+                    loopCount++;
+                } while (await IsQuestActiveAsync(autoFeatures, context) && loopCount < Constant.MaxLoop && ShouldContinue(context));
 
                 if (questCount > 0)
                 {
@@ -156,30 +160,30 @@ namespace AutoVPT.Services.Executors
                 return _monstersPhima;
         }
 
+        #region Async Quest Methods (with cancellable delays)
+
         /// <summary>
-        /// Check if TruMa quest is currently active
+        /// Check if TruMa quest is currently active (async with cancellation)
         /// </summary>
-        private bool IsQuestActive(AutoFeatures autoFeatures)
+        private async Task<bool> IsQuestActiveAsync(AutoFeatures autoFeatures, ExecutionContext context)
         {
             autoFeatures.closeAllDialog();
 
-            // Open quest panel
+            // Open quest panel with cancellable delay
             while (!autoFeatures.findImageByGroup("global", "nhiemvu_check"))
             {
-                // Check for stop request
-                if (Libs.Helper.IsStoppingAll())
-                    return false;
+                if (!ShouldContinue(context)) return false;
                 autoFeatures.clickImageByGroup("global", "nhiemvu");
+                if (!await DelayShortAsync(context)) return false;
             }
 
             // Expand daily quest section
             while (!autoFeatures.findImageByGroup("tru_ma", "bangnhiemvu_nvvongopened", true) &&
                    autoFeatures.findImageByGroup("tru_ma", "bangnhiemvu_nvvong", true))
             {
-                // Check for stop request
-                if (Libs.Helper.IsStoppingAll())
-                    return false;
+                if (!ShouldContinue(context)) return false;
                 autoFeatures.clickImageByGroup("tru_ma", "bangnhiemvu_nvvong", true);
+                if (!await DelayShortAsync(context)) return false;
             }
 
             // Check if TruMa quest exists
@@ -187,17 +191,15 @@ namespace AutoVPT.Services.Executors
         }
 
         /// <summary>
-        /// Check if TruMa quest is completed
+        /// Check if TruMa quest is completed (async with cancellation)
         /// </summary>
-        private bool IsQuestCompleted(AutoFeatures autoFeatures)
+        private async Task<bool> IsQuestCompletedAsync(AutoFeatures autoFeatures, ExecutionContext context)
         {
             // Ensure quest is visible
             while (!autoFeatures.findImageByGroup("tru_ma", "nhiemvutruma", true, true))
             {
-                // Check for stop request
-                if (Libs.Helper.IsStoppingAll())
-                    return false;
-                IsQuestActive(autoFeatures);
+                if (!ShouldContinue(context)) return false;
+                await IsQuestActiveAsync(autoFeatures, context);
             }
 
             // Check for completion marker
@@ -205,39 +207,35 @@ namespace AutoVPT.Services.Executors
         }
 
         /// <summary>
-        /// Determine which monster type to hunt (cuma, cuthu, or phima)
+        /// Determine which monster type to hunt (async with cancellation)
         /// </summary>
-        private string DetermineMonsterType(AutoFeatures autoFeatures)
+        private async Task<string> DetermineMonsterTypeAsync(AutoFeatures autoFeatures, ExecutionContext context)
         {
             autoFeatures.closeAllDialog();
 
-            // Open daily quest panel
+            // Open daily quest panel with cancellable delay
             while (!autoFeatures.findImageByGroup("nvhn", "bang_check"))
             {
-                // Check for stop request
-                if (Libs.Helper.IsStoppingAll())
-                    return "cuma"; // Default fallback
+                if (!ShouldContinue(context)) return "cuma";
                 autoFeatures.writeStatus("Opening daily quest panel");
                 autoFeatures.clickImageByGroup("nvhn", "bang");
-                Thread.Sleep(Constant.TimeShort);
+                if (!await DelayShortAsync(context)) return "cuma";
             }
 
             // Open quest list
             while (!autoFeatures.findImageByGroup("global", "nhiemvu_check"))
             {
-                // Check for stop request
-                if (Libs.Helper.IsStoppingAll())
-                    return "cuma"; // Default fallback
+                if (!ShouldContinue(context)) return "cuma";
                 autoFeatures.clickImageByGroup("global", "nhiemvu");
+                if (!await DelayShortAsync(context)) return "cuma";
             }
 
             // Expand daily quest section
             while (!autoFeatures.findImageByGroup("tru_ma", "bangnhiemvu_nvvongopened", true))
             {
-                // Check for stop request
-                if (Libs.Helper.IsStoppingAll())
-                    return "cuma"; // Default fallback
+                if (!ShouldContinue(context)) return "cuma";
                 autoFeatures.clickImageByGroup("tru_ma", "bangnhiemvu_nvvong", true);
+                if (!await DelayShortAsync(context)) return "cuma";
             }
 
             // Click on TruMa quest to see details
@@ -262,17 +260,18 @@ namespace AutoVPT.Services.Executors
         }
 
         /// <summary>
-        /// Accept TruMa quest from NPC
+        /// Accept TruMa quest from NPC (async with cancellation)
         /// </summary>
-        private void AcceptQuest(AutoFeatures autoFeatures)
+        private async Task AcceptQuestAsync(AutoFeatures autoFeatures, ExecutionContext context)
         {
             // Navigate to quest NPC using NVHN helper
             int loop = 0;
             while (!autoFeatures.isTalkWithNPC("quanquannhudht") && loop < Constant.MaxLoop)
             {
+                if (!ShouldContinue(context)) return;
                 autoFeatures.writeStatus("Opening NVHN to find quest NPC...");
                 autoFeatures.openQuestByNVHN("truma");
-                Thread.Sleep(Constant.TimeShort);
+                if (!await DelayShortAsync(context)) return;
                 loop++;
             }
 
@@ -282,17 +281,18 @@ namespace AutoVPT.Services.Executors
         }
 
         /// <summary>
-        /// Turn in completed quest
+        /// Turn in completed quest (async with cancellation)
         /// </summary>
-        private void TurnInQuest(AutoFeatures autoFeatures)
+        private async Task TurnInQuestAsync(AutoFeatures autoFeatures, ExecutionContext context)
         {
             // Navigate to quest NPC
             int loop = 0;
             while (!autoFeatures.isTalkWithNPC("quanquannhudht") && loop < Constant.MaxLoop)
             {
+                if (!ShouldContinue(context)) return;
                 autoFeatures.writeStatus("Opening NVHN to find quest NPC...");
                 autoFeatures.openQuestByNVHN("truma");
-                Thread.Sleep(Constant.TimeShort);
+                if (!await DelayShortAsync(context)) return;
                 loop++;
             }
 
@@ -304,9 +304,9 @@ namespace AutoVPT.Services.Executors
         }
 
         /// <summary>
-        /// Navigate to monster hunting map
+        /// Navigate to monster hunting map (async with cancellation)
         /// </summary>
-        private void NavigateToMonsterMap(AutoFeatures autoFeatures, string monsterType)
+        private async Task NavigateToMonsterMapAsync(AutoFeatures autoFeatures, string monsterType, ExecutionContext context)
         {
             string npc = "dhtmapchuyendich";
             string location = "dichchuyendht";
@@ -318,15 +318,17 @@ namespace AutoVPT.Services.Executors
             // Navigate until we reach the correct map
             while (!autoFeatures.findImageByGroup("maps", mapCheck))
             {
+                if (!ShouldContinue(context)) return;
                 autoFeatures.closeAllDialog();
 
                 // Navigate to quest NPC first
                 int loop = 0;
                 while (!autoFeatures.isTalkWithNPC("quanquannhudht") && loop < Constant.MaxLoop)
                 {
+                    if (!ShouldContinue(context)) return;
                     autoFeatures.writeStatus("Opening NVHN to find quest NPC...");
                     autoFeatures.openQuestByNVHN("truma");
-                    Thread.Sleep(Constant.TimeShort);
+                    if (!await DelayShortAsync(context)) return;
                     loop++;
                 }
 
@@ -334,21 +336,22 @@ namespace AutoVPT.Services.Executors
                 autoFeatures.writeStatus($"Navigating to {monsterType} hunting ground");
                 while (!autoFeatures.talkToNPC(npc))
                 {
+                    if (!ShouldContinue(context)) return;
                     autoFeatures.moveToNPC(npc, location);
                 }
 
                 autoFeatures.writeStatus("Talking with teleport NPC");
                 autoFeatures.clickImageByGroup("doi_thoai", teleportOption);
-                Thread.Sleep(Constant.TimeMedium);
+                if (!await DelayMediumAsync(context)) return;
             }
 
             autoFeatures.writeStatus("Arrived at monster hunting map");
         }
 
         /// <summary>
-        /// Navigate back to quest NPC from monster map
+        /// Navigate back to quest NPC from monster map (async with cancellation)
         /// </summary>
-        private void NavigateToQuestNPC(AutoFeatures autoFeatures, string monsterType)
+        private async Task NavigateToQuestNPCAsync(AutoFeatures autoFeatures, string monsterType, ExecutionContext context)
         {
             string npc = monsterType != "phima" ?
                 "tramthuylamchuyendich" : "tinhlinhchuyendich";
@@ -361,16 +364,19 @@ namespace AutoVPT.Services.Executors
             // Navigate back to quest hub
             while (!autoFeatures.findImageByGroup("maps", mapCheck))
             {
+                if (!ShouldContinue(context)) return;
                 autoFeatures.closeAllDialog();
                 autoFeatures.moveToNPC(npc, location);
                 autoFeatures.talkToNPC(npc);
                 autoFeatures.writeStatus("Talking with return teleport NPC");
                 autoFeatures.clickImageByGroup("doi_thoai", teleportOption);
-                Thread.Sleep(Constant.TimeMedium);
+                if (!await DelayMediumAsync(context)) return;
             }
 
             autoFeatures.writeStatus("Returned to quest hub");
         }
+
+        #endregion
 
         /// <summary>
         /// Hunt monsters on the current map

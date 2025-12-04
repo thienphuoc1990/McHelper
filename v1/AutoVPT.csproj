@@ -135,6 +135,7 @@
     <Compile Include="Libs\AutoTruMa.cs" />
     <Compile Include="Libs\ClickHelper.cs" />
     <Compile Include="Libs\DanhSTMT.cs" />
+    <Compile Include="Libs\AsyncDelayHelper.cs" />
     <Compile Include="Libs\AutoXuQue.cs" />
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\ChayTriAn.cs" />
