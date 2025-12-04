@@ -139,6 +139,7 @@
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\ChayTriAn.cs" />
     <Compile Include="Libs\CheMatBao.cs" />
+    <Compile Include="Libs\DialogHelper.cs" />
     <Compile Include="Libs\DoiNangNo.cs" />
     <Compile Include="Libs\GeneralFunctions.cs" />
     <Compile Include="Libs\TrongNL.cs" />
@@ -196,6 +197,9 @@
     <Compile Include="Services\IAutomationService.cs" />
     <Compile Include="Services\IFeatureExecutor.cs" />
     <Compile Include="Services\AutomationService.cs" />
+    <Compile Include="Services\WindowManagementService.cs" />
+    <Compile Include="Services\LoginService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\BaseFeatureExecutor.cs" />
     <Compile Include="Services\FeatureExecutorFactory.cs" />
     <Compile Include="Services\Executors\DoiNangNoExecutor.cs" />

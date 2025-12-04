@@ -89,6 +89,144 @@ namespace AutoVPT.Libs
             Dispose(false);
         }
 
+        #region Running State Guards
+        
+        /// <summary>
+        /// Check if character is still running. Returns false if stopped.
+        /// Use this guard at the beginning of methods to enable graceful cancellation.
+        /// </summary>
+        /// <param name="context">Optional context for status message (e.g., method name)</param>
+        /// <returns>True if running, false if stopped</returns>
+        protected bool CheckRunning(string context = "")
+        {
+            if (mCharacter.Running == 0)
+            {
+                if (!string.IsNullOrEmpty(context))
+                {
+                    writeStatus($"Đã dừng - {context}");
+                }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Check if character is still running. For void methods that just need to return.
+        /// </summary>
+        protected bool IsRunning => mCharacter.Running != 0;
+
+        #endregion
+
+        #region Retry Helpers
+
+        /// <summary>
+        /// Retry an operation until condition is met or max retries reached.
+        /// Respects character running state and global stop flag.
+        /// </summary>
+        /// <param name="condition">Function that returns true when operation succeeds</param>
+        /// <param name="maxRetries">Maximum number of retry attempts</param>
+        /// <param name="delayMs">Delay between retries in milliseconds</param>
+        /// <param name="operationName">Optional name for logging</param>
+        /// <returns>True if condition was met, false if max retries reached or stopped</returns>
+        protected bool RetryUntil(
+            Func<bool> condition,
+            int maxRetries = 10,
+            int delayMs = 1000,
+            string operationName = "operation")
+        {
+            for (int attempt = 0; attempt < maxRetries; attempt++)
+            {
+                // Check if we should stop
+                if (!IsRunning || Helper.IsStoppingAll())
+                {
+                    writeStatus($"{operationName}: Đã dừng");
+                    return false;
+                }
+
+                // Check condition
+                if (condition())
+                {
+                    return true;
+                }
+
+                // Wait before next attempt (unless last attempt)
+                if (attempt < maxRetries - 1)
+                {
+                    Thread.Sleep(delayMs);
+                }
+            }
+
+            writeStatus($"{operationName}: Không thành công sau {maxRetries} lần thử");
+            return false;
+        }
+
+        /// <summary>
+        /// Wait until a condition is met, with timeout.
+        /// Similar to RetryUntil but continuously checks without fixed retry count.
+        /// </summary>
+        /// <param name="condition">Function that returns true when condition is met</param>
+        /// <param name="timeoutMs">Maximum time to wait in milliseconds</param>
+        /// <param name="checkIntervalMs">Interval between checks in milliseconds</param>
+        /// <param name="operationName">Optional name for logging</param>
+        /// <returns>True if condition was met, false if timeout or stopped</returns>
+        protected bool WaitUntil(
+            Func<bool> condition,
+            int timeoutMs = 30000,
+            int checkIntervalMs = 500,
+            string operationName = "wait")
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+            while (stopwatch.ElapsedMilliseconds < timeoutMs)
+            {
+                // Check if we should stop
+                if (!IsRunning || Helper.IsStoppingAll())
+                {
+                    writeStatus($"{operationName}: Đã dừng");
+                    return false;
+                }
+
+                // Check condition
+                if (condition())
+                {
+                    return true;
+                }
+
+                Thread.Sleep(checkIntervalMs);
+            }
+
+            writeStatus($"{operationName}: Hết thời gian chờ ({timeoutMs}ms)");
+            return false;
+        }
+
+        #endregion
+
+        #region Path Helpers
+
+        /// <summary>
+        /// Get the image path for a given group name.
+        /// </summary>
+        private string GetGroupPath(string group)
+        {
+            switch (group)
+            {
+                case "bat_pet": return Constant.ImagePathBatPetFolder;
+                case "nvhn": return Constant.ImagePathNVHNFolder;
+                case "stmt": return Constant.ImagePathSTMTFolder;
+                case "maps": return Constant.ImagePathMapsFolder;
+                case "phu_ban": return Constant.ImagePathPhuBanFolder;
+                case "mat_bao": return Constant.ImagePathMatBaoFolder;
+                case "char_name": return Constant.ImagePathCharNameFolder;
+                case "tri_an": return Constant.ImagePathTriAnFolder;
+                case "in_map": return Constant.ImagePathInMapFolder;
+                case "doi_thoai": return Constant.ImagePathDoiThoai;
+                case "tru_ma": return Constant.ImagePathTruMaFolder;
+                default: return Constant.ImagePathGlobalFolder;
+            }
+        }
+
+        #endregion
+
         public void closeFlash()
         {
             ClickHelper.CloseWindow(mHWnd);
@@ -96,10 +234,7 @@ namespace AutoVPT.Libs
 
         public void sendKey(Keys key, int wait = 1000)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             ClickHelper.ControlSendKey(mHWnd, key);
             Thread.Sleep(wait);
@@ -107,10 +242,7 @@ namespace AutoVPT.Libs
 
         public void closeAllDialog()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             // Đóng tất cả hộp thoại đang có
             for (int i = 0; i <= 3; i++)
@@ -131,10 +263,7 @@ namespace AutoVPT.Libs
          */
         public bool moveToNPC(string npc, string locationName)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             int loop = 1;
             do
@@ -172,10 +301,7 @@ namespace AutoVPT.Libs
          */
         public bool findNPC(string npc)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             string npcViTriTenImagePath1 = Constant.ImagePathViTriNPC + "ten" + npc + "1.png";
             string npcViTriTenImagePath2 = Constant.ImagePathViTriNPC + "ten" + npc + "2.png";
@@ -207,10 +333,7 @@ namespace AutoVPT.Libs
          */
         public bool moveToMapNhom(string mapName, int worldMapIndex = 1, int x = 0, int y = -20)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             string mapPath = Constant.ImagePathMapsFolder + mapName + ".png";
             string mapActivePath = Constant.ImagePathMapsFolder + mapName + "_active.png";
@@ -264,10 +387,7 @@ namespace AutoVPT.Libs
          */
         public bool moveToMap(string mapName, int x = 0, int y = -20)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             int loop = 0;
             while(!findImageByGroup("maps", mapName + "_check") && loop < Constant.MaxLoopShort && mCharacter.Running != 0 && !Helper.IsStoppingAll())
@@ -311,10 +431,7 @@ namespace AutoVPT.Libs
          */
         public bool clickRightToImage(string imagePath, int xRange = 0, int yRange = -20)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
@@ -356,10 +473,7 @@ namespace AutoVPT.Libs
          */
         public void clickToWindow(int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             ClickHelper.Click(mHWnd, numClick, xRange, yRange);
             Thread.Sleep(wait);
@@ -373,10 +487,7 @@ namespace AutoVPT.Libs
          */
         public void clickPoint(int x = 0, int y = 0, int numClick = 1, int wait = Constant.TimeShort, bool isRightClick = false)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             if (isRightClick)
             {
@@ -398,10 +509,7 @@ namespace AutoVPT.Libs
          */
         public bool clickImage(Bitmap image, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             var screen = CaptureHelper.CaptureWindow(mHWnd);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, image);
@@ -422,10 +530,7 @@ namespace AutoVPT.Libs
          */
         public bool clickToImage(string imagePath, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort, double percent = 0.95)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
@@ -467,10 +572,7 @@ namespace AutoVPT.Libs
          */
         public bool findImage(string imagePath, double percent = 0.95)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
@@ -503,10 +605,7 @@ namespace AutoVPT.Libs
 
         public List<Point> findImages(string imagePath)
         {
-            if (mCharacter.Running == 0)
-            {
-                return null;
-            }
+            if (!IsRunning) return null;
 
             imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
 
@@ -552,10 +651,7 @@ namespace AutoVPT.Libs
 
         public void login(IntPtr hWnd, string windowName)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             // Click to "Bắt đầu" button
             this.clickToImage(Constant.ImagePathStartButton);
@@ -563,10 +659,7 @@ namespace AutoVPT.Libs
 
         public void writeStatus(string statusText)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mTextBoxStatus.BeginInvoke(new Action(() => mTextBoxStatus.AppendText(mCharacter.ID + ": " + statusText + Environment.NewLine)));
             //mTextBoxStatus.AppendText(statusText + Environment.NewLine);
@@ -574,10 +667,7 @@ namespace AutoVPT.Libs
 
         public void increaseFPS(int numberIncrease)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             writeStatus("Tăng FPS ...");
             clickToImage(Constant.ImagePathGlobalFPS, 0, -20, numberIncrease);
@@ -585,30 +675,21 @@ namespace AutoVPT.Libs
 
         public void dongMenuPhai()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             clickImageByGroup("global", "dongmenuphai");
         }
 
         public void batAuto()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             clickImageByGroup("global", "moauto");
         }
 
         public void moMenuPhai()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             clickImageByGroup("global", "momenuphai");
         }
@@ -647,11 +728,7 @@ namespace AutoVPT.Libs
 
         public bool findImageByGroup(string group, string name, bool active = false, bool hover = false, double percent = 0.95)
         {
-            if (mCharacter.Running == 0)
-            {
-                writeStatus("findImageByGroup character not running");
-                return false;
-            }
+            if (!CheckRunning("findImageByGroup")) return false;
 
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
@@ -706,46 +783,9 @@ namespace AutoVPT.Libs
 
         public void clickRightImageByGroup(string group, string name, bool active = false, bool hover = false, int numClick = 1, int x = 0, int y = -20)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
-            string groupPath = Constant.ImagePathGlobalFolder;
-            switch (group)
-            {
-                case "bat_pet":
-                    groupPath = Constant.ImagePathBatPetFolder;
-                    break;
-                case "nvhn":
-                    groupPath = Constant.ImagePathNVHNFolder;
-                    break;
-                case "stmt":
-                    groupPath = Constant.ImagePathSTMTFolder;
-                    break;
-                case "maps":
-                    groupPath = Constant.ImagePathMapsFolder;
-                    break;
-                case "phu_ban":
-                    groupPath = Constant.ImagePathPhuBanFolder;
-                    break;
-                case "mat_bao":
-                    groupPath = Constant.ImagePathMatBaoFolder;
-                    break;
-                case "char_name":
-                    groupPath = Constant.ImagePathCharNameFolder;
-                    break;
-                case "tri_an":
-                    groupPath = Constant.ImagePathTriAnFolder;
-                    break;
-                case "in_map":
-                    groupPath = Constant.ImagePathInMapFolder;
-                    break;
-                case "global":
-                default:
-                    groupPath = Constant.ImagePathGlobalFolder;
-                    break;
-            }
+            string groupPath = GetGroupPath(group);
             clickRightToImage(groupPath + name + ".png", x, y);
             if (active)
             {
@@ -759,52 +799,9 @@ namespace AutoVPT.Libs
 
         public void clickImageByGroup(string group, string name, bool active = false, bool hover = false, int numClick = 1, int x = 0, int y = -20)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
-            string groupPath = Constant.ImagePathGlobalFolder;
-            switch (group)
-            {
-                case "bat_pet":
-                    groupPath = Constant.ImagePathBatPetFolder;
-                    break;
-                case "nvhn":
-                    groupPath = Constant.ImagePathNVHNFolder;
-                    break;
-                case "stmt":
-                    groupPath = Constant.ImagePathSTMTFolder;
-                    break;
-                case "maps":
-                    groupPath = Constant.ImagePathMapsFolder;
-                    break;
-                case "phu_ban":
-                    groupPath = Constant.ImagePathPhuBanFolder;
-                    break;
-                case "mat_bao":
-                    groupPath = Constant.ImagePathMatBaoFolder;
-                    break;
-                case "char_name":
-                    groupPath = Constant.ImagePathCharNameFolder;
-                    break;
-                case "tri_an":
-                    groupPath = Constant.ImagePathTriAnFolder;
-                    break;
-                case "in_map":
-                    groupPath = Constant.ImagePathInMapFolder;
-                    break;
-                case "doi_thoai":
-                    groupPath = Constant.ImagePathDoiThoai;
-                    break;
-                case "tru_ma":
-                    groupPath = Constant.ImagePathTruMaFolder;
-                    break;
-                case "global":
-                default:
-                    groupPath = Constant.ImagePathGlobalFolder;
-                    break;
-            }
+            string groupPath = GetGroupPath(group);
             if (!findImageByGroup(group, name, active, hover))
             {
                 writeStatus("clickImageByGroup not found image " + groupPath + name + ".png");
@@ -824,30 +821,21 @@ namespace AutoVPT.Libs
 
         public void bay()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             clickToImage(Constant.ImagePathGlobalBay);
         }
 
         public void bayXuong()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             clickToImage(Constant.ImagePathGlobalXuong);
         }
 
         public void traNhiemVu()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             clickImageByGroup("global", "xong", false, true);
         }
@@ -973,10 +961,7 @@ namespace AutoVPT.Libs
          */
         public bool talkToNPC(string npc, int loopTime = 0, int x = 0, int y = -20)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             loopTime++;
             closeAllDialog();
@@ -1019,10 +1004,7 @@ namespace AutoVPT.Libs
          */
         public bool isTalkWithNPC(string npc)
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             string npcDoiThoaiImagePath = Constant.ImagePathDoiThoai + npc + ".png";
             if (findImage(npcDoiThoaiImagePath))
@@ -1043,10 +1025,7 @@ namespace AutoVPT.Libs
          */
         public bool isMoving()
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             int i = 0;
             bool moving = true;
@@ -1074,10 +1053,7 @@ namespace AutoVPT.Libs
 
         public bool dangTrongTranDau()
         {
-            if (mCharacter.Running == 0)
-            {
-                return false;
-            }
+            if (!IsRunning) return false;
 
             if (!findImage(Constant.ImagePathKhongTrongTranDau) && findImageByGroup("global", "inbattlethongtin"))
             {

@@ -46,6 +46,33 @@ namespace AutoVPT.Libs
             mAutoTruMa = new AutoTruMa(mHWnd, mWindowName, mAuto);
         }
 
+        #region Running State Guards
+
+        /// <summary>
+        /// Check if character is still running. Returns false if stopped.
+        /// </summary>
+        /// <param name="context">Optional context for status message</param>
+        /// <returns>True if running, false if stopped</returns>
+        private bool CheckRunning(string context = "")
+        {
+            if (mCharacter.Running == 0)
+            {
+                if (!string.IsNullOrEmpty(context))
+                {
+                    mAuto.writeStatus($"Đã dừng - {context}");
+                }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Check if character is still running. For void methods that just need to return.
+        /// </summary>
+        private bool IsRunning => mCharacter.Running != 0;
+
+        #endregion
+
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Ansi)]
         public static extern bool SetWindowText(IntPtr hWnd, String strNewWindowName);
 
@@ -273,10 +300,7 @@ namespace AutoVPT.Libs
 
         public void prepareScreen()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.closeAllDialog();
             // Thu nhỏ khung chat
@@ -317,10 +341,7 @@ namespace AutoVPT.Libs
          */
         public void runAutoThanTu()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             string npc = "thanhchuquyenco";
             string location = "autothantu";
@@ -364,10 +385,7 @@ namespace AutoVPT.Libs
 
         public void runAutoTuHanhByNVHN()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
             mAuto.writeStatus("Bắt đầu \"Auto Tu Hành\"");
             mAuto.closeAllDialog();
             mAuto.bay();
@@ -400,10 +418,7 @@ namespace AutoVPT.Libs
              */
         public void runAutoTuHanh()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             string npc = "truonglaovouutoc";
             string location = "autotuhanh";
@@ -796,10 +811,7 @@ namespace AutoVPT.Libs
 
         public void danhSTMT(string[] stmt)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Đánh STMT\"");
             mAuto.closeAllDialog();
@@ -818,10 +830,7 @@ namespace AutoVPT.Libs
          */
         public void dauPet()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Đấu Pet\"");
             mAuto.closeAllDialog();
@@ -841,10 +850,7 @@ namespace AutoVPT.Libs
         }
         public void nhanKNVU()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Nhận KNVU\"");
             mAuto.closeAllDialog();
@@ -871,10 +877,7 @@ namespace AutoVPT.Libs
          */
         public void aoMa()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Tu luyện ảo ma\"");
             mAuto.closeAllDialog();
@@ -948,10 +951,7 @@ namespace AutoVPT.Libs
          */
         public void hoiPhuc()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Nhận hồi phục\"");
             mAuto.closeAllDialog();
@@ -1018,10 +1018,7 @@ namespace AutoVPT.Libs
          */
         public void nhanThuongHanhLang()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             string npc = "conghanhlang";
             string location = "nhanquahanhlang";
@@ -1067,10 +1064,7 @@ namespace AutoVPT.Libs
          */
         public void rungCay()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             int i = 0;
             mAuto.writeStatus("Bắt đầu \"Rung cây\"");
@@ -1116,10 +1110,7 @@ namespace AutoVPT.Libs
          */
         public void khongGianDieuKhac()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Đổi không gian điêu khắc\"");
             mAuto.closeAllDialog();
@@ -1143,10 +1134,7 @@ namespace AutoVPT.Libs
          */
         public void rutBo()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Rút bộ\"");
             mAuto.closeAllDialog();
@@ -1177,10 +1165,7 @@ namespace AutoVPT.Libs
          */
         public void nhanVIP()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Nhận VIP\"");
             mAuto.closeAllDialog();
@@ -1210,10 +1195,7 @@ namespace AutoVPT.Libs
          */
         public void nhanThuongAutoPhuBan()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Nhận thưởng Auto Phụ Bản\"");
             if (!mAutoPhuBan.nhanThuongPhuBan())
@@ -1231,10 +1213,7 @@ namespace AutoVPT.Libs
          */
         public void runNhanAutoPB(string[] phuBan)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Nhận và Auto Phụ Bản\"");
             // Set phụ bản sẽ nhận và auto
@@ -1266,10 +1245,7 @@ namespace AutoVPT.Libs
          */
         public void runCheMatBao(string loaiMB, int capMB)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Chế mật bảo\"");
             // Set cấp và loại mật bảo
@@ -1292,10 +1268,7 @@ namespace AutoVPT.Libs
          */
         public void runDoiNangNo(bool useLevel4 = true)
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mDoiNangNo.setLoaiNL(mCharacter.DoiNangNoLoai);
 
@@ -1330,10 +1303,7 @@ namespace AutoVPT.Libs
          */
         public void runTriAn()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             int i = 0;
 
@@ -1372,10 +1342,7 @@ namespace AutoVPT.Libs
 
         public void xuQue()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAutoXuQue.auto();
         }
@@ -1388,10 +1355,7 @@ namespace AutoVPT.Libs
          */
         public void trongNL()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Trồng Nguyên Liệu\" ...");
             mTrongNL.moTrangVien();
@@ -1407,10 +1371,7 @@ namespace AutoVPT.Libs
 
         public void truMa()
         {
-            if (mCharacter.Running == 0)
-            {
-                return;
-            }
+            if (!IsRunning) return;
 
             mAuto.writeStatus("Bắt đầu \"Trừ Ma\" ...");
             mAuto.closeAllDialog();
