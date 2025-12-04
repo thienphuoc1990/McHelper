@@ -882,11 +882,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
       "projectName": "AutoVPT.Tests",
-      "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+      "projectPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\obj\\",
+      "outputPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "UsingMicrosoftNETSdk": false,
@@ -908,8 +908,8 @@
       "frameworks": {
         "net472": {
           "projectReferences": {
-            "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj": {
-              "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj"
+            "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj": {
+              "projectPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj"
             }
           }
         }

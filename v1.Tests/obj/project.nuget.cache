@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F8GgQ2Ite1g=",
+  "dgSpecHash": "kpJEh6oXPwk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+  "projectFilePath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.net.test.sdk\\17.8.0\\microsoft.net.test.sdk.17.8.0.nupkg.sha512",

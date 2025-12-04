@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj": {}
+    "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj": {
+    "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
         "projectName": "AutoVPT.Tests",
-        "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
+        "projectPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\AutoVPT.Tests.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1.Tests\\obj\\",
+        "outputPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,
@@ -33,8 +33,8 @@
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj": {
-                "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj"
+              "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj"
               }
             }
           }
@@ -78,33 +78,17 @@
         }
       }
     },
-    "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj": {
+    "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj",
         "projectName": "AutoVPT",
-        "projectPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\AutoVPT.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "projectStyle": "PackagesConfig",
+        "projectPath": "C:\\Users\\ADMIN\\Source\\Repos\\McHelper\\v1\\AutoVPT.csproj",
         "UsingMicrosoftNETSdk": false,
-        "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
         "frameworks": {
           "net472": {
             "projectReferences": {}
           }
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low"
-        },
-        "packagesConfigPath": "C:\\Users\\ADMIN\\source\\repos\\McHelper\\v1\\packages.config"
+        }
       },
       "frameworks": {
         "net472": {}

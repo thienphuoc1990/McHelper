@@ -1,5 +1,3 @@
-C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT.Tests.csproj.AssemblyReference.cache
-C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT.Tests.csproj.CoreCompileInputs.cache
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\BindIP.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\BindIP64.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\cn_resources\ao_ma_thap\auto.png
@@ -1022,11 +1020,9 @@ C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Database\schema.sql
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Database\schema_history.sql
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\AxInterop.ShockwaveFlashObjects.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Interop.ShockwaveFlashObjects.dll
-C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
-C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
-C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.TestPlatform.AdapterUtilities.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\AutoVPT.Tests.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\AutoVPT.Tests.pdb
+C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\cs\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
@@ -1049,7 +1045,8 @@ C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Emgu.CV.World.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\VPT_Supporter.pdb
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\VPT_Supporter.exe.config
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\System.Data.SQLite.xml
+C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT.Tests.csproj.AssemblyReference.cache
+C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT.Tests.csproj.CoreCompileInputs.cache
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT..28DEA392.Up2Date
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT.Tests.dll
 C:\Users\ADMIN\source\repos\McHelper\v1.Tests\obj\Debug\AutoVPT.Tests.pdb
-C:\Users\ADMIN\source\repos\McHelper\v1.Tests\bin\Debug\Microsoft.VisualStudio.CodeCoverage.Shim.dll
